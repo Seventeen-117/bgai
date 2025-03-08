@@ -12,6 +12,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -21,50 +23,56 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 public class DeepSeekService {
-    private static final ObjectMapper mapper = new ObjectMapper();
-    private static final int MAX_RETRIES;
-    private static final long INITIAL_DELAY;
-    private static final double BACKOFF_FACTOR;
-    private static final int MAX_LENGTH;
-    private static final RequestConfig REQUEST_CONFIG;
-    private static final CloseableHttpClient CLIENT;
-    private static final String MODEL_NAME;
-    private static final String API_URL;
-    private static final String API_KEY;
+    private final ObjectMapper mapper = new ObjectMapper();
+    private final CloseableHttpClient httpClient;
 
-    static {
-        MAX_RETRIES = Integer.parseInt(ConfigLoader.getProperty("retry.count", "3"));
-        INITIAL_DELAY = Long.parseLong(ConfigLoader.getProperty("retry.delay.ms", "1000"));
-        BACKOFF_FACTOR = Double.parseDouble(ConfigLoader.getProperty("retry.backoff.factor", "2.0"));
-        MAX_LENGTH = Integer.parseInt(ConfigLoader.getProperty("max.request.length", "4096"));
-        MODEL_NAME = ConfigLoader.getProperty("model.name");
-        API_URL = ConfigLoader.getProperty("api.url");
-        API_KEY = ConfigLoader.getProperty("api.key");
+    @Value("${stream:false}")
+    private boolean stream;
 
-        REQUEST_CONFIG = RequestConfig.custom()
-                .setConnectTimeout(Integer.parseInt(ConfigLoader.getProperty("connect.timeout", "15000")))
-                .setSocketTimeout(Integer.parseInt(ConfigLoader.getProperty("socket.timeout", "60000")))
+    @Value("${retry.count:5}")
+    private int maxRetries;
+
+    @Value("${retry.initial_delay:2000}")
+    private long initialDelay;
+
+    @Value("${retry.backoff_factor:1.5}")
+    private double backoffFactor;
+
+    @Value("${max.request.length:8000}")
+    private int maxRequestLength;
+
+    @Value("${connect.timeout:20000}")
+    private int connectTimeout;
+
+    @Value("${socket.timeout:120000}")
+    private int socketTimeout;
+
+
+    public DeepSeekService() {
+        RequestConfig requestConfig = RequestConfig.custom()
+                .setConnectTimeout(this.connectTimeout)
+                .setSocketTimeout(this.socketTimeout)
                 .build();
 
-        CLIENT = HttpClients.custom()
-                .setDefaultRequestConfig(REQUEST_CONFIG)
+        this.httpClient = HttpClients.custom()
+                .setDefaultRequestConfig(requestConfig)
                 .setRedirectStrategy(new LaxRedirectStrategy())
                 .setMaxConnPerRoute(20)
                 .setMaxConnTotal(100)
                 .build();
     }
 
-    public static String processRequest(String content) {
+    public String processRequest(String content, String apiUrl, String apiKey, String modelName) {
         try {
             String processedContent = sanitizeContent(content);
-            String requestBody = buildRequest(processedContent);
-            return executeWithRetry(requestBody);
+            String requestBody = buildRequest(processedContent, modelName);
+            return executeWithRetry(apiUrl, apiKey, requestBody);
         } catch (Exception e) {
             return buildErrorResponse(500, "处理请求失败: " + e.getMessage());
         }
     }
 
-    private static String sanitizeContent(String content) {
+    private String sanitizeContent(String content) {
         StringBuilder sb = new StringBuilder();
         for (char c : content.toCharArray()) {
             switch (c) {
@@ -74,13 +82,13 @@ public class DeepSeekService {
                 default -> sb.append(c);
             }
         }
-        return truncateUtf8(sb.toString(), MAX_LENGTH);
+        return truncateUtf8(sb.toString(), maxRequestLength);
     }
 
-    private static String buildRequest(String message) throws JsonProcessingException {
+    private String buildRequest(String message, String modelName) throws JsonProcessingException {
         ObjectNode requestNode = mapper.createObjectNode();
-        requestNode.put("model", MODEL_NAME);
-        requestNode.put("stream", false);
+        requestNode.put("model", modelName);
+        requestNode.put("stream", this.stream);
 
         ObjectNode messageNode = mapper.createObjectNode();
         messageNode.put("role", "user");
@@ -90,32 +98,32 @@ public class DeepSeekService {
         return mapper.writeValueAsString(requestNode);
     }
 
-    private static String executeWithRetry(String requestBody) {
+    private String executeWithRetry(String apiUrl, String apiKey, String requestBody) {
         AtomicInteger retries = new AtomicInteger(0);
-        while (retries.get() < MAX_RETRIES) {
+        while (retries.get() < maxRetries) {
             try {
-                return sendRequest(requestBody);
+                return sendRequest(apiUrl, apiKey, requestBody);
             } catch (Exception e) {
-                if (retries.incrementAndGet() == MAX_RETRIES) break;
+                if (retries.incrementAndGet() == maxRetries) break;
                 sleepWithBackoff(retries.get());
             }
         }
         return buildErrorResponse(503, "服务暂时不可用");
     }
 
-    private static String sendRequest(String requestBody) throws IOException {
-        HttpPost post = new HttpPost(API_URL);
+    private String sendRequest(String apiUrl, String apiKey, String requestBody) throws IOException {
+        HttpPost post = new HttpPost(apiUrl);
         post.setHeader("Content-Type", "application/json; charset=UTF-8");
-        post.setHeader("Authorization", "Bearer " + API_KEY);
+        post.setHeader("Authorization", "Bearer " + apiKey);
         post.setEntity(new StringEntity(requestBody, StandardCharsets.UTF_8));
 
-        try (CloseableHttpClient client = CLIENT) {
+        try (CloseableHttpClient client = httpClient) {
             HttpResponse response = client.execute(post);
             return parseResponse(response);
         }
     }
 
-    private static String parseResponse(HttpResponse response) throws IOException {
+    private  String parseResponse(HttpResponse response) throws IOException {
         int statusCode = response.getStatusLine().getStatusCode();
         String body = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
 
@@ -126,7 +134,7 @@ public class DeepSeekService {
         return buildErrorResponse(statusCode, "API错误: " + body);
     }
 
-    private static void validateJson(String json) {
+    private  void validateJson(String json) {
         try {
             mapper.readTree(json);
         } catch (IOException e) {
@@ -134,16 +142,16 @@ public class DeepSeekService {
         }
     }
 
-    private static void sleepWithBackoff(int retryCount) {
+    private  void sleepWithBackoff(int retryCount) {
         try {
-            long delay = (long) (INITIAL_DELAY * Math.pow(BACKOFF_FACTOR, retryCount));
+            long delay = (long) (initialDelay * Math.pow(backoffFactor, retryCount));
             TimeUnit.MILLISECONDS.sleep(delay);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
     }
 
-    private static String truncateUtf8(String input, int maxBytes) {
+    private  String truncateUtf8(String input, int maxBytes) {
         if (input == null || maxBytes <= 0) return "";
 
         int bytes = 0;
@@ -166,7 +174,7 @@ public class DeepSeekService {
         return lastValidIndex < input.length() ? result + "[TRUNCATED]" : result;
     }
 
-    private static String buildErrorResponse(int code, String message) {
+    private  String buildErrorResponse(int code, String message) {
         try {
             ObjectNode errorNode = mapper.createObjectNode();
             errorNode.putObject("error")
@@ -178,13 +186,13 @@ public class DeepSeekService {
         }
     }
 
-    private static void handleRetry(int retryCount, Exception e) {
+    private  void handleRetry(int retryCount, Exception e) {
         System.err.printf("[Retry %d/%d] 请求失败: %s%n",
-                retryCount + 1, MAX_RETRIES, e.getMessage());
+                retryCount + 1, maxRetries, e.getMessage());
 
-        if (retryCount < MAX_RETRIES - 1) {
+        if (retryCount < maxRetries - 1) {
             try {
-                long delay = (long) (INITIAL_DELAY * Math.pow(BACKOFF_FACTOR, retryCount));
+                long delay = (long) (initialDelay * Math.pow(backoffFactor, retryCount));
                 TimeUnit.MILLISECONDS.sleep(delay);
             } catch (InterruptedException ie) {
                 Thread.currentThread().interrupt();
@@ -192,10 +200,10 @@ public class DeepSeekService {
         }
     }
 
-    private static String processContent(String content) {
+    private  String processContent(String content) {
         String sanitized = content.replace("\\", "\\\\")
                 .replace("\"", "\\\"")
                 .replace("\n", "\\n");
-        return truncateUtf8(sanitized, MAX_LENGTH);
+        return truncateUtf8(sanitized, maxRequestLength);
     }
 }
