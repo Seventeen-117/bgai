@@ -1,755 +1,127 @@
-2025-03-08 20:18:09.843 [main] INFO  com.bgpay.bgai.BgaiApplication - Starting BgaiApplication using Java 21.0.6 with PID 3872 (E:\project\bgai\target\classes started by Administrator in E:\project\bgai)
-2025-03-08 20:18:09.844 [main] DEBUG com.bgpay.bgai.BgaiApplication - Running with Spring Boot v3.2.0, Spring v6.1.1
-2025-03-08 20:18:09.845 [main] INFO  com.bgpay.bgai.BgaiApplication - The following 1 profile is active: "dev"
-2025-03-08 20:18:10.730 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-08 20:18:10.732 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-03-08 20:18:10.753 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 14 ms. Found 0 JPA repository interfaces.
-2025-03-08 20:18:10.763 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-08 20:18:10.764 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
-2025-03-08 20:18:10.774 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 3 ms. Found 0 Redis repository interfaces.
-2025-03-08 20:18:11.399 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'spring.datasource.dynamic-com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties' of type [com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:18:11.408 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration' of type [com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:18:11.417 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dsProcessor' of type [com.baomidou.dynamic.datasource.processor.jakarta.DsJakartaHeaderProcessor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:18:11.421 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'transactionConfig' of type [com.bgpay.bgai.datasource.TransactionConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:18:11.425 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dataSourceConfig' of type [com.bgpay.bgai.datasource.DataSourceConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:18:11.455 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dataSourcePropertiesConfig' of type [com.bgpay.bgai.datasource.DataSourcePropertiesConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:18:11.463 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'masterDataSourceProperties' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:18:11.493 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'masterDataSource' of type [com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceWrapper] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:18:11.574 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dynamicDataSource' of type [com.bgpay.bgai.datasource.DynamicDataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:18:11.581 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'transactionManager' of type [org.springframework.jdbc.datasource.DataSourceTransactionManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:18:11.589 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'transactionalAopConfig' of type [com.bgpay.bgai.config.TransactionalAopConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:18:11.592 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'txAdvice' of type [org.springframework.transaction.interceptor.TransactionInterceptor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:18:11.592 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'txAdviceAdvisor' of type [org.springframework.aop.support.DefaultPointcutAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:18:11.943 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2025-03-08 20:18:11.952 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
-2025-03-08 20:18:11.954 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2025-03-08 20:18:11.955 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.16]
-2025-03-08 20:18:12.057 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-03-08 20:18:12.057 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2180 ms
-2025-03-08 20:18:12.374 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-03-08 20:18:12.423 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.3.1.Final
-2025-03-08 20:18:12.452 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2025-03-08 20:18:12.654 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-03-08 20:18:12.706 [main] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
-2025-03-08 20:18:12.913 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-03-08 20:18:12.914 [main] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
-2025-03-08 20:18:13.188 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-03-08 20:18:13.193 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-03-08 20:18:13.481 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-2025-03-08 20:18:13.498 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-2025-03-08 20:18:13.528 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-2025-03-08 20:18:13.530 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-2025-03-08 20:18:13.530 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-2025-03-08 20:18:13.544 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-2025-03-08 20:18:13.585 [main] INFO  c.bgpay.bgai.deepseek.ConfigLoader - 配置文件 deepseek-config.properties 加载成功
-2025-03-08 20:18:15.648 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator'
-2025-03-08 20:18:15.730 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
-2025-03-08 20:18:15.745 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
-2025-03-08 20:18:15.758 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 6.328 seconds (process running for 7.077)
-2025-03-08 20:18:15.767 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-2025-03-08 20:18:15.768 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-2025-03-08 20:18:15.778 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-2025-03-08 20:18:15.778 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-2025-03-08 20:18:15.778 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-2025-03-08 20:18:15.789 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-2025-03-08 20:18:15.789 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-2025-03-08 20:18:15.789 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-2025-03-08 20:18:15.796 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-2025-03-08 20:18:15.796 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-2025-03-08 20:18:15.796 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-2025-03-08 20:18:15.802 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-2025-03-08 20:18:16.411 [RMI TCP Connection(2)-192.168.86.8] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-03-08 20:18:16.411 [RMI TCP Connection(2)-192.168.86.8] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2025-03-08 20:18:16.413 [RMI TCP Connection(2)-192.168.86.8] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
-2025-03-08 20:23:17.781 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-2025-03-08 20:23:17.781 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-2025-03-08 20:23:17.791 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-2025-03-08 20:23:17.792 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-2025-03-08 20:23:17.792 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-2025-03-08 20:23:17.800 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-2025-03-08 20:24:59.541 [http-nio-8080-exec-5] ERROR o.a.c.c.C.[.[.[.[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.springframework.web.multipart.MultipartException: Failed to parse multipart servlet request] with root cause
-org.apache.tomcat.util.http.fileupload.FileUploadException: the request was rejected because no multipart boundary was found
-	at org.apache.tomcat.util.http.fileupload.impl.FileItemIteratorImpl.init(FileItemIteratorImpl.java:189)
-	at org.apache.tomcat.util.http.fileupload.impl.FileItemIteratorImpl.getMultiPartStream(FileItemIteratorImpl.java:205)
-	at org.apache.tomcat.util.http.fileupload.impl.FileItemIteratorImpl.findNextItem(FileItemIteratorImpl.java:224)
-	at org.apache.tomcat.util.http.fileupload.impl.FileItemIteratorImpl.<init>(FileItemIteratorImpl.java:142)
-	at org.apache.tomcat.util.http.fileupload.FileUploadBase.getItemIterator(FileUploadBase.java:252)
-	at org.apache.tomcat.util.http.fileupload.FileUploadBase.parseRequest(FileUploadBase.java:276)
-	at org.apache.catalina.connector.Request.parseParts(Request.java:2784)
-	at org.apache.catalina.connector.Request.getParts(Request.java:2685)
-	at org.apache.catalina.connector.RequestFacade.getParts(RequestFacade.java:773)
-	at jakarta.servlet.http.HttpServletRequestWrapper.getParts(HttpServletRequestWrapper.java:315)
-	at org.springframework.web.multipart.support.StandardMultipartHttpServletRequest.parseRequest(StandardMultipartHttpServletRequest.java:93)
-	at org.springframework.web.multipart.support.StandardMultipartHttpServletRequest.<init>(StandardMultipartHttpServletRequest.java:86)
-	at org.springframework.web.multipart.support.StandardServletMultipartResolver.resolveMultipart(StandardServletMultipartResolver.java:112)
-	at org.springframework.web.servlet.DispatcherServlet.checkMultipart(DispatcherServlet.java:1227)
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1061)
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
-	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)
-	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
-	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:205)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-	at org.springframework.session.web.http.SessionRepositoryFilter.doFilterInternal(SessionRepositoryFilter.java:142)
-	at org.springframework.session.web.http.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:82)
-	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:352)
-	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:268)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:109)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:340)
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:391)
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896)
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1744)
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-	at java.base/java.lang.Thread.run(Thread.java:1583)
-2025-03-08 20:28:17.754 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-2025-03-08 20:28:17.755 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-2025-03-08 20:28:17.763 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-2025-03-08 20:28:17.764 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-2025-03-08 20:28:17.764 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-2025-03-08 20:28:17.770 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-2025-03-08 20:31:17.750 [http-nio-8080-exec-7] ERROR o.a.c.c.C.[.[.[.[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.springframework.web.multipart.MultipartException: Failed to parse multipart servlet request] with root cause
-org.apache.tomcat.util.http.fileupload.FileUploadException: the request was rejected because no multipart boundary was found
-	at org.apache.tomcat.util.http.fileupload.impl.FileItemIteratorImpl.init(FileItemIteratorImpl.java:189)
-	at org.apache.tomcat.util.http.fileupload.impl.FileItemIteratorImpl.getMultiPartStream(FileItemIteratorImpl.java:205)
-	at org.apache.tomcat.util.http.fileupload.impl.FileItemIteratorImpl.findNextItem(FileItemIteratorImpl.java:224)
-	at org.apache.tomcat.util.http.fileupload.impl.FileItemIteratorImpl.<init>(FileItemIteratorImpl.java:142)
-	at org.apache.tomcat.util.http.fileupload.FileUploadBase.getItemIterator(FileUploadBase.java:252)
-	at org.apache.tomcat.util.http.fileupload.FileUploadBase.parseRequest(FileUploadBase.java:276)
-	at org.apache.catalina.connector.Request.parseParts(Request.java:2784)
-	at org.apache.catalina.connector.Request.getParts(Request.java:2685)
-	at org.apache.catalina.connector.RequestFacade.getParts(RequestFacade.java:773)
-	at jakarta.servlet.http.HttpServletRequestWrapper.getParts(HttpServletRequestWrapper.java:315)
-	at org.springframework.web.multipart.support.StandardMultipartHttpServletRequest.parseRequest(StandardMultipartHttpServletRequest.java:93)
-	at org.springframework.web.multipart.support.StandardMultipartHttpServletRequest.<init>(StandardMultipartHttpServletRequest.java:86)
-	at org.springframework.web.multipart.support.StandardServletMultipartResolver.resolveMultipart(StandardServletMultipartResolver.java:112)
-	at org.springframework.web.servlet.DispatcherServlet.checkMultipart(DispatcherServlet.java:1227)
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1061)
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
-	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)
-	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
-	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:205)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-	at org.springframework.session.web.http.SessionRepositoryFilter.doFilterInternal(SessionRepositoryFilter.java:142)
-	at org.springframework.session.web.http.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:82)
-	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:352)
-	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:268)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:109)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:340)
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:391)
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896)
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1744)
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-	at java.base/java.lang.Thread.run(Thread.java:1583)
-2025-03-08 20:31:25.233 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-03-08 20:31:25.249 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
-2025-03-08 20:31:25.254 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
-2025-03-08 20:31:30.221 [main] INFO  com.bgpay.bgai.BgaiApplication - Starting BgaiApplication using Java 21.0.6 with PID 20328 (E:\project\bgai\target\classes started by Administrator in E:\project\bgai)
-2025-03-08 20:31:30.222 [main] DEBUG com.bgpay.bgai.BgaiApplication - Running with Spring Boot v3.2.0, Spring v6.1.1
-2025-03-08 20:31:30.223 [main] INFO  com.bgpay.bgai.BgaiApplication - The following 1 profile is active: "dev"
-2025-03-08 20:31:31.116 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-08 20:31:31.117 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-03-08 20:31:31.137 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 14 ms. Found 0 JPA repository interfaces.
-2025-03-08 20:31:31.146 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-08 20:31:31.148 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
-2025-03-08 20:31:31.157 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 2 ms. Found 0 Redis repository interfaces.
-2025-03-08 20:31:31.741 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'spring.datasource.dynamic-com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties' of type [com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:31:31.750 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration' of type [com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:31:31.759 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dsProcessor' of type [com.baomidou.dynamic.datasource.processor.jakarta.DsJakartaHeaderProcessor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:31:31.764 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'transactionConfig' of type [com.bgpay.bgai.datasource.TransactionConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:31:31.769 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dataSourceConfig' of type [com.bgpay.bgai.datasource.DataSourceConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:31:31.803 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dataSourcePropertiesConfig' of type [com.bgpay.bgai.datasource.DataSourcePropertiesConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:31:31.811 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'masterDataSourceProperties' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:31:31.841 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'masterDataSource' of type [com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceWrapper] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:31:31.920 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dynamicDataSource' of type [com.bgpay.bgai.datasource.DynamicDataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:31:31.927 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'transactionManager' of type [org.springframework.jdbc.datasource.DataSourceTransactionManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:31:31.935 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'transactionalAopConfig' of type [com.bgpay.bgai.config.TransactionalAopConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:31:31.938 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'txAdvice' of type [org.springframework.transaction.interceptor.TransactionInterceptor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:31:31.938 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'txAdviceAdvisor' of type [org.springframework.aop.support.DefaultPointcutAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:31:32.286 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2025-03-08 20:31:32.293 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
-2025-03-08 20:31:32.294 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2025-03-08 20:31:32.294 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.16]
-2025-03-08 20:31:32.389 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-03-08 20:31:32.389 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2126 ms
-2025-03-08 20:31:32.697 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-03-08 20:31:32.743 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.3.1.Final
-2025-03-08 20:31:32.774 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2025-03-08 20:31:32.976 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-03-08 20:31:33.029 [main] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
-2025-03-08 20:31:33.217 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-03-08 20:31:33.218 [main] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
-2025-03-08 20:31:33.487 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-03-08 20:31:33.491 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-03-08 20:31:33.800 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-2025-03-08 20:31:33.817 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-2025-03-08 20:31:33.842 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-2025-03-08 20:31:33.845 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-2025-03-08 20:31:33.845 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-2025-03-08 20:31:33.856 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-2025-03-08 20:31:33.900 [main] INFO  c.bgpay.bgai.deepseek.ConfigLoader - 配置文件 deepseek-config.properties 加载成功
-2025-03-08 20:31:35.987 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator'
-2025-03-08 20:31:36.068 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
-2025-03-08 20:31:36.084 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
-2025-03-08 20:31:36.096 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 6.392 seconds (process running for 7.201)
-2025-03-08 20:31:36.104 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-2025-03-08 20:31:36.104 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-2025-03-08 20:31:36.116 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-2025-03-08 20:31:36.116 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-2025-03-08 20:31:36.116 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-2025-03-08 20:31:36.126 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-2025-03-08 20:31:36.126 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-2025-03-08 20:31:36.126 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-2025-03-08 20:31:36.134 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-2025-03-08 20:31:36.134 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-2025-03-08 20:31:36.134 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-2025-03-08 20:31:36.141 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-2025-03-08 20:31:36.581 [RMI TCP Connection(4)-192.168.86.8] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-03-08 20:31:36.581 [RMI TCP Connection(4)-192.168.86.8] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2025-03-08 20:31:36.583 [RMI TCP Connection(4)-192.168.86.8] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
-2025-03-08 20:31:49.210 [http-nio-8080-exec-2] ERROR o.a.c.c.C.[.[.[.[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.springframework.web.multipart.MultipartException: Failed to parse multipart servlet request] with root cause
-org.apache.tomcat.util.http.fileupload.FileUploadException: the request was rejected because no multipart boundary was found
-	at org.apache.tomcat.util.http.fileupload.impl.FileItemIteratorImpl.init(FileItemIteratorImpl.java:189)
-	at org.apache.tomcat.util.http.fileupload.impl.FileItemIteratorImpl.getMultiPartStream(FileItemIteratorImpl.java:205)
-	at org.apache.tomcat.util.http.fileupload.impl.FileItemIteratorImpl.findNextItem(FileItemIteratorImpl.java:224)
-	at org.apache.tomcat.util.http.fileupload.impl.FileItemIteratorImpl.<init>(FileItemIteratorImpl.java:142)
-	at org.apache.tomcat.util.http.fileupload.FileUploadBase.getItemIterator(FileUploadBase.java:252)
-	at org.apache.tomcat.util.http.fileupload.FileUploadBase.parseRequest(FileUploadBase.java:276)
-	at org.apache.catalina.connector.Request.parseParts(Request.java:2784)
-	at org.apache.catalina.connector.Request.getParts(Request.java:2685)
-	at org.apache.catalina.connector.RequestFacade.getParts(RequestFacade.java:773)
-	at jakarta.servlet.http.HttpServletRequestWrapper.getParts(HttpServletRequestWrapper.java:315)
-	at org.springframework.web.multipart.support.StandardMultipartHttpServletRequest.parseRequest(StandardMultipartHttpServletRequest.java:93)
-	at org.springframework.web.multipart.support.StandardMultipartHttpServletRequest.<init>(StandardMultipartHttpServletRequest.java:86)
-	at org.springframework.web.multipart.support.StandardServletMultipartResolver.resolveMultipart(StandardServletMultipartResolver.java:112)
-	at org.springframework.web.servlet.DispatcherServlet.checkMultipart(DispatcherServlet.java:1227)
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1061)
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
-	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)
-	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
-	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:205)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-	at org.springframework.session.web.http.SessionRepositoryFilter.doFilterInternal(SessionRepositoryFilter.java:142)
-	at org.springframework.session.web.http.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:82)
-	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:352)
-	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:268)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:109)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:340)
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:391)
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896)
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1744)
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-	at java.base/java.lang.Thread.run(Thread.java:1583)
-2025-03-08 20:31:54.711 [http-nio-8080-exec-4] ERROR o.a.c.c.C.[.[.[.[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.springframework.web.multipart.MultipartException: Failed to parse multipart servlet request] with root cause
-org.apache.tomcat.util.http.fileupload.FileUploadException: the request was rejected because no multipart boundary was found
-	at org.apache.tomcat.util.http.fileupload.impl.FileItemIteratorImpl.init(FileItemIteratorImpl.java:189)
-	at org.apache.tomcat.util.http.fileupload.impl.FileItemIteratorImpl.getMultiPartStream(FileItemIteratorImpl.java:205)
-	at org.apache.tomcat.util.http.fileupload.impl.FileItemIteratorImpl.findNextItem(FileItemIteratorImpl.java:224)
-	at org.apache.tomcat.util.http.fileupload.impl.FileItemIteratorImpl.<init>(FileItemIteratorImpl.java:142)
-	at org.apache.tomcat.util.http.fileupload.FileUploadBase.getItemIterator(FileUploadBase.java:252)
-	at org.apache.tomcat.util.http.fileupload.FileUploadBase.parseRequest(FileUploadBase.java:276)
-	at org.apache.catalina.connector.Request.parseParts(Request.java:2784)
-	at org.apache.catalina.connector.Request.getParts(Request.java:2685)
-	at org.apache.catalina.connector.RequestFacade.getParts(RequestFacade.java:773)
-	at jakarta.servlet.http.HttpServletRequestWrapper.getParts(HttpServletRequestWrapper.java:315)
-	at org.springframework.web.multipart.support.StandardMultipartHttpServletRequest.parseRequest(StandardMultipartHttpServletRequest.java:93)
-	at org.springframework.web.multipart.support.StandardMultipartHttpServletRequest.<init>(StandardMultipartHttpServletRequest.java:86)
-	at org.springframework.web.multipart.support.StandardServletMultipartResolver.resolveMultipart(StandardServletMultipartResolver.java:112)
-	at org.springframework.web.servlet.DispatcherServlet.checkMultipart(DispatcherServlet.java:1227)
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1061)
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
-	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)
-	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
-	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:205)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-	at org.springframework.session.web.http.SessionRepositoryFilter.doFilterInternal(SessionRepositoryFilter.java:142)
-	at org.springframework.session.web.http.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:82)
-	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:352)
-	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:268)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:109)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:340)
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:391)
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896)
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1744)
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-	at java.base/java.lang.Thread.run(Thread.java:1583)
-2025-03-08 20:34:14.484 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-03-08 20:34:14.486 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
-2025-03-08 20:34:14.490 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
-2025-03-08 20:34:17.197 [main] INFO  com.bgpay.bgai.BgaiApplication - Starting BgaiApplication using Java 21.0.6 with PID 27644 (E:\project\bgai\target\classes started by Administrator in E:\project\bgai)
-2025-03-08 20:34:17.198 [main] DEBUG com.bgpay.bgai.BgaiApplication - Running with Spring Boot v3.2.0, Spring v6.1.1
-2025-03-08 20:34:17.198 [main] INFO  com.bgpay.bgai.BgaiApplication - The following 1 profile is active: "dev"
-2025-03-08 20:34:18.082 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-08 20:34:18.084 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-03-08 20:34:18.105 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 15 ms. Found 0 JPA repository interfaces.
-2025-03-08 20:34:18.114 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-08 20:34:18.115 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
-2025-03-08 20:34:18.125 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 2 ms. Found 0 Redis repository interfaces.
-2025-03-08 20:34:18.705 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'spring.datasource.dynamic-com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties' of type [com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:34:18.714 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration' of type [com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:34:18.724 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dsProcessor' of type [com.baomidou.dynamic.datasource.processor.jakarta.DsJakartaHeaderProcessor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:34:18.728 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'transactionConfig' of type [com.bgpay.bgai.datasource.TransactionConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:34:18.732 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dataSourceConfig' of type [com.bgpay.bgai.datasource.DataSourceConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:34:18.765 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dataSourcePropertiesConfig' of type [com.bgpay.bgai.datasource.DataSourcePropertiesConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:34:18.774 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'masterDataSourceProperties' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:34:18.804 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'masterDataSource' of type [com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceWrapper] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:34:18.895 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dynamicDataSource' of type [com.bgpay.bgai.datasource.DynamicDataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:34:18.903 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'transactionManager' of type [org.springframework.jdbc.datasource.DataSourceTransactionManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:34:18.914 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'transactionalAopConfig' of type [com.bgpay.bgai.config.TransactionalAopConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:34:18.920 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'txAdvice' of type [org.springframework.transaction.interceptor.TransactionInterceptor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:34:18.921 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'txAdviceAdvisor' of type [org.springframework.aop.support.DefaultPointcutAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 20:34:19.299 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2025-03-08 20:34:19.310 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
-2025-03-08 20:34:19.311 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2025-03-08 20:34:19.312 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.16]
-2025-03-08 20:34:19.418 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-03-08 20:34:19.418 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2186 ms
-2025-03-08 20:34:19.721 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-03-08 20:34:19.766 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.3.1.Final
-2025-03-08 20:34:19.796 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2025-03-08 20:34:20.009 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-03-08 20:34:20.065 [main] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
-2025-03-08 20:34:20.277 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-03-08 20:34:20.277 [main] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
-2025-03-08 20:34:20.566 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-03-08 20:34:20.571 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-03-08 20:34:20.881 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-2025-03-08 20:34:20.897 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-2025-03-08 20:34:20.922 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-2025-03-08 20:34:20.924 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-2025-03-08 20:34:20.924 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-2025-03-08 20:34:20.934 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-2025-03-08 20:34:20.979 [main] INFO  c.bgpay.bgai.deepseek.ConfigLoader - 配置文件 deepseek-config.properties 加载成功
-2025-03-08 20:34:23.096 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator'
-2025-03-08 20:34:23.177 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
-2025-03-08 20:34:23.204 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
-2025-03-08 20:34:23.225 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 6.503 seconds (process running for 7.35)
-2025-03-08 20:34:23.238 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-2025-03-08 20:34:23.238 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-2025-03-08 20:34:23.249 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-2025-03-08 20:34:23.249 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-2025-03-08 20:34:23.249 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-2025-03-08 20:34:23.259 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-2025-03-08 20:34:23.259 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-2025-03-08 20:34:23.259 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-2025-03-08 20:34:23.267 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-2025-03-08 20:34:23.268 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-2025-03-08 20:34:23.268 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-2025-03-08 20:34:23.274 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-2025-03-08 20:34:23.584 [RMI TCP Connection(1)-192.168.86.8] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-03-08 20:34:23.584 [RMI TCP Connection(1)-192.168.86.8] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2025-03-08 20:34:23.586 [RMI TCP Connection(1)-192.168.86.8] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
-2025-03-08 20:34:58.846 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-03-08 20:34:58.849 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
-2025-03-08 20:34:58.857 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
-2025-03-08 21:42:39.614 [main] INFO  com.bgpay.bgai.BgaiApplication - Starting BgaiApplication using Java 21.0.6 with PID 3828 (E:\project\bgai\target\classes started by Administrator in E:\project\bgai)
-2025-03-08 21:42:39.615 [main] DEBUG com.bgpay.bgai.BgaiApplication - Running with Spring Boot v3.2.0, Spring v6.1.1
-2025-03-08 21:42:39.616 [main] INFO  com.bgpay.bgai.BgaiApplication - The following 1 profile is active: "dev"
-2025-03-08 21:42:40.507 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-08 21:42:40.509 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-03-08 21:42:40.527 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 13 ms. Found 0 JPA repository interfaces.
-2025-03-08 21:42:40.536 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-08 21:42:40.538 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
-2025-03-08 21:42:40.545 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 2 ms. Found 0 Redis repository interfaces.
-2025-03-08 21:42:41.132 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'spring.datasource.dynamic-com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties' of type [com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 21:42:41.141 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration' of type [com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 21:42:41.151 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dsProcessor' of type [com.baomidou.dynamic.datasource.processor.jakarta.DsJakartaHeaderProcessor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 21:42:41.156 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'transactionConfig' of type [com.bgpay.bgai.datasource.TransactionConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 21:42:41.161 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dataSourceConfig' of type [com.bgpay.bgai.datasource.DataSourceConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 21:42:41.198 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dataSourcePropertiesConfig' of type [com.bgpay.bgai.datasource.DataSourcePropertiesConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 21:42:41.209 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'masterDataSourceProperties' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 21:42:41.240 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'masterDataSource' of type [com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceWrapper] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 21:42:41.334 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dynamicDataSource' of type [com.bgpay.bgai.datasource.DynamicDataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 21:42:41.343 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'transactionManager' of type [org.springframework.jdbc.datasource.DataSourceTransactionManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 21:42:41.352 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'transactionalAopConfig' of type [com.bgpay.bgai.config.TransactionalAopConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 21:42:41.355 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'txAdvice' of type [org.springframework.transaction.interceptor.TransactionInterceptor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 21:42:41.356 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'txAdviceAdvisor' of type [org.springframework.aop.support.DefaultPointcutAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 21:42:41.714 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2025-03-08 21:42:41.723 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
-2025-03-08 21:42:41.725 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2025-03-08 21:42:41.725 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.16]
-2025-03-08 21:42:41.821 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-03-08 21:42:41.821 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2172 ms
-2025-03-08 21:42:42.118 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-03-08 21:42:42.164 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.3.1.Final
-2025-03-08 21:42:42.192 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2025-03-08 21:42:42.404 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-03-08 21:42:42.464 [main] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
-2025-03-08 21:42:42.693 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-03-08 21:42:42.694 [main] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
-2025-03-08 21:42:42.975 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-03-08 21:42:42.979 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-03-08 21:42:43.281 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-2025-03-08 21:42:43.297 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-2025-03-08 21:42:43.321 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-2025-03-08 21:42:43.323 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-2025-03-08 21:42:43.324 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-2025-03-08 21:42:43.335 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-2025-03-08 21:42:45.488 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator'
-2025-03-08 21:42:45.578 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
-2025-03-08 21:42:45.595 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
-2025-03-08 21:42:45.608 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 6.428 seconds (process running for 7.171)
-2025-03-08 21:42:45.619 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-2025-03-08 21:42:45.619 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-2025-03-08 21:42:45.630 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-2025-03-08 21:42:45.630 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-2025-03-08 21:42:45.630 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-2025-03-08 21:42:45.641 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-2025-03-08 21:42:45.642 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-2025-03-08 21:42:45.642 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-2025-03-08 21:42:45.650 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-2025-03-08 21:42:45.650 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-2025-03-08 21:42:45.651 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-2025-03-08 21:42:45.659 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-2025-03-08 21:42:46.149 [RMI TCP Connection(3)-192.168.86.8] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-03-08 21:42:46.150 [RMI TCP Connection(3)-192.168.86.8] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2025-03-08 21:42:46.153 [RMI TCP Connection(3)-192.168.86.8] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
-2025-03-08 21:42:53.639 [http-nio-8080-exec-2] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.bind.MissingRequestHeaderException: Required request header 'X-User-Id' for method parameter type String is not present]
-2025-03-08 21:44:49.860 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-03-08 21:44:49.863 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
-2025-03-08 21:44:49.870 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
-2025-03-08 21:53:17.838 [main] INFO  com.bgpay.bgai.BgaiApplication - Starting BgaiApplication using Java 21.0.6 with PID 14224 (E:\project\bgai\target\classes started by Administrator in E:\project\bgai)
-2025-03-08 21:53:17.839 [main] DEBUG com.bgpay.bgai.BgaiApplication - Running with Spring Boot v3.2.0, Spring v6.1.1
-2025-03-08 21:53:17.839 [main] INFO  com.bgpay.bgai.BgaiApplication - The following 1 profile is active: "dev"
-2025-03-08 21:53:18.781 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-08 21:53:18.782 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-03-08 21:53:18.802 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 14 ms. Found 0 JPA repository interfaces.
-2025-03-08 21:53:18.811 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-08 21:53:18.812 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
-2025-03-08 21:53:18.821 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 2 ms. Found 0 Redis repository interfaces.
-2025-03-08 21:53:19.408 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'spring.datasource.dynamic-com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties' of type [com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 21:53:19.418 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration' of type [com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 21:53:19.429 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dsProcessor' of type [com.baomidou.dynamic.datasource.processor.jakarta.DsJakartaHeaderProcessor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 21:53:19.435 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'transactionConfig' of type [com.bgpay.bgai.datasource.TransactionConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 21:53:19.440 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dataSourceConfig' of type [com.bgpay.bgai.datasource.DataSourceConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 21:53:19.475 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dataSourcePropertiesConfig' of type [com.bgpay.bgai.datasource.DataSourcePropertiesConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 21:53:19.488 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'masterDataSourceProperties' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 21:53:19.521 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'masterDataSource' of type [com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceWrapper] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 21:53:19.605 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dynamicDataSource' of type [com.bgpay.bgai.datasource.DynamicDataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 21:53:19.613 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'transactionManager' of type [org.springframework.jdbc.datasource.DataSourceTransactionManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 21:53:19.622 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'transactionalAopConfig' of type [com.bgpay.bgai.config.TransactionalAopConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 21:53:19.626 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'txAdvice' of type [org.springframework.transaction.interceptor.TransactionInterceptor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 21:53:19.626 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'txAdviceAdvisor' of type [org.springframework.aop.support.DefaultPointcutAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 21:53:19.996 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2025-03-08 21:53:20.003 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
-2025-03-08 21:53:20.005 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2025-03-08 21:53:20.005 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.16]
-2025-03-08 21:53:20.102 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-03-08 21:53:20.103 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2231 ms
-2025-03-08 21:53:20.408 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-03-08 21:53:20.455 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.3.1.Final
-2025-03-08 21:53:20.484 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2025-03-08 21:53:20.706 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-03-08 21:53:20.766 [main] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
-2025-03-08 21:53:20.959 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-03-08 21:53:20.960 [main] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
-2025-03-08 21:53:21.248 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-03-08 21:53:21.252 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-03-08 21:53:21.570 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-2025-03-08 21:53:21.585 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-2025-03-08 21:53:21.618 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-2025-03-08 21:53:21.620 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-2025-03-08 21:53:21.620 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-2025-03-08 21:53:21.629 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-2025-03-08 21:53:23.810 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator'
-2025-03-08 21:53:23.901 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
-2025-03-08 21:53:23.917 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
-2025-03-08 21:53:23.929 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 6.53 seconds (process running for 7.382)
-2025-03-08 21:53:23.939 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-2025-03-08 21:53:23.940 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-2025-03-08 21:53:23.949 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-2025-03-08 21:53:23.950 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-2025-03-08 21:53:23.950 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-2025-03-08 21:53:23.960 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-2025-03-08 21:53:23.960 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-2025-03-08 21:53:23.960 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-2025-03-08 21:53:23.967 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-2025-03-08 21:53:23.968 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-2025-03-08 21:53:23.968 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-2025-03-08 21:53:23.974 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-2025-03-08 21:53:24.241 [RMI TCP Connection(4)-192.168.86.8] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-03-08 21:53:24.241 [RMI TCP Connection(4)-192.168.86.8] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2025-03-08 21:53:24.244 [RMI TCP Connection(4)-192.168.86.8] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
-2025-03-08 21:53:32.835 [http-nio-8080-exec-2] WARN  c.b.m.c.t.support.ReflectLambdaMeta - Unable to make field private final java.lang.Class java.lang.invoke.SerializedLambda.capturingClass accessible: module java.base does not "opens java.lang.invoke" to unnamed module @6fa51cd4
-2025-03-08 21:53:32.840 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - ==>  Preparing: SELECT id,api_url,api_key,model_name,user_id FROM api_config WHERE (user_id = ?) ORDER BY id DESC
-2025-03-08 21:53:32.842 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - ==> Parameters: 689258T(String)
-2025-03-08 21:53:32.850 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - <==      Total: 1
-2025-03-08 21:57:48.373 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-03-08 21:57:48.376 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
-2025-03-08 21:57:48.382 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
-2025-03-08 22:01:29.711 [main] INFO  com.bgpay.bgai.BgaiApplication - Starting BgaiApplication using Java 21.0.6 with PID 7252 (E:\project\bgai\target\classes started by Administrator in E:\project\bgai)
-2025-03-08 22:01:29.713 [main] DEBUG com.bgpay.bgai.BgaiApplication - Running with Spring Boot v3.2.0, Spring v6.1.1
-2025-03-08 22:01:29.713 [main] INFO  com.bgpay.bgai.BgaiApplication - The following 1 profile is active: "dev"
-2025-03-08 22:01:30.573 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-08 22:01:30.575 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-03-08 22:01:30.594 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 13 ms. Found 0 JPA repository interfaces.
-2025-03-08 22:01:30.603 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-08 22:01:30.604 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
-2025-03-08 22:01:30.613 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 3 ms. Found 0 Redis repository interfaces.
-2025-03-08 22:01:31.210 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'spring.datasource.dynamic-com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties' of type [com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 22:01:31.219 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration' of type [com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 22:01:31.228 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dsProcessor' of type [com.baomidou.dynamic.datasource.processor.jakarta.DsJakartaHeaderProcessor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 22:01:31.232 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'transactionConfig' of type [com.bgpay.bgai.datasource.TransactionConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 22:01:31.236 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dataSourceConfig' of type [com.bgpay.bgai.datasource.DataSourceConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 22:01:31.267 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dataSourcePropertiesConfig' of type [com.bgpay.bgai.datasource.DataSourcePropertiesConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 22:01:31.278 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'masterDataSourceProperties' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 22:01:31.311 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'masterDataSource' of type [com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceWrapper] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 22:01:31.390 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dynamicDataSource' of type [com.bgpay.bgai.datasource.DynamicDataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 22:01:31.399 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'transactionManager' of type [org.springframework.jdbc.datasource.DataSourceTransactionManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 22:01:31.408 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'transactionalAopConfig' of type [com.bgpay.bgai.config.TransactionalAopConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 22:01:31.411 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'txAdvice' of type [org.springframework.transaction.interceptor.TransactionInterceptor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 22:01:31.412 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'txAdviceAdvisor' of type [org.springframework.aop.support.DefaultPointcutAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 22:01:31.767 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2025-03-08 22:01:31.774 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
-2025-03-08 22:01:31.775 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2025-03-08 22:01:31.775 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.16]
-2025-03-08 22:01:31.875 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-03-08 22:01:31.876 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2129 ms
-2025-03-08 22:01:32.193 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-03-08 22:01:32.238 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.3.1.Final
-2025-03-08 22:01:32.266 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2025-03-08 22:01:32.466 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-03-08 22:01:32.522 [main] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
-2025-03-08 22:01:32.721 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-03-08 22:01:32.722 [main] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
-2025-03-08 22:01:32.987 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-03-08 22:01:32.992 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-03-08 22:01:33.310 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-2025-03-08 22:01:33.326 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-2025-03-08 22:01:33.352 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-2025-03-08 22:01:33.354 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-2025-03-08 22:01:33.355 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-2025-03-08 22:01:33.366 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-2025-03-08 22:01:35.487 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator'
-2025-03-08 22:01:35.569 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
-2025-03-08 22:01:35.585 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
-2025-03-08 22:01:35.597 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 6.338 seconds (process running for 7.147)
-2025-03-08 22:01:35.606 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-2025-03-08 22:01:35.606 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-2025-03-08 22:01:35.617 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-2025-03-08 22:01:35.617 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-2025-03-08 22:01:35.617 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-2025-03-08 22:01:35.627 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-2025-03-08 22:01:35.628 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-2025-03-08 22:01:35.628 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-2025-03-08 22:01:35.636 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-2025-03-08 22:01:35.636 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-2025-03-08 22:01:35.636 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-2025-03-08 22:01:35.643 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-2025-03-08 22:01:36.147 [RMI TCP Connection(4)-192.168.86.8] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-03-08 22:01:36.147 [RMI TCP Connection(4)-192.168.86.8] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2025-03-08 22:01:36.150 [RMI TCP Connection(4)-192.168.86.8] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
-2025-03-08 22:03:03.472 [http-nio-8080-exec-2] WARN  c.b.m.c.t.support.ReflectLambdaMeta - Unable to make field private final java.lang.Class java.lang.invoke.SerializedLambda.capturingClass accessible: module java.base does not "opens java.lang.invoke" to unnamed module @28eaa59a
-2025-03-08 22:03:03.496 [http-nio-8080-exec-2] WARN  c.a.d.pool.DruidAbstractDataSource - discard long time none received connection. , jdbcUrl : jdbc:mysql://8.133.246.113:3306/deepseek?autoReconnect=false&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true&useSSL=false, version : 1.2.8, lastPacketReceivedIdleMillis : 87842
-2025-03-08 22:03:03.502 [http-nio-8080-exec-2] WARN  c.a.d.pool.DruidAbstractDataSource - discard long time none received connection. , jdbcUrl : jdbc:mysql://8.133.246.113:3306/deepseek?autoReconnect=false&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true&useSSL=false, version : 1.2.8, lastPacketReceivedIdleMillis : 87860
-2025-03-08 22:03:03.553 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - ==>  Preparing: SELECT id,api_url,api_key,model_name,user_id FROM api_config WHERE (user_id = ?) ORDER BY id DESC
-2025-03-08 22:03:03.554 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - ==> Parameters: 689258T(String)
-2025-03-08 22:03:03.562 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - <==      Total: 1
-2025-03-08 22:05:23.334 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-03-08 22:05:23.336 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
-2025-03-08 22:05:23.338 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
-2025-03-08 22:17:38.220 [main] INFO  com.bgpay.bgai.BgaiApplication - Starting BgaiApplication using Java 21.0.6 with PID 8664 (E:\project\bgai\target\classes started by Administrator in E:\project\bgai)
-2025-03-08 22:17:38.221 [main] DEBUG com.bgpay.bgai.BgaiApplication - Running with Spring Boot v3.2.0, Spring v6.1.1
-2025-03-08 22:17:38.222 [main] INFO  com.bgpay.bgai.BgaiApplication - The following 1 profile is active: "dev"
-2025-03-08 22:17:39.096 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-08 22:17:39.097 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-03-08 22:17:39.115 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 13 ms. Found 0 JPA repository interfaces.
-2025-03-08 22:17:39.124 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-08 22:17:39.125 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
-2025-03-08 22:17:39.134 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 2 ms. Found 0 Redis repository interfaces.
-2025-03-08 22:17:39.735 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'spring.datasource.dynamic-com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties' of type [com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 22:17:39.743 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration' of type [com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 22:17:39.753 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dsProcessor' of type [com.baomidou.dynamic.datasource.processor.jakarta.DsJakartaHeaderProcessor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 22:17:39.758 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'transactionConfig' of type [com.bgpay.bgai.datasource.TransactionConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 22:17:39.762 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dataSourceConfig' of type [com.bgpay.bgai.datasource.DataSourceConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 22:17:39.798 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dataSourcePropertiesConfig' of type [com.bgpay.bgai.datasource.DataSourcePropertiesConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 22:17:39.807 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'masterDataSourceProperties' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 22:17:39.840 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'masterDataSource' of type [com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceWrapper] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 22:17:39.922 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dynamicDataSource' of type [com.bgpay.bgai.datasource.DynamicDataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 22:17:39.929 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'transactionManager' of type [org.springframework.jdbc.datasource.DataSourceTransactionManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 22:17:39.937 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'transactionalAopConfig' of type [com.bgpay.bgai.config.TransactionalAopConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 22:17:39.940 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'txAdvice' of type [org.springframework.transaction.interceptor.TransactionInterceptor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 22:17:39.940 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'txAdviceAdvisor' of type [org.springframework.aop.support.DefaultPointcutAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-2025-03-08 22:17:40.298 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2025-03-08 22:17:40.305 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
-2025-03-08 22:17:40.306 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2025-03-08 22:17:40.306 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.16]
-2025-03-08 22:17:40.409 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-03-08 22:17:40.409 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2155 ms
-2025-03-08 22:17:40.710 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-03-08 22:17:40.755 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.3.1.Final
-2025-03-08 22:17:40.785 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2025-03-08 22:17:40.997 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-03-08 22:17:41.052 [main] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
-2025-03-08 22:17:41.255 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-03-08 22:17:41.256 [main] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
-2025-03-08 22:17:41.549 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-03-08 22:17:41.553 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-03-08 22:17:41.849 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-2025-03-08 22:17:41.865 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-2025-03-08 22:17:41.892 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-2025-03-08 22:17:41.895 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-2025-03-08 22:17:41.895 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-2025-03-08 22:17:41.906 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-2025-03-08 22:17:44.029 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator'
-2025-03-08 22:17:44.111 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
-2025-03-08 22:17:44.127 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
-2025-03-08 22:17:44.139 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 6.38 seconds (process running for 7.131)
-2025-03-08 22:17:44.148 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-2025-03-08 22:17:44.149 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-2025-03-08 22:17:44.160 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-2025-03-08 22:17:44.160 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-2025-03-08 22:17:44.160 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-2025-03-08 22:17:44.171 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-2025-03-08 22:17:44.172 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-2025-03-08 22:17:44.172 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-2025-03-08 22:17:44.180 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-2025-03-08 22:17:44.181 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-2025-03-08 22:17:44.181 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-2025-03-08 22:17:44.187 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-2025-03-08 22:17:44.703 [RMI TCP Connection(2)-192.168.86.8] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-03-08 22:17:44.703 [RMI TCP Connection(2)-192.168.86.8] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2025-03-08 22:17:44.705 [RMI TCP Connection(2)-192.168.86.8] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
-2025-03-08 22:18:28.168 [http-nio-8080-exec-2] WARN  c.b.m.c.t.support.ReflectLambdaMeta - Unable to make field private final java.lang.Class java.lang.invoke.SerializedLambda.capturingClass accessible: module java.base does not "opens java.lang.invoke" to unnamed module @28eaa59a
-2025-03-08 22:18:28.173 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - ==>  Preparing: SELECT id,api_url,api_key,model_name,user_id FROM api_config WHERE (user_id = ?) ORDER BY id DESC
-2025-03-08 22:18:28.174 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - ==> Parameters: 689258T(String)
-2025-03-08 22:18:28.183 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - <==      Total: 1
-2025-03-08 22:22:46.167 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-2025-03-08 22:22:46.168 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-2025-03-08 22:22:46.180 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-2025-03-08 22:22:46.181 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-2025-03-08 22:22:46.181 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-2025-03-08 22:22:46.188 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-2025-03-08 22:23:14.317 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-03-08 22:23:14.320 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
-2025-03-08 22:23:14.327 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2025-03-09 16:45:27.947 [main] INFO  com.bgpay.bgai.BgaiApplication - Starting BgaiApplication using Java 21.0.6 with PID 29052 (E:\project\bgai\target\classes started by Administrator in E:\project\bgai)
+2025-03-09 16:45:27.948 [main] DEBUG com.bgpay.bgai.BgaiApplication - Running with Spring Boot v3.2.0, Spring v6.1.1
+2025-03-09 16:45:27.949 [main] INFO  com.bgpay.bgai.BgaiApplication - The following 1 profile is active: "dev"
+2025-03-09 16:45:28.846 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-03-09 16:45:28.847 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-03-09 16:45:28.868 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 14 ms. Found 0 JPA repository interfaces.
+2025-03-09 16:45:28.878 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-03-09 16:45:28.879 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-03-09 16:45:28.889 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 3 ms. Found 0 Redis repository interfaces.
+2025-03-09 16:45:29.504 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'spring.datasource.dynamic-com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties' of type [com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-03-09 16:45:29.512 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration' of type [com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-03-09 16:45:29.521 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dsProcessor' of type [com.baomidou.dynamic.datasource.processor.jakarta.DsJakartaHeaderProcessor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-03-09 16:45:29.526 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'transactionConfig' of type [com.bgpay.bgai.datasource.TransactionConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-03-09 16:45:29.531 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dataSourceConfig' of type [com.bgpay.bgai.datasource.DataSourceConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-03-09 16:45:29.564 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dataSourcePropertiesConfig' of type [com.bgpay.bgai.datasource.DataSourcePropertiesConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-03-09 16:45:29.573 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'masterDataSourceProperties' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-03-09 16:45:29.602 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'masterDataSource' of type [com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceWrapper] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-03-09 16:45:29.690 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dynamicDataSource' of type [com.bgpay.bgai.datasource.DynamicDataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-03-09 16:45:29.697 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'transactionManager' of type [org.springframework.jdbc.datasource.DataSourceTransactionManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-03-09 16:45:29.705 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'transactionalAopConfig' of type [com.bgpay.bgai.config.TransactionalAopConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-03-09 16:45:29.708 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'txAdvice' of type [org.springframework.transaction.interceptor.TransactionInterceptor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-03-09 16:45:29.709 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'txAdviceAdvisor' of type [org.springframework.aop.support.DefaultPointcutAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-03-09 16:45:30.093 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-03-09 16:45:30.101 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2025-03-09 16:45:30.102 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-03-09 16:45:30.103 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.16]
+2025-03-09 16:45:30.201 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-03-09 16:45:30.201 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2220 ms
+2025-03-09 16:45:30.512 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-03-09 16:45:30.557 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.3.1.Final
+2025-03-09 16:45:30.586 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-03-09 16:45:30.781 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-03-09 16:45:30.836 [main] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2025-03-09 16:45:31.048 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-03-09 16:45:31.050 [main] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-03-09 16:45:31.327 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-03-09 16:45:31.332 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-03-09 16:45:31.620 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+2025-03-09 16:45:31.637 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+2025-03-09 16:45:31.664 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+2025-03-09 16:45:31.666 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+2025-03-09 16:45:31.666 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+2025-03-09 16:45:31.677 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+2025-03-09 16:45:34.013 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator'
+2025-03-09 16:45:34.102 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2025-03-09 16:45:34.119 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2025-03-09 16:45:34.131 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 6.638 seconds (process running for 7.406)
+2025-03-09 16:45:34.141 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+2025-03-09 16:45:34.141 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+2025-03-09 16:45:34.151 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+2025-03-09 16:45:34.152 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+2025-03-09 16:45:34.152 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+2025-03-09 16:45:34.163 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+2025-03-09 16:45:34.163 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+2025-03-09 16:45:34.163 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+2025-03-09 16:45:34.171 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+2025-03-09 16:45:34.171 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+2025-03-09 16:45:34.172 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+2025-03-09 16:45:34.177 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+2025-03-09 16:45:34.425 [RMI TCP Connection(2)-192.168.86.8] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-03-09 16:45:34.425 [RMI TCP Connection(2)-192.168.86.8] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-03-09 16:45:34.427 [RMI TCP Connection(2)-192.168.86.8] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2025-03-09 16:47:03.375 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-03-09 16:47:03.378 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2025-03-09 16:47:03.382 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2025-03-09 16:55:48.253 [main] INFO  com.bgpay.bgai.BgaiApplication - Starting BgaiApplication using Java 21.0.6 with PID 29268 (E:\project\bgai\target\classes started by Administrator in E:\project\bgai)
+2025-03-09 16:55:48.254 [main] DEBUG com.bgpay.bgai.BgaiApplication - Running with Spring Boot v3.2.0, Spring v6.1.1
+2025-03-09 16:55:48.254 [main] INFO  com.bgpay.bgai.BgaiApplication - The following 1 profile is active: "dev"
+2025-03-09 16:55:49.328 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-03-09 16:55:49.330 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-03-09 16:55:49.351 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 16 ms. Found 0 JPA repository interfaces.
+2025-03-09 16:55:49.361 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-03-09 16:55:49.361 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-03-09 16:55:49.373 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 3 ms. Found 0 Redis repository interfaces.
+2025-03-09 16:55:50.050 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'spring.datasource.dynamic-com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties' of type [com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-03-09 16:55:50.058 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration' of type [com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-03-09 16:55:50.067 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dsProcessor' of type [com.baomidou.dynamic.datasource.processor.jakarta.DsJakartaHeaderProcessor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-03-09 16:55:50.072 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'transactionConfig' of type [com.bgpay.bgai.datasource.TransactionConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-03-09 16:55:50.076 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dataSourceConfig' of type [com.bgpay.bgai.datasource.DataSourceConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-03-09 16:55:50.109 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dataSourcePropertiesConfig' of type [com.bgpay.bgai.datasource.DataSourcePropertiesConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-03-09 16:55:50.121 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'masterDataSourceProperties' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-03-09 16:55:50.152 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'masterDataSource' of type [com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceWrapper] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-03-09 16:55:50.242 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dynamicDataSource' of type [com.bgpay.bgai.datasource.DynamicDataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-03-09 16:55:50.250 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'transactionManager' of type [org.springframework.jdbc.datasource.DataSourceTransactionManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-03-09 16:55:50.260 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'transactionalAopConfig' of type [com.bgpay.bgai.config.TransactionalAopConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-03-09 16:55:50.264 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'txAdvice' of type [org.springframework.transaction.interceptor.TransactionInterceptor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-03-09 16:55:50.265 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'txAdviceAdvisor' of type [org.springframework.aop.support.DefaultPointcutAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [meterRegistryPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-03-09 16:55:50.637 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-03-09 16:55:50.645 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2025-03-09 16:55:50.647 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-03-09 16:55:50.647 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.16]
+2025-03-09 16:55:50.742 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-03-09 16:55:50.743 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2452 ms
+2025-03-09 16:55:51.062 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-03-09 16:55:51.109 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.3.1.Final
+2025-03-09 16:55:51.142 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-03-09 16:55:51.347 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-03-09 16:55:51.410 [main] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2025-03-09 16:55:51.605 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-03-09 16:55:51.606 [main] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-03-09 16:55:51.884 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-03-09 16:55:51.889 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-03-09 16:55:52.195 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+2025-03-09 16:55:52.210 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+2025-03-09 16:55:52.235 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+2025-03-09 16:55:52.238 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+2025-03-09 16:55:52.238 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+2025-03-09 16:55:52.249 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+2025-03-09 16:55:54.588 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator'
+2025-03-09 16:55:54.676 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2025-03-09 16:55:54.701 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2025-03-09 16:55:54.714 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 6.964 seconds (process running for 7.838)
+2025-03-09 16:55:54.722 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+2025-03-09 16:55:54.723 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+2025-03-09 16:55:54.733 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+2025-03-09 16:55:54.734 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+2025-03-09 16:55:54.734 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+2025-03-09 16:55:54.743 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+2025-03-09 16:55:54.744 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+2025-03-09 16:55:54.744 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+2025-03-09 16:55:54.751 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+2025-03-09 16:55:54.752 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+2025-03-09 16:55:54.752 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+2025-03-09 16:55:54.758 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+2025-03-09 16:55:55.111 [RMI TCP Connection(3)-192.168.86.8] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-03-09 16:55:55.111 [RMI TCP Connection(3)-192.168.86.8] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-03-09 16:55:55.113 [RMI TCP Connection(3)-192.168.86.8] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms

@@ -49,13 +49,13 @@ public class EnhancedChatController {
             String content = buildContent(file, question);
 
             // 调用服务
-            String result = deepSeekService.processRequest(
+            String result = String.valueOf(deepSeekService.processRequest(
                     content,
                     apiConfig.getApiUrl(),
                     apiConfig.getApiKey(),
                     apiConfig.getModelName()
-            );
-
+            ));
+//            deepSeekService.saveCompletionDataAsync(result);
             return ResponseEntity.ok(result);
         } catch (IllegalArgumentException e) {
             return errorResponse(400, e.getMessage());
