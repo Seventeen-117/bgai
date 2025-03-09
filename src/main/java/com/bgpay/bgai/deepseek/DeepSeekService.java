@@ -53,12 +53,6 @@ public class DeepSeekService {
     @Value("${max.request.length:8000}")
     private int maxRequestLength;
 
-    @Value("${connect.timeout:20000}")
-    private int connectTimeout;
-
-    @Value("${socket.timeout:120000}")
-    private int socketTimeout;
-
     @Autowired
     private ChatCompletionsService chatCompletionsService;
 
@@ -66,7 +60,7 @@ public class DeepSeekService {
     private UsageInfoService usageInfoService;
 
     @Autowired
-    @Qualifier("asyncTaskExecutor")
+    @Qualifier("asyncTaskExcutor")
     private Executor asyncRequestExecutor;
 
 
@@ -100,6 +94,7 @@ public class DeepSeekService {
                 .build();
     }
 
+
     @DS("master")
     public String processRequest(String content, String apiUrl, String apiKey, String modelName) {
         try {
@@ -109,7 +104,7 @@ public class DeepSeekService {
             String response = future.get(); // 等待 CompletableFuture 完成并获取结果
 
             // 异步保存（非阻塞）
-//            saveCompletionDataAsync(response);
+            saveCompletionDataAsync(response);
 
             return response;
         } catch (Exception e) {
@@ -202,14 +197,6 @@ public class DeepSeekService {
         }
     }
 
-    private void sleepWithBackoff(int retryCount) {
-        try {
-            long delay = (long) (initialDelay * Math.pow(backoffFactor, retryCount));
-            TimeUnit.MILLISECONDS.sleep(delay);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-    }
 
     private String truncateUtf8(String input, int maxBytes) {
         if (input == null || maxBytes <= 0) return "";
@@ -280,6 +267,8 @@ public class DeepSeekService {
         chatCompletions.setCreated(root.path("created").asLong());
         chatCompletions.setModel(root.path("model").asText());
         chatCompletions.setSystemFingerprint(root.path("system_fingerprint").asText());
+        chatCompletions.setApiKeyId(root.path("id").asText());
+
         return chatCompletions;
     }
 
@@ -291,10 +280,11 @@ public class DeepSeekService {
         usageInfo.setChatCompletionId(root.path("id").asText());
         usageInfo.setPromptTokens(usageNode.path("prompt_tokens").asInt());
         usageInfo.setTotalTokens(usageNode.path("total_tokens").asInt());
+        usageInfo.setCompletionTokens(usageNode.path("completion_tokens").asInt());
         usageInfo.setPromptTokensCached(promptDetails.path("cached_tokens").asInt());
         usageInfo.setCompletionReasoningTokens(completionDetails.path("reasoning_tokens").asInt());
-        usageInfo.setPromptCacheHitTokens(usageNode.path("prompt_cache_miss_tokens").asInt());
-        usageInfo.setPromptCacheMissTokens(root.path("prompt_cache_miss_tokens").asInt());
+        usageInfo.setPromptCacheHitTokens(usageNode.path(" prompt_cache_hit_tokens").asInt());
+        usageInfo.setPromptCacheMissTokens(usageNode.path("prompt_cache_miss_tokens").asInt());
         return usageInfo;
     }
 
@@ -310,13 +300,6 @@ public class DeepSeekService {
                 Thread.currentThread().interrupt();
             }
         }
-    }
-
-    private String processContent(String content) {
-        String sanitized = content.replace("\\", "\\\\")
-                .replace("\"", "\\\"")
-                .replace("\n", "\\n");
-        return truncateUtf8(sanitized, maxRequestLength);
     }
     static class CustomThreadFactory implements ThreadFactory {
         private final AtomicInteger counter = new AtomicInteger(0);

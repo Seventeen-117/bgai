@@ -13,7 +13,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class AsyncConfig {
 
 
-    @Bean("asyncTaskExecutor")
+    @Bean("asyncTaskExcutor")
     public Executor asyncTaskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(20);
@@ -22,6 +22,28 @@ public class AsyncConfig {
         executor.setThreadNamePrefix("AsyncReq-");
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         executor.initialize();
+        return executor;
+    }
+
+    // 网络IO专用（大吞吐量）
+    @Bean("ioTaskExecutor")
+    public ThreadPoolTaskExecutor ioExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(50);
+        executor.setMaxPoolSize(200);
+        executor.setQueueCapacity(1000);
+        executor.setThreadNamePrefix("io-");
+        return executor;
+    }
+
+    // 数据库专用（小并发）
+    @Bean("dbTaskExecutor")
+    public ThreadPoolTaskExecutor dbExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(20);
+        executor.setMaxPoolSize(50);
+        executor.setQueueCapacity(5000);
+        executor.setThreadNamePrefix("db-");
         return executor;
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration;
 import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
@@ -20,6 +21,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 })
 @EnableScheduling
 @Configuration
+@ComponentScan(basePackages = "com.bgpay.bgai")
 public class BgaiApplication {
 
 	private static final Logger logger = LoggerFactory.getLogger(BgaiApplication.class);
