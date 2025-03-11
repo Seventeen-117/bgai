@@ -1,4 +1,4 @@
-package com.bgpay.bgai.service;
+package com.bgpay.bgai.service.impl;
 
 
 import cn.hutool.core.collection.ConcurrentHashSet;

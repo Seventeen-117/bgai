@@ -3,6 +3,8 @@ package com.bgpay.bgai.service;
 import com.bgpay.bgai.entity.UsageInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -13,4 +15,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface UsageInfoService extends IService<UsageInfo> {
     public void insertUsageInfo(UsageInfo usageInfo);
+
+    public List<UsageInfo> getUsageInfoByIds(List<Long> ids);
 }

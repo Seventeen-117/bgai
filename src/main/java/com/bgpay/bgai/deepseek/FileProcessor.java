@@ -1,7 +1,7 @@
 package com.bgpay.bgai.deepseek;
 
 import com.bgpay.bgai.entity.MimeTypeConfig;
-import com.bgpay.bgai.service.FileTypeService;
+import com.bgpay.bgai.service.impl.FileTypeService;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
 import org.apache.pdfbox.pdmodel.PDDocument;

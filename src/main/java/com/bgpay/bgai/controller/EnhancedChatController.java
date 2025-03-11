@@ -1,9 +1,14 @@
 package com.bgpay.bgai.controller;
 
+import com.alibaba.dashscope.threads.runs.Usage;
 import com.bgpay.bgai.deepseek.DeepSeekService;
 import com.bgpay.bgai.deepseek.FileProcessor;
 import com.bgpay.bgai.entity.ApiConfig;
+import com.bgpay.bgai.entity.UsageCalculationDTO;
+import com.bgpay.bgai.entity.UsageInfo;
+import com.bgpay.bgai.response.ChatResponse;
 import com.bgpay.bgai.service.ApiConfigService;
+import com.bgpay.bgai.service.BillingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,24 +16,29 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
+
 @RestController
 @RequestMapping("/api")
 public class EnhancedChatController {
     private final FileProcessor fileProcessor;
     private final ApiConfigService apiConfigService;
     private final DeepSeekService deepSeekService;
+    private final BillingService billingService;
 
     @Autowired
     public EnhancedChatController(FileProcessor fileProcessor,
                                   ApiConfigService apiConfigService,
-                                  DeepSeekService deepSeekService) {
+                                  DeepSeekService deepSeekService,
+                                  BillingService billingService) {
         this.fileProcessor = fileProcessor;
         this.apiConfigService = apiConfigService;
         this.deepSeekService = deepSeekService;
+        this.billingService = billingService;
     }
 
     @PostMapping(value = "/chat", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> handleChatRequest(
+    public ResponseEntity<ChatResponse> handleChatRequest(
             @RequestPart(value = "file", required = false) MultipartFile file,
             @RequestParam(value = "question", defaultValue = "请分析该内容") String question,
             @RequestParam(value = "apiUrl", required = false) String apiUrl,
@@ -49,14 +59,13 @@ public class EnhancedChatController {
             String content = buildContent(file, question);
 
             // 调用服务
-            String result = String.valueOf(deepSeekService.processRequest(
+            ChatResponse response = deepSeekService.processRequest(
                     content,
                     apiConfig.getApiUrl(),
                     apiConfig.getApiKey(),
                     apiConfig.getModelName()
-            ));
-//            deepSeekService.saveCompletionDataAsync(result);
-            return ResponseEntity.ok(result);
+            );
+            return ResponseEntity.ok(response);
         } catch (IllegalArgumentException e) {
             return errorResponse(400, e.getMessage());
         } catch (Exception e) {
@@ -94,8 +103,26 @@ public class EnhancedChatController {
         return content.toString();
     }
 
-    private ResponseEntity<String> errorResponse(int code, String message) {
+    // 修改 errorResponse 方法，使其返回 ResponseEntity<ChatResponse>
+    private ResponseEntity<ChatResponse> errorResponse(int code, String message) {
+        ChatResponse chatResponse = new ChatResponse();
         String errorJson = String.format("{\"error\":{\"code\":%d,\"message\":\"%s\"}}", code, message);
-        return ResponseEntity.status(code).body(errorJson);
+        chatResponse.setContent(errorJson);
+        chatResponse.setUsage(new UsageInfo());
+        return ResponseEntity.status(code).body(chatResponse);
     }
+
+//    private void recordUsageData(String modelType, UsageInfo usage,
+//                                 String completionId, String userId) {
+//        // 2. 触发计费计算
+//        UsageCalculationDTO calculationDTO = new UsageCalculationDTO();
+//        calculationDTO.setChatCompletionId(completionId);
+//        calculationDTO.setModelType(modelType);
+//        calculationDTO.setPromptCacheHitTokens(usage.getPromptCacheHitTokens());
+//        calculationDTO.setPromptCacheMissTokens(usage.getPromptCacheMissTokens());
+//        calculationDTO.setCompletionTokens(usage.getCompletionTokens());
+//        calculationDTO.setCreatedAt(LocalDateTime.now());
+//
+//        billingService.processSingleRecord(calculationDTO);
+//    }
 }

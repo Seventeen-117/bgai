@@ -5,10 +5,11 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -51,5 +52,11 @@ public class UsageInfo {
 
     @TableField("prompt_cache_miss_tokens")
     private Integer promptCacheMissTokens;
+
+    @TableField("created_at")
+    private LocalDateTime createdAt;
+
+    @TableField("model_type")
+    private String modelType;
 
 }
