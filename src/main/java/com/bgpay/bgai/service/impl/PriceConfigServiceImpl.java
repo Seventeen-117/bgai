@@ -46,10 +46,16 @@ public class PriceConfigServiceImpl extends ServiceImpl<PriceConfigMapper, Price
         LambdaQueryWrapper<PriceConfig> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(PriceConfig::getModelType, query.getModelType())
                 .eq(PriceConfig::getTimePeriod, query.getTimePeriod())
-                .eq(PriceConfig::getCacheStatus, query.getCacheStatus())
                 .eq(PriceConfig::getIoType, query.getIoType())
-                .le(PriceConfig::getEffectiveTime, LocalDateTime.now())
-                .orderByDesc(PriceConfig::getEffectiveTime)
+                .le(PriceConfig::getEffectiveTime, LocalDateTime.now());
+
+        if (query.getCacheStatus() != null) {
+            queryWrapper.eq(PriceConfig::getCacheStatus, query.getCacheStatus());
+        } else {
+            queryWrapper.isNull(PriceConfig::getCacheStatus);
+        }
+
+        queryWrapper.orderByDesc(PriceConfig::getEffectiveTime)
                 .last("LIMIT 1");
 
         return priceConfigMapper.selectOne(queryWrapper);

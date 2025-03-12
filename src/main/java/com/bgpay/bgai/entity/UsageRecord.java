@@ -30,11 +30,14 @@ public class UsageRecord {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @TableField("model_id")
-    private Integer modelId;
+    @TableField("model_type")
+    private String modelType;
 
     @TableField("chat_completion_id")
     private String chatCompletionId;
+
+    @TableField("user_id")
+    private String userId;
 
     @TableField("input_cost")
     private BigDecimal inputCost;

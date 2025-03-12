@@ -28,7 +28,7 @@ public interface UsageRecordMapper extends BaseMapper<UsageRecord> {
         // 这里需要根据实际的数据库表结构和关联关系进行调整
         // 若存在一个中间表或者其他关联方式，需要修改查询逻辑
         LambdaQueryWrapper<UsageRecord> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(UsageRecord::getModelId, modelType);
+        queryWrapper.eq(UsageRecord::getModelType, modelType);
         return this.selectList(queryWrapper);
     }
 }

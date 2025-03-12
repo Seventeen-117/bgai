@@ -9,16 +9,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -32,18 +30,14 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @RequiredArgsConstructor
 public class PriceCacheServiceImpl implements PriceCacheService {
-    // Redis template for interacting with Redis
-    private final RedisTemplate<String, Object> redisTemplate;
-    // Service for retrieving price configurations from the database
-    private final PriceConfigService priceConfigService;
-    // Redisson client for distributed locking
-    private final RedissonClient redissonClient;
 
-    // Cache time - to - live, set to 1 hour
+    private final RedisTemplate<String, PriceConfig> priceConfigTemplate;
+    private final RedisTemplate<String, String> stringTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
+    private final PriceConfigService priceConfigService;
+    private final RedissonClient redissonClient;
     private static final Duration CACHE_TTL = Duration.ofHours(1);
-    // Prefix for null cache keys, used to cache the absence of a price configuration
     private static final String NULL_CACHE_PREFIX = "NULL:";
-    // Random number generator for adding randomness to cache expiration times
     private static final Random RANDOM = new Random();
 
     /**
@@ -54,83 +48,45 @@ public class PriceCacheServiceImpl implements PriceCacheService {
      * @return The price configuration if found, otherwise null.
      */
     @Override
-    @Cacheable(value = "priceConfigs", keyGenerator = "priceKeyGenerator",
-            unless = "#result == null")
     public PriceConfig getPriceConfig(PriceQuery query) {
-        // Generate the cache key based on the query
         String cacheKey = generateCacheKey(query);
-        // Generate the null cache key
         String nullKey = NULL_CACHE_PREFIX + cacheKey;
-        // Get a distributed lock for the cache key
         RLock lock = redissonClient.getLock(cacheKey + ":lock");
 
         try {
-            // Try to acquire the lock with a 100ms wait time and a 30 - second lock - hold time
             if (lock.tryLock(100, 30000, TimeUnit.MILLISECONDS)) {
-                // Try to get the price configuration from the cache
-                PriceConfig config = (PriceConfig) redisTemplate.opsForValue().get(cacheKey);
-                if (config != null) {
-                    return config;
+                // 增加异常捕获逻辑
+                try {
+                    PriceConfig config = priceConfigTemplate.opsForValue().get(cacheKey);
+                    if (config != null) return config;
+                } catch (Exception e) {
+                    log.warn("反序列化失败，删除无效缓存: {}", cacheKey, e);
+                    priceConfigTemplate.delete(cacheKey); // 清理无效缓存
                 }
 
-                // Check if the null cache key exists
-                if (Boolean.TRUE.equals(redisTemplate.hasKey(nullKey))) {
+                if (Boolean.TRUE.equals(stringTemplate.hasKey(nullKey))) {
                     return null;
                 }
 
-                // Try to get the price configuration from the database
-                config = priceConfigService.findValidPriceConfig(query);
+                PriceConfig config = priceConfigService.findValidPriceConfig(query);
                 if (config == null) {
-                    // Cache the absence of a price configuration with a random expiration time between 5 and 15 minutes
-                    redisTemplate.opsForValue().set(nullKey, "",
-                            Duration.ofMinutes(5 + RANDOM.nextInt(10)));
+                    stringTemplate.opsForValue().set(nullKey, "empty", Duration.ofMinutes(5 + RANDOM.nextInt(10)));
                     return null;
                 }
 
-                // Cache the price configuration with a random expiration time within 300 seconds of the base TTL
-                redisTemplate.opsForValue().set(cacheKey, config,
-                        CACHE_TTL.plusSeconds(RANDOM.nextInt(300)));
+                priceConfigTemplate.opsForValue().set(cacheKey, config, CACHE_TTL.plusSeconds(RANDOM.nextInt(300)));
                 return config;
             }
-            // Return null if the lock cannot be acquired, and let the upper - layer handle it
             return null;
         } catch (InterruptedException e) {
-            // Interrupt the current thread and throw a BillingException
             Thread.currentThread().interrupt();
             throw new BillingException("Interrupted while getting price configuration", e);
         } finally {
-            // Release the lock if it is held by the current thread
             if (lock.isHeldByCurrentThread()) {
                 lock.unlock();
             }
         }
     }
-
-    /**
-     * Refreshes the entire price cache by evicting all entries.
-     */
-    @Override
-    @CacheEvict(value = "priceConfigs", allEntries = true)
-    public void refreshCache() {
-        // Log the cache refresh time
-        log.info("Full price cache refreshed at {}", LocalDateTime.now());
-    }
-
-    /**
-     * Evicts a specific cache entry based on the given price query.
-     *
-     * @param query The price query object used to generate the cache key to be evicted.
-     */
-    @Override
-    public void evictCacheByQuery(PriceQuery query) {
-        // Generate the cache key based on the query
-        String key = generateCacheKey(query);
-        // Delete the cache entry
-        redisTemplate.delete(key);
-        // Log the eviction of the cache entry
-        log.debug("Evict cache for key: {}", key);
-    }
-
     /**
      * Generates a cache key based on the given price query.
      *
@@ -138,6 +94,7 @@ public class PriceCacheServiceImpl implements PriceCacheService {
      * @return The generated cache key.
      */
     private String generateCacheKey(PriceQuery query) {
+        // Generate a cache key using the model type, time period, cache status, and IO type from the query
         return String.format("price:%s:%s:%s:%s",
                 query.getModelType(),
                 query.getTimePeriod(),
@@ -156,17 +113,44 @@ public class PriceCacheServiceImpl implements PriceCacheService {
         return redisTemplate.execute((RedisCallback<Set<String>>) connection -> {
             // Create a set to store the matching keys
             Set<String> keys = new HashSet<>();
-            // Use the SCAN command to iterate over keys that match the pattern
-            Cursor<byte[]> cursor = connection.scan(ScanOptions.scanOptions()
+            // Configure the scan options with the given pattern and a count of 100 keys per scan
+            ScanOptions options = ScanOptions.scanOptions()
                     .match(pattern)
                     .count(100)
-                    .build());
+                    .build();
+
+            // Use a cursor to iterate over the keys that match the pattern
+            Cursor<byte[]> cursor = connection.scan(options);
             while (cursor.hasNext()) {
-                // Add the matching key to the set
-                keys.add(new String(cursor.next()));
+                // Convert the byte array key to a string and add it to the set
+                keys.add(new String(cursor.next(), StandardCharsets.UTF_8));
             }
             return keys;
         });
+    }
+
+    /**
+     * Clears the price configuration cache, including both manually stored caches and those generated by @Cacheable annotations.
+     */
+    @Override
+    public void clearPriceConfigCache() {
+        // Scan for manually stored cache keys that match the "price:*" pattern
+        Set<String> manualKeys = scanRedisKeys("price:*");
+        if (!manualKeys.isEmpty()) {
+            // Delete all the manually stored cache keys
+            redisTemplate.delete(manualKeys);
+            // Log the number of manually deleted cache keys
+            log.info("Deleted {} manual cache keys", manualKeys.size());
+        }
+
+        // Scan for cache keys generated by @Cacheable annotations that match the "priceConfigs:*" pattern
+        Set<String> annotationKeys = scanRedisKeys("priceConfigs:*");
+        if (!annotationKeys.isEmpty()) {
+            // Delete all the cache keys generated by @Cacheable annotations
+            redisTemplate.delete(annotationKeys);
+            // Log the number of annotation - generated cache keys deleted
+            log.info("Deleted {} annotation cache keys", annotationKeys.size());
+        }
     }
 
     /**
@@ -178,6 +162,7 @@ public class PriceCacheServiceImpl implements PriceCacheService {
     private PriceQuery parseQueryFromKey(String key) {
         // Split the cache key by colon
         String[] parts = key.split(":");
+        // Create a new PriceQuery object using the parts of the split key
         return new PriceQuery(parts[1], parts[2], parts[3], parts[4]);
     }
 

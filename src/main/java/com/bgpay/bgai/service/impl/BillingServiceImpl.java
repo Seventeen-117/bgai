@@ -21,7 +21,8 @@ import java.time.*;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.IntStream;
+
+import static com.bgpay.bgai.entity.PriceConstants.*;
 
 /**
  * This service class is responsible for handling billing-related operations,
@@ -55,10 +56,10 @@ public class BillingServiceImpl implements BillingService {
     @Override
     @Async("billingExecutor")
     @Retryable(maxAttempts = 3, backoff = @Backoff(delay = 1000))
-    public void processBatch(List<UsageCalculationDTO> batch) {
+    public void processBatch(List<UsageCalculationDTO> batch, String userId) {
         // Process each record in the batch in parallel
         batch.parallelStream()
-                .forEach(this::processSingleRecord);
+                .forEach(dto -> processSingleRecord(dto, userId));
     }
 
     /**
@@ -67,23 +68,19 @@ public class BillingServiceImpl implements BillingService {
      *
      * @param dto A single UsageCalculationDTO object to be processed.
      */
-    private void processSingleRecord(UsageCalculationDTO dto) {
-        // Check if the record has been processed
+    public void processSingleRecord(UsageCalculationDTO dto, String userId) {
         checkProcessed(dto.getChatCompletionId());
 
         try {
-            // Convert the UTC time to Beijing time
             ZonedDateTime beijingTime = convertToBeijingTime(dto.getCreatedAt());
-            // Determine the time period (discount or standard)
             String timePeriod = determineTimePeriod(beijingTime);
-
             // Calculate the input cost
             BigDecimal inputCost = calculateInputCost(dto, timePeriod);
             // Calculate the output cost
             BigDecimal outputCost = calculateOutputCost(dto, timePeriod);
 
             // Save the usage record
-            saveUsageRecord(dto, inputCost, outputCost);
+            saveUsageRecord(dto, inputCost, outputCost, userId,timePeriod);
         } catch (Exception e) {
             // Log the error if processing fails
             log.error("Process failed for {}", dto.getChatCompletionId(), e);
@@ -105,13 +102,17 @@ public class BillingServiceImpl implements BillingService {
                 usage.getModelType(),
                 timePeriod,
                 null,
-                PriceConstants.OUTPUT_TYPE
+                OUTPUT_TYPE
         );
 
-        // Get the price configuration from the cache
         PriceConfig config = priceCache.getPriceConfig(query);
-
-        // Calculate the cost based on the number of tokens and the price per million tokens
+        if (config == null) {
+            throw new BillingException("Price config not found");
+        } else if (!(config instanceof PriceConfig)) { // 冗余检查，实际由 RedisTemplate 保证类型
+            log.error("Invalid cache data type: {}", config.getClass());
+            priceCache.refreshCacheByModel(usage.getModelType()); // 触发缓存刷新
+            return calculateOutputCost(usage, timePeriod); // 重试
+        }
         return calculateCost(usage.getCompletionTokens(), config.getPrice());
     }
 
@@ -124,7 +125,7 @@ public class BillingServiceImpl implements BillingService {
      */
     private BigDecimal calculateCost(int tokens, BigDecimal pricePerMillion) {
         return BigDecimal.valueOf(tokens)
-                .divide(PriceConstants.ONE_MILLION, 6, RoundingMode.HALF_UP)
+                .divide(ONE_MILLION, 6, RoundingMode.HALF_UP)
                 .multiply(pricePerMillion)
                 .setScale(4, RoundingMode.HALF_UP);
     }
@@ -147,21 +148,15 @@ public class BillingServiceImpl implements BillingService {
      * @return The determined time period ("discount" or "standard").
      */
     private String determineTimePeriod(ZonedDateTime beijingTime) {
-        // Get the local time from the Beijing time
-        LocalTime time = beijingTime.toLocalTime();
-        // Get the local date from the Beijing time
         LocalDate date = beijingTime.toLocalDate();
 
-        // Create ZonedDateTime objects for the start and end of the discount period
         ZonedDateTime discountStart = ZonedDateTime.of(date, DISCOUNT_START, BEIJING_ZONE);
         ZonedDateTime discountEnd = ZonedDateTime.of(date, DISCOUNT_END, BEIJING_ZONE);
 
-        // If the end time is before the start time, it means the discount period crosses midnight
         if (discountEnd.isBefore(discountStart)) {
             discountEnd = discountEnd.plusDays(1);
         }
 
-        // Determine if the current time is within the discount period
         return (beijingTime.isAfter(discountStart) && beijingTime.isBefore(discountEnd))
                 ? "discount" : "standard";
     }
@@ -175,10 +170,11 @@ public class BillingServiceImpl implements BillingService {
      */
     private BigDecimal calculateInputCost(UsageCalculationDTO dto, String timePeriod) {
         // Determine the cache status based on the number of cached tokens
-        String cacheStatus = dto.getPromptCacheHitTokens() > 0 ? "hit" : "miss";
+        String cacheStatus = dto.getPromptCacheHitTokens() > 0 ? CACHE_HIT : CACHE_MISS;
         // Create a price query object for input
         PriceQuery query = new PriceQuery(dto.getModelType(), timePeriod,
-                cacheStatus, "input");
+                cacheStatus, INPUT_TYPE);
+
         // Get the price configuration from the cache
         PriceConfig config = priceCache.getPriceConfig(query);
 
@@ -198,7 +194,7 @@ public class BillingServiceImpl implements BillingService {
      */
     private BigDecimal calculateTokenCost(int tokens, BigDecimal price) {
         return BigDecimal.valueOf(tokens)
-                .divide(PriceConstants.ONE_MILLION, 6, RoundingMode.HALF_UP)
+                .divide(ONE_MILLION, 6, RoundingMode.HALF_UP)
                 .multiply(price)
                 .setScale(4, RoundingMode.HALF_UP);
     }
@@ -226,7 +222,9 @@ public class BillingServiceImpl implements BillingService {
     @Transactional(timeout = 30, rollbackFor = Exception.class)
     public void saveUsageRecord(UsageCalculationDTO dto,
                                 BigDecimal inputCost,
-                                BigDecimal outputCost) {
+                                BigDecimal outputCost,
+                                String userId,
+                                String timePeriod) {
         if (usageRecordService.existsByCompletionId(dto.getChatCompletionId())) {
             log.warn("重复请求: {}", dto.getChatCompletionId());
             return;
@@ -239,7 +237,7 @@ public class BillingServiceImpl implements BillingService {
                 inputCost,
                 outputCost);
 
-        UsageRecord record = convertToEntity(dto, inputCost, outputCost);
+        UsageRecord record = convertToEntity(dto, inputCost, outputCost, userId,timePeriod);
         usageRecordService.insetUsageRecord(record);
     }
 
@@ -249,38 +247,27 @@ public class BillingServiceImpl implements BillingService {
      *
      * @param batch A large list of UsageCalculationDTO objects to be processed.
      */
-    public void processLargeBatch(List<UsageCalculationDTO> batch) {
-        // Define the size of each sub - batch
+    public void processLargeBatch(List<UsageCalculationDTO> batch, String userId) {
         int BATCH_SIZE = 500;
-        // Partition the large batch into smaller sub - batches
         List<List<UsageCalculationDTO>> partitions = Lists.partition(batch, BATCH_SIZE);
-
-        // Process each sub - batch in parallel
         partitions.parallelStream().forEach(subBatch -> {
             try {
-                // Try to acquire a permit from the semaphore for rate limiting
                 if (!acquireSemaphore()) {
-                    // Throw a BillingException if the permit cannot be acquired
                     throw new BillingException();
                 }
             } catch (InterruptedException e) {
-                // Throw a RuntimeException if the thread is interrupted
                 throw new RuntimeException(e);
             }
             try {
-                // Execute the processing of the sub - batch within a transaction
                 transactionTemplate.execute(status -> {
-                    processBatch(subBatch);
+                    processBatch(subBatch, userId);
                     return null;
                 });
             } finally {
-                // Release the permit from the semaphore
                 releaseSemaphore();
             }
         });
     }
-
-    // Semaphore for rate limiting, with a maximum of 20 concurrent requests
     private final Semaphore semaphore = new Semaphore(20);
 
     /**
@@ -299,7 +286,43 @@ public class BillingServiceImpl implements BillingService {
     private void releaseSemaphore() {
         semaphore.release();
     }
+    /**
+     * Retrieves the price version based on the provided usage calculation DTO and time period.
+     *
+     * This method constructs a price query using the model type from the DTO, the given time period,
+     * a null cache status, and the output type. It then fetches the corresponding price configuration
+     * from the price cache service. If the price configuration is found, it extracts and returns the
+     * price version. If the configuration is null, a BillingException is thrown. If the retrieved
+     * object is not of the expected PriceConfig type, an error is logged, and the cache for the
+     * relevant model is refreshed.
+     *
+     * @param dto        The UsageCalculationDTO containing the model type information.
+     * @param timePeriod The time period for which the price configuration is to be retrieved.
+     * @return The price version from the retrieved price configuration.
+     * @throws BillingException If the price configuration is not found in the cache.
+     */
+    private Integer getPriceVersion(UsageCalculationDTO dto, String timePeriod) {
 
+        // Create a price query object for output
+        PriceQuery query = new PriceQuery(
+                dto.getModelType(),
+                timePeriod,
+                null,
+                OUTPUT_TYPE
+        );
+
+        PriceConfig config = priceCache.getPriceConfig(query);
+
+        if (config == null) {
+            throw new BillingException("Price config not found");
+        } else if (!(config instanceof PriceConfig)) {
+            log.error("refresh Cache config by ModelType: {}", dto.getModelType());
+            priceCache.refreshCacheByModel(dto.getModelType());
+        }
+        Integer cachedVersion =config.getVersion();
+        log.info("Output price config priceVersion: {}", cachedVersion);
+        return cachedVersion;
+    }
     /**
      * Converts a UsageCalculationDTO object to a UsageRecord entity.
      *
@@ -308,19 +331,15 @@ public class BillingServiceImpl implements BillingService {
      * @param outputCost The calculated output cost.
      * @return The converted UsageRecord entity.
      */
-    private UsageRecord convertToEntity(UsageCalculationDTO dto, BigDecimal inputCost, BigDecimal outputCost) {
+    private UsageRecord convertToEntity(UsageCalculationDTO dto, BigDecimal inputCost, BigDecimal outputCost, String userId,String timePeriod) {
         UsageRecord record = new UsageRecord();
-        // Set the model ID (temporarily set to 1, can be modified according to actual situation)
-        record.setModelId(1);
-        // Set the chat completion ID
+        record.setModelType(dto.getModelType());
         record.setChatCompletionId(dto.getChatCompletionId());
-        // Set the input cost
+        record.setUserId(userId);
         record.setInputCost(inputCost);
-        // Set the output cost
         record.setOutputCost(outputCost);
-        // Set the price version (temporarily set to 1, can be modified according to actual situation)
-        record.setPriceVersion(1);
-        // Set the calculation time
+        Integer priceVersion=getPriceVersion(dto,timePeriod);
+        record.setPriceVersion(priceVersion);
         record.setCalculatedAt(LocalDateTime.now());
         return record;
     }

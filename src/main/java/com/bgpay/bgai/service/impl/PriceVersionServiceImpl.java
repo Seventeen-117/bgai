@@ -51,4 +51,9 @@ public class PriceVersionServiceImpl extends ServiceImpl<PriceVersionMapper, Pri
                 }
         );
     }
+
+    @Override
+    public Integer getCurrentVersion(String modelType) {
+        return 0;
+    }
 }

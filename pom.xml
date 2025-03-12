@@ -262,6 +262,10 @@
 			<artifactId>spring-statemachine-core</artifactId>
 			<version>3.2.1</version>
 		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.redisson/redisson-spring-boot-starter -->
 		<dependency>
 			<groupId>org.redisson</groupId>

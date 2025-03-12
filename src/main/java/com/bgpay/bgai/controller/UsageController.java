@@ -22,8 +22,8 @@ public class UsageController {
     private final UsageRecordMapper recordMapper;
 
     @PostMapping("/batch")
-    public ResponseEntity<Void> processBatch(@Valid @RequestBody BatchRequest request) {
-        billingService.processBatch(request.getRecords());
+    public ResponseEntity<Void> processBatch(@Valid @RequestBody BatchRequest request,String userId) {
+        billingService.processBatch(request.getRecords(),userId);
         return ResponseEntity.accepted().build();
     }
 

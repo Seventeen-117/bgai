@@ -1,6 +1,5 @@
 package com.bgpay.bgai.controller;
 
-import com.alibaba.dashscope.threads.runs.Usage;
 import com.bgpay.bgai.deepseek.DeepSeekService;
 import com.bgpay.bgai.deepseek.FileProcessor;
 import com.bgpay.bgai.entity.ApiConfig;
@@ -65,6 +64,12 @@ public class EnhancedChatController {
                     apiConfig.getApiKey(),
                     apiConfig.getModelName()
             );
+
+            recordUsageData(
+                    apiConfig.getModelName(),
+                    response.getUsage(),
+                    userId
+            );
             return ResponseEntity.ok(response);
         } catch (IllegalArgumentException e) {
             return errorResponse(400, e.getMessage());
@@ -112,17 +117,18 @@ public class EnhancedChatController {
         return ResponseEntity.status(code).body(chatResponse);
     }
 
-//    private void recordUsageData(String modelType, UsageInfo usage,
-//                                 String completionId, String userId) {
-//        // 2. 触发计费计算
-//        UsageCalculationDTO calculationDTO = new UsageCalculationDTO();
-//        calculationDTO.setChatCompletionId(completionId);
-//        calculationDTO.setModelType(modelType);
-//        calculationDTO.setPromptCacheHitTokens(usage.getPromptCacheHitTokens());
-//        calculationDTO.setPromptCacheMissTokens(usage.getPromptCacheMissTokens());
-//        calculationDTO.setCompletionTokens(usage.getCompletionTokens());
-//        calculationDTO.setCreatedAt(LocalDateTime.now());
-//
-//        billingService.processSingleRecord(calculationDTO);
-//    }
+    private void recordUsageData(String modelType, UsageInfo usage,
+                                 String userId) {
+        // 2. 触发计费计算
+        UsageCalculationDTO calculationDTO = new UsageCalculationDTO();
+        calculationDTO.setChatCompletionId(usage.getChatCompletionId());
+        calculationDTO.setModelType(modelType);
+        calculationDTO.setPromptCacheHitTokens(usage.getPromptCacheHitTokens());
+        calculationDTO.setPromptCacheMissTokens(usage.getPromptCacheMissTokens());
+        calculationDTO.setCompletionTokens(usage.getCompletionTokens());
+        calculationDTO.setCreatedAt(LocalDateTime.now());
+
+        billingService.processSingleRecord(calculationDTO,userId);
+    }
+
 }

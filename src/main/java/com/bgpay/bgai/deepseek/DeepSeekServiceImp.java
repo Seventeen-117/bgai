@@ -1,8 +1,11 @@
 package com.bgpay.bgai.deepseek;
 
 import com.bgpay.bgai.datasource.DS;
+import com.bgpay.bgai.entity.UsageCalculationDTO;
+import com.bgpay.bgai.entity.UsageRecord;
 import com.bgpay.bgai.response.ChatResponse;
 import com.bgpay.bgai.service.ChatCompletionsService;
+import com.bgpay.bgai.service.PriceVersionService;
 import com.bgpay.bgai.service.UsageInfoService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -28,8 +31,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -75,6 +80,9 @@ public class DeepSeekServiceImp implements DeepSeekService {
     // Service for handling usage information data
     @Autowired
     private UsageInfoService usageInfoService;
+
+    @Autowired
+    private PriceVersionService priceVersionService;
 
     // Executor for asynchronous requests
     @Autowired
@@ -173,6 +181,33 @@ public class DeepSeekServiceImp implements DeepSeekService {
         return chatResponse;
     }
 
+
+    private UsageRecord convertToEntity(UsageCalculationDTO dto,
+                                        BigDecimal inputCost,
+                                        BigDecimal outputCost) {
+        UsageRecord record = new UsageRecord();
+
+        // 根据模型类型获取当前价格版本
+        Integer currentVersion = priceVersionService
+                .getCurrentVersion(dto.getModelType());
+
+        record.setModelType(dto.getModelType());
+        record.setChatCompletionId(dto.getChatCompletionId());
+        record.setInputCost(inputCost);
+        record.setOutputCost(outputCost);
+        record.setPriceVersion(currentVersion);
+        record.setCalculatedAt(LocalDateTime.now());
+        return record;
+    }
+
+    private Integer getModelId(String modelType) {
+        // 实际应从数据库查询模型配置
+        Map<String, Integer> modelMap = Map.of(
+                "deepseek-chat", 1,
+                "deepseek-reasoner", 2
+        );
+        return modelMap.getOrDefault(modelType, 0);
+    }
     /**
      * Sanitize the input content by replacing special characters and truncating if necessary.
      *
@@ -448,6 +483,7 @@ public class DeepSeekServiceImp implements DeepSeekService {
         usage.setCompletionReasoningTokens(completionDetails.path("reasoning_tokens").asInt());
         usage.setPromptCacheHitTokens(usageNode.path(" prompt_cache_hit_tokens").asInt());
         usage.setPromptCacheMissTokens(usageNode.path("prompt_cache_miss_tokens").asInt());
+        usage.setCreatedAt(LocalDateTime.now());
         usage.setModelType(root.path("model").asText());
         return usage;
     }
