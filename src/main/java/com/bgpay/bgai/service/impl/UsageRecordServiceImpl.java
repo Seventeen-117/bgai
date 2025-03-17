@@ -22,7 +22,7 @@ public class UsageRecordServiceImpl extends ServiceImpl<UsageRecordMapper, Usage
     private UsageRecordMapper usageRecordMapper;
 
     @Override
-    public void insetUsageRecord(UsageRecord usageRecord) {
+    public void insertUsageRecord(UsageRecord usageRecord) {
         this.save(usageRecord);
     }
 
@@ -39,6 +39,6 @@ public class UsageRecordServiceImpl extends ServiceImpl<UsageRecordMapper, Usage
         // 查询满足条件的记录数量
         long count = usageRecordMapper.selectCount(queryWrapper);
         // 如果记录数量大于 0，则表示存在该记录
-        return count > 0;
+        return count >0;
     }
 }

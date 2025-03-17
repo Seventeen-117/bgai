@@ -1,17 +1,19 @@
-package com.bgpay.bgai.deepseek;
+package com.bgpay.bgai.service.deepseek;
 
 import com.bgpay.bgai.datasource.DS;
 import com.bgpay.bgai.entity.UsageCalculationDTO;
-import com.bgpay.bgai.entity.UsageRecord;
 import com.bgpay.bgai.response.ChatResponse;
+import com.bgpay.bgai.service.BillingService;
 import com.bgpay.bgai.service.ChatCompletionsService;
 import com.bgpay.bgai.service.PriceVersionService;
 import com.bgpay.bgai.service.UsageInfoService;
+import com.bgpay.bgai.service.impl.BillingMessageService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpPost;
@@ -31,10 +33,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -49,78 +49,65 @@ import static org.reflections.Reflections.log;
 @Component
 @Service
 public class DeepSeekServiceImp implements DeepSeekService {
-    // ObjectMapper instance configured to ignore unknown properties during deserialization
     private static final ObjectMapper mapper = new ObjectMapper()
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-    // Flag indicating whether to use streaming mode
     @Value("${stream:false}")
     private boolean stream;
 
-    // Maximum number of retries for failed requests
     @Value("${retry.count:5}")
     private int maxRetries;
 
-    // Initial delay in milliseconds before the first retry
     @Value("${retry.initial_delay:2000}")
     private long initialDelay;
 
-    // Backoff factor for exponential backoff between retries
     @Value("${retry.backoff_factor:1.5}")
     private double backoffFactor;
 
-    // Maximum length of the request content
     @Value("${max.request.length:8000}")
     private int maxRequestLength;
 
-    // Service for handling chat completions data
     @Autowired
     private ChatCompletionsService chatCompletionsService;
 
-    // Service for handling usage information data
     @Autowired
     private UsageInfoService usageInfoService;
 
-    @Autowired
-    private PriceVersionService priceVersionService;
+    private final MeterRegistry meterRegistry;
 
-    // Executor for asynchronous requests
+    private final BillingMessageService billingMessageService;
+
     @Autowired
     @Qualifier("asyncTaskExcutor")
     private Executor asyncRequestExecutor;
 
-    // HTTP client using connection pooling to improve throughput
+    @Autowired
+    private BillingService billingService;
+
     private final CloseableHttpClient httpClient;
 
-    // Number of CPU cores available on the system
     private static final int CPU_CORES = Runtime.getRuntime().availableProcessors();
 
-    // Scheduled executor service for retry tasks, configured based on CPU cores
     private final ScheduledExecutorService retryExecutor = new ScheduledThreadPoolExecutor(
             CPU_CORES * 2,
             new CustomThreadFactory("Retry-")
     );
 
-    // Concurrent map to cache asynchronous processing results and avoid memory leaks
     private final ConcurrentMap<String, CompletableFuture<String>> pendingRequests =
             new ConcurrentHashMap<>(1024);
 
-    /**
-     * Constructor for DeepSeekServiceImp, initializing the HTTP client with connection pooling.
-     *
-     * @param maxConn       Maximum number of total connections in the pool
-     * @param maxPerRoute   Maximum number of connections per route in the pool
-     */
     public DeepSeekServiceImp(
             @Value("${http.max.conn:500}") int maxConn,
-            @Value("${http.max.conn.per.route:50}") int maxPerRoute
+            @Value("${http.max.conn.per.route:50}") int maxPerRoute,
+            MeterRegistry meterRegistry,
+            BillingMessageService billingMessageService
     ) {
-        // Configure the connection pool manager
+        this.meterRegistry = meterRegistry;
+        this.billingMessageService = billingMessageService;
         PoolingHttpClientConnectionManager connManager = new PoolingHttpClientConnectionManager();
         connManager.setMaxTotal(maxConn);
         connManager.setDefaultMaxPerRoute(maxPerRoute);
 
-        // Build the HTTP client with the configured connection manager
         this.httpClient = HttpClients.custom()
                 .setConnectionManager(connManager)
                 .setKeepAliveStrategy((response, context) -> 60_000)
@@ -139,25 +126,18 @@ public class DeepSeekServiceImp implements DeepSeekService {
      * @return A ChatResponse object containing the response content and usage information
      */
     @DS("master")
-    public ChatResponse processRequest(String content, String apiUrl, String apiKey, String modelName) {
+    public ChatResponse processRequest(String content, String apiUrl, String apiKey, String modelName, String userId) {
         ChatResponse chatResponse = new ChatResponse();
         try {
-            // Sanitize the input content
             String processed = sanitizeContent(content);
-            // Build the request body
             String requestBody = buildRequest(processed, modelName);
-            // Execute the request with retry mechanism
             CompletableFuture<String> future = executeWithRetry(apiUrl, apiKey, requestBody);
-            // Wait for the CompletableFuture to complete and get the result
             String response = future.get();
 
-            // Save the completion data asynchronously
             saveCompletionDataAsync(response);
 
-            // Parse the JSON response
             JsonNode root = mapper.readTree(response);
 
-            // Extract the response content
             JsonNode choices = root.path("choices");
             if (!choices.isEmpty()) {
                 JsonNode message = choices.get(0).path("message");
@@ -166,19 +146,41 @@ public class DeepSeekServiceImp implements DeepSeekService {
                 }
             }
 
-            // Extract the usage information
             JsonNode usageNode = root.path("usage");
             if (!usageNode.isEmpty()) {
                 UsageInfo usage = extractUsageInfo(usageNode, root);
                 chatResponse.setUsage(usage);
+
+                // 请求成功后，异步发送消息
+                sendBillingMessageAsync(usage, modelName, userId);
             }
         } catch (Exception e) {
-            // Handle exceptions and set error response
             String errorMessage = "Processing failed: " + e.getMessage();
             chatResponse.setContent(buildErrorResponse(500, errorMessage));
             chatResponse.setUsage(new UsageInfo());
         }
         return chatResponse;
+    }
+
+
+    @Async("billingExecutor")
+    protected void sendBillingMessageAsync(UsageInfo usage, String modelName, String userId) {
+        UsageCalculationDTO calculationDTO = new UsageCalculationDTO();
+        calculationDTO.setChatCompletionId(usage.getChatCompletionId());
+        calculationDTO.setModelType(modelName);
+        calculationDTO.setPromptCacheHitTokens(usage.getPromptCacheHitTokens());
+        calculationDTO.setPromptCacheMissTokens(usage.getPromptCacheMissTokens());
+        calculationDTO.setCompletionTokens(usage.getCompletionTokens());
+        calculationDTO.setCreatedAt(LocalDateTime.now());
+        try {
+            billingMessageService.sendBillingMessage(calculationDTO, userId);
+            meterRegistry.counter("billing.message.sent").increment();
+        } catch (Exception e) {
+            log.error("Billing message sending failed. completionId: {}",
+                    calculationDTO.getChatCompletionId(), e);
+            meterRegistry.counter("billing.message.failed").increment();
+        }
+        billingService.processSingleRecord(calculationDTO, userId);
     }
 
     private String sanitizeContent(String content) {

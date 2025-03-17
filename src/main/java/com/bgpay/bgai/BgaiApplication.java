@@ -9,8 +9,10 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration;
 import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication(exclude = {
@@ -21,7 +23,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 })
 @EnableScheduling
 @Configuration
-@ComponentScan(basePackages = "com.bgpay.bgai")
+@EnableDiscoveryClient
+@MapperScan(basePackages = {"com.bgpay.bgai.mapper"})
+@EnableAspectJAutoProxy(proxyTargetClass = true)
+@ComponentScan(basePackages = {"org.apache.rocketmq.spring", "com.bgpay.bgai"})
 public class BgaiApplication {
 
 	private static final Logger logger = LoggerFactory.getLogger(BgaiApplication.class);

@@ -11,6 +11,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -18,6 +22,7 @@ import java.util.List;
 @RequestMapping("/api/usage")
 @RequiredArgsConstructor
 public class UsageController {
+    private final RocketMQTemplate rocketMQTemplate;
     private final BillingService billingService;
     private final UsageRecordMapper recordMapper;
 
@@ -39,5 +44,12 @@ public class UsageController {
                 pageInfo.getTotal(),
                 pageInfo.getPageNum(),
                 pageInfo.getPageSize());
+    }
+
+
+    @GetMapping("/send")
+    public String sendMessage() {
+        rocketMQTemplate.convertAndSend("test-topic", "Hello RocketMQ!");
+        return "Message sent!";
     }
 }

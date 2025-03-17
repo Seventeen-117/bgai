@@ -1,4 +1,4 @@
-package com.bgpay.bgai.deepseek;
+package com.bgpay.bgai.service.deepseek;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -1,6 +1,5 @@
 package com.bgpay.bgai.entity;
 
-import com.bgpay.bgai.entity.UsageCalculationDTO;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;

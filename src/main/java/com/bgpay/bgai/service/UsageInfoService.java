@@ -2,6 +2,7 @@ package com.bgpay.bgai.service;
 
 import com.bgpay.bgai.entity.UsageInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface UsageInfoService extends IService<UsageInfo> {
     public void insertUsageInfo(UsageInfo usageInfo);
 
     public List<UsageInfo> getUsageInfoByIds(List<Long> ids);
+
+    public boolean existsByCompletionId(@NotBlank String chatCompletionId);
 }

@@ -1,36 +1,50 @@
 package com.bgpay.bgai.datasource;
 
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
 import javax.sql.DataSource;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
 public class DataSourceConfig {
 
-    // 主数据源配置（使用Druid Starter的配置方式）
-    @Bean(name = "masterDataSource")
+    @Bean
     @ConfigurationProperties(prefix = "spring.datasource.dynamic.datasource.master")
-    public DataSource masterDataSource() {
-        return DruidDataSourceBuilder.create().build();
+    public DataSourceProperties masterDataSourceProperties() {
+        DataSourceProperties properties = new DataSourceProperties();
+        properties.setGenerateUniqueName(false); // 防止自动生成名称
+        return properties;
     }
 
-    // 动态数据源配置
+    @Bean(name = "masterDataSource")
+    public DataSource masterDataSource() {
+        // 显式验证驱动可用性
+        try {
+            DriverManager.getDriver(masterDataSourceProperties().getUrl());
+        } catch (SQLException e) {
+            throw new IllegalStateException("无法加载JDBC驱动: " + masterDataSourceProperties().getDriverClassName(), e);
+        }
+
+        return masterDataSourceProperties()
+                .initializeDataSourceBuilder()
+                .type(com.alibaba.druid.pool.DruidDataSource.class)
+                .build();
+    }
+
     @Primary
     @Bean(name = "dynamicDataSource")
-    public DataSource dynamicDataSource(
-            @Qualifier("masterDataSource") DataSource masterDataSource) {
-
+    public DataSource dynamicDataSource(@Qualifier("masterDataSource") DataSource masterDataSource) {
         DynamicDataSource dynamicDataSource = new DynamicDataSource();
         Map<Object, Object> targetDataSources = new HashMap<>();
         targetDataSources.put("master", masterDataSource);
-
         dynamicDataSource.setTargetDataSources(targetDataSources);
         dynamicDataSource.setDefaultTargetDataSource(masterDataSource);
         return dynamicDataSource;

@@ -1,4 +1,4 @@
-package com.bgpay.bgai.deepseek;
+package com.bgpay.bgai.service.deepseek;
 
 import com.bgpay.bgai.entity.MimeTypeConfig;
 import com.bgpay.bgai.service.impl.FileTypeService;

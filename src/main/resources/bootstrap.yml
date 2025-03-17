@@ -7,15 +7,9 @@ spring:
     nacos:
       config:
         server-addr: 8.133.246.113:8848
-        discovery:
-          server-addr: ${spring.cloud.nacos.config.server-addr}
-        config:
-          server-addr: ${spring.cloud.nacos.config.server-addr}
-          username: nacos
-          password: nacos
-          file-extension: yaml
-          group: DEFAULT_GROUP
-          refresh-enabled: true
-          token: SecretKey012345678901234567890123456789012345678901234567890123456789
-          namespace: d750d92e-152f-4055-a641-3bc9dda85a29
-
+        file-extension: yaml
+        group: DEFAULT_GROUP
+        refresh-enabled: true
+        namespace: d750d92e-152f-4055-a641-3bc9dda85a29
+      discovery:
+        server-addr: ${spring.cloud.nacos.config.server-addr}

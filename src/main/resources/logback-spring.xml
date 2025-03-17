@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <!-- 删除原有include，使用原生配置 -->
+    <!-- 基础配置 -->
     <property name="LOG_PATH" value="./logs" />
-    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
+    <property name="LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/> <!-- 简化时间格式，突出控制台可读性 -->
 
-    <!-- 控制台输出 -->
+    <!-- 控制台输出（重点：包含 Nacos 配置日志） -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>${LOG_PATTERN}</pattern>
@@ -12,30 +12,37 @@
         </encoder>
     </appender>
 
-    <!-- 文件输出 -->
+    <!-- 文件输出（可选，保留项目日志） -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_PATH}/app.log</file>
+        <file>${LOG_PATH}/app.log</file> <!-- 初始日志文件 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 滚动后文件名格式：app.2025-03-17.1.log.gz（当日志超过 maxFileSize 时增加序号） -->
             <fileNamePattern>${LOG_PATH}/app.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
-            <maxFileSize>100MB</maxFileSize>
-            <maxHistory>30</maxHistory>
-            <totalSizeCap>1GB</totalSizeCap>
+            <maxFileSize>100MB</maxFileSize> <!-- 单个文件超过 100MB 时滚动（必选） -->
+            <maxHistory>30</maxHistory>      <!-- 最多保留最近 30 天的日志文件 -->
+            <totalSizeCap>1GB</totalSizeCap>  <!-- 所有日志文件总大小不超过 1GB，超过则删除最旧的 -->
         </rollingPolicy>
         <encoder>
             <pattern>${LOG_PATTERN}</pattern>
-            <charset>UTF-8</charset>
         </encoder>
     </appender>
 
-    <!-- 日志级别配置 -->
-    <root level="INFO">
+    <!-- 🌟 Nacos 日志配置（关键） -->
+    <logger name="com.alibaba.nacos" level="INFO" additivity="false">
+        <appender-ref ref="CONSOLE" /> <!-- 仅输出到控制台 -->
+    </logger>
+    <logger name="com.alibaba.nacos.client.config" level="INFO" /> <!-- 配置加载核心日志 -->
+    <logger name="com.alibaba.nacos.client.naming" level="WARN" /> <!-- 命名空间日志设为 WARN 减少噪音 -->
+    <logger name="com.alibaba.nacos.client.health" level="OFF" /> <!-- 禁用健康检查冗余日志 -->
+
+    <!-- 项目日志 -->
+    <logger name="com.bgpay.bgai" level="DEBUG" additivity="false">
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="FILE" />
-    </root>
-
-    <!-- 项目包特殊配置 -->
-    <logger name="com.bgpay.bgai" level="DEBUG" additivity="false">
-        <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="FILE"/>
     </logger>
+
+    <!-- 根日志（默认级别） -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+    </root>
 </configuration>

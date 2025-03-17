@@ -1,7 +1,7 @@
 package com.bgpay.bgai.controller;
 
-import com.bgpay.bgai.deepseek.DeepSeekService;
-import com.bgpay.bgai.deepseek.FileProcessor;
+import com.bgpay.bgai.service.deepseek.DeepSeekService;
+import com.bgpay.bgai.service.deepseek.FileProcessor;
 import com.bgpay.bgai.entity.ApiConfig;
 import com.bgpay.bgai.entity.UsageCalculationDTO;
 import com.bgpay.bgai.entity.UsageInfo;
@@ -15,7 +15,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDateTime;
+
 
 @RestController
 @RequestMapping("/api")
@@ -23,17 +23,14 @@ public class EnhancedChatController {
     private final FileProcessor fileProcessor;
     private final ApiConfigService apiConfigService;
     private final DeepSeekService deepSeekService;
-    private final BillingService billingService;
 
     @Autowired
     public EnhancedChatController(FileProcessor fileProcessor,
                                   ApiConfigService apiConfigService,
-                                  DeepSeekService deepSeekService,
-                                  BillingService billingService) {
+                                  DeepSeekService deepSeekService) {
         this.fileProcessor = fileProcessor;
         this.apiConfigService = apiConfigService;
         this.deepSeekService = deepSeekService;
-        this.billingService = billingService;
     }
 
     @PostMapping(value = "/chat", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -46,30 +43,22 @@ public class EnhancedChatController {
             @RequestHeader("X-User-Id") String userId) {
 
         try {
-            // 参数校验
             if ((file == null || file.isEmpty()) && question.isBlank()) {
                 return errorResponse(400, "必须提供问题或文件");
             }
 
-            // 获取API配置
             ApiConfig apiConfig = resolveApiConfig(apiUrl, apiKey, modelName, userId);
 
-            // 构建请求内容
             String content = buildContent(file, question);
 
-            // 调用服务
             ChatResponse response = deepSeekService.processRequest(
                     content,
                     apiConfig.getApiUrl(),
                     apiConfig.getApiKey(),
-                    apiConfig.getModelName()
-            );
-
-            recordUsageData(
                     apiConfig.getModelName(),
-                    response.getUsage(),
                     userId
             );
+
             return ResponseEntity.ok(response);
         } catch (IllegalArgumentException e) {
             return errorResponse(400, e.getMessage());
@@ -115,20 +104,6 @@ public class EnhancedChatController {
         chatResponse.setContent(errorJson);
         chatResponse.setUsage(new UsageInfo());
         return ResponseEntity.status(code).body(chatResponse);
-    }
-
-    private void recordUsageData(String modelType, UsageInfo usage,
-                                 String userId) {
-        // 2. 触发计费计算
-        UsageCalculationDTO calculationDTO = new UsageCalculationDTO();
-        calculationDTO.setChatCompletionId(usage.getChatCompletionId());
-        calculationDTO.setModelType(modelType);
-        calculationDTO.setPromptCacheHitTokens(usage.getPromptCacheHitTokens());
-        calculationDTO.setPromptCacheMissTokens(usage.getPromptCacheMissTokens());
-        calculationDTO.setCompletionTokens(usage.getCompletionTokens());
-        calculationDTO.setCreatedAt(LocalDateTime.now());
-
-        billingService.processSingleRecord(calculationDTO,userId);
     }
 
 }
