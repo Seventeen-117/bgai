@@ -3,11 +3,9 @@ package com.bgpay.bgai.controller;
 import com.bgpay.bgai.service.deepseek.DeepSeekService;
 import com.bgpay.bgai.service.deepseek.FileProcessor;
 import com.bgpay.bgai.entity.ApiConfig;
-import com.bgpay.bgai.entity.UsageCalculationDTO;
 import com.bgpay.bgai.entity.UsageInfo;
 import com.bgpay.bgai.response.ChatResponse;
 import com.bgpay.bgai.service.ApiConfigService;
-import com.bgpay.bgai.service.BillingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +38,7 @@ public class EnhancedChatController {
             @RequestParam(value = "apiUrl", required = false) String apiUrl,
             @RequestParam(value = "apiKey", required = false) String apiKey,
             @RequestParam(value = "modelName", required = false) String modelName,
+            @RequestParam(value = "multiTurn", defaultValue = "false") boolean multiTurn,
             @RequestHeader("X-User-Id") String userId) {
 
         try {
@@ -49,14 +48,15 @@ public class EnhancedChatController {
 
             ApiConfig apiConfig = resolveApiConfig(apiUrl, apiKey, modelName, userId);
 
-            String content = buildContent(file, question);
+            String content = buildContent(file, question, multiTurn);
 
             ChatResponse response = deepSeekService.processRequest(
                     content,
                     apiConfig.getApiUrl(),
                     apiConfig.getApiKey(),
                     apiConfig.getModelName(),
-                    userId
+                    userId,
+                    multiTurn
             );
 
             return ResponseEntity.ok(response);
@@ -86,13 +86,16 @@ public class EnhancedChatController {
         return dbConfig;
     }
 
-    private String buildContent(MultipartFile file, String question) throws Exception {
+    private String buildContent(MultipartFile file, String question, boolean multiTurn) throws Exception {
         StringBuilder content = new StringBuilder();
+
+        // 无论是否多轮对话都处理文件内容
         if (file != null && !file.isEmpty()) {
             content.append("【文件内容】\n")
                     .append(fileProcessor.processFile(file))
                     .append("\n\n");
         }
+
         content.append("【用户提问】").append(question);
         return content.toString();
     }

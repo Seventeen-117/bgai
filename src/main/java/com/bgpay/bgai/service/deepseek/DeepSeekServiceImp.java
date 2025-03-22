@@ -3,15 +3,14 @@ package com.bgpay.bgai.service.deepseek;
 import com.bgpay.bgai.datasource.DS;
 import com.bgpay.bgai.entity.UsageCalculationDTO;
 import com.bgpay.bgai.response.ChatResponse;
-import com.bgpay.bgai.service.BillingService;
 import com.bgpay.bgai.service.ChatCompletionsService;
-import com.bgpay.bgai.service.PriceVersionService;
 import com.bgpay.bgai.service.UsageInfoService;
 import com.bgpay.bgai.service.impl.BillingMessageService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.apache.http.HttpResponse;
@@ -35,6 +34,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -78,11 +80,11 @@ public class DeepSeekServiceImp implements DeepSeekService {
     private final BillingMessageService billingMessageService;
 
     @Autowired
-    @Qualifier("asyncTaskExcutor")
-    private Executor asyncRequestExecutor;
+    private ConversationHistoryService historyService;
 
     @Autowired
-    private BillingService billingService;
+    @Qualifier("asyncTaskExcutor")
+    private Executor asyncRequestExecutor;
 
     private final CloseableHttpClient httpClient;
 
@@ -92,9 +94,6 @@ public class DeepSeekServiceImp implements DeepSeekService {
             CPU_CORES * 2,
             new CustomThreadFactory("Retry-")
     );
-
-    private final ConcurrentMap<String, CompletableFuture<String>> pendingRequests =
-            new ConcurrentHashMap<>(1024);
 
     public DeepSeekServiceImp(
             @Value("${http.max.conn:500}") int maxConn,
@@ -126,14 +125,37 @@ public class DeepSeekServiceImp implements DeepSeekService {
      * @return A ChatResponse object containing the response content and usage information
      */
     @DS("master")
-    public ChatResponse processRequest(String content, String apiUrl, String apiKey, String modelName, String userId) {
+    public ChatResponse processRequest(String content,
+                                       String apiUrl,
+                                       String apiKey,
+                                       String modelName,
+                                       String userId,
+                                       boolean multiTurn) {
         ChatResponse chatResponse = new ChatResponse();
         try {
-            String processed = sanitizeContent(content);
-            String requestBody = buildRequest(processed, modelName);
+            List<Map<String, Object>> history = multiTurn ?
+                    historyService.getValidHistory(userId) :
+                    new ArrayList<>();
+
+            // 创建当前用户消息（始终包含最新内容）
+            Map<String, Object> currentMessage = createMessage("user", content);
+
+            // 构建完整消息序列 = 历史记录 + 当前消息
+            List<Map<String, Object>> messagesForRequest = new ArrayList<>(history);
+            messagesForRequest.add(currentMessage);
+
+            // 构建请求
+            String requestBody = buildRequest(messagesForRequest, modelName);
             CompletableFuture<String> future = executeWithRetry(apiUrl, apiKey, requestBody);
             String response = future.get();
 
+            if (multiTurn) {
+                String assistantContent = extractContent(response);
+
+                // 保存完整的交互记录（包含文件内容）
+                historyService.addMessage(userId, "user", content);  // 包含文件内容的问题
+                historyService.addMessage(userId, "assistant", assistantContent);
+            }
             saveCompletionDataAsync(response);
 
             JsonNode root = mapper.readTree(response);
@@ -161,7 +183,18 @@ public class DeepSeekServiceImp implements DeepSeekService {
         }
         return chatResponse;
     }
+    private Map<String, Object> createMessage(String role, String content) {
+        return Map.of(
+                "role", role,
+                "content", sanitizeContent(content),
+                "timestamp", System.currentTimeMillis()
+        );
+    }
 
+    private String extractContent(String response) throws JsonProcessingException {
+        JsonNode root = mapper.readTree(response);
+        return root.at("/choices/0/message/content").asText();
+    }
 
     @Async("billingExecutor")
     protected void sendBillingMessageAsync(UsageInfo usage, String modelName, String userId) {
@@ -180,7 +213,6 @@ public class DeepSeekServiceImp implements DeepSeekService {
                     calculationDTO.getChatCompletionId(), e);
             meterRegistry.counter("billing.message.failed").increment();
         }
-        billingService.processSingleRecord(calculationDTO, userId);
     }
 
     private String sanitizeContent(String content) {
@@ -193,23 +225,36 @@ public class DeepSeekServiceImp implements DeepSeekService {
     /**
      * Build the request body in JSON format.
      *
-     * @param message   The sanitized message content
      * @param modelName The name of the model
      * @return The JSON string of the request body
      * @throws JsonProcessingException if there is an error in JSON processing
      */
-    private String buildRequest(String message, String modelName) throws JsonProcessingException {
+    private String buildRequest(List<Map<String, Object>> history, String modelName)
+            throws JsonProcessingException {
         ObjectNode requestNode = mapper.createObjectNode();
         requestNode.put("model", modelName);
         requestNode.put("stream", this.stream);
 
-        ObjectNode messageNode = mapper.createObjectNode();
-        messageNode.put("role", "user");
-        messageNode.put("content", message);
+        ArrayNode messages = requestNode.putArray("messages");
 
-        requestNode.putArray("messages").add(messageNode);
+        // 自动携带最近的附件信息
+        history.forEach(msg -> {
+            ObjectNode msgNode = mapper.createObjectNode();
+            msgNode.put("role", (String) msg.get("role"));
+
+            // 对含附件的消息添加标记
+            String content = (String) msg.get("content");
+            if ((boolean)msg.getOrDefault("hasAttachment", false)) {
+                content += "\n[包含附件信息]";
+            }
+
+            msgNode.put("content", content);
+            messages.add(msgNode);
+        });
+
         return mapper.writeValueAsString(requestNode);
     }
+
 
     /**
      * Execute the request with a retry mechanism.

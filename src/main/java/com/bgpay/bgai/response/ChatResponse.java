@@ -7,7 +7,7 @@ import lombok.Data;
 import java.util.UUID;
 
 @Data
-public class ChatResponse {
+public final class ChatResponse {
     private String content;
     private UsageInfo usage;
 }

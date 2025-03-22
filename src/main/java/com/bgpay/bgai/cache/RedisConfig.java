@@ -14,7 +14,6 @@ import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
@@ -31,7 +30,7 @@ public class RedisConfig {
                 .activateDefaultTyping( // 关键：启用类型信息
                         LaissezFaireSubTypeValidator.instance,
                         ObjectMapper.DefaultTyping.NON_FINAL,
-                        JsonTypeInfo.As.PROPERTY
+                        com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY
                 );
     }
 
@@ -55,8 +54,7 @@ public class RedisConfig {
     @Bean
     public RedisTemplate<String, Object> redisTemplate(
             RedisConnectionFactory connectionFactory,
-            ObjectMapper objectMapper
-    ) {
+            ObjectMapper objectMapper) {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(connectionFactory);
         template.setKeySerializer(new StringRedisSerializer());

@@ -12,7 +12,4 @@ public class BillingException extends RuntimeException {
         super(message);
     }
 
-    public BillingException() {
-
-    }
 }

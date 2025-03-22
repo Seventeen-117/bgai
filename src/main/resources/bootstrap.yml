@@ -13,3 +13,5 @@ spring:
         namespace: d750d92e-152f-4055-a641-3bc9dda85a29
       discovery:
         server-addr: ${spring.cloud.nacos.config.server-addr}
+        metadata:
+          flink-version: 1.18.0  # 自定义元数据

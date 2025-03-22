@@ -20,14 +20,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class BillingMessageService {
     private final RocketMQTemplate rocketMQTemplate;
-    private static final String BILLING_TOPIC = "BILLING_TOPIC";
-    private static final String BILLING_TAG = "USER_BILLING";
+    private static final String BILLING_DESTINATION = "BILLING_TOPIC:USER_BILLING";
 
     @Retryable(maxAttempts = 3, backoff = @Backoff(delay = 1000))
     public void sendBillingMessage(UsageCalculationDTO dto, String userId) {
         Message<UsageCalculationDTO> message = buildMessage(dto, userId);
         TransactionSendResult result = rocketMQTemplate.sendMessageInTransaction(
-                BILLING_TOPIC,
+                BILLING_DESTINATION,  // 使用包含 tag 的 destination
                 message,
                 dto.getChatCompletionId()
         );
@@ -41,7 +40,6 @@ public class BillingMessageService {
     private Message<UsageCalculationDTO> buildMessage(UsageCalculationDTO dto, String userId) {
         return MessageBuilder.withPayload(dto)
                 .setHeader(RocketMQHeaders.KEYS, dto.getChatCompletionId())
-                .setHeader(RocketMQHeaders.TAGS, BILLING_TAG)
                 .setHeader("USER_ID", userId)
                 .build();
     }

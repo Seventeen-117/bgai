@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @TableName("usage_info")
 @ApiModel(value = "UsageInfo对象", description = "")
-public class UsageInfo {
+public final class UsageInfo {
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
