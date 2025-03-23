@@ -320,4 +320,41 @@ public class FileProcessor {
             );
         }
     }
+
+    public String processFile(File file, String contentType) throws Exception {
+        // 验证文件类型（新增方法）
+        String validContentType = validateFileType(file, file.getName(), contentType);
+
+        return switch (contentType.toLowerCase()) {
+            case "image/png", "image/jpeg", "image/tiff", "image/bmp", "image/gif" -> processImage(file);
+            case "application/pdf" -> processPDF(file);
+            case "application/vnd.openxmlformats-officedocument.wordprocessingml.document" -> processDocx(file);
+            case "application/vnd.ms-excel" -> processExcel(file, false);
+            case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" -> processExcel(file, true);
+            case "application/vnd.ms-powerpoint" -> processPresentation(file, false);
+            case "application/vnd.openxmlformats-officedocument.presentationml.presentation" -> processPresentation(file, true);
+            case "video/mp4", "video/quicktime" -> processVideo(file);
+            // 新增文本类文件处理
+            case "text/x-python", "application/javascript", "application/typescript", "text/x-ruby", "text/x-perl",
+                 "text/x-sh", "application/powershell", "text/html", "application/xml", "application/xslt+xml",
+                 "text/markdown", "text/x-java-source", "text/x-c", "text/x-c++", "text/x-csharp",
+                 "application/x-php", "text/x-go", "text/x-rust", "text/x-swift", "text/plain",
+                 "application/x-win-registry", "application/json", "text/yaml", "text/x-properties",
+                 "text/css", "application/sql", "text/x-makefile", "text/x-asm", "application/coffeescript",
+                 "application/dart", "text/x-erlang", "text/x-fortran", "text/x-groovy", "text/x-haskell",
+                 "text/x-lua", "text/x-objective-c", "text/x-pascal", "text/x-scala", "text/x-vhdl",
+                 "text/x-verilog" -> processTextFile(file);
+            default -> throw new IllegalArgumentException("不支持的文件类型: " + validContentType);
+        };
+    }
+
+    private String validateFileType(File file, String filename, String contentType) {
+        String extension = getFileExtension(filename);
+        MimeTypeConfig config = fileTypeService.getExtensionToMimeTypeConfig().get(extension);
+
+        if (config != null && !config.getMimeType().equalsIgnoreCase(contentType)) {
+            throw new IllegalArgumentException("文件类型不匹配");
+        }
+        return contentType;
+    }
 }

@@ -1,1031 +1,101 @@
-00:02:19.642 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-00:02:19.647 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-00:02:19.657 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-00:02:19.657 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-00:02:19.657 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-00:02:19.663 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-00:07:19.328 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-00:07:19.329 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-00:07:19.338 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-00:07:19.338 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-00:07:19.338 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-00:07:19.345 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-00:12:19.351 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-00:12:19.352 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-00:12:19.361 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-00:12:19.361 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-00:12:19.361 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-00:12:19.367 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-00:17:19.342 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-00:17:19.342 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-00:17:19.349 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-00:17:19.350 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-00:17:19.350 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-00:17:19.355 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-00:22:19.348 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-00:22:19.348 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-00:22:19.357 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-00:22:19.357 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-00:22:19.357 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-00:22:19.364 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-00:27:19.346 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-00:27:19.346 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-00:27:19.354 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-00:27:19.354 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-00:27:19.354 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-00:27:19.360 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-00:32:19.336 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-00:32:19.337 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-00:32:19.345 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-00:32:19.346 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-00:32:19.346 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-00:32:19.353 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-00:37:19.320 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-00:37:19.320 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-00:37:19.331 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-00:37:19.332 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-00:37:19.332 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-00:37:19.341 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-00:42:19.323 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-00:42:19.323 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-00:42:19.332 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-00:42:19.332 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-00:42:19.332 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-00:42:19.338 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-00:47:19.341 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-00:47:19.342 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-00:47:19.351 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-00:47:19.352 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-00:47:19.352 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-00:47:19.358 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-00:52:19.348 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-00:52:19.348 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-00:52:19.357 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-00:52:19.358 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-00:52:19.358 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-00:52:19.364 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-00:57:19.342 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-00:57:19.342 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-00:57:19.351 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-00:57:19.352 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-00:57:19.352 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-00:57:19.359 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:58.640 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:58.641 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:58.695 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:58.695 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:58.695 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:58.716 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:58.716 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:58.717 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:58.728 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:58.728 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:58.728 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:58.735 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:58.735 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:58.735 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:58.752 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:58.752 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:58.752 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:58.758 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:58.759 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:58.759 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:58.769 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:58.769 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:58.770 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:58.776 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:58.777 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:58.777 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:58.787 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:58.787 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:58.787 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:58.793 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:58.793 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:58.793 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:58.801 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:58.801 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:58.801 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:58.806 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:58.807 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:58.807 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:58.815 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:58.815 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:58.816 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:58.821 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:58.822 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:58.822 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:58.830 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:58.831 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:58.831 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:58.839 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:58.840 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:58.840 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:58.849 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:58.850 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:58.850 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:58.855 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:58.855 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:58.856 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:58.865 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:58.866 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:58.866 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:58.874 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:58.874 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:58.874 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:58.882 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:58.884 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:58.884 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:58.891 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:58.891 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:58.891 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:58.898 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:58.899 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:58.899 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:58.906 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:58.906 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:58.906 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:58.914 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:58.914 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:58.914 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:58.919 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:58.919 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:58.920 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:58.926 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:58.927 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:58.927 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:58.936 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:58.936 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:58.936 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:58.943 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:58.944 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:58.944 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:58.949 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:58.949 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:58.949 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:58.956 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:58.956 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:58.956 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:58.961 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:58.961 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:58.961 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:58.968 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:58.968 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:58.968 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:58.976 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:58.976 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:58.976 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:58.983 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:58.984 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:58.984 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:58.991 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:58.991 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:58.991 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:58.997 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:58.998 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:58.998 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.002 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.003 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.003 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.010 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.010 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.010 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.018 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.018 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.019 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.027 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.028 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.028 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.032 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.033 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.033 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.041 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.041 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.042 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.047 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.047 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.047 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.054 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.054 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.054 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.058 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.059 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.059 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.066 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.067 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.067 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.071 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.072 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.072 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.078 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.078 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.078 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.083 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.083 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.084 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.090 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.091 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.091 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.095 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.096 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.096 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.102 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.102 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.102 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.106 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.107 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.107 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.113 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.114 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.114 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.119 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.119 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.119 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.127 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.127 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.127 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.132 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.132 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.133 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.140 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.140 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.140 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.145 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.145 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.145 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.152 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.153 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.153 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.162 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.162 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.162 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.169 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.170 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.170 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.177 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.177 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.177 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.184 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.184 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.184 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.189 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.189 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.189 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.204 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.204 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.204 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.216 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.216 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.216 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.224 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.224 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.224 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.230 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.231 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.231 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.248 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.249 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.249 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.254 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.254 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.255 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.260 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.260 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.260 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.266 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.267 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.268 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.281 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.282 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.282 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.300 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.301 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.302 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.311 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.312 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.312 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.325 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.326 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.326 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.336 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.337 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.337 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.354 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.355 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.355 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.369 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.370 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.370 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.378 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.378 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.379 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.390 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.390 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.391 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.395 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.396 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.396 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.403 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.404 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.404 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.409 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.410 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.410 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.418 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.418 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.418 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.423 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.423 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.424 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.430 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.431 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.431 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.436 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.437 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.437 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.447 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.447 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.447 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.452 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.453 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.453 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.461 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.461 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.461 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.466 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.467 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.467 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.474 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.474 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.474 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.481 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.481 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.482 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.490 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.490 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.490 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.495 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.496 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.496 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.503 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.503 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.503 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.508 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.509 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.509 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.516 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.517 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.517 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.522 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.523 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.523 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.530 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.530 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.530 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.536 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.536 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.536 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.543 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.543 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.543 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.549 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.549 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.549 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.555 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.555 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.555 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.560 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.561 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.561 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.567 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.567 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.567 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.572 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.573 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.573 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.579 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.579 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.579 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.584 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.585 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.585 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.593 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.593 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.593 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.596 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.597 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.597 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.609 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.609 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.609 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.616 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.616 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.616 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.624 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.624 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.624 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.629 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.630 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.630 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.637 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.637 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.637 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.642 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.642 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.642 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.647 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.648 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.648 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.653 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.653 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.653 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.662 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.663 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.663 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.668 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.668 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.668 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.675 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.676 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.676 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.681 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.682 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.682 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.690 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.691 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.691 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.699 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.700 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.700 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.706 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.707 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.707 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.714 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.714 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.715 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.721 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.721 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.721 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.726 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.726 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.727 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.734 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.734 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.735 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.739 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.740 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.740 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.748 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.749 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.749 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.754 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.755 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.755 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.761 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.762 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.762 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.766 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.766 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.766 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.771 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.772 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.772 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.777 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.777 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.777 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.784 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.785 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.785 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.790 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.791 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.791 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.803 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.804 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.804 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.811 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.811 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.812 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.819 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.820 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.820 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.825 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.825 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.825 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.830 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.830 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.830 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.837 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.837 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.837 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.843 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.843 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.843 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.849 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.849 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.849 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.855 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.856 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.856 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.861 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.861 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.861 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.868 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.869 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.869 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.874 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.875 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.875 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.884 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.884 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.885 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.890 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.890 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.890 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.897 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.898 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.898 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.903 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.904 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.904 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.910 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.911 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.911 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.926 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.926 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.927 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.933 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.933 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.933 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.938 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.939 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.939 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.946 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.946 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.946 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.952 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.953 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.953 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.961 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.961 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.961 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.966 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.966 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.966 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.973 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.973 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.973 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.978 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.978 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.978 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.984 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.985 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.985 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:14:59.990 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:14:59.990 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:14:59.990 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:14:59.996 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:14:59.997 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:14:59.997 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:15:00.001 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:15:00.001 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:15:00.001 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:15:00.007 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:15:00.008 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:15:00.008 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:15:00.013 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:15:00.013 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:15:00.013 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:15:00.019 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:15:00.020 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:15:00.020 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:15:00.025 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:15:00.025 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:15:00.025 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:15:00.031 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:15:00.032 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:15:00.032 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:15:00.036 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:15:00.036 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:15:00.036 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:15:00.042 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:15:00.043 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:15:00.043 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:15:00.047 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:15:00.047 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:15:00.047 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:15:00.055 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:15:00.055 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:15:00.055 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:15:00.060 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:15:00.060 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:15:00.061 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:15:00.068 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:15:00.068 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:15:00.068 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:15:00.073 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:15:00.073 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:15:00.074 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:15:00.080 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:15:00.080 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:15:00.080 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:15:00.084 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:15:00.085 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:15:00.085 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:15:00.091 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:15:00.091 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:15:00.091 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:15:00.095 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:15:00.096 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:15:00.096 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:15:00.102 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:15:00.102 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:15:00.102 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:15:00.107 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:15:00.108 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:15:00.108 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:15:00.115 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:15:00.115 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:15:00.116 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:15:00.120 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:15:00.121 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:15:00.121 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:15:00.128 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:15:00.128 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:15:00.128 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:15:00.134 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:15:00.136 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:15:00.137 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:15:00.144 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:15:00.144 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:15:00.145 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:15:00.150 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:15:00.150 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:15:00.150 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:15:00.158 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:15:00.158 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:15:00.158 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:15:00.163 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:15:00.163 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:15:00.163 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:15:00.170 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:15:00.170 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:15:00.170 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:15:00.174 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:15:00.175 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:15:00.175 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:15:00.182 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:15:00.182 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:15:00.182 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:15:00.188 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:15:00.188 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:15:00.188 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:15:00.195 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:15:00.195 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:15:00.195 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:15:00.198 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:15:00.199 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:15:00.199 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:15:00.206 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:15:00.207 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:15:00.207 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:15:00.213 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:15:00.213 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:15:00.213 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:15:00.220 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:15:00.220 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:15:00.220 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:15:00.227 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:15:00.227 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:15:00.227 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:15:00.233 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:15:00.233 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:15:00.234 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:15:00.239 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:15:00.239 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:15:00.239 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:15:00.245 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:15:00.246 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:15:00.246 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:15:00.251 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:15:00.251 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:15:00.251 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:15:00.260 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:15:00.261 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:15:00.261 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:15:00.266 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:15:00.266 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:15:00.267 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:15:00.273 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:15:00.274 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:15:00.274 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:15:00.279 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:15:00.280 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:15:00.280 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:15:00.287 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:15:00.288 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:15:00.288 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:15:00.293 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:15:00.294 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:15:00.294 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:15:00.299 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:15:00.300 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:15:00.300 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:15:00.305 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:15:00.305 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:15:00.305 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:15:00.311 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:15:00.312 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:15:00.312 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:15:00.318 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:17:18.295 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:17:18.296 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:17:18.302 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:17:18.303 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:17:18.303 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:17:18.308 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:22:19.297 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:22:19.297 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:22:19.307 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:22:19.307 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:22:19.307 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:22:19.315 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:27:19.289 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:27:19.289 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:27:19.297 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:27:19.297 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:27:19.297 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:27:19.303 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:32:19.276 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:32:19.276 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:32:19.285 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:32:19.286 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:32:19.286 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:32:19.292 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:37:19.217 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:37:19.218 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:37:19.226 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:37:19.226 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:37:19.226 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:37:19.233 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:42:19.198 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:42:19.198 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:42:19.209 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:42:19.209 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:42:19.209 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:42:19.223 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:47:20.178 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:47:20.179 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:47:20.186 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:47:20.187 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:47:20.187 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:47:20.193 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:52:19.140 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:52:19.140 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:52:19.149 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:52:19.149 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:52:19.149 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:52:19.155 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:57:19.110 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:57:19.110 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:57:19.117 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:57:19.117 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:57:19.118 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:57:19.124 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-11:02:19.108 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-11:02:19.108 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-11:02:19.116 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-11:02:19.116 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-11:02:19.117 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-11:02:19.123 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-11:07:19.068 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-11:07:19.068 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-11:07:19.076 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-11:07:19.077 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-11:07:19.077 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-11:07:19.083 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-11:12:19.058 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-11:12:19.058 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-11:12:19.066 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-11:12:19.067 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-11:12:19.067 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-11:12:19.072 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-11:17:19.032 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-11:17:19.032 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-11:17:19.039 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-11:17:19.039 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-11:17:19.040 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-11:17:19.045 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-11:22:19.030 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-11:22:19.030 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-11:22:19.038 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-11:22:19.038 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-11:22:19.038 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-11:22:19.044 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-11:27:19.025 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-11:27:19.025 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-11:27:19.032 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-11:27:19.032 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-11:27:19.033 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-11:27:19.038 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-11:32:19.018 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-11:32:19.018 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-11:32:19.028 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-11:32:19.029 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-11:32:19.029 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-11:32:19.036 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-11:37:18.980 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-11:37:18.980 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-11:37:18.987 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-11:37:18.987 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-11:37:18.987 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-11:37:18.993 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-11:42:18.998 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-11:42:18.998 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-11:42:19.004 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-11:42:19.005 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-11:42:19.005 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-11:42:19.012 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-11:47:18.997 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-11:47:18.997 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-11:47:19.006 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-11:47:19.006 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-11:47:19.006 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-11:47:19.012 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-11:52:18.962 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-11:52:18.962 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-11:52:18.970 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-11:52:18.970 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-11:52:18.971 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-11:52:18.975 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-11:57:18.963 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-11:57:18.963 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-11:57:18.971 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-11:57:18.972 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-11:57:18.972 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-11:57:18.977 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-12:02:18.957 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-12:02:18.957 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-12:02:18.964 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-12:02:18.964 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-12:02:18.964 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-12:02:18.971 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-12:07:18.961 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-12:07:18.961 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-12:07:18.968 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-12:07:18.968 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-12:07:18.968 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-12:07:18.974 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-16:04:02.183 [main] INFO  com.bgpay.bgai.BgaiApplication - The following 1 profile is active: "dev"
-16:04:04.403 [main] ERROR com.bgpay.bgai.BgaiApplication - Application startup failed
-org.springframework.context.ApplicationContextException: Unable to start web server
-	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:164)
-	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:610)
-	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
-	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:733)
-	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:435)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:311)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1301)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1290)
-	at com.bgpay.bgai.BgaiApplication.main(BgaiApplication.java:36)
-Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryConfiguration$EmbeddedTomcat': org/springframework/web/client/RestClient$Builder
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:605)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
-	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
-	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:412)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1332)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1162)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
-	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:204)
-	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.getWebServerFactory(ServletWebServerApplicationContext.java:218)
-	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.createWebServer(ServletWebServerApplicationContext.java:181)
-	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:161)
-	... 8 common frames omitted
-Caused by: java.lang.NoClassDefFoundError: org/springframework/web/client/RestClient$Builder
-	at org.springframework.cloud.client.loadbalancer.LoadBalancerRestClientBuilderBeanPostProcessor.postProcessBeforeInitialization(LoadBalancerRestClientBuilderBeanPostProcessor.java:46)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsBeforeInitialization(AbstractAutowireCapableBeanFactory.java:419)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1762)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:598)
-	... 25 common frames omitted
-Caused by: java.lang.ClassNotFoundException: org.springframework.web.client.RestClient$Builder
-	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641)
-	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188)
-	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:526)
-	... 29 common frames omitted
-16:05:15.461 [main] INFO  com.bgpay.bgai.BgaiApplication - The following 1 profile is active: "dev"
-16:05:17.368 [main] ERROR com.bgpay.bgai.BgaiApplication - Application startup failed
-org.springframework.context.ApplicationContextException: Unable to start web server
-	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:164)
-	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:610)
-	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
-	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:733)
-	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:435)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:311)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1301)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1290)
-	at com.bgpay.bgai.BgaiApplication.main(BgaiApplication.java:36)
-Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryConfiguration$EmbeddedTomcat': org/springframework/web/client/RestClient$Builder
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:605)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
-	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
-	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:412)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1332)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1162)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
-	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:204)
-	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.getWebServerFactory(ServletWebServerApplicationContext.java:218)
-	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.createWebServer(ServletWebServerApplicationContext.java:181)
-	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:161)
-	... 8 common frames omitted
-Caused by: java.lang.NoClassDefFoundError: org/springframework/web/client/RestClient$Builder
-	at org.springframework.cloud.client.loadbalancer.LoadBalancerRestClientBuilderBeanPostProcessor.postProcessBeforeInitialization(LoadBalancerRestClientBuilderBeanPostProcessor.java:46)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsBeforeInitialization(AbstractAutowireCapableBeanFactory.java:419)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1762)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:598)
-	... 25 common frames omitted
-Caused by: java.lang.ClassNotFoundException: org.springframework.web.client.RestClient$Builder
-	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641)
-	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188)
-	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:526)
-	... 29 common frames omitted
-16:07:11.290 [main] INFO  com.bgpay.bgai.BgaiApplication - The following 1 profile is active: "dev"
-16:07:13.288 [main] ERROR com.bgpay.bgai.BgaiApplication - Application startup failed
-org.springframework.context.ApplicationContextException: Unable to start web server
-	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:164)
-	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:610)
-	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
-	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:733)
-	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:435)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:311)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1301)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1290)
-	at com.bgpay.bgai.BgaiApplication.main(BgaiApplication.java:36)
-Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryConfiguration$EmbeddedTomcat': org/springframework/web/client/RestClient$Builder
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:605)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
-	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
-	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:412)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1332)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1162)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
-	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:204)
-	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.getWebServerFactory(ServletWebServerApplicationContext.java:218)
-	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.createWebServer(ServletWebServerApplicationContext.java:181)
-	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:161)
-	... 8 common frames omitted
-Caused by: java.lang.NoClassDefFoundError: org/springframework/web/client/RestClient$Builder
-	at org.springframework.cloud.client.loadbalancer.LoadBalancerRestClientBuilderBeanPostProcessor.postProcessBeforeInitialization(LoadBalancerRestClientBuilderBeanPostProcessor.java:46)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsBeforeInitialization(AbstractAutowireCapableBeanFactory.java:419)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1762)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:598)
-	... 25 common frames omitted
-Caused by: java.lang.ClassNotFoundException: org.springframework.web.client.RestClient$Builder
-	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641)
-	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188)
-	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:526)
-	... 29 common frames omitted
-16:07:54.464 [main] INFO  com.bgpay.bgai.BgaiApplicationTests - The following 1 profile is active: "dev"
-16:07:57.962 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-16:07:57.984 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-16:07:58.029 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-16:07:58.031 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-16:07:58.031 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-16:07:58.046 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-16:08:00.426 [main] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Billing consumer started successfully
-16:09:25.178 [main] INFO  com.bgpay.bgai.BgaiApplication - The following 1 profile is active: "dev"
-16:09:28.788 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-16:09:28.808 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-16:09:28.873 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-16:09:28.875 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-16:09:28.875 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-16:09:28.887 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-16:09:30.747 [main] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Billing consumer started successfully
-16:09:31.915 [main] ERROR com.bgpay.bgai.BgaiApplication - Application startup failed
-org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'compositeCompatibilityVerifier' defined in class path resource [org/springframework/cloud/configuration/CompatibilityVerifierAutoConfiguration.class]: Failed to instantiate [org.springframework.cloud.configuration.CompositeCompatibilityVerifier]: Factory method 'compositeCompatibilityVerifier' threw exception with message: Spring Cloud/ Spring Boot version compatibility checks have failed: [[VerificationResult@416c28e description = 'Spring Boot [3.0.12] is not compatible with this Spring Cloud release train', action = 'Change Spring Boot version to one of the following versions [3.2.x] .
-You can find the latest Spring Boot versions here [https://spring.io/projects/spring-boot#learn]. 
-If you want to learn more about the Spring Cloud Release train compatibility, you can visit this page [https://spring.io/projects/spring-cloud#overview] and check the [Release Trains] section.
-If you want to disable this check, just set the property [spring.cloud.compatibility-verifier.enabled=false]']]
-	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:654)
-	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:642)
+14:50:03.522 [main] INFO  com.bgpay.bgai.BgaiApplication - No active profile set, falling back to 1 default profile: "default"
+14:50:07.678 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+14:50:07.698 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+14:50:07.744 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+14:50:07.746 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+14:50:07.746 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+14:50:07.763 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+14:50:09.611 [main] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Billing consumer started successfully
+14:50:12.254 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 11.012 seconds (process running for 12.236)
+14:50:12.265 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+14:50:12.265 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+14:50:12.282 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+14:50:12.282 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+14:50:12.282 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+14:50:12.297 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+14:50:12.297 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+14:50:12.298 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+14:50:12.310 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+14:50:12.310 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+14:50:12.311 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+14:50:12.320 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+14:50:54.937 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - ==>  Preparing: SELECT id,api_url,api_key,model_name,user_id FROM api_config WHERE (user_id = ?) ORDER BY id DESC
+14:50:54.939 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - ==> Parameters: 689258T(String)
+14:50:54.959 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - <==      Total: 1
+14:52:14.801 [http-nio-8080-exec-2] DEBUG c.b.b.m.ChatCompletionsMapper.insert - ==>  Preparing: INSERT INTO chat_completions ( object, created, model, system_fingerprint, api_key ) VALUES ( ?, ?, ?, ?, ? )
+14:52:14.803 [http-nio-8080-exec-2] DEBUG c.b.b.m.ChatCompletionsMapper.insert - ==> Parameters: chat.completion(String), 1742712655(Long), deepseek-reasoner(String), fp_5417b77867_prod0225(String), 3575e6c4-5227-4f0b-972b-232c058a1d1d(String)
+14:52:14.824 [http-nio-8080-exec-2] DEBUG c.b.b.m.ChatCompletionsMapper.insert - <==    Updates: 1
+14:52:14.858 [ForkJoinPool.commonPool-worker-1] DEBUG c.b.b.mapper.UsageInfoMapper.insert - ==>  Preparing: INSERT INTO usage_info ( chat_completion_id, prompt_tokens, completion_tokens, total_tokens, prompt_tokens_cached, completion_reasoning_tokens, prompt_cache_hit_tokens, prompt_cache_miss_tokens, created_at, model_type ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
+14:52:14.860 [ForkJoinPool.commonPool-worker-1] DEBUG c.b.b.mapper.UsageInfoMapper.insert - ==> Parameters: 3575e6c4-5227-4f0b-972b-232c058a1d1d(String), 2599(Integer), 1600(Integer), 4199(Integer), 2560(Integer), 709(Integer), 0(Integer), 39(Integer), 2025-03-23T14:52:14.848751100(LocalDateTime), deepseek-reasoner(String)
+14:52:14.880 [ForkJoinPool.commonPool-worker-1] DEBUG c.b.b.mapper.UsageInfoMapper.insert - <==    Updates: 1
+14:52:14.981 [http-nio-8080-exec-2] DEBUG c.b.b.m.UsageInfoMapper.selectCount - ==>  Preparing: SELECT COUNT( * ) AS total FROM usage_info WHERE (chat_completion_id = ?)
+14:52:14.981 [http-nio-8080-exec-2] DEBUG c.b.b.m.UsageInfoMapper.selectCount - ==> Parameters: 3575e6c4-5227-4f0b-972b-232c058a1d1d(String)
+14:52:14.988 [http-nio-8080-exec-2] DEBUG c.b.b.m.UsageInfoMapper.selectCount - <==      Total: 1
+14:52:15.000 [http-nio-8080-exec-2] DEBUG c.b.b.s.impl.BillingMessageService - Billing message sent successfully: 3575e6c4-5227-4f0b-972b-232c058a1d1d
+14:52:15.275 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.PriceConfigMapper.selectList - ==>  Preparing: SELECT id,model_type,time_period,cache_status,io_type,price,version,effective_time FROM price_config WHERE (model_type = ? AND time_period = ? AND io_type = ? AND effective_time <= ? AND cache_status = ?) ORDER BY effective_time DESC LIMIT 1
+14:52:15.275 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.PriceConfigMapper.selectList - ==> Parameters: deepseek-reasoner(String), standard(String), input(String), 2025-03-23T14:52:15.274233200(LocalDateTime), miss(String)
+14:52:15.290 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.PriceConfigMapper.selectList - <==      Total: 1
+14:52:15.348 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.PriceConfigMapper.selectList - ==>  Preparing: SELECT id,model_type,time_period,cache_status,io_type,price,version,effective_time FROM price_config WHERE (model_type = ? AND time_period = ? AND io_type = ? AND effective_time <= ? AND cache_status IS NULL) ORDER BY effective_time DESC LIMIT 1
+14:52:15.349 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.PriceConfigMapper.selectList - ==> Parameters: deepseek-reasoner(String), standard(String), output(String), 2025-03-23T14:52:15.347623100(LocalDateTime)
+14:52:15.356 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.PriceConfigMapper.selectList - <==      Total: 1
+14:52:15.407 [ConsumeMessageThread_billing-consumer-group_1] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Output price config priceVersion: 1
+14:52:15.408 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.UsageRecordMapper.insert - ==>  Preparing: INSERT INTO usage_record ( model_type, chat_completion_id, user_id, input_cost, output_cost, price_version, calculated_at ) VALUES ( ?, ?, ?, ?, ?, ?, ? )
+14:52:15.409 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.UsageRecordMapper.insert - ==> Parameters: deepseek-reasoner(String), 3575e6c4-5227-4f0b-972b-232c058a1d1d(String), 689258T(String), 0.0002(BigDecimal), 0.0256(BigDecimal), 1(Integer), 2025-03-23T14:52:15.407941600(LocalDateTime)
+14:52:15.430 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.UsageRecordMapper.insert - <==    Updates: 1
+14:52:15.446 [ConsumeMessageThread_billing-consumer-group_1] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Message consumed successfully: 2408820C75288342610FFCFDE354093D812C36BAF30C747CC89F0000
+14:55:12.323 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+14:55:12.324 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+14:55:12.333 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+14:55:12.334 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+14:55:12.334 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+14:55:12.340 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+15:03:27.438 [main] INFO  com.bgpay.bgai.BgaiApplication - No active profile set, falling back to 1 default profile: "default"
+15:03:31.301 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+15:03:31.323 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+15:03:31.359 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+15:03:31.361 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+15:03:31.362 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+15:03:31.373 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+15:03:33.090 [main] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Billing consumer started successfully
+15:03:35.602 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 10.094 seconds (process running for 11.403)
+15:03:35.607 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+15:03:35.608 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+15:03:35.624 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+15:03:35.625 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+15:03:35.625 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+15:03:35.635 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+15:03:35.635 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+15:03:35.635 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+15:03:35.642 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+15:03:35.643 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+15:03:35.643 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+15:03:35.650 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+15:05:27.171 [main] INFO  com.bgpay.bgai.BgaiApplication - No active profile set, falling back to 1 default profile: "default"
+15:05:30.798 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+15:05:30.818 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+15:05:30.850 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+15:05:30.853 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+15:05:30.853 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+15:05:30.863 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+15:05:32.588 [main] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Billing consumer started successfully
+15:05:35.852 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 11.305 seconds (process running for 12.596)
+15:05:35.858 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+15:05:35.858 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+15:05:35.869 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+15:05:35.870 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+15:05:35.870 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+15:05:35.880 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+15:05:35.880 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+15:05:35.880 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+15:05:35.888 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+15:05:35.888 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+15:05:35.889 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+15:05:35.894 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+15:06:28.699 [main] INFO  com.bgpay.bgai.BgaiApplication - No active profile set, falling back to 1 default profile: "default"
+15:06:31.311 [main] ERROR com.bgpay.bgai.BgaiApplication - Application startup failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Unsatisfied dependency expressed through method 'dataSourceScriptDatabaseInitializer' parameter 0: Error creating bean with name 'dynamicDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Unsatisfied dependency expressed through method 'dynamicDataSource' parameter 0: Error creating bean with name 'masterDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Failed to instantiate [javax.sql.DataSource]: Factory method 'masterDataSource' threw exception with message: 无法加载JDBC驱动: null
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:801)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:545)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1332)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1162)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
@@ -1034,8 +104,10 @@ If you want to disable this check, just set the property [spring.cloud.compatibi
 	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
 	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
 	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
-	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:973)
-	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:950)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:312)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1166)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:940)
 	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:616)
 	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
 	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:733)
@@ -1044,20 +116,140 @@ If you want to disable this check, just set the property [spring.cloud.compatibi
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1301)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1290)
 	at com.bgpay.bgai.BgaiApplication.main(BgaiApplication.java:36)
-Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.springframework.cloud.configuration.CompositeCompatibilityVerifier]: Factory method 'compositeCompatibilityVerifier' threw exception with message: Spring Cloud/ Spring Boot version compatibility checks have failed: [[VerificationResult@416c28e description = 'Spring Boot [3.0.12] is not compatible with this Spring Cloud release train', action = 'Change Spring Boot version to one of the following versions [3.2.x] .
-You can find the latest Spring Boot versions here [https://spring.io/projects/spring-boot#learn]. 
-If you want to learn more about the Spring Cloud Release train compatibility, you can visit this page [https://spring.io/projects/spring-cloud#overview] and check the [Release Trains] section.
-If you want to disable this check, just set the property [spring.cloud.compatibility-verifier.enabled=false]']]
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dynamicDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Unsatisfied dependency expressed through method 'dynamicDataSource' parameter 0: Error creating bean with name 'masterDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Failed to instantiate [javax.sql.DataSource]: Factory method 'masterDataSource' threw exception with message: 无法加载JDBC驱动: null
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:801)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:545)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1332)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1162)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1417)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:910)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:788)
+	... 21 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'masterDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Failed to instantiate [javax.sql.DataSource]: Factory method 'masterDataSource' threw exception with message: 无法加载JDBC驱动: null
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:654)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:488)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1332)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1162)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1417)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:910)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:788)
+	... 35 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [javax.sql.DataSource]: Factory method 'masterDataSource' threw exception with message: 无法加载JDBC驱动: null
 	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:171)
 	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:650)
-	... 19 common frames omitted
-Caused by: org.springframework.cloud.configuration.CompatibilityNotMetException: Spring Cloud/ Spring Boot version compatibility checks have failed: [[VerificationResult@416c28e description = 'Spring Boot [3.0.12] is not compatible with this Spring Cloud release train', action = 'Change Spring Boot version to one of the following versions [3.2.x] .
-You can find the latest Spring Boot versions here [https://spring.io/projects/spring-boot#learn]. 
-If you want to learn more about the Spring Cloud Release train compatibility, you can visit this page [https://spring.io/projects/spring-cloud#overview] and check the [Release Trains] section.
-If you want to disable this check, just set the property [spring.cloud.compatibility-verifier.enabled=false]']]
-	at org.springframework.cloud.configuration.CompositeCompatibilityVerifier.verifyDependencies(CompositeCompatibilityVerifier.java:47)
-	at org.springframework.cloud.configuration.CompatibilityVerifierAutoConfiguration.compositeCompatibilityVerifier(CompatibilityVerifierAutoConfiguration.java:44)
+	... 49 common frames omitted
+Caused by: java.lang.IllegalStateException: 无法加载JDBC驱动: null
+	at com.bgpay.bgai.datasource.DataSourceConfig.masterDataSource(DataSourceConfig.java:33)
+	at com.bgpay.bgai.datasource.DataSourceConfig$$SpringCGLIB$$0.CGLIB$masterDataSource$2(<generated>)
+	at com.bgpay.bgai.datasource.DataSourceConfig$$SpringCGLIB$$FastClass$$1.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invokeSuper(MethodProxy.java:258)
+	at org.springframework.context.annotation.ConfigurationClassEnhancer$BeanMethodInterceptor.intercept(ConfigurationClassEnhancer.java:331)
+	at com.bgpay.bgai.datasource.DataSourceConfig$$SpringCGLIB$$0.masterDataSource(<generated>)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
 	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:139)
-	... 20 common frames omitted
+	... 50 common frames omitted
+Caused by: java.sql.SQLException: No suitable driver
+	at java.sql/java.sql.DriverManager.getDriver(DriverManager.java:300)
+	at com.bgpay.bgai.datasource.DataSourceConfig.masterDataSource(DataSourceConfig.java:31)
+	... 58 common frames omitted
+15:07:36.642 [main] INFO  com.bgpay.bgai.BgaiApplication - No active profile set, falling back to 1 default profile: "default"
+15:07:40.436 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+15:07:40.458 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+15:07:40.492 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+15:07:40.494 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+15:07:40.494 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+15:07:40.504 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+15:07:42.239 [main] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Billing consumer started successfully
+15:07:45.314 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 10.423 seconds (process running for 11.532)
+15:07:45.319 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+15:07:45.319 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+15:07:45.331 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+15:07:45.332 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+15:07:45.332 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+15:07:45.348 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+15:07:45.348 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+15:07:45.348 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+15:07:45.355 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+15:07:45.355 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+15:07:45.356 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+15:07:45.361 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+15:12:31.830 [main] INFO  com.bgpay.bgai.BgaiApplication - No active profile set, falling back to 1 default profile: "default"
+15:12:35.532 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+15:12:35.552 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+15:12:35.585 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+15:12:35.587 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+15:12:35.587 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+15:12:35.597 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+15:12:38.311 [main] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Billing consumer started successfully
+15:12:41.204 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 11.136 seconds (process running for 12.242)
+15:12:41.211 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+15:12:41.212 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+15:12:41.224 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+15:12:41.225 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+15:12:41.225 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+15:12:41.241 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+15:12:41.241 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+15:12:41.242 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+15:12:41.249 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+15:12:41.250 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+15:12:41.250 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+15:12:41.261 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+15:18:09.531 [main] INFO  com.bgpay.bgai.BgaiApplication - No active profile set, falling back to 1 default profile: "default"
+15:18:13.060 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+15:18:13.081 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+15:18:13.113 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+15:18:13.115 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+15:18:13.115 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+15:18:13.133 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+15:18:14.835 [main] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Billing consumer started successfully
+15:18:17.398 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 9.714 seconds (process running for 10.777)
+15:18:17.403 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+15:18:17.404 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+15:18:17.414 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+15:18:17.414 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+15:18:17.414 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+15:18:17.424 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+15:18:17.424 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+15:18:17.425 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+15:18:17.431 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+15:18:17.432 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+15:18:17.432 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+15:18:17.439 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+15:20:03.931 [main] INFO  com.bgpay.bgai.BgaiApplication - No active profile set, falling back to 1 default profile: "default"
+15:20:07.483 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+15:20:07.503 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+15:20:07.540 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+15:20:07.543 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+15:20:07.543 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+15:20:07.566 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+15:20:09.297 [main] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Billing consumer started successfully
+15:20:11.846 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 9.616 seconds (process running for 10.692)
+15:20:11.851 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+15:20:11.852 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+15:20:11.863 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+15:20:11.863 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+15:20:11.863 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+15:20:11.872 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+15:20:11.873 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+15:20:11.873 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+15:20:11.880 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+15:20:11.880 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+15:20:11.881 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+15:20:11.887 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52

@@ -14,4 +14,32 @@ spring:
       discovery:
         server-addr: ${spring.cloud.nacos.config.server-addr}
         metadata:
-          flink-version: 1.18.0  # 自定义元数据
+          flink-version: latest  # 自定义元数据
+    gateway:
+      httpclient:
+        connect-timeout: 10000
+        response-timeout: 120s
+      routes:
+        - id: chat-service
+          predicates:
+            - Path=/api/**
+          filters:
+            - StripPrefix=0
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 100
+                redis-rate-limiter.burstCapacity: 200
+            - name: CircuitBreaker
+              args:
+                name: deepseekCircuitBreaker
+                fallbackUri: forward:/fallback
+            - RewritePath=/api/(?<segment>.*), /$\{segment}  # 路径重写
+flink:
+  jobmanager:
+    host: 8.133.246.113
+    port: 8081
+
+deepseek:
+  api:
+    timeout: 120000  # 120秒超时
+    max-retries: 3    # 最大重试次数

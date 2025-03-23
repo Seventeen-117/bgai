@@ -24,15 +24,19 @@ import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import com.bgpay.bgai.entity.ChatCompletions;
 import com.bgpay.bgai.entity.UsageInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -94,6 +98,7 @@ public class DeepSeekServiceImp implements DeepSeekService {
             CPU_CORES * 2,
             new CustomThreadFactory("Retry-")
     );
+
 
     public DeepSeekServiceImp(
             @Value("${http.max.conn:500}") int maxConn,
@@ -183,6 +188,62 @@ public class DeepSeekServiceImp implements DeepSeekService {
         }
         return chatResponse;
     }
+
+    @Override
+    public Mono<ChatResponse> processRequestReactive(String content,
+                                                     String apiUrl,
+                                                     String apiKey,
+                                                     String modelName,
+                                                     String userId,
+                                                     boolean multiTurn) {
+        log.info("Calling DeepSeek API - URL: {}, Model: {}", apiUrl, modelName);
+        return WebClient.create(apiUrl)
+                .post()
+                .header("Authorization", "Bearer " + apiKey)
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(buildRequestJson(content, modelName, multiTurn,userId))
+                .retrieve()
+                .onStatus(
+                        status -> !status.is2xxSuccessful(),
+                        response -> {
+                            log.error("API returned error status: {}", response.statusCode());
+                            return response.bodyToMono(String.class)
+                                    .defaultIfEmpty("")
+                                    .flatMap(body -> Mono.error(new RuntimeException("API Error: " + body)));
+                        }
+                )
+                .bodyToMono(ChatResponse.class)
+                .timeout(Duration.ofSeconds(30))
+                .doOnNext(resp -> log.debug("API Response: {}", resp))
+                .onErrorResume(e -> {
+                    log.error("API call failed", e);
+                    return Mono.error(new RuntimeException("API调用失败: " + e.getMessage()));
+                });
+    }
+    private Map<String, Object> buildRequestJson(String content, String model, boolean multiTurn, String userId) {
+        List<Map<String, Object>> messages = new ArrayList<>();
+
+        if (multiTurn) {
+            // 添加历史消息
+            List<Map<String, Object>> history = historyService.getValidHistory(userId);
+            messages.addAll(history);
+        }
+
+        // 添加当前消息
+        messages.add(Map.of(
+                "role", "user",
+                "content", content
+        ));
+
+        return Map.of(
+                "model", model,
+                "messages", messages,
+                "stream", false,
+                "temperature", 0.7,
+                "max_tokens", 2000
+        );
+    }
+
     private Map<String, Object> createMessage(String role, String content) {
         return Map.of(
                 "role", role,
