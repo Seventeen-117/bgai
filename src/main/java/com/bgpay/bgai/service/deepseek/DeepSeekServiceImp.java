@@ -5,7 +5,8 @@ import com.bgpay.bgai.entity.UsageCalculationDTO;
 import com.bgpay.bgai.response.ChatResponse;
 import com.bgpay.bgai.service.ChatCompletionsService;
 import com.bgpay.bgai.service.UsageInfoService;
-import com.bgpay.bgai.service.impl.BillingMessageService;
+import com.bgpay.bgai.service.mq.MQCallback;
+import com.bgpay.bgai.service.mq.RocketMQProducerService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -15,9 +16,11 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.util.EntityUtils;
@@ -35,6 +38,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -81,16 +86,22 @@ public class DeepSeekServiceImp implements DeepSeekService {
 
     private final MeterRegistry meterRegistry;
 
-    private final BillingMessageService billingMessageService;
 
     @Autowired
     private ConversationHistoryService historyService;
 
     @Autowired
+    private FileWriterService fileWriterService;
+
+    @Autowired
     @Qualifier("asyncTaskExcutor")
     private Executor asyncRequestExecutor;
 
+    @Autowired
+    private RocketMQProducerService rocketMQProducer;
+
     private final CloseableHttpClient httpClient;
+
 
     private static final int CPU_CORES = Runtime.getRuntime().availableProcessors();
 
@@ -102,20 +113,30 @@ public class DeepSeekServiceImp implements DeepSeekService {
 
     public DeepSeekServiceImp(
             @Value("${http.max.conn:500}") int maxConn,
-            @Value("${http.max.conn.per.route:50}") int maxPerRoute,
-            MeterRegistry meterRegistry,
-            BillingMessageService billingMessageService
-    ) {
+            @Value("${http.max.conn.per.route:50}") int maxPerRoute, MeterRegistry meterRegistry) {
         this.meterRegistry = meterRegistry;
-        this.billingMessageService = billingMessageService;
-        PoolingHttpClientConnectionManager connManager = new PoolingHttpClientConnectionManager();
+
+
+        // 配置连接存活性检查
+        PoolingHttpClientConnectionManager connManager = new PoolingHttpClientConnectionManager(
+                30, TimeUnit.SECONDS // 存活时间
+        );
         connManager.setMaxTotal(maxConn);
         connManager.setDefaultMaxPerRoute(maxPerRoute);
+        connManager.setValidateAfterInactivity(30_000); // 30秒空闲检查
+
+        // 配置超时参数
+        RequestConfig requestConfig = RequestConfig.custom()
+                .setConnectTimeout(30_000)
+                .setSocketTimeout(60_000)
+                .build();
 
         this.httpClient = HttpClients.custom()
                 .setConnectionManager(connManager)
+                .setDefaultRequestConfig(requestConfig)
                 .setKeepAliveStrategy((response, context) -> 60_000)
-                .evictExpiredConnections()
+                .evictIdleConnections(60, TimeUnit.SECONDS)
+                .setRetryHandler(new DefaultHttpRequestRetryHandler(3, true)) // 请求重试
                 .build();
     }
 
@@ -137,6 +158,7 @@ public class DeepSeekServiceImp implements DeepSeekService {
                                        String userId,
                                        boolean multiTurn) {
         ChatResponse chatResponse = new ChatResponse();
+        String requestBody = "";
         try {
             List<Map<String, Object>> history = multiTurn ?
                     historyService.getValidHistory(userId) :
@@ -150,26 +172,24 @@ public class DeepSeekServiceImp implements DeepSeekService {
             messagesForRequest.add(currentMessage);
 
             // 构建请求
-            String requestBody = buildRequest(messagesForRequest, modelName);
+            requestBody = buildRequest(messagesForRequest, modelName);
             CompletableFuture<String> future = executeWithRetry(apiUrl, apiKey, requestBody);
             String response = future.get();
-
             if (multiTurn) {
                 String assistantContent = extractContent(response);
-
-                // 保存完整的交互记录（包含文件内容）
                 historyService.addMessage(userId, "user", content);  // 包含文件内容的问题
                 historyService.addMessage(userId, "assistant", assistantContent);
             }
             saveCompletionDataAsync(response);
-
             JsonNode root = mapper.readTree(response);
-
             JsonNode choices = root.path("choices");
             if (!choices.isEmpty()) {
                 JsonNode message = choices.get(0).path("message");
                 if (!message.isEmpty()) {
-                    chatResponse.setContent(message.path("content").asText());
+                    String responseContent = message.path("content").asText();
+                    chatResponse.setContent(responseContent);
+
+                    fileWriterService.writeContentAsync(responseContent);
                 }
             }
 
@@ -177,9 +197,34 @@ public class DeepSeekServiceImp implements DeepSeekService {
             if (!usageNode.isEmpty()) {
                 UsageInfo usage = extractUsageInfo(usageNode, root);
                 chatResponse.setUsage(usage);
+                UsageCalculationDTO calculationDTO = new UsageCalculationDTO();
+                calculationDTO.setChatCompletionId(usage.getChatCompletionId());
+                calculationDTO.setModelType(usage.getModelType());
+                calculationDTO.setPromptCacheHitTokens(usage.getPromptCacheHitTokens());
+                calculationDTO.setPromptCacheMissTokens(usage.getPromptCacheMissTokens());
+                calculationDTO.setCompletionTokens(usage.getCompletionTokens());
+                calculationDTO.setCreatedAt(LocalDateTime.now());
+                rocketMQProducer.sendBillingMessage(calculationDTO, userId);
+                String messageId = UUID.randomUUID().toString();
+                rocketMQProducer.sendChatLogAsync(
+                        messageId,
+                        requestBody,
+                        chatResponse,
+                        userId,
+                        new MQCallback() {
+                            @Override
+                            public void onSuccess(String msgId) {
+                                meterRegistry.counter("mq.message.success", "msgId", msgId).increment();
+                                log.info("Message {} 发送成功，执行清理操作", msgId);
+                            }
 
-                // 请求成功后，异步发送消息
-                sendBillingMessageAsync(usage, modelName, userId);
+                            @Override
+                            public void onFailure(String msgId, Throwable e) {
+                                meterRegistry.counter("mq.message.failure", "msgId", msgId).increment();
+                                log.error("Message {} 发送失败", msgId, e);
+                            }
+                        }
+                );
             }
         } catch (Exception e) {
             String errorMessage = "Processing failed: " + e.getMessage();
@@ -257,24 +302,6 @@ public class DeepSeekServiceImp implements DeepSeekService {
         return root.at("/choices/0/message/content").asText();
     }
 
-    @Async("billingExecutor")
-    protected void sendBillingMessageAsync(UsageInfo usage, String modelName, String userId) {
-        UsageCalculationDTO calculationDTO = new UsageCalculationDTO();
-        calculationDTO.setChatCompletionId(usage.getChatCompletionId());
-        calculationDTO.setModelType(modelName);
-        calculationDTO.setPromptCacheHitTokens(usage.getPromptCacheHitTokens());
-        calculationDTO.setPromptCacheMissTokens(usage.getPromptCacheMissTokens());
-        calculationDTO.setCompletionTokens(usage.getCompletionTokens());
-        calculationDTO.setCreatedAt(LocalDateTime.now());
-        try {
-            billingMessageService.sendBillingMessage(calculationDTO, userId);
-            meterRegistry.counter("billing.message.sent").increment();
-        } catch (Exception e) {
-            log.error("Billing message sending failed. completionId: {}",
-                    calculationDTO.getChatCompletionId(), e);
-            meterRegistry.counter("billing.message.failed").increment();
-        }
-    }
 
     private String sanitizeContent(String content) {
         return truncateUtf8(content
@@ -371,13 +398,21 @@ public class DeepSeekServiceImp implements DeepSeekService {
      */
     private String sendRequest(String apiUrl, String apiKey, String requestBody) throws IOException {
         HttpPost post = new HttpPost(apiUrl);
-        post.setHeader("Content-Type", "application/json; charset=UTF-8");
-        post.setHeader("Authorization", "Bearer " + apiKey);
-        post.setEntity(new StringEntity(requestBody, StandardCharsets.UTF_8));
+        try {
+            post.setHeader("Content-Type", "application/json; charset=UTF-8");
+            post.setHeader("Authorization", "Bearer " + apiKey);
+            post.setEntity(new StringEntity(requestBody, StandardCharsets.UTF_8));
 
-        try (CloseableHttpClient client = httpClient) {
-            HttpResponse response = client.execute(post);
+            HttpResponse response = httpClient.execute(post);
             return parseResponse(response);
+        } catch (SocketTimeoutException e) {
+            log.error("请求超时: {}", apiUrl, e);
+            throw new RuntimeException("API请求超时", e);
+        } catch (ConnectException e) {
+            log.error("连接拒绝: {}", apiUrl, e);
+            throw new RuntimeException("无法连接到API服务", e);
+        } finally {
+            post.releaseConnection();
         }
     }
 
@@ -391,16 +426,14 @@ public class DeepSeekServiceImp implements DeepSeekService {
     private String parseResponse(HttpResponse response) throws IOException {
         int statusCode = response.getStatusLine().getStatusCode();
         String body = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
+        EntityUtils.consume(response.getEntity()); // 确保实体被完全消费
 
         if (statusCode == HttpStatus.SC_OK) {
-            // Validate the JSON response
             validateJson(body);
             return body;
         }
-        // Build an error response if the status code is not OK
         return buildErrorResponse(statusCode, "API error: " + body);
     }
-
     /**
      * Validate the JSON string to ensure it is in a valid format.
      *

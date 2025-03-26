@@ -46,4 +46,25 @@ public class AsyncConfig {
         executor.setThreadNamePrefix("db-");
         return executor;
     }
+    @Bean("fileWriteExecutor")
+    public Executor fileWriteExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(2);
+        executor.setMaxPoolSize(5);
+        executor.setQueueCapacity(100);
+        executor.setThreadNamePrefix("FileWrite-");
+        executor.initialize();
+        return executor;
+    }
+
+    @Bean("mqAsyncExecutor")
+    public Executor mqAsyncExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(10);
+        executor.setMaxPoolSize(20);
+        executor.setQueueCapacity(10000);
+        executor.setThreadNamePrefix("MQ-Async-");
+        executor.initialize();
+        return executor;
+    }
 }

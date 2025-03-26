@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -58,5 +59,6 @@ public final class UsageInfo {
 
     @TableField("model_type")
     private String modelType;
+
 
 }

@@ -9,27 +9,18 @@ import com.bgpay.bgai.exception.BillingException;
 import com.bgpay.bgai.service.BillingService;
 import com.bgpay.bgai.service.PriceCacheService;
 import com.bgpay.bgai.service.UsageRecordService;
+import com.bgpay.bgai.service.mq.MQConsumerService;
+import com.bgpay.bgai.service.mq.RocketMQProducerService;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import io.micrometer.core.instrument.MeterRegistry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
-import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
-import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
 import org.apache.rocketmq.client.exception.MQClientException;
-import org.apache.rocketmq.client.producer.SendStatus;
-import org.apache.rocketmq.client.producer.TransactionSendResult;
-import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
 import org.apache.rocketmq.common.message.MessageExt;
-import org.apache.rocketmq.common.message.MessageQueue;
-import org.apache.rocketmq.spring.core.RocketMQTemplate;
-import org.apache.rocketmq.spring.support.RocketMQHeaders;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.scheduling.annotation.Async;
@@ -64,11 +55,13 @@ public class RocketMQBillingServiceImpl implements BillingService {
 
     @Value("${rocketmq.name-server:}")
     private String nameServer;
-    private final RocketMQTemplate rocketMQTemplate;
     private final RedisTemplate<String, String> redisTemplate;
     private final PriceCacheService priceCache;
     private final UsageRecordService usageRecordService;
     private final MeterRegistry meterRegistry;
+    private final RocketMQProducerService mqProducer;
+
+    private final MQConsumerService mqConsumerService;
 
     // 本地缓存防止重复检查
     private final Cache<String, Boolean> localCache = Caffeine.newBuilder()
@@ -94,76 +87,19 @@ public class RocketMQBillingServiceImpl implements BillingService {
 
     @Override
     public void processSingleRecord(UsageCalculationDTO dto, String userId) {
-        Message<UsageCalculationDTO> message = MessageBuilder.withPayload(dto)
-                .setHeader(RocketMQHeaders.KEYS, dto.getChatCompletionId())
-                .setHeader(RocketMQHeaders.TAGS, BILLING_TAG)
-                .setHeader("USER_ID", userId)
-                .build();
-        TransactionSendResult result = rocketMQTemplate.sendMessageInTransaction(
-                BILLING_TOPIC,
-                message,
-                dto.getChatCompletionId()
-        );
-
-        if (result.getSendStatus() == SendStatus.SEND_OK) {
-            meterRegistry.counter("billing.message.sent").increment();
-            log.debug("消息发送状态: {}", result.getSendStatus());
-        } else {
-            log.error("消息发送失败，状态: {}", result.getSendStatus());
-        }
+        mqProducer.sendBillingMessage(dto, userId);
     }
 
     @PostConstruct
     public void initConsumer() throws MQClientException {
-        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(consumerGroup);
-        consumer.setNamesrvAddr(nameServer);
-        consumer.setConsumeThreadMin(30);
-        consumer.setConsumeThreadMax(50);
-        consumer.setConsumeMessageBatchMaxSize(50);
-        consumer.setMaxReconsumeTimes(5);
-        consumer.subscribe(BILLING_TOPIC, BILLING_TAG);
-        consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
-
-        consumer.registerMessageListener((MessageListenerConcurrently) (msgs, context) -> {
-            Map<MessageQueue, Long> offsetMap = new HashMap<>();
-            List<MessageExt> successMessages = new ArrayList<>();
-            boolean hasFailure = false;
-
-            for (MessageExt msg : msgs) {
-                try {
-                    processMessage(msg);
-                    successMessages.add(msg);
-                    // 记录最大offset
-                    MessageQueue mq = new MessageQueue(msg.getTopic(),
-                            msg.getBrokerName(), msg.getQueueId());
-                    offsetMap.put(mq, Math.max(offsetMap.getOrDefault(mq, -1L), msg.getQueueOffset()));
-                } catch (Exception e) {
-                    log.error("Message consumption failed [MsgId={}]", msg.getMsgId(), e);
-                    hasFailure = true;
-                }
-            }
-
-            if (hasFailure) {
-                return ConsumeConcurrentlyStatus.RECONSUME_LATER;
-            }
-
-            // 手动提交offset
-            offsetMap.forEach((mq, offset) -> {
-                consumer.getOffsetStore().updateOffset(mq, offset + 1, false);
-                consumer.getOffsetStore().persist(mq);
-            });
-
-            // 执行回调
-            successMessages.forEach(msg -> {
-                consumeCallback.onSuccess(msg);
-                meterRegistry.counter("billing.message.consumed").increment();
-            });
-
-            return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
-        });
-
-        consumer.start();
-        log.info("Billing consumer started successfully");
+        mqConsumerService.initConsumer(
+                nameServer,
+                consumerGroup,
+                BILLING_TOPIC,
+                BILLING_TAG,
+                this::processMessage,  // 方法引用处理逻辑
+                msg -> log.info("Billing message consumed: {}", msg.getMsgId())
+        );
     }
 
     @Transactional(rollbackFor = Exception.class)

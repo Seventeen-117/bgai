@@ -3,6 +3,7 @@ package com.bgpay.bgai.controller;
 import com.bgpay.bgai.config.ReactiveFileProcessor;
 import com.bgpay.bgai.entity.ApiConfig;
 import com.bgpay.bgai.entity.UsageInfo;
+import com.bgpay.bgai.exception.BillingException;
 import com.bgpay.bgai.response.ChatResponse;
 import com.bgpay.bgai.service.ApiConfigService;
 import com.bgpay.bgai.service.deepseek.DeepSeekService;
@@ -33,8 +34,11 @@ public class ReactiveChatController {
         this.deepSeekService = deepSeekService;
     }
 
-    @PostMapping(value = "/chatGatWay",     consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(
+            value = "/chatGatWay",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public Mono<ResponseEntity<ChatResponse>> handleChatRequest(
             @RequestPart(value = "file", required = false) FilePart file,
             @RequestParam (value = "question", defaultValue = "请分析该内容") String question,
@@ -88,10 +92,17 @@ public class ReactiveChatController {
 
     private Mono<String> processContent(FilePart file, String question, boolean multiTurn) {
         if (file == null) {
-            return Mono.just(buildTextContent(question));
+            return Mono.just(buildTextContent(question))
+                    .doOnNext(c -> log.debug("Processing text-only request"));
         }
+
         return fileProcessor.processReactiveFile(file)
-                .map(fileContent -> buildFileContent(fileContent, question));
+                .onErrorResume(e -> {
+                    log.error("File processing failed", e);
+                    return Mono.error(new BillingException("文件处理失败: " + e.getMessage()));
+                })
+                .map(fileContent -> buildFileContent(fileContent, question))
+                .doOnNext(c -> log.debug("File content processed: {}", c.substring(0, 50)));
     }
 
     private String buildFileContent(String fileContent, String question) {

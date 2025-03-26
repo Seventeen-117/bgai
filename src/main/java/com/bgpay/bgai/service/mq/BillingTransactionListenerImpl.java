@@ -1,10 +1,8 @@
-package com.bgpay.bgai.service.impl;
+package com.bgpay.bgai.service.mq;
 
 import com.alibaba.fastjson2.JSON;
 import com.bgpay.bgai.entity.UsageCalculationDTO;
-import com.bgpay.bgai.service.BillingService;
 import com.bgpay.bgai.service.UsageInfoService;
-import com.bgpay.bgai.service.UsageRecordService;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +14,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 @Component
