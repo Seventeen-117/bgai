@@ -3,7 +3,7 @@
 #######################
 # Build stage
 #######################
-FROM eclipse-temurin:21-jdk-slim AS build
+FROM registry.cn-hangzhou.aliyuncs.com/library/eclipse-temurin:21-jdk-slim AS build
 
 WORKDIR /app
 
@@ -24,7 +24,7 @@ RUN ./mvnw clean package -DskipTests
 #######################
 # Runtime stage
 #######################
-FROM eclipse-temurin:21-jre-slim
+FROM registry.cn-hangzhou.aliyuncs.com/library/eclipse-temurin:21-jre-slim
 
 # Set the working directory
 WORKDIR /app
