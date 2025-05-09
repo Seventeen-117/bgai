@@ -1,31 +1,14 @@
 package com.bgpay.bgai.controller;
 
-import com.bgpay.bgai.config.ReactiveFileProcessor;
-import com.bgpay.bgai.config.RequestAttributesProvider;
-import com.bgpay.bgai.entity.ApiConfig;
-import com.bgpay.bgai.entity.UsageInfo;
-import com.bgpay.bgai.exception.BillingException;
-import com.bgpay.bgai.response.ChatResponse;
 import com.bgpay.bgai.response.SimpleChatResponse;
-import com.bgpay.bgai.service.ApiConfigService;
-import com.bgpay.bgai.service.impl.FallbackService;
-import com.bgpay.bgai.service.deepseek.DeepSeekService;
-import com.bgpay.bgai.transaction.TransactionCoordinator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.circuitbreaker.ReactiveCircuitBreaker;
-import org.springframework.cloud.client.circuitbreaker.ReactiveCircuitBreakerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.FilePart;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
-import reactor.util.retry.Retry;
-
-import java.time.Duration;
-import java.util.concurrent.TimeoutException;
 
 /**
  * 简化版的聊天控制器，提供更精简的API响应

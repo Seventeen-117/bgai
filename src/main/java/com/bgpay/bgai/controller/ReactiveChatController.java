@@ -165,8 +165,8 @@ public class ReactiveChatController {
                     if ((file == null || (file.filename() != null && file.filename().isEmpty())) && 
                         (question == null || question.trim().isEmpty())) {
                         log.error("Both file and question are empty");
-                        return Mono.just(errorResponse(400, "必须提供问题或文件"));
-                    }
+                return Mono.just(errorResponse(400, "必须提供问题或文件"));
+            }
 
                     // 对于非用户请求，验证完整的API参数
                     if ("default".equals(userId)) {
@@ -348,8 +348,8 @@ public class ReactiveChatController {
                     // 如果配置中的modelName为空，使用默认值
                     config.setModelName("deepseek-chat");
                     log.info("PARAM TRACE [{}]: 配置中模型名称为空，使用默认值: {}", userId, config.getModelName());
-                }
-                
+    }
+
                 return config;
             }
             
@@ -379,7 +379,7 @@ public class ReactiveChatController {
             log.warn("PARAM TRACE [{}]: 未找到匹配的API配置 - 原始请求参数: apiUrl={}, modelName={}", 
                     userId, apiUrl, modelName);
             throw new IllegalArgumentException("未找到匹配的API配置");
-        })
+                })
         .switchIfEmpty(Mono.error(new IllegalArgumentException("未找到用户API配置且未提供完整参数")))
         .doOnError(e -> log.error("PARAM TRACE [{}]: 配置解析失败 - {}", userId, e.getMessage(), e));
     }

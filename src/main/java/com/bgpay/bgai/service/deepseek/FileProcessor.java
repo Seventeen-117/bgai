@@ -44,6 +44,13 @@ public class FileProcessor {
         this.fileTypeService = fileTypeService;
     }
 
+    /**
+     * 处理 MultipartFile 文件并提取内容
+     * 
+     * @param file 上传的 MultipartFile 文件
+     * @return 提取的文本内容
+     * @throws Exception 处理过程中的任何异常
+     */
     public String processFile(MultipartFile file) throws Exception {
         String contentType = validateFile(file);
         File tempFile = createTempFile(file);
@@ -53,29 +60,81 @@ public class FileProcessor {
                 throw new IllegalArgumentException("File content and type do not match");
             }
 
-            return switch (contentType.toLowerCase()) {
-                case "image/png", "image/jpeg", "image/tiff", "image/bmp", "image/gif" -> processImage(tempFile);
-                case "application/pdf" -> processPDF(tempFile);
-                case "application/vnd.openxmlformats-officedocument.wordprocessingml.document" -> processDocx(tempFile);
-                case "application/vnd.ms-excel" -> processExcel(tempFile, false);
-                case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" -> processExcel(tempFile, true);
-                case "application/vnd.ms-powerpoint" -> processPresentation(tempFile, false);
-                case "application/vnd.openxmlformats-officedocument.presentationml.presentation" -> processPresentation(tempFile, true);
-                case "video/mp4", "video/quicktime" -> processVideo(tempFile);
-                case "text/x-python", "application/javascript", "application/typescript", "text/x-ruby", "text/x-perl",
-                     "text/x-sh", "application/powershell", "text/html", "application/xml", "application/xslt+xml",
-                     "text/markdown", "text/x-java-source", "text/x-c", "text/x-c++", "text/x-csharp",
-                     "application/x-php", "text/x-go", "text/x-rust", "text/x-swift", "text/plain",
-                     "application/x-win-registry", "application/json", "text/yaml", "text/x-properties",
-                     "text/css", "application/sql", "text/x-makefile", "text/x-asm", "application/coffeescript",
-                     "application/dart", "text/x-erlang", "text/x-fortran", "text/x-groovy", "text/x-haskell",
-                     "text/x-lua", "text/x-objective-c", "text/x-pascal", "text/x-scala", "text/x-vhdl",
-                     "text/x-verilog" -> processTextFile(tempFile);
-                default -> throw new IllegalArgumentException("Unsupported file types: " + contentType);
-            };
+            return processFileByContentType(tempFile, contentType);
         } finally {
             Files.deleteIfExists(tempFile.toPath());
         }
+    }
+    
+    /**
+     * 处理 File 文件并提取内容
+     * 
+     * @param file 要处理的 File 对象
+     * @return 提取的文本内容
+     * @throws Exception 处理过程中的任何异常
+     */
+    public String processFile(File file) throws Exception {
+        String contentType = detectFileContentType(file);
+        
+        if (!fileTypeService.validateFileMagic(file, contentType)) {
+            throw new IllegalArgumentException("File content and type do not match");
+        }
+
+        return processFileByContentType(file, contentType);
+    }
+    
+    /**
+     * 根据文件内容检测文件类型
+     * 
+     * @param file 要检测的文件
+     * @return 检测到的内容类型
+     * @throws IOException 如果读取文件失败
+     */
+    private String detectFileContentType(File file) throws IOException {
+        // 基于文件扩展名猜测内容类型
+        String filename = file.getName();
+        String extension = getFileExtension(filename);
+        
+        if (!extension.isEmpty()) {
+            MimeTypeConfig config = fileTypeService.getExtensionToMimeTypeConfig().get(extension.toLowerCase());
+            if (config != null) {
+                return config.getMimeType();
+            }
+        }
+        
+        // 如果无法确定类型，则默认为纯文本
+        return "text/plain";
+    }
+
+    /**
+     * 根据内容类型处理文件
+     * 
+     * @param file 要处理的文件
+     * @param contentType 文件的内容类型
+     * @return 提取的文本内容
+     * @throws Exception 处理过程中的任何异常
+     */
+    private String processFileByContentType(File file, String contentType) throws Exception {
+        return switch (contentType.toLowerCase()) {
+            case "image/png", "image/jpeg", "image/tiff", "image/bmp", "image/gif" -> processImage(file);
+            case "application/pdf" -> processPDF(file);
+            case "application/vnd.openxmlformats-officedocument.wordprocessingml.document" -> processDocx(file);
+            case "application/vnd.ms-excel" -> processExcel(file, false);
+            case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" -> processExcel(file, true);
+            case "application/vnd.ms-powerpoint" -> processPresentation(file, false);
+            case "application/vnd.openxmlformats-officedocument.presentationml.presentation" -> processPresentation(file, true);
+            case "video/mp4", "video/quicktime" -> processVideo(file);
+            case "text/x-python", "application/javascript", "application/typescript", "text/x-ruby", "text/x-perl",
+                 "text/x-sh", "application/powershell", "text/html", "application/xml", "application/xslt+xml",
+                 "text/markdown", "text/x-java-source", "text/x-c", "text/x-c++", "text/x-csharp",
+                 "application/x-php", "text/x-go", "text/x-rust", "text/x-swift", "text/plain",
+                 "application/x-win-registry", "application/json", "text/yaml", "text/x-properties",
+                 "text/css", "application/sql", "text/x-makefile", "text/x-asm", "application/coffeescript",
+                 "application/dart", "text/x-erlang", "text/x-fortran", "text/x-groovy", "text/x-haskell",
+                 "text/x-lua", "text/x-objective-c", "text/x-pascal", "text/x-scala", "text/x-vhdl",
+                 "text/x-verilog" -> processTextFile(file);
+            default -> throw new IllegalArgumentException("Unsupported file types: " + contentType);
+        };
     }
 
     // 新增文件编码检测方法

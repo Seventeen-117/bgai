@@ -1,0 +1,119 @@
+{
+	"info": {
+		"_postman_id": "a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6",
+		"name": "BGAI Chat API测试",
+		"description": "用于测试BGAI聊天API的Postman集合",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "测试/Api/chat端点",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-User-Id",
+						"value": "test-user-123",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "question",
+							"value": "请分析以下内容",
+							"type": "text"
+						},
+						{
+							"key": "file",
+							"type": "file",
+							"src": []
+						},
+						{
+							"key": "modelName",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "apiUrl",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "apiKey",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "multiTurn",
+							"value": "false",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/Api/chat",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Api",
+						"chat"
+					]
+				},
+				"description": "测试带有multipart/form-data的/Api/chat端点"
+			},
+			"response": []
+		},
+		{
+			"name": "测试无文件的/Api/chat端点",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-User-Id",
+						"value": "test-user-123",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "multipart/form-data",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "question",
+							"value": "什么是人工智能?",
+							"type": "text"
+						},
+						{
+							"key": "multiTurn",
+							"value": "false",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/Api/chat",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Api",
+						"chat"
+					]
+				},
+				"description": "测试不带文件的/Api/chat端点"
+			},
+			"response": []
+		}
+	]
+} 
