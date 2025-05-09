@@ -73,7 +73,7 @@ COPY --from=build /app/target/*.jar app.jar
 USER bgai
 
 # Expose ports
-EXPOSE 8080
+EXPOSE 8086
 
 # Set environment variables
 ENV SPRING_PROFILES_ACTIVE=prod
@@ -82,7 +82,7 @@ ENV JAVA_OPTS="-Xms512m -Xmx1g -XX:+UseG1GC -XX:+UseContainerSupport -XX:MaxRAMP
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
-  CMD wget -q --spider http://localhost:8080/actuator/health || exit 1
+  CMD wget -q --spider http://localhost:8086/actuator/health || exit 1
 
 # Start the application
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"] 

@@ -29,13 +29,13 @@ COPY --from=build /app/target/*.jar app.jar
 
 USER bgai
 
-EXPOSE 8080
+EXPOSE 8086
 
 ENV SPRING_PROFILES_ACTIVE=prod \
     TZ=Asia/Shanghai \
     JAVA_OPTS="-Xms512m -Xmx1g -XX:+UseG1GC -XX:+UseContainerSupport -XX:MaxRAMPercentage=80"
 
 HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
-  CMD wget -q --spider http://localhost:8080/actuator/health || exit 1
+  CMD wget -q --spider http://localhost:8086/actuator/health || exit 1
 
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]

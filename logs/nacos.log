@@ -5682,3 +5682,157 @@ java.util.concurrent.TimeoutException: Waited 3000 milliseconds (plus 1 millisec
 2025-05-09 21:59:05.327 [main] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [subscribe] bgtech-ai+DEFAULT_GROUP+d750d92e-152f-4055-a641-3bc9dda85a29
 2025-05-09 21:59:05.327 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [add-listener] ok, tenant=d750d92e-152f-4055-a641-3bc9dda85a29, dataId=bgtech-ai, group=DEFAULT_GROUP, cnt=1
 2025-05-09 21:59:05.327 [main] INFO  c.a.cloud.nacos.refresh.NacosContextRefresher - [Nacos Config] Listening config: dataId=bgtech-ai, group=DEFAULT_GROUP
+2025-05-09 22:02:42.398 [http-nio-8080-exec-2] INFO  com.bgpay.bgai.controller.ReactiveChatController - 接收到请求: /api/chatGatWay-internal, 文件=新文件 17.txt, 问题参数=null, 模型参数=null
+2025-05-09 22:02:42.400 [http-nio-8080-exec-2] INFO  com.bgpay.bgai.controller.ReactiveChatController - 请求Content-Type: multipart/form-data;boundary=--------------------------200953173844777965699332
+2025-05-09 22:02:42.401 [http-nio-8080-exec-2] INFO  com.bgpay.bgai.controller.ReactiveChatController - 收集到的完整参数: question="null", apiUrl="null", modelName="null", multiTurn=false
+2025-05-09 22:02:42.402 [http-nio-8080-exec-2] INFO  com.bgpay.bgai.controller.ReactiveChatController - Processing request for user ID: 689258T
+2025-05-09 22:02:42.402 [http-nio-8080-exec-2] INFO  com.bgpay.bgai.controller.ReactiveChatController - Processing file with circuit breaker: fileName=新文件 17.txt, question=
+2025-05-09 22:02:42.404 [http-nio-8080-exec-2] INFO  com.bgpay.bgai.config.ReactiveFileProcessor - Processing file: 新文件 17.txt, content-type: text/plain
+2025-05-09 22:02:42.410 [http-nio-8080-exec-2] INFO  com.bgpay.bgai.controller.ReactiveChatController - PARAM TRACE [689258T]: 尝试查找匹配配置 - 参数: apiUrl=null, modelName=null
+2025-05-09 22:02:42.420 [http-nio-8080-exec-2] INFO  com.bgpay.bgai.service.impl.ApiConfigServiceImpl - 查询配置 - userId=689258T
+2025-05-09 22:02:42.421 [http-nio-8080-exec-2] INFO  com.bgpay.bgai.service.impl.ApiConfigServiceImpl - 排序方式 - 按ID降序
+2025-05-09 22:02:42.421 [http-nio-8080-exec-2] INFO  com.bgpay.bgai.service.impl.ApiConfigServiceImpl - 限制结果数 - LIMIT 1
+2025-05-09 22:02:42.491 [http-nio-8080-exec-2] WARN  com.alibaba.druid.pool.DruidAbstractDataSource - discard long time none received connection. , jdbcUrl : jdbc:mysql://8.133.246.113:3306/deepseek?autoReconnect=false&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true&useSSL=false, version : 1.2.8, lastPacketReceivedIdleMillis : 217167
+2025-05-09 22:02:42.497 [http-nio-8080-exec-2] WARN  com.alibaba.druid.pool.DruidAbstractDataSource - discard long time none received connection. , jdbcUrl : jdbc:mysql://8.133.246.113:3306/deepseek?autoReconnect=false&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true&useSSL=false, version : 1.2.8, lastPacketReceivedIdleMillis : 217184
+2025-05-09 22:02:42.619 [http-nio-8080-exec-2] DEBUG com.bgpay.bgai.mapper.ApiConfigMapper.selectList - ==>  Preparing: SELECT id,api_url,api_key,model_name,user_id FROM api_config WHERE (user_id = ?) ORDER BY id DESC LIMIT 1
+2025-05-09 22:02:42.621 [http-nio-8080-exec-2] DEBUG com.bgpay.bgai.mapper.ApiConfigMapper.selectList - ==> Parameters: 689258T(String)
+2025-05-09 22:02:42.630 [http-nio-8080-exec-2] DEBUG com.bgpay.bgai.mapper.ApiConfigMapper.selectList - <==      Total: 1
+2025-05-09 22:02:42.630 [http-nio-8080-exec-2] INFO  com.bgpay.bgai.service.impl.ApiConfigServiceImpl - 查询结果 - 找到配置: id=2, modelName=deepseek-chat
+2025-05-09 22:02:42.630 [http-nio-8080-exec-2] INFO  com.bgpay.bgai.controller.ReactiveChatController - PARAM TRACE [689258T]: 找到匹配配置 - apiUrl=https://api.deepseek.com/chat/completions, modelName=deepseek-chat (原始请求: null)
+2025-05-09 22:02:42.631 [http-nio-8080-exec-2] INFO  com.bgpay.bgai.controller.ReactiveChatController - API config resolved: url=https://api.deepseek.com/chat/completions, model=deepseek-chat
+2025-05-09 22:02:42.649 [Thread-58] INFO  com.bgpay.bgai.config.ReactiveFileProcessor - File processed successfully: size=6680 bytes
+2025-05-09 22:02:42.655 [Thread-58] INFO  com.bgpay.bgai.controller.ReactiveChatController - Content processed, length: 6603
+2025-05-09 22:02:42.668 [Thread-58] INFO  org.reflections.Reflections - Processing reactive request: content length=6603, apiUrl=https://api.deepseek.com/chat/completions, modelName=deepseek-chat, userId=689258T, multiTurn=false
+2025-05-09 22:02:42.702 [Thread-58] INFO  com.bgpay.bgai.transaction.TransactionCoordinator - Transaction prepared for user 689258T: chatCompletionId=chat-25f17ffc-92f0-44e2-a4de-bb6370a46523
+2025-05-09 22:02:42.706 [Thread-58] INFO  org.reflections.Reflections - Generated request JSON with 2PC transaction: {"stream":false,"max_tokens":2000,"temperature":1.0,"messages":[{"role":"system","content":"You are ...
+2025-05-09 22:03:07.908 [reactor-http-nio-3] INFO  org.reflections.Reflections - Raw response received, length: 2533
+2025-05-09 22:03:07.915 [reactor-http-nio-3] WARN  org.reflections.Reflections - Received different chatCompletionId from response: 11a19e4f-21e2-4fb5-b2df-9a13bb8bce8c vs prepared: chat-25f17ffc-92f0-44e2-a4de-bb6370a46523
+2025-05-09 22:03:07.939 [reactor-http-nio-3] DEBUG c.bgpay.bgai.mapper.ChatCompletionsMapper.insert - ==>  Preparing: INSERT INTO chat_completions ( object, created, model, system_fingerprint, api_key ) VALUES ( ?, ?, ?, ?, ? )
+2025-05-09 22:03:07.941 [reactor-http-nio-3] DEBUG c.bgpay.bgai.mapper.ChatCompletionsMapper.insert - ==> Parameters: chat.completion(String), 1746799387934(Long), deepseek-chat(String), 689258T(String), chat-25f17ffc-92f0-44e2-a4de-bb6370a46523(String)
+2025-05-09 22:03:07.958 [reactor-http-nio-3] DEBUG c.bgpay.bgai.mapper.ChatCompletionsMapper.insert - <==    Updates: 1
+2025-05-09 22:03:07.962 [reactor-http-nio-3] INFO  com.bgpay.bgai.transaction.TransactionCoordinator - Transaction committed for user 689258T: chatCompletionId=chat-25f17ffc-92f0-44e2-a4de-bb6370a46523
+2025-05-09 22:03:07.985 [FileWrite-1] INFO  com.bgpay.bgai.service.deepseek.FileWriterService - Successfully wrote content to: \var\data\ai_responses\d0b6c9e4-cfae-4e87-924d-2786b51ef5ab.txt
+2025-05-09 22:03:07.995 [boundedElastic-1] DEBUG c.bgpay.bgai.mapper.ChatCompletionsMapper.insert - ==>  Preparing: INSERT INTO chat_completions ( object, created, model, system_fingerprint, api_key ) VALUES ( ?, ?, ?, ?, ? )
+2025-05-09 22:03:07.996 [boundedElastic-1] DEBUG c.bgpay.bgai.mapper.ChatCompletionsMapper.insert - ==> Parameters: chat.completion(String), 1746799363(Long), deepseek-chat(String), fp_8802369eaa_prod0425fp8(String), chat-25f17ffc-92f0-44e2-a4de-bb6370a46523(String)
+2025-05-09 22:03:08.016 [boundedElastic-1] DEBUG c.bgpay.bgai.mapper.ChatCompletionsMapper.insert - <==    Updates: 1
+2025-05-09 22:03:08.047 [boundedElastic-1] DEBUG com.bgpay.bgai.mapper.UsageInfoMapper.insert - ==>  Preparing: INSERT INTO usage_info ( chat_completion_id, prompt_tokens, completion_tokens, total_tokens, prompt_tokens_cached, completion_reasoning_tokens, prompt_cache_hit_tokens, prompt_cache_miss_tokens, created_at, model_type ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
+2025-05-09 22:03:08.048 [boundedElastic-1] DEBUG com.bgpay.bgai.mapper.UsageInfoMapper.insert - ==> Parameters: chat-25f17ffc-92f0-44e2-a4de-bb6370a46523(String), 2209(Integer), 451(Integer), 2660(Integer), 2176(Integer), 0(Integer), 0(Integer), 33(Integer), 2025-05-09T22:03:08.039478500(LocalDateTime), deepseek-chat(String)
+2025-05-09 22:03:08.064 [boundedElastic-1] DEBUG com.bgpay.bgai.mapper.UsageInfoMapper.insert - <==    Updates: 1
+2025-05-09 22:03:08.084 [boundedElastic-1] INFO  org.reflections.Reflections - Completion data saved synchronously for chatCompletionId: chat-25f17ffc-92f0-44e2-a4de-bb6370a46523
+2025-05-09 22:03:08.088 [boundedElastic-2] INFO  org.reflections.Reflections - 开始发送账单消息，chatCompletionId: chat-25f17ffc-92f0-44e2-a4de-bb6370a46523, userId: 689258T
+2025-05-09 22:03:08.128 [boundedElastic-2] INFO  org.reflections.Reflections - 账单消息发送成功，chatCompletionId: chat-25f17ffc-92f0-44e2-a4de-bb6370a46523, userId: 689258T
+2025-05-09 22:03:08.131 [boundedElastic-1] INFO  org.reflections.Reflections - Complete processing chain completed: I notice this is a Spring Boot application configuration file (likely `application.yml`). Here are some key observations and potential security concerns you should be aware of:
+
+### Security Concerns:
+1. **Exposed Credentials**:
+   - MySQL credentials (username: `bgtech`, password: `Zly689258..`)
+   - Redis password (`5z25u2sk`)
+   - API keys and client secrets in plaintext
+   - These should never be in version control - use environment variables or secret management
+
+2. **Database Configuration**:
+   - Both master and slave point to the same MySQL instance (8.133.246.113)
+   - SSL is disabled (`useSSL=false`) - this is insecure for production
+   - Same credentials for both master and slave
+
+3. **Redis Configuration**:
+   - Password is exposed
+   - No SSL/TLS configuration
+
+4. **Sensitive API Configuration**:
+   - SSO client secrets are exposed
+   - Hardcoded API keys
+
+### Recommendations:
+1. **Immediate Actions**:
+   - Rotate all exposed passwords/keys immediately
+   - Remove this file from version control if committed
+   - Add to `.gitignore`
+
+2. **Security Improvements**:
+   ```yaml
+   # Replace with environment variables
+   spring:
+     datasource:
+       dynamic:
+         datasource:
+           master:
+             username: ${DB_USER}
+             password: ${DB_PASSWORD}
+   ```
+
+3. **Configuration Best Practices**:
+   - Use different environments (dev/staging/prod) with separate credentials
+   - Enable SSL for database connections
+   - Consider using Vault or AWS Secrets Manager for credential management
+   - Implement proper network security (firewalls, VPNs) for database access
+
+4. **Other Observations**:
+   - The application uses Druid connection pool with good tuning parameters
+   - Has circuit breaker (Resilience4j) and retry mechanisms configured
+   - Uses both Redis and JDBC session stores (consider consistency)
+   - File uploads allowed up to 200MB
+
+Would you like me to elaborate on any specific part of this configuration or provide sample secure alternatives for any section?
+2025-05-09 22:03:08.132 [boundedElastic-1] INFO  com.bgpay.bgai.controller.ReactiveChatController - Processed response for user 689258T, content length: 2025
+2025-05-09 22:03:20.762 [pool-7-thread-1] DEBUG com.bgpay.bgai.mapper.UsageInfoMapper.selectCount - ==>  Preparing: SELECT COUNT( * ) AS total FROM usage_info WHERE (chat_completion_id = ?)
+2025-05-09 22:03:20.762 [pool-7-thread-1] DEBUG com.bgpay.bgai.mapper.UsageInfoMapper.selectCount - ==> Parameters: chat-25f17ffc-92f0-44e2-a4de-bb6370a46523(String)
+2025-05-09 22:03:20.770 [pool-7-thread-1] DEBUG com.bgpay.bgai.mapper.UsageInfoMapper.selectCount - <==      Total: 1
+2025-05-09 22:03:20.936 [ConsumeMessageThread_billing-consumer-group_1] INFO  c.bgpay.bgai.service.mq.RocketMQBillingServiceImpl - Output price config priceVersion: 1
+2025-05-09 22:03:20.938 [ConsumeMessageThread_billing-consumer-group_1] DEBUG com.bgpay.bgai.mapper.UsageRecordMapper.insert - ==>  Preparing: INSERT INTO usage_record ( model_type, chat_completion_id, user_id, input_cost, output_cost, price_version, calculated_at ) VALUES ( ?, ?, ?, ?, ?, ?, ? )
+2025-05-09 22:03:20.939 [ConsumeMessageThread_billing-consumer-group_1] DEBUG com.bgpay.bgai.mapper.UsageRecordMapper.insert - ==> Parameters: deepseek-chat(String), chat-25f17ffc-92f0-44e2-a4de-bb6370a46523(String), 689258T(String), 0.0000(BigDecimal), 0.0018(BigDecimal), 1(Integer), 2025-05-09T22:03:20.936632700(LocalDateTime)
+2025-05-09 22:03:20.962 [ConsumeMessageThread_billing-consumer-group_1] DEBUG com.bgpay.bgai.mapper.UsageRecordMapper.insert - <==    Updates: 1
+2025-05-09 22:03:20.974 [ConsumeMessageThread_billing-consumer-group_1] INFO  c.bgpay.bgai.service.mq.RocketMQBillingServiceImpl - Message consumed: 2408820C75288342F58D761159F69FAB3BAC36BAF30C2DEE3DD00000
+2025-05-09 22:04:05.256 [scheduling-1] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+2025-05-09 22:04:05.256 [scheduling-1] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - ==> Parameters: 
+2025-05-09 22:04:05.266 [scheduling-1] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - <==      Total: 52
+2025-05-09 22:04:05.266 [scheduling-1] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+2025-05-09 22:04:05.267 [scheduling-1] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - ==> Parameters: 
+2025-05-09 22:04:05.275 [scheduling-1] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - <==      Total: 52
+2025-05-09 22:09:06.333 [scheduling-1] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+2025-05-09 22:09:06.334 [scheduling-1] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - ==> Parameters: 
+2025-05-09 22:09:06.341 [scheduling-1] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - <==      Total: 52
+2025-05-09 22:09:06.341 [scheduling-1] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+2025-05-09 22:09:06.341 [scheduling-1] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - ==> Parameters: 
+2025-05-09 22:09:06.350 [scheduling-1] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - <==      Total: 52
+2025-05-09 22:12:25.635 [Thread-7] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Start destroying Publisher
+2025-05-09 22:12:25.635 [Thread-1] WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Start destroying common HttpClient
+2025-05-09 22:12:25.635 [Thread-7] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Destruction of the end
+2025-05-09 22:12:25.636 [Thread-1] WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Destruction of the end
+2025-05-09 22:12:25.654 [SpringApplicationShutdownHook] INFO  c.a.cloud.nacos.registry.NacosServiceRegistry - De-registering from Nacos Server now...
+2025-05-09 22:12:25.654 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - [DEREGISTER-SERVICE] d750d92e-152f-4055-a641-3bc9dda85a29 deregistering service bgai with instance: Instance{instanceId='null', ip='192.168.86.8', port=8080, weight=1.0, healthy=true, enabled=true, ephemeral=true, clusterName='DEFAULT', serviceName='null', metadata={}}
+2025-05-09 22:12:25.663 [SpringApplicationShutdownHook] INFO  c.a.cloud.nacos.registry.NacosServiceRegistry - De-registration finished.
+2025-05-09 22:12:25.664 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.cache.ServiceInfoHolder do shutdown begin
+2025-05-09 22:12:25.664 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.backups.FailoverReactor do shutdown begin
+2025-05-09 22:12:25.664 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.backups.FailoverReactor do shutdown stop
+2025-05-09 22:12:25.664 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.cache.ServiceInfoHolder do shutdown stop
+2025-05-09 22:12:25.664 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.remote.NamingClientProxyDelegate do shutdown begin
+2025-05-09 22:12:25.665 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.core.ServiceInfoUpdateService do shutdown begin
+2025-05-09 22:12:25.665 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.core.ServiceInfoUpdateService do shutdown stop
+2025-05-09 22:12:25.665 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.core.ServerListManager do shutdown begin
+2025-05-09 22:12:25.665 [SpringApplicationShutdownHook] WARN  com.alibaba.nacos.client.naming - [NamingHttpClientManager] Start destroying NacosRestTemplate
+2025-05-09 22:12:25.665 [SpringApplicationShutdownHook] WARN  com.alibaba.nacos.client.naming - [NamingHttpClientManager] Destruction of the end
+2025-05-09 22:12:25.665 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.core.ServerListManager do shutdown stop
+2025-05-09 22:12:25.665 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.remote.http.NamingHttpClientProxy do shutdown begin
+2025-05-09 22:12:25.665 [SpringApplicationShutdownHook] WARN  com.alibaba.nacos.client.naming - [NamingHttpClientManager] Start destroying NacosRestTemplate
+2025-05-09 22:12:25.665 [SpringApplicationShutdownHook] WARN  com.alibaba.nacos.client.naming - [NamingHttpClientManager] Destruction of the end
+2025-05-09 22:12:25.665 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.remote.http.NamingHttpClientProxy do shutdown stop
+2025-05-09 22:12:25.665 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.common.remote.client - Shutdown rpc client, set status to shutdown
+2025-05-09 22:12:25.665 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.common.remote.client - Shutdown client event executor java.util.concurrent.ScheduledThreadPoolExecutor@54b5b046[Running, pool size = 2, active threads = 2, queued tasks = 0, completed tasks = 0]
+2025-05-09 22:12:25.665 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.common.remote.client - Close current connection 1746799145067_139.227.195.203_42065
+2025-05-09 22:12:25.668 [nacos-grpc-client-executor-8.133.246.113-172] WARN  c.a.nacos.common.remote.client.grpc.GrpcClient - [1746799145067_139.227.195.203_42065]Ignore error event,isRunning:false,isAbandon=false
+2025-05-09 22:12:25.669 [SpringApplicationShutdownHook] INFO  c.a.nacos.common.remote.client.grpc.GrpcClient - Shutdown grpc executor java.util.concurrent.ThreadPoolExecutor@259fabf7[Running, pool size = 4, active threads = 0, queued tasks = 0, completed tasks = 173]
+2025-05-09 22:12:25.669 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - Shutdown grpc redo service executor java.util.concurrent.ScheduledThreadPoolExecutor@5ceb0619[Running, pool size = 1, active threads = 0, queued tasks = 1, completed tasks = 266]
+2025-05-09 22:12:25.669 [SpringApplicationShutdownHook] INFO  c.a.n.client.auth.ram.identify.CredentialWatcher - [null] CredentialWatcher is stopped
+2025-05-09 22:12:25.669 [SpringApplicationShutdownHook] INFO  c.a.n.client.auth.ram.identify.CredentialService - [null] CredentialService is freed
+2025-05-09 22:12:25.670 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.remote.NamingClientProxyDelegate do shutdown stop
+2025-05-09 22:12:25.752 [NettyClientSelector_1] INFO  RocketmqRemoting - closeChannel: close the connection to remote address[8.133.246.113:10909] result: true
+2025-05-09 22:12:25.789 [NettyClientSelector_1] INFO  RocketmqRemoting - closeChannel: close the connection to remote address[8.133.246.113:10911] result: true
+2025-05-09 22:12:25.789 [NettyClientSelector_1] INFO  RocketmqRemoting - closeChannel: close the connection to remote address[8.133.246.113:9876] result: true
+2025-05-09 22:12:25.853 [NettyClientSelector_1] INFO  RocketmqRemoting - closeChannel: close the connection to remote address[8.133.246.113:10911] result: true
+2025-05-09 22:12:25.853 [NettyClientSelector_1] INFO  RocketmqRemoting - closeChannel: close the connection to remote address[8.133.246.113:9876] result: true
+2025-05-09 22:12:26.717 [com.alibaba.nacos.client.Worker] INFO  c.a.n.client.auth.ram.identify.CredentialWatcher - null No credential found
+2025-05-09 22:12:27.980 [SpringApplicationShutdownHook] INFO  o.s.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-09 22:12:27.982 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-0} closing ...
+2025-05-09 22:12:27.982 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2025-05-09 22:12:27.984 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
