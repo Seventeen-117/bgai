@@ -2646,3 +2646,51 @@ Caused by: java.lang.InterruptedException: null
 2025-05-09 16:14:41.553 [ForkJoinPool.commonPool-worker-1] DEBUG com.bgpay.bgai.mapper.UsageInfoMapper.insert - ==> Parameters: 48945a62-28a6-4372-a590-f35414d9fd9d(String), 1821(Integer), 1692(Integer), 3513(Integer), 0(Integer), 716(Integer), 0(Integer), 1821(Integer), 2025-05-09T16:14:41.543418900(LocalDateTime), deepseek-reasoner(String)
 2025-05-09 16:14:41.566 [ForkJoinPool.commonPool-worker-1] DEBUG com.bgpay.bgai.mapper.UsageInfoMapper.insert - <==    Updates: 1
 2025-05-09 16:14:41.625 [NettyClientPublicExecutor_1] INFO  org.reflections.Reflections - Message e0d05d5c-d7ee-4727-8847-0cd9f9e6357d 发送成功，执行清理操作
+2025-05-09 16:15:19.905 [pool-7-thread-1] DEBUG com.bgpay.bgai.mapper.UsageInfoMapper.selectCount - ==>  Preparing: SELECT COUNT( * ) AS total FROM usage_info WHERE (chat_completion_id = ?)
+2025-05-09 16:15:19.905 [pool-7-thread-1] DEBUG com.bgpay.bgai.mapper.UsageInfoMapper.selectCount - ==> Parameters: 48945a62-28a6-4372-a590-f35414d9fd9d(String)
+2025-05-09 16:15:19.913 [pool-7-thread-1] DEBUG com.bgpay.bgai.mapper.UsageInfoMapper.selectCount - <==      Total: 1
+2025-05-09 16:15:20.110 [ConsumeMessageThread_billing-consumer-group_1] INFO  c.bgpay.bgai.service.mq.RocketMQBillingServiceImpl - Output price config priceVersion: 1
+2025-05-09 16:15:20.112 [ConsumeMessageThread_billing-consumer-group_1] DEBUG com.bgpay.bgai.mapper.UsageRecordMapper.insert - ==>  Preparing: INSERT INTO usage_record ( model_type, chat_completion_id, user_id, input_cost, output_cost, price_version, calculated_at ) VALUES ( ?, ?, ?, ?, ?, ?, ? )
+2025-05-09 16:15:20.113 [ConsumeMessageThread_billing-consumer-group_1] DEBUG com.bgpay.bgai.mapper.UsageRecordMapper.insert - ==> Parameters: deepseek-reasoner(String), 48945a62-28a6-4372-a590-f35414d9fd9d(String), 689258T(String), 0.0073(BigDecimal), 0.0271(BigDecimal), 1(Integer), 2025-05-09T16:15:20.110590500(LocalDateTime)
+2025-05-09 16:15:20.141 [ConsumeMessageThread_billing-consumer-group_1] DEBUG com.bgpay.bgai.mapper.UsageRecordMapper.insert - <==    Updates: 1
+2025-05-09 16:15:20.155 [ConsumeMessageThread_billing-consumer-group_1] INFO  c.bgpay.bgai.service.mq.RocketMQBillingServiceImpl - Message consumed: 2408820C75288342F58D761159F69FAB68E436BAF30C2CAF3B9B0000
+2025-05-09 16:15:26.910 [Thread-1] WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Start destroying common HttpClient
+2025-05-09 16:15:26.910 [Thread-7] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Start destroying Publisher
+2025-05-09 16:15:26.910 [Thread-7] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Destruction of the end
+2025-05-09 16:15:26.911 [Thread-1] WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Destruction of the end
+2025-05-09 16:15:26.927 [SpringApplicationShutdownHook] INFO  c.a.cloud.nacos.registry.NacosServiceRegistry - De-registering from Nacos Server now...
+2025-05-09 16:15:26.927 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - [DEREGISTER-SERVICE] d750d92e-152f-4055-a641-3bc9dda85a29 deregistering service bgai with instance: Instance{instanceId='null', ip='192.168.86.8', port=8080, weight=1.0, healthy=true, enabled=true, ephemeral=true, clusterName='DEFAULT', serviceName='null', metadata={}}
+2025-05-09 16:15:26.934 [SpringApplicationShutdownHook] INFO  c.a.cloud.nacos.registry.NacosServiceRegistry - De-registration finished.
+2025-05-09 16:15:26.935 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.cache.ServiceInfoHolder do shutdown begin
+2025-05-09 16:15:26.935 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.backups.FailoverReactor do shutdown begin
+2025-05-09 16:15:26.936 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.backups.FailoverReactor do shutdown stop
+2025-05-09 16:15:26.936 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.cache.ServiceInfoHolder do shutdown stop
+2025-05-09 16:15:26.936 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.remote.NamingClientProxyDelegate do shutdown begin
+2025-05-09 16:15:26.936 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.core.ServiceInfoUpdateService do shutdown begin
+2025-05-09 16:15:26.936 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.core.ServiceInfoUpdateService do shutdown stop
+2025-05-09 16:15:26.936 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.core.ServerListManager do shutdown begin
+2025-05-09 16:15:26.936 [SpringApplicationShutdownHook] WARN  com.alibaba.nacos.client.naming - [NamingHttpClientManager] Start destroying NacosRestTemplate
+2025-05-09 16:15:26.936 [SpringApplicationShutdownHook] WARN  com.alibaba.nacos.client.naming - [NamingHttpClientManager] Destruction of the end
+2025-05-09 16:15:26.936 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.core.ServerListManager do shutdown stop
+2025-05-09 16:15:26.936 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.remote.http.NamingHttpClientProxy do shutdown begin
+2025-05-09 16:15:26.936 [SpringApplicationShutdownHook] WARN  com.alibaba.nacos.client.naming - [NamingHttpClientManager] Start destroying NacosRestTemplate
+2025-05-09 16:15:26.936 [SpringApplicationShutdownHook] WARN  com.alibaba.nacos.client.naming - [NamingHttpClientManager] Destruction of the end
+2025-05-09 16:15:26.936 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.remote.http.NamingHttpClientProxy do shutdown stop
+2025-05-09 16:15:26.936 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.common.remote.client - Shutdown rpc client, set status to shutdown
+2025-05-09 16:15:26.936 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.common.remote.client - Shutdown client event executor java.util.concurrent.ScheduledThreadPoolExecutor@79ef07b3[Running, pool size = 2, active threads = 2, queued tasks = 0, completed tasks = 0]
+2025-05-09 16:15:26.936 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.common.remote.client - Close current connection 1746778347926_139.227.195.203_42378
+2025-05-09 16:15:26.945 [nacos-grpc-client-executor-8.133.246.113-48] INFO  c.a.nacos.common.remote.client.grpc.GrpcClient - [1746778347926_139.227.195.203_42378]Ignore complete event,isRunning:false,isAbandon=false
+2025-05-09 16:15:26.948 [SpringApplicationShutdownHook] INFO  c.a.nacos.common.remote.client.grpc.GrpcClient - Shutdown grpc executor java.util.concurrent.ThreadPoolExecutor@15ffcd0c[Running, pool size = 4, active threads = 0, queued tasks = 0, completed tasks = 49]
+2025-05-09 16:15:26.948 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - Shutdown grpc redo service executor java.util.concurrent.ScheduledThreadPoolExecutor@37e4c18[Running, pool size = 1, active threads = 0, queued tasks = 1, completed tasks = 59]
+2025-05-09 16:15:26.948 [SpringApplicationShutdownHook] INFO  c.a.n.client.auth.ram.identify.CredentialWatcher - [null] CredentialWatcher is stopped
+2025-05-09 16:15:26.948 [SpringApplicationShutdownHook] INFO  c.a.n.client.auth.ram.identify.CredentialService - [null] CredentialService is freed
+2025-05-09 16:15:26.948 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.remote.NamingClientProxyDelegate do shutdown stop
+2025-05-09 16:15:27.126 [NettyClientSelector_1] INFO  RocketmqRemoting - closeChannel: close the connection to remote address[8.133.246.113:10911] result: true
+2025-05-09 16:15:27.127 [NettyClientSelector_1] INFO  RocketmqRemoting - closeChannel: close the connection to remote address[8.133.246.113:10909] result: true
+2025-05-09 16:15:27.127 [NettyClientSelector_1] INFO  RocketmqRemoting - closeChannel: close the connection to remote address[8.133.246.113:9876] result: true
+2025-05-09 16:15:27.153 [NettyClientSelector_1] INFO  RocketmqRemoting - closeChannel: close the connection to remote address[8.133.246.113:10911] result: true
+2025-05-09 16:15:27.153 [NettyClientSelector_1] INFO  RocketmqRemoting - closeChannel: close the connection to remote address[8.133.246.113:9876] result: true
+2025-05-09 16:15:29.353 [SpringApplicationShutdownHook] INFO  o.s.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-09 16:15:29.355 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-0} closing ...
+2025-05-09 16:15:29.355 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2025-05-09 16:15:29.358 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed

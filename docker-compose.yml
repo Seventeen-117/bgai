@@ -1,0 +1,69 @@
+version: '3.8'
+
+services:
+  # Application service
+  bgai-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bgai-app
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - NACOS_HOST=nacos
+      - NACOS_PORT=8848
+      - NACOS_NAMESPACE=d750d92e-152f-4055-a641-3bc9dda85a29
+      - NACOS_GROUP=DEFAULT_GROUP
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+    depends_on:
+      - redis
+      - nacos
+    networks:
+      - bgai-network
+
+  # Redis service
+  redis:
+    image: redis:7-alpine
+    container_name: bgai-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+    networks:
+      - bgai-network
+
+  # Nacos service for service discovery
+  nacos:
+    image: nacos/nacos-server:v2.2.0
+    container_name: bgai-nacos
+    restart: unless-stopped
+    environment:
+      - MODE=standalone
+      - PREFER_HOST_MODE=hostname
+      - NACOS_AUTH_ENABLE=true
+      - NACOS_AUTH_TOKEN=SecretKey012345678901234567890123456789012345678901234567890123456789
+      - JVM_XMS=512m
+      - JVM_XMX=512m
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+    volumes:
+      - nacos-data:/home/nacos/data
+    networks:
+      - bgai-network
+
+networks:
+  bgai-network:
+    driver: bridge
+
+volumes:
+  redis-data:
+  nacos-data: 

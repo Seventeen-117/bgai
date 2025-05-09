@@ -1,0 +1,40 @@
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# IDEs and editors
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+.classpath
+.project
+.settings/
+
+# Logs
+logs/
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Test files
+test-*.html
+api-chat-postman-collection.json
+
+# Other Docker files
+Dockerfile
+docker-compose.yml
+.dockerignore
+README-docker.md
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Build-specific files
+node_modules/
+npm-debug.log 
