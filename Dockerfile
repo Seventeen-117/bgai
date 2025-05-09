@@ -29,7 +29,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y wget && rm -rf /var/lib/apt/lists/*
 
 RUN groupadd -r bgai && useradd -r -g bgai bgai
-RUN mkdir -p /app/data /app/logs && chown -R bgai:bgai /app
+RUN mkdir -p /app/data /app/logs && mkdir -p /app/nacos/config && chown -R bgai:bgai /app
 
 COPY --from=build /app/target/*.jar app.jar
 
@@ -45,3 +45,4 @@ HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
   CMD wget -q --spider http://localhost:8080/actuator/health || exit 1
 
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
+

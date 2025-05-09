@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  # 应用服务
+  bgai-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.fixed
+    container_name: bgai-app
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    env_file:
+      - nacos-env.properties
+    environment:
+      - JAVA_OPTS=-Xms512m -Xmx1g -XX:+UseG1GC -XX:+UseContainerSupport -XX:MaxRAMPercentage=80
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+
+# 如果需要本地开发环境，可以取消注释以下服务
+#  # Redis service (optional)
+#  redis:
+#    image: redis:7-alpine
+#    container_name: bgai-redis
+#    restart: unless-stopped
+#    ports:
+#      - "6379:6379"
+#    command: ["redis-server", "--appendonly", "yes"]
+#    volumes:
+#      - redis-data:/data
+#
+#volumes:
+#  redis-data:

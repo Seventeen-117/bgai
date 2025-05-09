@@ -19,7 +19,7 @@ COPY target/*.jar app.jar
 
 # 创建非root用户
 RUN groupadd -r bgai && useradd -r -g bgai bgai
-RUN mkdir -p /app/data /app/logs && chown -R bgai:bgai /app
+RUN mkdir -p /app/data /app/logs && mkdir -p /app/nacos/config && chown -R bgai:bgai /app
 
 # 使用非root用户
 USER bgai
@@ -38,3 +38,4 @@ HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
 
 # 启动命令
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"] 
+

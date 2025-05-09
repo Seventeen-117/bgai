@@ -92,3 +92,4 @@ HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
 
 # Start the application
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"] 
+

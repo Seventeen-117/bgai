@@ -23,6 +23,7 @@ spring:
         namespace: ${spring.cloud.nacos.discovery.namespace}
         group: ${spring.cloud.nacos.discovery.group}
         file-extension: yaml
+        # 使用默认缓存目录，确保容器能正确访问
         shared-configs:
           - data-id: common-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
             group: ${spring.cloud.nacos.discovery.group}

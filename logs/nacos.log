@@ -5836,3 +5836,433 @@ Would you like me to elaborate on any specific part of this configuration or pro
 2025-05-09 22:12:27.982 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-0} closing ...
 2025-05-09 22:12:27.982 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
 2025-05-09 22:12:27.984 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2025-05-09 23:13:44.752 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2025-05-09 23:13:44.753 [main] INFO  com.bgpay.bgai.BgaiApplication - The following 1 profile is active: "dev"
+2025-05-09 23:13:45.955 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-05-09 23:13:45.957 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-09 23:13:45.980 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 17 ms. Found 0 JPA repository interfaces.
+2025-05-09 23:13:45.992 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-05-09 23:13:45.993 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-05-09 23:13:46.004 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 4 ms. Found 0 Redis repository interfaces.
+2025-05-09 23:13:46.156 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'allowedFileTypeMapper' and 'com.bgpay.bgai.mapper.AllowedFileTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:13:46.156 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'apiConfigMapper' and 'com.bgpay.bgai.mapper.ApiConfigMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:13:46.156 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'chatCompletionsMapper' and 'com.bgpay.bgai.mapper.ChatCompletionsMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:13:46.156 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'choicesMapper' and 'com.bgpay.bgai.mapper.ChoicesMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:13:46.156 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'fileTypeMapper' and 'com.bgpay.bgai.mapper.FileTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:13:46.156 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'priceConfigMapper' and 'com.bgpay.bgai.mapper.PriceConfigMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:13:46.157 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'priceVersionMapper' and 'com.bgpay.bgai.mapper.PriceVersionMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:13:46.157 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'usageInfoMapper' and 'com.bgpay.bgai.mapper.UsageInfoMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:13:46.157 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'usageRecordMapper' and 'com.bgpay.bgai.mapper.UsageRecordMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:13:46.157 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userMapper' and 'com.bgpay.bgai.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:13:46.157 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.bgpay.bgai.mapper]' package. Please check your configuration.
+2025-05-09 23:13:46.160 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'allowedFileTypeMapper' and 'com.bgpay.bgai.mapper.AllowedFileTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:13:46.160 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'apiConfigMapper' and 'com.bgpay.bgai.mapper.ApiConfigMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:13:46.160 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'chatCompletionsMapper' and 'com.bgpay.bgai.mapper.ChatCompletionsMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:13:46.160 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'choicesMapper' and 'com.bgpay.bgai.mapper.ChoicesMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:13:46.160 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'fileTypeMapper' and 'com.bgpay.bgai.mapper.FileTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:13:46.160 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'priceConfigMapper' and 'com.bgpay.bgai.mapper.PriceConfigMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:13:46.160 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'priceVersionMapper' and 'com.bgpay.bgai.mapper.PriceVersionMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:13:46.160 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'usageInfoMapper' and 'com.bgpay.bgai.mapper.UsageInfoMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:13:46.160 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'usageRecordMapper' and 'com.bgpay.bgai.mapper.UsageRecordMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:13:46.160 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userMapper' and 'com.bgpay.bgai.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:13:46.160 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.bgpay.bgai.mapper]' package. Please check your configuration.
+2025-05-09 23:13:46.460 [main] INFO  o.springframework.cloud.context.scope.GenericScope - BeanFactory id=38ed5f2c-a148-3506-bdcb-f18d795b9667
+2025-05-09 23:13:46.711 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.cloud.commons.config.CommonsConfigAutoConfiguration' of type [org.springframework.cloud.commons.config.CommonsConfigAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-05-09 23:13:46.717 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.cloud.client.loadbalancer.LoadBalancerDefaultMappingsProviderAutoConfiguration' of type [org.springframework.cloud.client.loadbalancer.LoadBalancerDefaultMappingsProviderAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-05-09 23:13:46.721 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'loadBalancerClientsDefaultsMappingsProvider' of type [org.springframework.cloud.client.loadbalancer.LoadBalancerDefaultMappingsProviderAutoConfiguration$$Lambda/0x000001d846727570] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-05-09 23:13:46.730 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'defaultsBindHandlerAdvisor' of type [org.springframework.cloud.commons.config.DefaultsBindHandlerAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-05-09 23:13:46.759 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'spring.datasource.dynamic-com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties' of type [com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-05-09 23:13:46.769 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration' of type [com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-05-09 23:13:46.785 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dsProcessor' of type [com.baomidou.dynamic.datasource.processor.jakarta.DsJakartaHeaderProcessor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-05-09 23:13:47.078 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'messageConverterConfiguration' of type [org.apache.rocketmq.spring.autoconfigure.MessageConverterConfiguration$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-05-09 23:13:47.150 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'createRocketMQMessageConverter' of type [org.apache.rocketmq.spring.support.RocketMQMessageConverter] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-05-09 23:13:47.158 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'rocketmq-org.apache.rocketmq.spring.autoconfigure.RocketMQProperties' of type [org.apache.rocketmq.spring.autoconfigure.RocketMQProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-05-09 23:13:47.162 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'listenerContainerConfiguration' of type [org.apache.rocketmq.spring.autoconfigure.ListenerContainerConfiguration$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-05-09 23:13:47.193 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-05-09 23:13:47.196 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-05-09 23:13:47.200 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'reactorDeferringLoadBalancerExchangeFilterFunction' of type [org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-05-09 23:13:47.481 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2025-05-09 23:13:47.491 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - The ["http-nio-8080"] connector has been configured to support HTTP upgrade to [h2c]
+2025-05-09 23:13:47.491 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-09 23:13:47.493 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-09 23:13:47.493 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.15]
+2025-05-09 23:13:47.926 [main] INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-09 23:13:47.977 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.1.7.Final
+2025-05-09 23:13:48.288 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2025-05-09 23:13:48.457 [main] INFO  SQL dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2025-05-09 23:13:48.459 [main] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-05-09 23:13:48.720 [main] INFO  o.h.e.t.jta.platform.internal.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2025-05-09 23:13:48.730 [main] INFO  o.s.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-09 23:13:49.106 [main] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+2025-05-09 23:13:49.127 [main] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - ==> Parameters: 
+2025-05-09 23:13:49.161 [main] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - <==      Total: 52
+2025-05-09 23:13:49.163 [main] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+2025-05-09 23:13:49.164 [main] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - ==> Parameters: 
+2025-05-09 23:13:49.174 [main] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - <==      Total: 52
+2025-05-09 23:13:49.795 [main] INFO  com.bgpay.bgai.service.impl.UserServiceImpl - 初始化SSO配置: clientId=bgai-client-id, redirectUri=http://localhost:8080/api/auth/callback
+2025-05-09 23:13:49.893 [main] INFO  com.bgpay.bgai.controller.AuthController - 初始化认证控制器: clientId=bgai-client-id, redirectUri=http://localhost:8080/api/auth/callback
+2025-05-09 23:13:50.757 [main] INFO  o.a.r.s.autoconfigure.RocketMQAutoConfiguration - a producer (billing-producer-group) init on namesrv 8.133.246.113:9876
+2025-05-09 23:13:51.534 [main] INFO  org.redisson.Version - Redisson 3.24.3
+2025-05-09 23:13:51.656 [redisson-netty-4-6] INFO  o.r.connection.pool.MasterPubSubConnectionPool - 1 connections initialized for 8.133.246.113/8.133.246.113:6379
+2025-05-09 23:13:51.991 [redisson-netty-4-19] INFO  org.redisson.connection.pool.MasterConnectionPool - 24 connections initialized for 8.133.246.113/8.133.246.113:6379
+2025-05-09 23:13:52.234 [main] INFO  com.bgpay.bgai.service.mq.MQConsumerService - MQ consumer startup successful [group=billing-consumer-group, topic=BILLING_TOPIC, tag=USER_BILLING]
+2025-05-09 23:13:53.386 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [After]
+2025-05-09 23:13:53.386 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Before]
+2025-05-09 23:13:53.386 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Between]
+2025-05-09 23:13:53.386 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Cookie]
+2025-05-09 23:13:53.386 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Header]
+2025-05-09 23:13:53.386 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Host]
+2025-05-09 23:13:53.386 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Method]
+2025-05-09 23:13:53.386 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Path]
+2025-05-09 23:13:53.386 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Query]
+2025-05-09 23:13:53.386 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [ReadBody]
+2025-05-09 23:13:53.386 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [RemoteAddr]
+2025-05-09 23:13:53.386 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [XForwardedRemoteAddr]
+2025-05-09 23:13:53.386 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Weight]
+2025-05-09 23:13:53.386 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [CloudFoundryRouteService]
+2025-05-09 23:13:54.591 [main] INFO  o.s.b.actuate.endpoint.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator'
+2025-05-09 23:13:55.887 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-09 23:13:55.901 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2025-05-09 23:13:55.911 [main] INFO  com.alibaba.nacos.client.naming - initializer namespace from ans.namespace attribute : null
+2025-05-09 23:13:55.911 [main] INFO  com.alibaba.nacos.client.naming - initializer namespace from ALIBABA_ALIWARE_NAMESPACE attribute :null
+2025-05-09 23:13:55.912 [main] INFO  com.alibaba.nacos.client.naming - initializer namespace from namespace attribute :null
+2025-05-09 23:13:55.920 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
+2025-05-09 23:13:55.920 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
+2025-05-09 23:13:55.924 [main] INFO  com.alibaba.nacos.common.remote.client - [RpcClientFactory] create a new rpc client of 181345ca-9469-4064-bfee-db8a29d41d80
+2025-05-09 23:13:55.926 [main] INFO  com.alibaba.nacos.common.remote.client - [181345ca-9469-4064-bfee-db8a29d41d80] RpcClient init, ServerListFactory = com.alibaba.nacos.client.naming.core.ServerListManager
+2025-05-09 23:13:55.926 [main] INFO  com.alibaba.nacos.common.remote.client - [181345ca-9469-4064-bfee-db8a29d41d80] Registry connection listener to current client:com.alibaba.nacos.client.naming.remote.gprc.redo.NamingGrpcRedoService
+2025-05-09 23:13:55.926 [main] INFO  com.alibaba.nacos.common.remote.client - [181345ca-9469-4064-bfee-db8a29d41d80] Register server push request handler:com.alibaba.nacos.client.naming.remote.gprc.NamingPushRequestHandler
+2025-05-09 23:13:55.927 [main] INFO  com.alibaba.nacos.common.remote.client - [181345ca-9469-4064-bfee-db8a29d41d80] Try to connect to server on start up, server: {serverIp = '8.133.246.113', server main port = 8848}
+2025-05-09 23:13:55.927 [main] INFO  c.a.nacos.common.remote.client.grpc.GrpcClient - grpc client connection server:8.133.246.113 ip,serverPort:9848,grpcTslConfig:{"sslProvider":"OPENSSL","enableTls":false,"mutualAuthEnable":false,"trustAll":false}
+2025-05-09 23:13:56.068 [main] INFO  com.alibaba.nacos.common.remote.client - [181345ca-9469-4064-bfee-db8a29d41d80] Success to connect to server [8.133.246.113:8848] on start up, connectionId = 1746803635991_139.227.195.203_43764
+2025-05-09 23:13:56.068 [main] INFO  com.alibaba.nacos.common.remote.client - [181345ca-9469-4064-bfee-db8a29d41d80] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$ConnectResetRequestHandler
+2025-05-09 23:13:56.068 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.common.remote.client - [181345ca-9469-4064-bfee-db8a29d41d80] Notify connected event to listeners.
+2025-05-09 23:13:56.068 [main] INFO  com.alibaba.nacos.common.remote.client - [181345ca-9469-4064-bfee-db8a29d41d80] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$$Lambda/0x000001d84652c870
+2025-05-09 23:13:56.068 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.client.naming - Grpc connection connect
+2025-05-09 23:13:56.069 [main] INFO  com.alibaba.nacos.client.naming - [REGISTER-SERVICE] d750d92e-152f-4055-a641-3bc9dda85a29 registering service bgai with instance Instance{instanceId='null', ip='192.168.86.8', port=8080, weight=1.0, healthy=true, enabled=true, ephemeral=true, clusterName='DEFAULT', serviceName='null', metadata={IPv6=[2408:820c:7528:8342:f58d:7611:59f6:9fab], preserved.register.source=SPRING_CLOUD}}
+2025-05-09 23:13:56.086 [main] INFO  c.a.cloud.nacos.registry.NacosServiceRegistry - nacos registry, DEFAULT_GROUP bgai 192.168.86.8:8080 register finished
+2025-05-09 23:13:56.142 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 13.301 seconds (process running for 14.547)
+2025-05-09 23:13:56.149 [scheduling-1] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+2025-05-09 23:13:56.149 [scheduling-1] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - ==> Parameters: 
+2025-05-09 23:13:56.168 [scheduling-1] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - <==      Total: 52
+2025-05-09 23:13:56.169 [main] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+2025-05-09 23:13:56.169 [main] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - ==> Parameters: 
+2025-05-09 23:13:56.182 [main] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - <==      Total: 52
+2025-05-09 23:13:56.183 [scheduling-1] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+2025-05-09 23:13:56.183 [scheduling-1] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - ==> Parameters: 
+2025-05-09 23:13:56.194 [scheduling-1] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - <==      Total: 52
+2025-05-09 23:13:56.194 [main] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+2025-05-09 23:13:56.195 [main] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - ==> Parameters: 
+2025-05-09 23:13:56.202 [main] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - <==      Total: 52
+2025-05-09 23:13:56.208 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - nacos.cache.data.init.snapshot = true 
+2025-05-09 23:13:56.209 [main] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [subscribe] common-dev.yaml+DEFAULT_GROUP+d750d92e-152f-4055-a641-3bc9dda85a29
+2025-05-09 23:13:56.219 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [add-listener] ok, tenant=d750d92e-152f-4055-a641-3bc9dda85a29, dataId=common-dev.yaml, group=DEFAULT_GROUP, cnt=1
+2025-05-09 23:13:56.220 [main] INFO  c.a.cloud.nacos.refresh.NacosContextRefresher - [Nacos Config] Listening config: dataId=common-dev.yaml, group=DEFAULT_GROUP
+2025-05-09 23:13:56.222 [main] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [subscribe] bgtech-ai.yaml+DEFAULT_GROUP+d750d92e-152f-4055-a641-3bc9dda85a29
+2025-05-09 23:13:56.222 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [add-listener] ok, tenant=d750d92e-152f-4055-a641-3bc9dda85a29, dataId=bgtech-ai.yaml, group=DEFAULT_GROUP, cnt=1
+2025-05-09 23:13:56.222 [main] INFO  c.a.cloud.nacos.refresh.NacosContextRefresher - [Nacos Config] Listening config: dataId=bgtech-ai.yaml, group=DEFAULT_GROUP
+2025-05-09 23:13:56.222 [main] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [subscribe] bgtech-ai-dev.yaml+DEFAULT_GROUP+d750d92e-152f-4055-a641-3bc9dda85a29
+2025-05-09 23:13:56.222 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [add-listener] ok, tenant=d750d92e-152f-4055-a641-3bc9dda85a29, dataId=bgtech-ai-dev.yaml, group=DEFAULT_GROUP, cnt=1
+2025-05-09 23:13:56.223 [main] INFO  c.a.cloud.nacos.refresh.NacosContextRefresher - [Nacos Config] Listening config: dataId=bgtech-ai-dev.yaml, group=DEFAULT_GROUP
+2025-05-09 23:13:56.224 [main] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [subscribe] bgtech-ai+DEFAULT_GROUP+d750d92e-152f-4055-a641-3bc9dda85a29
+2025-05-09 23:13:56.224 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [add-listener] ok, tenant=d750d92e-152f-4055-a641-3bc9dda85a29, dataId=bgtech-ai, group=DEFAULT_GROUP, cnt=1
+2025-05-09 23:13:56.224 [main] INFO  c.a.cloud.nacos.refresh.NacosContextRefresher - [Nacos Config] Listening config: dataId=bgtech-ai, group=DEFAULT_GROUP
+2025-05-09 23:14:05.435 [http-nio-8080-exec-3] INFO  com.bgpay.bgai.controller.MockAuthController - Authorization request: client_id=bgai-client-id, redirect_uri=http://localhost:8080/api/auth/callback, response_type=code
+2025-05-09 23:14:14.869 [http-nio-8080-exec-5] INFO  com.bgpay.bgai.controller.MockAuthController - Token request: grant_type=null, code=null, client_id=null
+2025-05-09 23:14:14.892 [http-nio-8080-exec-4] DEBUG com.bgpay.bgai.mapper.UserMapper.findByUserId - ==>  Preparing: SELECT * FROM t_user WHERE user_id = ?
+2025-05-09 23:14:14.893 [http-nio-8080-exec-4] DEBUG com.bgpay.bgai.mapper.UserMapper.findByUserId - ==> Parameters: 689258T(String)
+2025-05-09 23:14:14.909 [http-nio-8080-exec-4] DEBUG com.bgpay.bgai.mapper.UserMapper.findByUserId - <==      Total: 1
+2025-05-09 23:14:14.963 [http-nio-8080-exec-4] DEBUG com.bgpay.bgai.mapper.UserMapper.updateById - ==>  Preparing: UPDATE t_user SET user_id=?, username=?, email=?, avatar_url=?, last_login_time=?, access_token=?, refresh_token=?, token_expire_time=?, status=?, create_time=?, update_time=? WHERE id=?
+2025-05-09 23:14:14.967 [http-nio-8080-exec-4] DEBUG com.bgpay.bgai.mapper.UserMapper.updateById - ==> Parameters: 689258T(String), 测试用户(String), test@example.com(String), https://ui-avatars.com/api/?name=测试用户(String), 2025-05-09T23:14:14.909478700(LocalDateTime), dffc1b05-c67e-4376-8dd2-51961f48fb3d(String), 6e3e56bc-cade-4efa-b853-704ad0ef811a(String), 2025-05-10T00:14:14.909478700(LocalDateTime), 1(Integer), 2025-04-26T23:59:16(LocalDateTime), 2025-05-09T23:14:14.909478700(LocalDateTime), 1(Long)
+2025-05-09 23:14:14.990 [http-nio-8080-exec-4] DEBUG com.bgpay.bgai.mapper.UserMapper.updateById - <==    Updates: 1
+2025-05-09 23:14:31.553 [http-nio-8080-exec-8] INFO  com.bgpay.bgai.controller.ReactiveChatController - 接收到请求: /api/chatGatWay-internal, 文件=新文件 17.txt, 问题参数=null, 模型参数=null
+2025-05-09 23:14:31.554 [http-nio-8080-exec-8] INFO  com.bgpay.bgai.controller.ReactiveChatController - 请求Content-Type: multipart/form-data;boundary=--------------------------418589238136179184745395
+2025-05-09 23:14:31.554 [http-nio-8080-exec-8] INFO  com.bgpay.bgai.controller.ReactiveChatController - 收集到的完整参数: question="null", apiUrl="null", modelName="null", multiTurn=false
+2025-05-09 23:14:31.556 [http-nio-8080-exec-8] INFO  com.bgpay.bgai.controller.ReactiveChatController - Processing request for user ID: 689258T
+2025-05-09 23:14:31.556 [http-nio-8080-exec-8] INFO  com.bgpay.bgai.controller.ReactiveChatController - Processing file with circuit breaker: fileName=新文件 17.txt, question=
+2025-05-09 23:14:31.557 [http-nio-8080-exec-8] INFO  com.bgpay.bgai.config.ReactiveFileProcessor - Processing file: 新文件 17.txt, content-type: text/plain
+2025-05-09 23:14:31.563 [http-nio-8080-exec-8] INFO  com.bgpay.bgai.controller.ReactiveChatController - PARAM TRACE [689258T]: 尝试查找匹配配置 - 参数: apiUrl=null, modelName=null
+2025-05-09 23:14:31.572 [http-nio-8080-exec-8] INFO  com.bgpay.bgai.service.impl.ApiConfigServiceImpl - 查询配置 - userId=689258T
+2025-05-09 23:14:31.573 [http-nio-8080-exec-8] INFO  com.bgpay.bgai.service.impl.ApiConfigServiceImpl - 排序方式 - 按ID降序
+2025-05-09 23:14:31.573 [http-nio-8080-exec-8] INFO  com.bgpay.bgai.service.impl.ApiConfigServiceImpl - 限制结果数 - LIMIT 1
+2025-05-09 23:14:31.581 [http-nio-8080-exec-8] DEBUG com.bgpay.bgai.mapper.ApiConfigMapper.selectList - ==>  Preparing: SELECT id,api_url,api_key,model_name,user_id FROM api_config WHERE (user_id = ?) ORDER BY id DESC LIMIT 1
+2025-05-09 23:14:31.582 [http-nio-8080-exec-8] DEBUG com.bgpay.bgai.mapper.ApiConfigMapper.selectList - ==> Parameters: 689258T(String)
+2025-05-09 23:14:31.595 [http-nio-8080-exec-8] DEBUG com.bgpay.bgai.mapper.ApiConfigMapper.selectList - <==      Total: 1
+2025-05-09 23:14:31.596 [http-nio-8080-exec-8] INFO  com.bgpay.bgai.service.impl.ApiConfigServiceImpl - 查询结果 - 找到配置: id=2, modelName=deepseek-chat
+2025-05-09 23:14:31.596 [http-nio-8080-exec-8] INFO  com.bgpay.bgai.controller.ReactiveChatController - PARAM TRACE [689258T]: 找到匹配配置 - apiUrl=https://api.deepseek.com/chat/completions, modelName=deepseek-chat (原始请求: null)
+2025-05-09 23:14:31.596 [http-nio-8080-exec-8] INFO  com.bgpay.bgai.controller.ReactiveChatController - API config resolved: url=https://api.deepseek.com/chat/completions, model=deepseek-chat
+2025-05-09 23:14:31.612 [Thread-54] INFO  com.bgpay.bgai.config.ReactiveFileProcessor - File processed successfully: size=6680 bytes
+2025-05-09 23:14:31.616 [Thread-54] INFO  com.bgpay.bgai.controller.ReactiveChatController - Content processed, length: 6603
+2025-05-09 23:14:31.627 [Thread-54] INFO  org.reflections.Reflections - Processing reactive request: content length=6603, apiUrl=https://api.deepseek.com/chat/completions, modelName=deepseek-chat, userId=689258T, multiTurn=false
+2025-05-09 23:14:31.645 [Thread-54] INFO  com.bgpay.bgai.transaction.TransactionCoordinator - Transaction prepared for user 689258T: chatCompletionId=chat-33928724-a9b3-48bb-b6d5-265900bd77c5
+2025-05-09 23:14:31.647 [Thread-54] INFO  org.reflections.Reflections - Generated request JSON with 2PC transaction: {"stream":false,"max_tokens":2000,"temperature":1.0,"messages":[{"content":"You are a helpful assist...
+2025-05-09 23:14:46.690 [reactor-http-nio-3] INFO  org.reflections.Reflections - Raw response received, length: 1575
+2025-05-09 23:14:46.701 [reactor-http-nio-3] WARN  org.reflections.Reflections - Received different chatCompletionId from response: e5243c37-6b90-42ee-b610-f1b3a76980a0 vs prepared: chat-33928724-a9b3-48bb-b6d5-265900bd77c5
+2025-05-09 23:14:46.717 [reactor-http-nio-3] DEBUG c.bgpay.bgai.mapper.ChatCompletionsMapper.insert - ==>  Preparing: INSERT INTO chat_completions ( object, created, model, system_fingerprint, api_key ) VALUES ( ?, ?, ?, ?, ? )
+2025-05-09 23:14:46.718 [reactor-http-nio-3] DEBUG c.bgpay.bgai.mapper.ChatCompletionsMapper.insert - ==> Parameters: chat.completion(String), 1746803686715(Long), deepseek-chat(String), 689258T(String), chat-33928724-a9b3-48bb-b6d5-265900bd77c5(String)
+2025-05-09 23:14:46.736 [reactor-http-nio-3] DEBUG c.bgpay.bgai.mapper.ChatCompletionsMapper.insert - <==    Updates: 1
+2025-05-09 23:14:46.738 [reactor-http-nio-3] INFO  com.bgpay.bgai.transaction.TransactionCoordinator - Transaction committed for user 689258T: chatCompletionId=chat-33928724-a9b3-48bb-b6d5-265900bd77c5
+2025-05-09 23:14:46.761 [FileWrite-1] INFO  com.bgpay.bgai.service.deepseek.FileWriterService - Successfully wrote content to: \var\data\ai_responses\0b182677-f0e8-41df-885e-24fb7bf42cec.txt
+2025-05-09 23:14:46.770 [boundedElastic-1] DEBUG c.bgpay.bgai.mapper.ChatCompletionsMapper.insert - ==>  Preparing: INSERT INTO chat_completions ( object, created, model, system_fingerprint, api_key ) VALUES ( ?, ?, ?, ?, ? )
+2025-05-09 23:14:46.770 [boundedElastic-1] DEBUG c.bgpay.bgai.mapper.ChatCompletionsMapper.insert - ==> Parameters: chat.completion(String), 1746803672(Long), deepseek-chat(String), fp_8802369eaa_prod0425fp8(String), chat-33928724-a9b3-48bb-b6d5-265900bd77c5(String)
+2025-05-09 23:14:46.783 [boundedElastic-1] DEBUG c.bgpay.bgai.mapper.ChatCompletionsMapper.insert - <==    Updates: 1
+2025-05-09 23:14:46.806 [boundedElastic-1] DEBUG com.bgpay.bgai.mapper.UsageInfoMapper.insert - ==>  Preparing: INSERT INTO usage_info ( chat_completion_id, prompt_tokens, completion_tokens, total_tokens, prompt_tokens_cached, completion_reasoning_tokens, prompt_cache_hit_tokens, prompt_cache_miss_tokens, created_at, model_type ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
+2025-05-09 23:14:46.807 [boundedElastic-1] DEBUG com.bgpay.bgai.mapper.UsageInfoMapper.insert - ==> Parameters: chat-33928724-a9b3-48bb-b6d5-265900bd77c5(String), 2209(Integer), 232(Integer), 2441(Integer), 2176(Integer), 0(Integer), 0(Integer), 33(Integer), 2025-05-09T23:14:46.798880900(LocalDateTime), deepseek-chat(String)
+2025-05-09 23:14:46.828 [boundedElastic-1] DEBUG com.bgpay.bgai.mapper.UsageInfoMapper.insert - <==    Updates: 1
+2025-05-09 23:14:46.843 [boundedElastic-1] INFO  org.reflections.Reflections - Completion data saved synchronously for chatCompletionId: chat-33928724-a9b3-48bb-b6d5-265900bd77c5
+2025-05-09 23:14:46.848 [boundedElastic-2] INFO  org.reflections.Reflections - 开始发送账单消息，chatCompletionId: chat-33928724-a9b3-48bb-b6d5-265900bd77c5, userId: 689258T
+2025-05-09 23:14:46.919 [boundedElastic-2] INFO  org.reflections.Reflections - 账单消息发送成功，chatCompletionId: chat-33928724-a9b3-48bb-b6d5-265900bd77c5, userId: 689258T
+2025-05-09 23:14:46.922 [boundedElastic-1] INFO  org.reflections.Reflections - Complete processing chain completed: I notice this is a Spring Boot application configuration file (likely `application.yml`). What specific questions do you have about this configuration? I can help explain any of the following aspects:
+
+1. **Database Configuration** (MySQL master/slave setup with Druid connection pool)
+2. **Redis Configuration** (session management and standalone Redis)
+3. **RocketMQ Message Queue Settings**
+4. **Resilience4j Circuit Breaker Patterns**
+5. **API Security Configuration** (API key authentication)
+6. **SSO OAuth2 Configuration**
+7. **Performance Tuning Parameters** (thread pools, connection limits)
+8. **Logging Configuration** (JSON format logging)
+9. **File Handling** (upload limits, output paths)
+10. **Any specific section you'd like explained**
+
+For security reasons, I should note that this file contains sensitive credentials (database passwords, Redis auth, etc.). In a production environment, these should be:
+- Moved to environment variables
+- Or managed through a secrets management system
+- Never committed to version control in plaintext
+
+What would you like me to focus on explaining?
+2025-05-09 23:14:46.922 [boundedElastic-1] INFO  com.bgpay.bgai.controller.ReactiveChatController - Processed response for user 689258T, content length: 1101
+2025-05-09 23:15:47.593 [pool-7-thread-1] WARN  com.alibaba.druid.pool.DruidAbstractDataSource - discard long time none received connection. , jdbcUrl : jdbc:mysql://8.133.246.113:3306/deepseek?autoReconnect=false&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true&useSSL=false, version : 1.2.8, lastPacketReceivedIdleMillis : 60743
+2025-05-09 23:15:47.600 [pool-7-thread-1] WARN  com.alibaba.druid.pool.DruidAbstractDataSource - discard long time none received connection. , jdbcUrl : jdbc:mysql://8.133.246.113:3306/deepseek?autoReconnect=false&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true&useSSL=false, version : 1.2.8, lastPacketReceivedIdleMillis : 111398
+2025-05-09 23:15:47.652 [pool-7-thread-1] DEBUG com.bgpay.bgai.mapper.UsageInfoMapper.selectCount - ==>  Preparing: SELECT COUNT( * ) AS total FROM usage_info WHERE (chat_completion_id = ?)
+2025-05-09 23:15:47.652 [pool-7-thread-1] DEBUG com.bgpay.bgai.mapper.UsageInfoMapper.selectCount - ==> Parameters: chat-33928724-a9b3-48bb-b6d5-265900bd77c5(String)
+2025-05-09 23:15:47.667 [pool-7-thread-1] DEBUG com.bgpay.bgai.mapper.UsageInfoMapper.selectCount - <==      Total: 1
+2025-05-09 23:15:47.758 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.bgpay.bgai.mapper.PriceConfigMapper.selectList - ==>  Preparing: SELECT id,model_type,time_period,cache_status,io_type,price,version,effective_time FROM price_config WHERE (model_type = ? AND time_period = ? AND io_type = ? AND effective_time <= ? AND cache_status = ?) ORDER BY effective_time DESC LIMIT 1
+2025-05-09 23:15:47.759 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.bgpay.bgai.mapper.PriceConfigMapper.selectList - ==> Parameters: deepseek-chat(String), discount(String), input(String), 2025-05-09T23:15:47.756112400(LocalDateTime), miss(String)
+2025-05-09 23:15:47.779 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.bgpay.bgai.mapper.PriceConfigMapper.selectList - <==      Total: 1
+2025-05-09 23:15:48.053 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.bgpay.bgai.mapper.PriceConfigMapper.selectList - ==>  Preparing: SELECT id,model_type,time_period,cache_status,io_type,price,version,effective_time FROM price_config WHERE (model_type = ? AND time_period = ? AND io_type = ? AND effective_time <= ? AND cache_status IS NULL) ORDER BY effective_time DESC LIMIT 1
+2025-05-09 23:15:48.053 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.bgpay.bgai.mapper.PriceConfigMapper.selectList - ==> Parameters: deepseek-chat(String), discount(String), output(String), 2025-05-09T23:15:48.052347(LocalDateTime)
+2025-05-09 23:15:48.060 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.bgpay.bgai.mapper.PriceConfigMapper.selectList - <==      Total: 1
+2025-05-09 23:15:48.119 [ConsumeMessageThread_billing-consumer-group_1] INFO  c.bgpay.bgai.service.mq.RocketMQBillingServiceImpl - Output price config priceVersion: 1
+2025-05-09 23:15:48.121 [ConsumeMessageThread_billing-consumer-group_1] DEBUG com.bgpay.bgai.mapper.UsageRecordMapper.insert - ==>  Preparing: INSERT INTO usage_record ( model_type, chat_completion_id, user_id, input_cost, output_cost, price_version, calculated_at ) VALUES ( ?, ?, ?, ?, ?, ?, ? )
+2025-05-09 23:15:48.122 [ConsumeMessageThread_billing-consumer-group_1] DEBUG com.bgpay.bgai.mapper.UsageRecordMapper.insert - ==> Parameters: deepseek-chat(String), chat-33928724-a9b3-48bb-b6d5-265900bd77c5(String), 689258T(String), 0.0000(BigDecimal), 0.0009(BigDecimal), 1(Integer), 2025-05-09T23:15:48.120347500(LocalDateTime)
+2025-05-09 23:15:48.167 [ConsumeMessageThread_billing-consumer-group_1] DEBUG com.bgpay.bgai.mapper.UsageRecordMapper.insert - <==    Updates: 1
+2025-05-09 23:15:48.175 [ConsumeMessageThread_billing-consumer-group_1] INFO  c.bgpay.bgai.service.mq.RocketMQBillingServiceImpl - Message consumed: 2408820C75288342F58D761159F69FAB7DB436BAF30C2E2FD5D90000
+2025-05-09 23:16:46.969 [NettyClientSelector_1] INFO  RocketmqRemoting - closeChannel: close the connection to remote address[8.133.246.113:10909] result: true
+2025-05-09 23:18:56.145 [scheduling-1] WARN  com.alibaba.druid.pool.DruidAbstractDataSource - discard long time none received connection. , jdbcUrl : jdbc:mysql://8.133.246.113:3306/deepseek?autoReconnect=false&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true&useSSL=false, version : 1.2.8, lastPacketReceivedIdleMillis : 187978
+2025-05-09 23:18:56.208 [scheduling-1] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+2025-05-09 23:18:56.208 [scheduling-1] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - ==> Parameters: 
+2025-05-09 23:18:56.218 [scheduling-1] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - <==      Total: 52
+2025-05-09 23:18:56.218 [scheduling-1] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+2025-05-09 23:18:56.218 [scheduling-1] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - ==> Parameters: 
+2025-05-09 23:18:56.240 [scheduling-1] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - <==      Total: 52
+2025-05-09 23:23:49.756 [Thread-7] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Start destroying Publisher
+2025-05-09 23:23:49.756 [Thread-1] WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Start destroying common HttpClient
+2025-05-09 23:23:49.756 [Thread-7] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Destruction of the end
+2025-05-09 23:23:49.758 [Thread-1] WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Destruction of the end
+2025-05-09 23:23:49.779 [SpringApplicationShutdownHook] INFO  c.a.cloud.nacos.registry.NacosServiceRegistry - De-registering from Nacos Server now...
+2025-05-09 23:23:49.779 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - [DEREGISTER-SERVICE] d750d92e-152f-4055-a641-3bc9dda85a29 deregistering service bgai with instance: Instance{instanceId='null', ip='192.168.86.8', port=8080, weight=1.0, healthy=true, enabled=true, ephemeral=true, clusterName='DEFAULT', serviceName='null', metadata={}}
+2025-05-09 23:23:49.786 [SpringApplicationShutdownHook] INFO  c.a.cloud.nacos.registry.NacosServiceRegistry - De-registration finished.
+2025-05-09 23:23:49.787 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.cache.ServiceInfoHolder do shutdown begin
+2025-05-09 23:23:49.787 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.backups.FailoverReactor do shutdown begin
+2025-05-09 23:23:49.788 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.backups.FailoverReactor do shutdown stop
+2025-05-09 23:23:49.788 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.cache.ServiceInfoHolder do shutdown stop
+2025-05-09 23:23:49.788 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.remote.NamingClientProxyDelegate do shutdown begin
+2025-05-09 23:23:49.788 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.core.ServiceInfoUpdateService do shutdown begin
+2025-05-09 23:23:49.788 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.core.ServiceInfoUpdateService do shutdown stop
+2025-05-09 23:23:49.788 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.core.ServerListManager do shutdown begin
+2025-05-09 23:23:49.788 [SpringApplicationShutdownHook] WARN  com.alibaba.nacos.client.naming - [NamingHttpClientManager] Start destroying NacosRestTemplate
+2025-05-09 23:23:49.788 [SpringApplicationShutdownHook] WARN  com.alibaba.nacos.client.naming - [NamingHttpClientManager] Destruction of the end
+2025-05-09 23:23:49.788 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.core.ServerListManager do shutdown stop
+2025-05-09 23:23:49.788 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.remote.http.NamingHttpClientProxy do shutdown begin
+2025-05-09 23:23:49.788 [SpringApplicationShutdownHook] WARN  com.alibaba.nacos.client.naming - [NamingHttpClientManager] Start destroying NacosRestTemplate
+2025-05-09 23:23:49.788 [SpringApplicationShutdownHook] WARN  com.alibaba.nacos.client.naming - [NamingHttpClientManager] Destruction of the end
+2025-05-09 23:23:49.788 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.remote.http.NamingHttpClientProxy do shutdown stop
+2025-05-09 23:23:49.788 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.common.remote.client - Shutdown rpc client, set status to shutdown
+2025-05-09 23:23:49.788 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.common.remote.client - Shutdown client event executor java.util.concurrent.ScheduledThreadPoolExecutor@6b684fa3[Running, pool size = 2, active threads = 2, queued tasks = 0, completed tasks = 0]
+2025-05-09 23:23:49.788 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.common.remote.client - Close current connection 1746803635991_139.227.195.203_43764
+2025-05-09 23:23:49.791 [nacos-grpc-client-executor-8.133.246.113-133] WARN  c.a.nacos.common.remote.client.grpc.GrpcClient - [1746803635991_139.227.195.203_43764]Ignore error event,isRunning:false,isAbandon=false
+2025-05-09 23:23:49.792 [SpringApplicationShutdownHook] INFO  c.a.nacos.common.remote.client.grpc.GrpcClient - Shutdown grpc executor java.util.concurrent.ThreadPoolExecutor@693c135b[Running, pool size = 4, active threads = 0, queued tasks = 0, completed tasks = 134]
+2025-05-09 23:23:49.792 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - Shutdown grpc redo service executor java.util.concurrent.ScheduledThreadPoolExecutor@f7b44f[Running, pool size = 1, active threads = 0, queued tasks = 1, completed tasks = 197]
+2025-05-09 23:23:49.792 [SpringApplicationShutdownHook] INFO  c.a.n.client.auth.ram.identify.CredentialWatcher - [null] CredentialWatcher is stopped
+2025-05-09 23:23:49.792 [SpringApplicationShutdownHook] INFO  c.a.n.client.auth.ram.identify.CredentialService - [null] CredentialService is freed
+2025-05-09 23:23:49.793 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.remote.NamingClientProxyDelegate do shutdown stop
+2025-05-09 23:23:49.837 [NettyClientSelector_1] INFO  RocketmqRemoting - closeChannel: close the connection to remote address[8.133.246.113:10911] result: true
+2025-05-09 23:23:49.837 [NettyClientSelector_1] INFO  RocketmqRemoting - closeChannel: close the connection to remote address[8.133.246.113:9876] result: true
+2025-05-09 23:23:49.854 [NettyClientSelector_1] INFO  RocketmqRemoting - closeChannel: close the connection to remote address[8.133.246.113:10911] result: true
+2025-05-09 23:23:49.855 [NettyClientSelector_1] INFO  RocketmqRemoting - closeChannel: close the connection to remote address[8.133.246.113:9876] result: true
+2025-05-09 23:23:52.053 [SpringApplicationShutdownHook] INFO  o.s.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-09 23:23:52.055 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-0} closing ...
+2025-05-09 23:23:52.055 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2025-05-09 23:23:52.062 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2025-05-09 23:27:33.224 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2025-05-09 23:27:33.225 [main] INFO  com.bgpay.bgai.BgaiApplication - The following 1 profile is active: "dev"
+2025-05-09 23:27:34.380 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-05-09 23:27:34.382 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-09 23:27:34.404 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 16 ms. Found 0 JPA repository interfaces.
+2025-05-09 23:27:34.414 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-05-09 23:27:34.415 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-05-09 23:27:34.426 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 4 ms. Found 0 Redis repository interfaces.
+2025-05-09 23:27:34.567 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'allowedFileTypeMapper' and 'com.bgpay.bgai.mapper.AllowedFileTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:27:34.567 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'apiConfigMapper' and 'com.bgpay.bgai.mapper.ApiConfigMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:27:34.567 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'chatCompletionsMapper' and 'com.bgpay.bgai.mapper.ChatCompletionsMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:27:34.567 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'choicesMapper' and 'com.bgpay.bgai.mapper.ChoicesMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:27:34.567 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'fileTypeMapper' and 'com.bgpay.bgai.mapper.FileTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:27:34.567 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'priceConfigMapper' and 'com.bgpay.bgai.mapper.PriceConfigMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:27:34.567 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'priceVersionMapper' and 'com.bgpay.bgai.mapper.PriceVersionMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:27:34.567 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'usageInfoMapper' and 'com.bgpay.bgai.mapper.UsageInfoMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:27:34.567 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'usageRecordMapper' and 'com.bgpay.bgai.mapper.UsageRecordMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:27:34.567 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userMapper' and 'com.bgpay.bgai.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:27:34.567 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.bgpay.bgai.mapper]' package. Please check your configuration.
+2025-05-09 23:27:34.570 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'allowedFileTypeMapper' and 'com.bgpay.bgai.mapper.AllowedFileTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:27:34.570 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'apiConfigMapper' and 'com.bgpay.bgai.mapper.ApiConfigMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:27:34.570 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'chatCompletionsMapper' and 'com.bgpay.bgai.mapper.ChatCompletionsMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:27:34.570 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'choicesMapper' and 'com.bgpay.bgai.mapper.ChoicesMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:27:34.570 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'fileTypeMapper' and 'com.bgpay.bgai.mapper.FileTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:27:34.570 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'priceConfigMapper' and 'com.bgpay.bgai.mapper.PriceConfigMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:27:34.570 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'priceVersionMapper' and 'com.bgpay.bgai.mapper.PriceVersionMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:27:34.570 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'usageInfoMapper' and 'com.bgpay.bgai.mapper.UsageInfoMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:27:34.570 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'usageRecordMapper' and 'com.bgpay.bgai.mapper.UsageRecordMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:27:34.570 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userMapper' and 'com.bgpay.bgai.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2025-05-09 23:27:34.570 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.bgpay.bgai.mapper]' package. Please check your configuration.
+2025-05-09 23:27:34.853 [main] INFO  o.springframework.cloud.context.scope.GenericScope - BeanFactory id=38ed5f2c-a148-3506-bdcb-f18d795b9667
+2025-05-09 23:27:35.102 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.cloud.commons.config.CommonsConfigAutoConfiguration' of type [org.springframework.cloud.commons.config.CommonsConfigAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-05-09 23:27:35.109 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.cloud.client.loadbalancer.LoadBalancerDefaultMappingsProviderAutoConfiguration' of type [org.springframework.cloud.client.loadbalancer.LoadBalancerDefaultMappingsProviderAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-05-09 23:27:35.113 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'loadBalancerClientsDefaultsMappingsProvider' of type [org.springframework.cloud.client.loadbalancer.LoadBalancerDefaultMappingsProviderAutoConfiguration$$Lambda/0x000001f201725f98] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-05-09 23:27:35.123 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'defaultsBindHandlerAdvisor' of type [org.springframework.cloud.commons.config.DefaultsBindHandlerAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-05-09 23:27:35.154 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'spring.datasource.dynamic-com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties' of type [com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-05-09 23:27:35.165 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration' of type [com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-05-09 23:27:35.184 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dsProcessor' of type [com.baomidou.dynamic.datasource.processor.jakarta.DsJakartaHeaderProcessor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-05-09 23:27:35.495 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'messageConverterConfiguration' of type [org.apache.rocketmq.spring.autoconfigure.MessageConverterConfiguration$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-05-09 23:27:35.555 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'createRocketMQMessageConverter' of type [org.apache.rocketmq.spring.support.RocketMQMessageConverter] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-05-09 23:27:35.563 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'rocketmq-org.apache.rocketmq.spring.autoconfigure.RocketMQProperties' of type [org.apache.rocketmq.spring.autoconfigure.RocketMQProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-05-09 23:27:35.567 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'listenerContainerConfiguration' of type [org.apache.rocketmq.spring.autoconfigure.ListenerContainerConfiguration$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-05-09 23:27:35.597 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-05-09 23:27:35.600 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-05-09 23:27:35.603 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'reactorDeferringLoadBalancerExchangeFilterFunction' of type [org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-05-09 23:27:35.870 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2025-05-09 23:27:35.879 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - The ["http-nio-8080"] connector has been configured to support HTTP upgrade to [h2c]
+2025-05-09 23:27:35.879 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-09 23:27:35.881 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-09 23:27:35.881 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.15]
+2025-05-09 23:27:36.307 [main] INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-09 23:27:36.355 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.1.7.Final
+2025-05-09 23:27:36.675 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2025-05-09 23:27:36.858 [main] INFO  SQL dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2025-05-09 23:27:36.860 [main] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-05-09 23:27:37.140 [main] INFO  o.h.e.t.jta.platform.internal.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2025-05-09 23:27:37.152 [main] INFO  o.s.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-09 23:27:37.531 [main] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+2025-05-09 23:27:37.557 [main] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - ==> Parameters: 
+2025-05-09 23:27:37.593 [main] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - <==      Total: 52
+2025-05-09 23:27:37.595 [main] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+2025-05-09 23:27:37.595 [main] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - ==> Parameters: 
+2025-05-09 23:27:37.608 [main] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - <==      Total: 52
+2025-05-09 23:27:38.259 [main] INFO  com.bgpay.bgai.service.impl.UserServiceImpl - 初始化SSO配置: clientId=bgai-client-id, redirectUri=http://localhost:8080/api/auth/callback
+2025-05-09 23:27:38.350 [main] INFO  com.bgpay.bgai.controller.AuthController - 初始化认证控制器: clientId=bgai-client-id, redirectUri=http://localhost:8080/api/auth/callback
+2025-05-09 23:27:39.107 [main] INFO  o.a.r.s.autoconfigure.RocketMQAutoConfiguration - a producer (billing-producer-group) init on namesrv 8.133.246.113:9876
+2025-05-09 23:27:39.901 [main] INFO  org.redisson.Version - Redisson 3.24.3
+2025-05-09 23:27:40.053 [redisson-netty-4-6] INFO  o.r.connection.pool.MasterPubSubConnectionPool - 1 connections initialized for 8.133.246.113/8.133.246.113:6379
+2025-05-09 23:27:40.357 [redisson-netty-4-19] INFO  org.redisson.connection.pool.MasterConnectionPool - 24 connections initialized for 8.133.246.113/8.133.246.113:6379
+2025-05-09 23:27:40.595 [main] INFO  com.bgpay.bgai.service.mq.MQConsumerService - MQ consumer startup successful [group=billing-consumer-group, topic=BILLING_TOPIC, tag=USER_BILLING]
+2025-05-09 23:27:41.789 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [After]
+2025-05-09 23:27:41.789 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Before]
+2025-05-09 23:27:41.789 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Between]
+2025-05-09 23:27:41.790 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Cookie]
+2025-05-09 23:27:41.790 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Header]
+2025-05-09 23:27:41.790 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Host]
+2025-05-09 23:27:41.790 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Method]
+2025-05-09 23:27:41.790 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Path]
+2025-05-09 23:27:41.790 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Query]
+2025-05-09 23:27:41.790 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [ReadBody]
+2025-05-09 23:27:41.790 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [RemoteAddr]
+2025-05-09 23:27:41.790 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [XForwardedRemoteAddr]
+2025-05-09 23:27:41.790 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Weight]
+2025-05-09 23:27:41.790 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [CloudFoundryRouteService]
+2025-05-09 23:27:42.978 [main] INFO  o.s.b.actuate.endpoint.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator'
+2025-05-09 23:27:44.231 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-09 23:27:44.244 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2025-05-09 23:27:44.254 [main] INFO  com.alibaba.nacos.client.naming - initializer namespace from ans.namespace attribute : null
+2025-05-09 23:27:44.254 [main] INFO  com.alibaba.nacos.client.naming - initializer namespace from ALIBABA_ALIWARE_NAMESPACE attribute :null
+2025-05-09 23:27:44.254 [main] INFO  com.alibaba.nacos.client.naming - initializer namespace from namespace attribute :null
+2025-05-09 23:27:44.262 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
+2025-05-09 23:27:44.262 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
+2025-05-09 23:27:44.265 [main] INFO  com.alibaba.nacos.common.remote.client - [RpcClientFactory] create a new rpc client of f5bebde3-f2bc-4420-8cb4-b3a08034ea3e
+2025-05-09 23:27:44.267 [main] INFO  com.alibaba.nacos.common.remote.client - [f5bebde3-f2bc-4420-8cb4-b3a08034ea3e] RpcClient init, ServerListFactory = com.alibaba.nacos.client.naming.core.ServerListManager
+2025-05-09 23:27:44.267 [main] INFO  com.alibaba.nacos.common.remote.client - [f5bebde3-f2bc-4420-8cb4-b3a08034ea3e] Registry connection listener to current client:com.alibaba.nacos.client.naming.remote.gprc.redo.NamingGrpcRedoService
+2025-05-09 23:27:44.267 [main] INFO  com.alibaba.nacos.common.remote.client - [f5bebde3-f2bc-4420-8cb4-b3a08034ea3e] Register server push request handler:com.alibaba.nacos.client.naming.remote.gprc.NamingPushRequestHandler
+2025-05-09 23:27:44.267 [main] INFO  com.alibaba.nacos.common.remote.client - [f5bebde3-f2bc-4420-8cb4-b3a08034ea3e] Try to connect to server on start up, server: {serverIp = '8.133.246.113', server main port = 8848}
+2025-05-09 23:27:44.268 [main] INFO  c.a.nacos.common.remote.client.grpc.GrpcClient - grpc client connection server:8.133.246.113 ip,serverPort:9848,grpcTslConfig:{"sslProvider":"OPENSSL","enableTls":false,"mutualAuthEnable":false,"trustAll":false}
+2025-05-09 23:27:44.400 [main] INFO  com.alibaba.nacos.common.remote.client - [f5bebde3-f2bc-4420-8cb4-b3a08034ea3e] Success to connect to server [8.133.246.113:8848] on start up, connectionId = 1746804464338_139.227.195.203_43428
+2025-05-09 23:27:44.400 [main] INFO  com.alibaba.nacos.common.remote.client - [f5bebde3-f2bc-4420-8cb4-b3a08034ea3e] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$ConnectResetRequestHandler
+2025-05-09 23:27:44.400 [main] INFO  com.alibaba.nacos.common.remote.client - [f5bebde3-f2bc-4420-8cb4-b3a08034ea3e] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$$Lambda/0x000001f2015262b0
+2025-05-09 23:27:44.400 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.common.remote.client - [f5bebde3-f2bc-4420-8cb4-b3a08034ea3e] Notify connected event to listeners.
+2025-05-09 23:27:44.400 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.client.naming - Grpc connection connect
+2025-05-09 23:27:44.402 [main] INFO  com.alibaba.nacos.client.naming - [REGISTER-SERVICE] d750d92e-152f-4055-a641-3bc9dda85a29 registering service bgai with instance Instance{instanceId='null', ip='192.168.86.8', port=8080, weight=1.0, healthy=true, enabled=true, ephemeral=true, clusterName='DEFAULT', serviceName='null', metadata={IPv6=[2408:820c:7528:8342:f58d:7611:59f6:9fab], preserved.register.source=SPRING_CLOUD}}
+2025-05-09 23:27:44.419 [main] INFO  c.a.cloud.nacos.registry.NacosServiceRegistry - nacos registry, DEFAULT_GROUP bgai 192.168.86.8:8080 register finished
+2025-05-09 23:27:44.468 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 13.144 seconds (process running for 14.432)
+2025-05-09 23:27:44.472 [scheduling-1] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+2025-05-09 23:27:44.473 [scheduling-1] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - ==> Parameters: 
+2025-05-09 23:27:44.489 [scheduling-1] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - <==      Total: 52
+2025-05-09 23:27:44.489 [main] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+2025-05-09 23:27:44.489 [main] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - ==> Parameters: 
+2025-05-09 23:27:44.501 [main] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - <==      Total: 52
+2025-05-09 23:27:44.502 [scheduling-1] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+2025-05-09 23:27:44.502 [scheduling-1] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - ==> Parameters: 
+2025-05-09 23:27:44.511 [scheduling-1] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - <==      Total: 52
+2025-05-09 23:27:44.511 [main] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+2025-05-09 23:27:44.512 [main] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - ==> Parameters: 
+2025-05-09 23:27:44.520 [main] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - <==      Total: 52
+2025-05-09 23:27:44.524 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - nacos.cache.data.init.snapshot = true 
+2025-05-09 23:27:44.525 [main] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [subscribe] common-dev.yaml+DEFAULT_GROUP+d750d92e-152f-4055-a641-3bc9dda85a29
+2025-05-09 23:27:44.535 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [add-listener] ok, tenant=d750d92e-152f-4055-a641-3bc9dda85a29, dataId=common-dev.yaml, group=DEFAULT_GROUP, cnt=1
+2025-05-09 23:27:44.535 [main] INFO  c.a.cloud.nacos.refresh.NacosContextRefresher - [Nacos Config] Listening config: dataId=common-dev.yaml, group=DEFAULT_GROUP
+2025-05-09 23:27:44.536 [main] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [subscribe] bgtech-ai.yaml+DEFAULT_GROUP+d750d92e-152f-4055-a641-3bc9dda85a29
+2025-05-09 23:27:44.536 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [add-listener] ok, tenant=d750d92e-152f-4055-a641-3bc9dda85a29, dataId=bgtech-ai.yaml, group=DEFAULT_GROUP, cnt=1
+2025-05-09 23:27:44.536 [main] INFO  c.a.cloud.nacos.refresh.NacosContextRefresher - [Nacos Config] Listening config: dataId=bgtech-ai.yaml, group=DEFAULT_GROUP
+2025-05-09 23:27:44.537 [main] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [subscribe] bgtech-ai-dev.yaml+DEFAULT_GROUP+d750d92e-152f-4055-a641-3bc9dda85a29
+2025-05-09 23:27:44.537 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [add-listener] ok, tenant=d750d92e-152f-4055-a641-3bc9dda85a29, dataId=bgtech-ai-dev.yaml, group=DEFAULT_GROUP, cnt=1
+2025-05-09 23:27:44.537 [main] INFO  c.a.cloud.nacos.refresh.NacosContextRefresher - [Nacos Config] Listening config: dataId=bgtech-ai-dev.yaml, group=DEFAULT_GROUP
+2025-05-09 23:27:44.537 [main] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [subscribe] bgtech-ai+DEFAULT_GROUP+d750d92e-152f-4055-a641-3bc9dda85a29
+2025-05-09 23:27:44.537 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [add-listener] ok, tenant=d750d92e-152f-4055-a641-3bc9dda85a29, dataId=bgtech-ai, group=DEFAULT_GROUP, cnt=1
+2025-05-09 23:27:44.537 [main] INFO  c.a.cloud.nacos.refresh.NacosContextRefresher - [Nacos Config] Listening config: dataId=bgtech-ai, group=DEFAULT_GROUP
+2025-05-09 23:27:44.825 [Thread-1] WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Start destroying common HttpClient
+2025-05-09 23:27:44.825 [Thread-7] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Start destroying Publisher
+2025-05-09 23:27:44.825 [Thread-7] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Destruction of the end
+2025-05-09 23:27:44.826 [Thread-1] WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Destruction of the end
+2025-05-09 23:27:44.844 [SpringApplicationShutdownHook] INFO  c.a.cloud.nacos.registry.NacosServiceRegistry - De-registering from Nacos Server now...
+2025-05-09 23:27:44.844 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - [DEREGISTER-SERVICE] d750d92e-152f-4055-a641-3bc9dda85a29 deregistering service bgai with instance: Instance{instanceId='null', ip='192.168.86.8', port=8080, weight=1.0, healthy=true, enabled=true, ephemeral=true, clusterName='DEFAULT', serviceName='null', metadata={}}
+2025-05-09 23:27:44.857 [SpringApplicationShutdownHook] INFO  c.a.cloud.nacos.registry.NacosServiceRegistry - De-registration finished.
+2025-05-09 23:27:44.858 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.cache.ServiceInfoHolder do shutdown begin
+2025-05-09 23:27:44.859 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.backups.FailoverReactor do shutdown begin
+2025-05-09 23:27:45.161 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.backups.FailoverReactor do shutdown stop
+2025-05-09 23:27:45.161 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.cache.ServiceInfoHolder do shutdown stop
+2025-05-09 23:27:45.161 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.remote.NamingClientProxyDelegate do shutdown begin
+2025-05-09 23:27:45.161 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.core.ServiceInfoUpdateService do shutdown begin
+2025-05-09 23:27:45.161 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.core.ServiceInfoUpdateService do shutdown stop
+2025-05-09 23:27:45.161 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.core.ServerListManager do shutdown begin
+2025-05-09 23:27:45.161 [SpringApplicationShutdownHook] WARN  com.alibaba.nacos.client.naming - [NamingHttpClientManager] Start destroying NacosRestTemplate
+2025-05-09 23:27:45.161 [SpringApplicationShutdownHook] WARN  com.alibaba.nacos.client.naming - [NamingHttpClientManager] Destruction of the end
+2025-05-09 23:27:45.161 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.core.ServerListManager do shutdown stop
+2025-05-09 23:27:45.161 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.remote.http.NamingHttpClientProxy do shutdown begin
+2025-05-09 23:27:45.161 [SpringApplicationShutdownHook] WARN  com.alibaba.nacos.client.naming - [NamingHttpClientManager] Start destroying NacosRestTemplate
+2025-05-09 23:27:45.161 [SpringApplicationShutdownHook] WARN  com.alibaba.nacos.client.naming - [NamingHttpClientManager] Destruction of the end
+2025-05-09 23:27:45.162 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.remote.http.NamingHttpClientProxy do shutdown stop
+2025-05-09 23:27:45.162 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.common.remote.client - Shutdown rpc client, set status to shutdown
+2025-05-09 23:27:45.162 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.common.remote.client - Shutdown client event executor java.util.concurrent.ScheduledThreadPoolExecutor@36dc3fae[Running, pool size = 2, active threads = 2, queued tasks = 0, completed tasks = 0]
+2025-05-09 23:27:45.162 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.common.remote.client - Close current connection 1746804464338_139.227.195.203_43428
+2025-05-09 23:27:45.165 [nacos-grpc-client-executor-8.133.246.113-8] WARN  c.a.nacos.common.remote.client.grpc.GrpcClient - [1746804464338_139.227.195.203_43428]Ignore error event,isRunning:false,isAbandon=false
+2025-05-09 23:27:45.166 [SpringApplicationShutdownHook] INFO  c.a.nacos.common.remote.client.grpc.GrpcClient - Shutdown grpc executor java.util.concurrent.ThreadPoolExecutor@4600f352[Running, pool size = 9, active threads = 0, queued tasks = 0, completed tasks = 9]
+2025-05-09 23:27:45.166 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - Shutdown grpc redo service executor java.util.concurrent.ScheduledThreadPoolExecutor@22b0ddc9[Running, pool size = 1, active threads = 0, queued tasks = 1, completed tasks = 0]
+2025-05-09 23:27:45.167 [SpringApplicationShutdownHook] INFO  c.a.n.client.auth.ram.identify.CredentialWatcher - [null] CredentialWatcher is stopped
+2025-05-09 23:27:45.167 [SpringApplicationShutdownHook] INFO  c.a.n.client.auth.ram.identify.CredentialService - [null] CredentialService is freed
+2025-05-09 23:27:45.167 [SpringApplicationShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.remote.NamingClientProxyDelegate do shutdown stop
+2025-05-09 23:27:45.213 [NettyClientSelector_1] INFO  RocketmqRemoting - closeChannel: close the connection to remote address[8.133.246.113:10911] result: true
+2025-05-09 23:27:45.213 [NettyClientSelector_1] INFO  RocketmqRemoting - closeChannel: close the connection to remote address[8.133.246.113:9876] result: true
+2025-05-09 23:27:45.227 [NettyClientSelector_1] INFO  RocketmqRemoting - closeChannel: close the connection to remote address[8.133.246.113:10911] result: true
+2025-05-09 23:27:45.227 [NettyClientSelector_1] INFO  RocketmqRemoting - closeChannel: close the connection to remote address[8.133.246.113:9876] result: true
+2025-05-09 23:27:47.141 [com.alibaba.nacos.client.Worker] INFO  c.a.n.client.auth.ram.identify.CredentialWatcher - null No credential found
+2025-05-09 23:27:47.305 [SpringApplicationShutdownHook] INFO  o.s.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-09 23:27:47.306 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-0} closing ...
+2025-05-09 23:27:47.306 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2025-05-09 23:27:47.311 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed

@@ -42,7 +42,7 @@ WORKDIR /app
 RUN groupadd -r bgai && useradd -r -g bgai bgai
 
 # Create a data directory and make it writable
-RUN mkdir -p /app/data /app/logs && chown -R bgai:bgai /app
+RUN mkdir -p /app/data /app/logs && mkdir -p /app/nacos/config && chown -R bgai:bgai /app
 
 # Copy the JAR file from the build stage
 COPY --from=build /app/target/*.jar app.jar
@@ -60,3 +60,4 @@ ENV JAVA_OPTS="-Xms512m -Xmx1g -XX:+UseG1GC -XX:+UseContainerSupport -XX:MaxRAMP
 
 # Start the application
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"] 
+
