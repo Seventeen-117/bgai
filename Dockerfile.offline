@@ -1,0 +1,34 @@
+# 离线构建版Dockerfile
+# 适用于网络环境极差的情况
+
+# 使用预编译构建方式
+# 步骤1: 在本地环境中预先构建JAR，跳过Docker内部的Maven构建
+#    mvn clean package -DskipTests
+# 步骤2: 使用此Dockerfile构建镜像
+#    docker build -f Dockerfile.offline -t jiangyang-ai:latest .
+
+FROM eclipse-temurin:21-jre-jammy
+
+WORKDIR /app
+
+# 假设JAR包已经在本地构建好
+COPY target/*.jar app.jar
+
+# 创建非root用户
+RUN groupadd -r bgai && useradd -r -g bgai bgai
+RUN mkdir -p /app/data /app/logs && chown -R bgai:bgai /app
+
+# 使用非root用户
+USER bgai
+
+# 环境变量
+ENV SPRING_PROFILES_ACTIVE=prod \
+    TZ=Asia/Shanghai \
+    JAVA_OPTS="-Xms512m -Xmx1g -XX:+UseG1GC"
+
+# 健康检查
+HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
+  CMD java -version || exit 1
+
+# 启动命令
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"] 

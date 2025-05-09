@@ -1,0 +1,50 @@
+# 快速构建版Dockerfile - 优化网络和依赖问题
+# 使用与当前系统匹配的JDK版本，避免下载新版本
+FROM eclipse-temurin:21-jdk-jammy AS build
+
+WORKDIR /app
+
+# 设置Maven配置以加速依赖下载
+ENV MAVEN_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1"
+
+# 复制pom.xml单独处理依赖，利用Docker缓存机制
+COPY pom.xml .
+COPY mvnw .
+COPY .mvn .mvn
+RUN chmod +x ./mvnw
+
+# 预下载依赖但跳过测试和构建，只解析依赖
+# -DskipTests 跳过测试
+# -Dmaven.repo.local=/app/.m2/repository 使用容器内本地仓库
+RUN ./mvnw dependency:go-offline -DskipTests
+
+# 然后复制源代码并构建
+COPY src src
+RUN ./mvnw package -DskipTests -Dmaven.test.skip=true
+
+# 运行阶段使用最小镜像
+FROM eclipse-temurin:21-jre-jammy
+
+WORKDIR /app
+
+# 复制JAR包
+COPY --from=build /app/target/*.jar app.jar
+
+# 创建非root用户
+RUN groupadd -r bgai && useradd -r -g bgai bgai
+RUN mkdir -p /app/data /app/logs && chown -R bgai:bgai /app
+
+# 使用非root用户运行
+USER bgai
+
+# 环境变量
+ENV SPRING_PROFILES_ACTIVE=prod \
+    TZ=Asia/Shanghai \
+    JAVA_OPTS="-Xms512m -Xmx1g"
+
+# 健康检查
+HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
+  CMD java -version || exit 1
+
+# 启动命令
+ENTRYPOINT ["java", "-jar", "app.jar"] 

@@ -216,7 +216,6 @@ public class EnhancedChatController {
                             try {
                                 Files.deleteIfExists(tempFile);
                             } catch (Exception ex) {
-                                // 忽略删除临时文件的异常
                             }
                             throw new RuntimeException("处理文件失败: " + e.getMessage(), e);
                         }
