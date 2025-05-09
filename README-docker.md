@@ -59,6 +59,55 @@ docker build -f Dockerfile.standalone -t bgai:latest .
    docker build -t bgai:latest .
    ```
 
+## 解决 Docker 构建问题
+
+如果您在构建 Docker 镜像时遇到网络连接问题或依赖安装失败，可以尝试以下方案：
+
+### 1. 使用精简版 Dockerfile
+
+使用项目中的 `Dockerfile.slim` 构建，此版本：
+- 使用 Debian-based 镜像替代 Alpine
+- 减少了依赖项的安装
+- 网络兼容性更好
+
+```bash
+docker build -f Dockerfile.slim -t bgai:latest .
+```
+
+### 2. 使用最小化 Dockerfile
+
+如果您仍然遇到网络或依赖项安装问题，可以使用 `Dockerfile.minimal`：
+- 不包含 OCR 和图像处理依赖
+- 最基本的构建环境
+- 最高的构建成功率
+
+```bash
+docker build -f Dockerfile.minimal -t bgai:latest .
+```
+
+若应用需要 OCR 或图像处理功能，您需要在宿主机上手动安装相关依赖：
+
+```bash
+# 对于 Debian/Ubuntu 系统
+apt-get update && apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng ffmpeg
+
+# 对于 CentOS/RHEL 系统
+yum install -y tesseract ffmpeg
+```
+
+然后使用卷挂载将这些工具映射到容器内：
+
+```bash
+docker run -d \
+  --name bgai-app \
+  -p 8080:8080 \
+  -v /usr/bin/tesseract:/usr/bin/tesseract \
+  -v /usr/bin/ffmpeg:/usr/bin/ffmpeg \
+  -v ./logs:/app/logs \
+  -v ./data:/app/data \
+  bgai:latest
+```
+
 ## 快速开始
 
 ### 1. 克隆项目
