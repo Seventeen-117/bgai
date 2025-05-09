@@ -9,6 +9,12 @@
 - 至少 4GB 内存
 - 至少 10GB 磁盘空间
 
+## 技术说明
+
+- 本 Docker 镜像基于 OpenJDK 17 (Eclipse Temurin)
+- 应用程序在构建时自动配置为 Java 17 兼容模式
+- 适用于 Spring Boot 3.0.x 项目
+
 ## 快速开始
 
 ### 1. 克隆项目

@@ -3,7 +3,7 @@
 #######################
 # Build stage
 #######################
-FROM eclipse-temurin:21-jdk-alpine AS build
+FROM eclipse-temurin:17-jdk-alpine AS build
 
 WORKDIR /app
 
@@ -14,6 +14,11 @@ COPY pom.xml .
 
 # Make the mvnw script executable
 RUN chmod +x ./mvnw
+
+# Modify pom.xml to change Java version from 21 to 17
+RUN sed -i 's/<java.version>21<\/java.version>/<java.version>17<\/java.version>/g' pom.xml && \
+    sed -i 's/<source>21<\/source>/<source>17<\/source>/g' pom.xml && \
+    sed -i 's/<target>21<\/target>/<target>17<\/target>/g' pom.xml
 
 # Download dependencies - this layer will be cached unless pom.xml changes
 RUN ./mvnw dependency:go-offline -B
@@ -27,7 +32,7 @@ RUN ./mvnw package -DskipTests
 #######################
 # Runtime stage
 #######################
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:17-jre-alpine
 
 # Install additional dependencies needed for image processing and OCR
 RUN apk add --no-cache \
