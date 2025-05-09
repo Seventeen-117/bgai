@@ -15,6 +15,50 @@
 - 应用程序在构建时自动配置为 Java 17 兼容模式
 - 适用于 Spring Boot 3.0.x 项目
 
+## 解决 Java 版本问题
+
+如果您在构建时遇到 `invalid target release: 21` 错误，表明您的项目配置为使用 Java 21，但服务器上只有 Java 17。解决此问题有以下几种方式：
+
+### 方法1：使用独立的 Dockerfile
+
+使用项目根目录下的 `Dockerfile.standalone` 文件进行构建：
+
+```bash
+docker build -f Dockerfile.standalone -t bgai:latest .
+```
+
+### 方法2：使用修复脚本
+
+1. 使脚本可执行：
+   ```bash
+   chmod +x fix-java-version.sh
+   ```
+
+2. 运行脚本修复 pom.xml 中的 Java 版本：
+   ```bash
+   ./fix-java-version.sh
+   ```
+
+3. 构建 Docker 镜像：
+   ```bash
+   docker build -t bgai:latest .
+   ```
+
+### 方法3：手动修改 pom.xml
+
+1. 编辑 pom.xml 文件：
+   ```bash
+   cp pom.xml pom.xml.original
+   sed -i 's/<java.version>21<\/java.version>/<java.version>17<\/java.version>/g' pom.xml
+   sed -i 's/<source>21<\/source>/<source>17<\/source>/g' pom.xml
+   sed -i 's/<target>21<\/target>/<target>17<\/target>/g' pom.xml
+   ```
+
+2. 构建 Docker 镜像：
+   ```bash
+   docker build -t bgai:latest .
+   ```
+
 ## 快速开始
 
 ### 1. 克隆项目

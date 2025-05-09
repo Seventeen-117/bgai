@@ -7,20 +7,35 @@ FROM eclipse-temurin:17-jdk-alpine AS build
 
 WORKDIR /app
 
-# Install necessary tools
-RUN apk add --no-cache sed grep bash
+# Install necessary tools 
+RUN apk add --no-cache bash sed grep
 
 # Copy Maven wrapper and pom.xml first for better layer caching
 COPY mvnw .
 COPY .mvn .mvn
 COPY pom.xml .
-COPY fix-java-version.sh .
 
-# Make scripts executable
-RUN chmod +x ./mvnw && chmod +x ./fix-java-version.sh
+# Make mvnw executable
+RUN chmod +x ./mvnw
 
-# Run the Java version fix script
-RUN ./fix-java-version.sh
+# Backup original pom.xml
+RUN cp pom.xml pom.xml.original
+
+# Modify pom.xml to use Java 17 instead of 21
+RUN sed -i 's/<java.version>21<\/java.version>/<java.version>17<\/java.version>/g' pom.xml && \
+    sed -i 's/<source>21<\/source>/<source>17<\/source>/g' pom.xml && \
+    sed -i 's/<target>21<\/target>/<target>17<\/target>/g' pom.xml && \
+    echo "Modified pom.xml:" && \
+    grep -n "java.version\|source\|target" pom.xml
+
+# Copy application source code
+COPY src src
+
+# Build the application with explicit Java 17 settings
+RUN ./mvnw clean package -DskipTests \
+    -Dmaven.compiler.source=17 \
+    -Dmaven.compiler.target=17 \
+    -Djava.version=17
 
 #######################
 # Runtime stage
