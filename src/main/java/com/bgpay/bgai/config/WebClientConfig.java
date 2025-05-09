@@ -1,30 +1,22 @@
 package com.bgpay.bgai.config;
 
 
-import org.springframework.beans.factory.annotation.Value;
+import org.apache.http.HttpHeaders;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.client.reactive.ReactorClientHttpConnector;
-import org.springframework.http.client.reactive.ReactorResourceFactory;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.netty.http.client.HttpClient;
+import org.springframework.http.MediaType;
 
-import java.time.Duration;
+import org.springframework.web.reactive.function.client.WebClient;
+
 
 @Configuration
 public class WebClientConfig {
-    @Bean
-    public WebClient webClient(
-            @Value("${deepseek.api.timeout:120000}") long timeout,
-            ReactorResourceFactory resourceFactory) {
 
-        HttpClient httpClient = HttpClient.create(resourceFactory.getConnectionProvider())
-                .responseTimeout(Duration.ofMillis(timeout))
-                .compress(true);
-
-        return WebClient.builder()
-                .clientConnector(new ReactorClientHttpConnector(httpClient))
-                .baseUrl("https://api.deepseek.com/v1")
-                .build();
-    }
+        @Bean
+        public WebClient webClient(WebClient.Builder builder) {
+            return builder
+                    .baseUrl("https://api.deepseek.com/v1")
+                    .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                    .build();
+        }
 }

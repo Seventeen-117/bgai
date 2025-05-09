@@ -1,45 +1,60 @@
 spring:
+  webflux:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+      max-in-memory-size: 512KB
+  main:
+    web-application-type: reactive
+    allow-circular-references: true # 允许循环依赖，因为项目是三层架构，无法避免这个情况。
+    allow-bean-definition-overriding: true # 允许 Bean 覆盖，例如说 Feign 等会存在重复定义的服务
   application:
     name: bgtech-ai
   config:
     import: optional:classpath:deepseek-config.properties
   cloud:
     nacos:
-      config:
-        server-addr: 8.133.246.113:8848
-        file-extension: yaml
-        group: DEFAULT_GROUP
-        refresh-enabled: true
-        namespace: d750d92e-152f-4055-a641-3bc9dda85a29
       discovery:
-        server-addr: ${spring.cloud.nacos.config.server-addr}
-        metadata:
-          flink-version: latest  # 自定义元数据
+        server-addr: ${NACOS_HOST:8.133.246.113}:${NACOS_PORT:8848}
+        namespace: ${NACOS_NAMESPACE:d750d92e-152f-4055-a641-3bc9dda85a29}
+        group: ${NACOS_GROUP:DEFAULT_GROUP}
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        namespace: ${spring.cloud.nacos.discovery.namespace}
+        group: ${spring.cloud.nacos.discovery.group}
+        file-extension: yaml
+        shared-configs:
+          - data-id: common-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+            group: ${spring.cloud.nacos.discovery.group}
+            refresh: true
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
     gateway:
-      httpclient:
-        connect-timeout: 10000
-        response-timeout: 120s
+      discovery:
+        locator:
+          enabled: true  # 开启动态路由，从注册中心发现服务
+          lower-case-service-id: true  # 服务 ID 转为小写
       routes:
         - id: chat-service
+          uri: lb://chat-service  # 使用负载均衡的服务名
           predicates:
             - Path=/api/**
           filters:
-            - StripPrefix=0
-            - name: RequestRateLimiter
-              args:
-                redis-rate-limiter.replenishRate: 100
-                redis-rate-limiter.burstCapacity: 200
+            - StripPrefix=1  # 移除前缀
             - name: CircuitBreaker
               args:
                 name: deepseekCircuitBreaker
                 fallbackUri: forward:/fallback
-            - RewritePath=/api/(?<segment>.*), /$\{segment}  # 路径重写
-flink:
-  jobmanager:
-    host: 8.133.246.113
-    port: 8081
-
-deepseek:
-  api:
-    timeout: 120000  # 120秒超时
-    max-retries: 3    # 最大重试次数
+                statusCodes: INTERNAL_SERVER_ERROR,SERVICE_UNAVAILABLE
+                failureRateThreshold: 50
+                minimumNumberOfCalls: 5
+                slidingWindowType: TIME_BASED
+                slidingWindowSize: 10s
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 100
+                redis-rate-limiter.burstCapacity: 200
+            - RewritePath=/api/(?<segment>.*), /$\{segment}
+      httpclient:
+        connect-timeout: 10000
+        response-timeout: 120s

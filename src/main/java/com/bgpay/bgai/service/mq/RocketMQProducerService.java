@@ -1,6 +1,7 @@
 package com.bgpay.bgai.service.mq;
 
 
+import com.alibaba.fastjson2.JSON;
 import com.bgpay.bgai.entity.UsageCalculationDTO;
 import com.bgpay.bgai.exception.BillingException;
 import com.bgpay.bgai.response.ChatResponse;
@@ -16,10 +17,14 @@ import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -50,11 +55,22 @@ public class RocketMQProducerService {
         this.rocketMQTemplate = rocketMQTemplate;
     }
 
+
+
     @PostConstruct
     public void init() throws Exception {
         producer = new DefaultMQProducer(producerGroup);
         producer.setNamesrvAddr(namesrvAddr);
-        producer.setRetryTimesWhenSendAsyncFailed(3);
+
+        // 新增网络优化参数
+        producer.setSendMsgTimeout(15000);
+        producer.setRetryTimesWhenSendFailed(5);
+        producer.setCompressMsgBodyOverHowmuch(1024*4);
+        producer.setMaxMessageSize(1024*128);
+
+        // 启用VIP通道（需Broker支持）
+        producer.setVipChannelEnabled(true);
+
         producer.start();
     }
 
@@ -83,6 +99,27 @@ public class RocketMQProducerService {
             throw new BillingException("消息发送失败，状态: " + result.getSendStatus());
         }
         log.debug("Billing message sent successfully: {}", dto.getChatCompletionId());
+    }
+
+
+    public Mono<Void> sendBillingMessageReactive(UsageCalculationDTO dto, String userId) {
+        return Mono.just(dto)
+                .publishOn(Schedulers.immediate()) // 禁止切换线程
+                .flatMap(d -> {
+                    return Mono.fromCallable(() -> { // 在调用线程同步执行
+                        org.springframework.messaging.Message<UsageCalculationDTO> message = buildMessage(d, userId);
+                        TransactionSendResult result = rocketMQTemplate.sendMessageInTransaction(
+                                BILLING_DESTINATION,
+                                message,
+                                d.getChatCompletionId()
+                        );
+                        if (result.getSendStatus() != SendStatus.SEND_OK) {
+                            throw new BillingException("发送失败");
+                        }
+                        return result;
+                    });
+                })
+                .then();
     }
 
     private org.springframework.messaging.Message<UsageCalculationDTO> buildMessage(UsageCalculationDTO dto, String userId) {

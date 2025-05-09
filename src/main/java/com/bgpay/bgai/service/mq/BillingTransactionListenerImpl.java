@@ -2,6 +2,7 @@ package com.bgpay.bgai.service.mq;
 
 import com.alibaba.fastjson2.JSON;
 import com.bgpay.bgai.entity.UsageCalculationDTO;
+import com.bgpay.bgai.entity.UsageInfo;
 import com.bgpay.bgai.service.UsageInfoService;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
@@ -39,14 +40,9 @@ public class BillingTransactionListenerImpl implements RocketMQLocalTransactionL
 
     @Override
     public RocketMQLocalTransactionState executeLocalTransaction(Message msg, Object arg) {
-        String completionId = this.extractCompletionId(msg, arg);
-        if (completionId == null) {
-            return RocketMQLocalTransactionState.ROLLBACK;
-        }
-        return checkProcessed(completionId) ?
-                RocketMQLocalTransactionState.COMMIT :
-                RocketMQLocalTransactionState.UNKNOWN;
+        return RocketMQLocalTransactionState.UNKNOWN;
     }
+
 
 
     @Override
@@ -59,29 +55,26 @@ public class BillingTransactionListenerImpl implements RocketMQLocalTransactionL
 
 
     private String extractCompletionId(Message msg, Object arg) {
-        // 优先从arg参数获取
         if (arg instanceof String) {
             return (String) arg;
         }
 
-        // 次从消息头获取
         String keys = msg.getHeaders().get(RocketMQHeaders.KEYS, String.class);
         if (keys != null) {
             return keys;
         }
 
-        // 最后尝试解析消息体
         try {
             UsageCalculationDTO dto = JSON.parseObject((byte[]) msg.getPayload(), UsageCalculationDTO.class);
             return dto.getChatCompletionId();
         } catch (Exception e) {
-            log.error("消息体解析失败", e);
+            log.error("Message body parsing failed", e);
             return null;
         }
     }
 
 
-    public boolean checkProcessed(String completionId) {
+    private boolean checkProcessed(String completionId) {
         if (localCache.getIfPresent(completionId) != null) {
             return true;
         }
@@ -98,8 +91,9 @@ public class BillingTransactionListenerImpl implements RocketMQLocalTransactionL
             }
             return dbExists;
         } catch (Exception e) {
-            log.error("数据库检查失败，completionId: {}", completionId, e);
+            log.error("Database check failed，completionId: {}", completionId, e);
             return false;
         }
     }
+
 }

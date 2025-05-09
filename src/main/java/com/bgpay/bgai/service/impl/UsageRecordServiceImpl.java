@@ -6,6 +6,9 @@ import com.bgpay.bgai.service.UsageRecordService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * <p>
@@ -40,5 +43,14 @@ public class UsageRecordServiceImpl extends ServiceImpl<UsageRecordMapper, Usage
         long count = usageRecordMapper.selectCount(queryWrapper);
         // 如果记录数量大于 0，则表示存在该记录
         return count >0;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void batchInsert(List<UsageRecord> records) {
+        if (records == null || records.isEmpty()) {
+            return;
+        }
+        this.saveBatch(records, 1000);
     }
 }

@@ -1,7 +1,6 @@
 package com.bgpay.bgai.service.deepseek;
 
 import com.bgpay.bgai.entity.MimeTypeConfig;
-import com.bgpay.bgai.service.impl.FileTypeService;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -37,7 +36,7 @@ public class FileProcessor {
         Tesseract tesseract = new Tesseract();
         tesseract.setDatapath("/path/to/your/tessdata");
         tesseract.setLanguage("chi_sim+eng");
-        tesseract.setPageSegMode(1);  // 自动页面分割
+        tesseract.setPageSegMode(1);
         return tesseract;
     });
 
@@ -51,7 +50,7 @@ public class FileProcessor {
 
         try {
             if (!fileTypeService.validateFileMagic(tempFile, contentType)) {
-                throw new IllegalArgumentException("文件内容与类型不匹配");
+                throw new IllegalArgumentException("File content and type do not match");
             }
 
             return switch (contentType.toLowerCase()) {
@@ -63,7 +62,6 @@ public class FileProcessor {
                 case "application/vnd.ms-powerpoint" -> processPresentation(tempFile, false);
                 case "application/vnd.openxmlformats-officedocument.presentationml.presentation" -> processPresentation(tempFile, true);
                 case "video/mp4", "video/quicktime" -> processVideo(tempFile);
-                // 新增文本类文件处理
                 case "text/x-python", "application/javascript", "application/typescript", "text/x-ruby", "text/x-perl",
                      "text/x-sh", "application/powershell", "text/html", "application/xml", "application/xslt+xml",
                      "text/markdown", "text/x-java-source", "text/x-c", "text/x-c++", "text/x-csharp",
@@ -73,7 +71,7 @@ public class FileProcessor {
                      "application/dart", "text/x-erlang", "text/x-fortran", "text/x-groovy", "text/x-haskell",
                      "text/x-lua", "text/x-objective-c", "text/x-pascal", "text/x-scala", "text/x-vhdl",
                      "text/x-verilog" -> processTextFile(tempFile);
-                default -> throw new IllegalArgumentException("不支持的文件类型: " + contentType);
+                default -> throw new IllegalArgumentException("Unsupported file types: " + contentType);
             };
         } finally {
             Files.deleteIfExists(tempFile.toPath());
@@ -106,7 +104,6 @@ public class FileProcessor {
         }
     }
 
-    // 优化后的文本文件处理方法（支持编码检测）
     private String processTextFile(File file) throws IOException {
         String charset = detectCharset(file);
         try (BufferedReader reader = new BufferedReader(
@@ -123,10 +120,10 @@ public class FileProcessor {
 
     private String validateFile(MultipartFile file) {
         String originalFilename = Optional.ofNullable(file.getOriginalFilename())
-                .orElseThrow(() -> new IllegalArgumentException("文件名不能为空"));
+                .orElseThrow(() -> new IllegalArgumentException("The file name cannot be empty"));
 
         String contentType = Optional.ofNullable(file.getContentType())
-                .orElseThrow(() -> new IllegalArgumentException("无法识别文件类型"));
+                .orElseThrow(() -> new IllegalArgumentException("Unable to recognize file type"));
 
         String extension = getFileExtension(originalFilename);
         // 增强扩展名检查
@@ -319,42 +316,5 @@ public class FileProcessor {
                     grabber.getVideoFrameRate()
             );
         }
-    }
-
-    public String processFile(File file, String contentType) throws Exception {
-        // 验证文件类型（新增方法）
-        String validContentType = validateFileType(file, file.getName(), contentType);
-
-        return switch (contentType.toLowerCase()) {
-            case "image/png", "image/jpeg", "image/tiff", "image/bmp", "image/gif" -> processImage(file);
-            case "application/pdf" -> processPDF(file);
-            case "application/vnd.openxmlformats-officedocument.wordprocessingml.document" -> processDocx(file);
-            case "application/vnd.ms-excel" -> processExcel(file, false);
-            case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" -> processExcel(file, true);
-            case "application/vnd.ms-powerpoint" -> processPresentation(file, false);
-            case "application/vnd.openxmlformats-officedocument.presentationml.presentation" -> processPresentation(file, true);
-            case "video/mp4", "video/quicktime" -> processVideo(file);
-            // 新增文本类文件处理
-            case "text/x-python", "application/javascript", "application/typescript", "text/x-ruby", "text/x-perl",
-                 "text/x-sh", "application/powershell", "text/html", "application/xml", "application/xslt+xml",
-                 "text/markdown", "text/x-java-source", "text/x-c", "text/x-c++", "text/x-csharp",
-                 "application/x-php", "text/x-go", "text/x-rust", "text/x-swift", "text/plain",
-                 "application/x-win-registry", "application/json", "text/yaml", "text/x-properties",
-                 "text/css", "application/sql", "text/x-makefile", "text/x-asm", "application/coffeescript",
-                 "application/dart", "text/x-erlang", "text/x-fortran", "text/x-groovy", "text/x-haskell",
-                 "text/x-lua", "text/x-objective-c", "text/x-pascal", "text/x-scala", "text/x-vhdl",
-                 "text/x-verilog" -> processTextFile(file);
-            default -> throw new IllegalArgumentException("不支持的文件类型: " + validContentType);
-        };
-    }
-
-    private String validateFileType(File file, String filename, String contentType) {
-        String extension = getFileExtension(filename);
-        MimeTypeConfig config = fileTypeService.getExtensionToMimeTypeConfig().get(extension);
-
-        if (config != null && !config.getMimeType().equalsIgnoreCase(contentType)) {
-            throw new IllegalArgumentException("文件类型不匹配");
-        }
-        return contentType;
     }
 }

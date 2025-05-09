@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/Api")
 public class EnhancedChatController {
     private final FileProcessor fileProcessor;
     private final ApiConfigService apiConfigService;
@@ -31,7 +31,9 @@ public class EnhancedChatController {
         this.deepSeekService = deepSeekService;
     }
 
-    @PostMapping(value = "/chat", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/chat",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ChatResponse> handleChatRequest(
             @RequestPart(value = "file", required = false) MultipartFile file,
             @RequestParam(value = "question", defaultValue = "请分析该内容") String question,

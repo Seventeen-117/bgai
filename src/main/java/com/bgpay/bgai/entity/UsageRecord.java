@@ -50,4 +50,7 @@ public class UsageRecord {
 
     @TableField("calculated_at")
     private LocalDateTime calculatedAt;
+
+    private String messageId;
+
 }

@@ -62,19 +62,16 @@ public class MQConsumerService {
 
             for (MessageExt msg : msgs) {
                 try {
-                    // 处理消息（包含业务逻辑）
                     messageProcessor.process(msg);
 
-                    // 记录成功消息
                     successMessages.add(msg);
 
-                    // 更新最大offset
                     MessageQueue mq = new MessageQueue(msg.getTopic(),
                             msg.getBrokerName(), msg.getQueueId());
                     offsetMap.merge(mq, msg.getQueueOffset(), Math::max);
 
                 } catch (Exception e) {
-                    log.error("消息消费失败 [MsgId={}]", msg.getMsgId(), e);
+                    log.error("Message consumption failed [MsgId={}]", msg.getMsgId(), e);
                     hasFailure = true;
                 }
             }
@@ -96,7 +93,7 @@ public class MQConsumerService {
         });
 
         consumer.start();
-        log.info("MQ消费者启动成功 [group={}, topic={}, tag={}]", consumerGroup, topic, tag);
+        log.info("MQ consumer startup successful [group={}, topic={}, tag={}]", consumerGroup, topic, tag);
         return consumer;
     }
 

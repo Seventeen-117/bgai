@@ -1,6 +1,6 @@
 package com.bgpay.bgai.cache;
 
-import com.bgpay.bgai.service.impl.FileTypeService;
+import com.bgpay.bgai.service.deepseek.FileTypeService;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;

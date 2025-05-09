@@ -67,4 +67,13 @@ public class AsyncConfig {
         executor.initialize();
         return executor;
     }
+    @Bean(name = "blockingExecutor")
+    public Executor blockingExecutor() {
+        return new ThreadPoolTaskExecutor() {{
+            setCorePoolSize(10);
+            setMaxPoolSize(50);
+            setQueueCapacity(100);
+            setThreadNamePrefix("file-process-");
+        }};
+    }
 }

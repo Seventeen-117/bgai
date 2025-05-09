@@ -4,6 +4,8 @@ import com.bgpay.bgai.entity.UsageRecord;
 import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.validation.constraints.NotBlank;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -18,6 +20,8 @@ public interface UsageRecordService extends IService<UsageRecord> {
     public UsageRecord findByCompletionId(String completionId);
 
     public boolean existsByCompletionId(@NotBlank String chatCompletionId);
+
+    public void batchInsert(List<UsageRecord> records);
 
 
 }

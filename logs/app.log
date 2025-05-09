@@ -1,466 +1,226 @@
-10:53:12.695 [main] INFO  com.bgpay.bgai.BgaiApplication - No active profile set, falling back to 1 default profile: "default"
-10:53:16.866 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:53:16.887 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:53:16.928 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:53:16.930 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:53:16.930 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:53:16.947 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:53:18.896 [main] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Billing consumer started successfully
-10:53:20.685 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 10.079 seconds (process running for 11.342)
-10:53:20.692 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:53:20.692 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:53:20.703 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:53:20.704 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-10:53:20.704 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-10:53:20.716 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-10:53:20.716 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:53:20.716 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:53:20.724 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:53:20.725 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-10:53:20.725 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-10:53:20.732 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-10:53:46.847 [http-nio-8080-exec-1] DEBUG c.b.b.m.ApiConfigMapper.selectList - ==>  Preparing: SELECT id,api_url,api_key,model_name,user_id FROM api_config WHERE (user_id = ?) ORDER BY id DESC
-10:53:46.848 [http-nio-8080-exec-1] DEBUG c.b.b.m.ApiConfigMapper.selectList - ==> Parameters: 689258T(String)
-10:53:46.865 [http-nio-8080-exec-1] DEBUG c.b.b.m.ApiConfigMapper.selectList - <==      Total: 1
-10:54:13.190 [http-nio-8080-exec-1] DEBUG c.b.b.m.ChatCompletionsMapper.insert - ==>  Preparing: INSERT INTO chat_completions ( object, created, model, system_fingerprint, api_key ) VALUES ( ?, ?, ?, ?, ? )
-10:54:13.193 [http-nio-8080-exec-1] DEBUG c.b.b.m.ChatCompletionsMapper.insert - ==> Parameters: chat.completion(String), 1742957627(Long), deepseek-reasoner(String), fp_5417b77867_prod0225(String), 3cbf030a-3628-4913-aa7b-41c3a424e59c(String)
-10:54:13.212 [http-nio-8080-exec-1] DEBUG c.b.b.m.ChatCompletionsMapper.insert - <==    Updates: 1
-10:54:13.246 [FileWrite-1] INFO  c.b.b.s.deepseek.FileWriterService - Successfully wrote content to: \var\data\ai_responses\78d57326-e2b1-4e58-a1e0-5b85cdf3bbb3.txt
-10:54:13.247 [ForkJoinPool.commonPool-worker-1] DEBUG c.b.b.mapper.UsageInfoMapper.insert - ==>  Preparing: INSERT INTO usage_info ( chat_completion_id, prompt_tokens, completion_tokens, total_tokens, prompt_tokens_cached, completion_reasoning_tokens, prompt_cache_hit_tokens, prompt_cache_miss_tokens, created_at, model_type ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
-10:54:13.250 [ForkJoinPool.commonPool-worker-1] DEBUG c.b.b.mapper.UsageInfoMapper.insert - ==> Parameters: 3cbf030a-3628-4913-aa7b-41c3a424e59c(String), 33(Integer), 431(Integer), 464(Integer), 0(Integer), 283(Integer), 0(Integer), 33(Integer), 2025-03-26T10:54:13.237757(LocalDateTime), deepseek-reasoner(String)
-10:54:13.274 [ForkJoinPool.commonPool-worker-1] DEBUG c.b.b.mapper.UsageInfoMapper.insert - <==    Updates: 1
-10:54:13.637 [http-nio-8080-exec-1] DEBUG c.b.b.m.UsageInfoMapper.selectCount - ==>  Preparing: SELECT COUNT( * ) AS total FROM usage_info WHERE (chat_completion_id = ?)
-10:54:13.637 [http-nio-8080-exec-1] DEBUG c.b.b.m.UsageInfoMapper.selectCount - ==> Parameters: 3cbf030a-3628-4913-aa7b-41c3a424e59c(String)
-10:54:13.644 [http-nio-8080-exec-1] DEBUG c.b.b.m.UsageInfoMapper.selectCount - <==      Total: 1
-10:54:13.657 [http-nio-8080-exec-1] DEBUG c.b.b.s.mq.BillingMessageService - Billing message sent successfully: 3cbf030a-3628-4913-aa7b-41c3a424e59c
-10:54:13.994 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.PriceConfigMapper.selectList - ==>  Preparing: SELECT id,model_type,time_period,cache_status,io_type,price,version,effective_time FROM price_config WHERE (model_type = ? AND time_period = ? AND io_type = ? AND effective_time <= ? AND cache_status = ?) ORDER BY effective_time DESC LIMIT 1
-10:54:13.995 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.PriceConfigMapper.selectList - ==> Parameters: deepseek-reasoner(String), standard(String), input(String), 2025-03-26T10:54:13.992629200(LocalDateTime), miss(String)
-10:54:14.011 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.PriceConfigMapper.selectList - <==      Total: 1
-10:54:14.097 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.PriceConfigMapper.selectList - ==>  Preparing: SELECT id,model_type,time_period,cache_status,io_type,price,version,effective_time FROM price_config WHERE (model_type = ? AND time_period = ? AND io_type = ? AND effective_time <= ? AND cache_status IS NULL) ORDER BY effective_time DESC LIMIT 1
-10:54:14.098 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.PriceConfigMapper.selectList - ==> Parameters: deepseek-reasoner(String), standard(String), output(String), 2025-03-26T10:54:14.095350900(LocalDateTime)
-10:54:14.106 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.PriceConfigMapper.selectList - <==      Total: 1
-10:54:14.192 [ConsumeMessageThread_billing-consumer-group_1] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Output price config priceVersion: 1
-10:54:14.193 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.UsageRecordMapper.insert - ==>  Preparing: INSERT INTO usage_record ( model_type, chat_completion_id, user_id, input_cost, output_cost, price_version, calculated_at ) VALUES ( ?, ?, ?, ?, ?, ?, ? )
-10:54:14.194 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.UsageRecordMapper.insert - ==> Parameters: deepseek-reasoner(String), 3cbf030a-3628-4913-aa7b-41c3a424e59c(String), 689258T(String), 0.0001(BigDecimal), 0.0069(BigDecimal), 1(Integer), 2025-03-26T10:54:14.192087300(LocalDateTime)
-10:54:14.217 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.UsageRecordMapper.insert - <==    Updates: 1
-10:54:14.233 [ConsumeMessageThread_billing-consumer-group_1] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Message consumed successfully: 2408820C75288342B97D2A9EF333CE1B93B436BAF30C8315F1250000
-11:02:30.335 [main] INFO  com.bgpay.bgai.BgaiApplication - No active profile set, falling back to 1 default profile: "default"
-11:02:33.991 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-11:02:34.011 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-11:02:34.043 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-11:02:34.045 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-11:02:34.045 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-11:02:34.055 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-11:02:35.800 [main] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Billing consumer started successfully
-11:02:37.508 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 8.993 seconds (process running for 10.164)
-11:02:37.514 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-11:02:37.515 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-11:02:37.525 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-11:02:37.525 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-11:02:37.525 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-11:02:37.535 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-11:02:37.535 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-11:02:37.536 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-11:02:37.542 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-11:02:37.543 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-11:02:37.543 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-11:02:37.548 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-11:02:42.664 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - ==>  Preparing: SELECT id,api_url,api_key,model_name,user_id FROM api_config WHERE (user_id = ?) ORDER BY id DESC
-11:02:42.665 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - ==> Parameters: 689258T(String)
-11:02:42.674 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - <==      Total: 1
-11:03:15.855 [http-nio-8080-exec-2] DEBUG c.b.b.m.ChatCompletionsMapper.insert - ==>  Preparing: INSERT INTO chat_completions ( object, created, model, system_fingerprint, api_key ) VALUES ( ?, ?, ?, ?, ? )
-11:03:15.858 [http-nio-8080-exec-2] DEBUG c.b.b.m.ChatCompletionsMapper.insert - ==> Parameters: chat.completion(String), 1742958162(Long), deepseek-reasoner(String), fp_5417b77867_prod0225(String), 00714f8a-53c9-4d4c-aa99-a4afe3aa9095(String)
-11:03:15.915 [http-nio-8080-exec-2] DEBUG c.b.b.m.ChatCompletionsMapper.insert - <==    Updates: 1
-11:03:16.036 [ForkJoinPool.commonPool-worker-1] DEBUG c.b.b.mapper.UsageInfoMapper.insert - ==>  Preparing: INSERT INTO usage_info ( chat_completion_id, prompt_tokens, completion_tokens, total_tokens, prompt_tokens_cached, completion_reasoning_tokens, prompt_cache_hit_tokens, prompt_cache_miss_tokens, created_at, model_type ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
-11:03:16.073 [ForkJoinPool.commonPool-worker-1] DEBUG c.b.b.mapper.UsageInfoMapper.insert - ==> Parameters: 00714f8a-53c9-4d4c-aa99-a4afe3aa9095(String), 33(Integer), 494(Integer), 527(Integer), 0(Integer), 317(Integer), 0(Integer), 33(Integer), 2025-03-26T11:03:16.014162600(LocalDateTime), deepseek-reasoner(String)
-11:03:16.077 [FileWrite-1] INFO  c.b.b.s.deepseek.FileWriterService - Successfully wrote content to: \var\data\ai_responses\86bac834-de38-4df5-a5f6-79afb77e13f4.txt
-11:03:16.093 [ForkJoinPool.commonPool-worker-1] DEBUG c.b.b.mapper.UsageInfoMapper.insert - <==    Updates: 1
-11:03:16.458 [http-nio-8080-exec-2] DEBUG c.b.b.m.UsageInfoMapper.selectCount - ==>  Preparing: SELECT COUNT( * ) AS total FROM usage_info WHERE (chat_completion_id = ?)
-11:03:16.459 [http-nio-8080-exec-2] DEBUG c.b.b.m.UsageInfoMapper.selectCount - ==> Parameters: 00714f8a-53c9-4d4c-aa99-a4afe3aa9095(String)
-11:03:16.477 [http-nio-8080-exec-2] DEBUG c.b.b.m.UsageInfoMapper.selectCount - <==      Total: 1
-11:03:16.491 [http-nio-8080-exec-2] DEBUG c.b.b.s.mq.BillingMessageService - Billing message sent successfully: 00714f8a-53c9-4d4c-aa99-a4afe3aa9095
-11:03:16.515 [ConsumeMessageThread_billing-consumer-group_1] ERROR c.b.b.s.i.RocketMQBillingServiceImpl - Message consumption failed [MsgId=2408820C75288342B97D2A9EF333CE1B395C36BAF30C831E394C0000]
-com.bgpay.bgai.exception.BillingException: 消息处理失败
-	at com.bgpay.bgai.service.impl.RocketMQBillingServiceImpl.processMessage(RocketMQBillingServiceImpl.java:206)
-	at com.bgpay.bgai.service.impl.RocketMQBillingServiceImpl.lambda$initConsumer$4(RocketMQBillingServiceImpl.java:134)
-	at org.apache.rocketmq.client.impl.consumer.ConsumeMessageConcurrentlyService$ConsumeRequest.run(ConsumeMessageConcurrentlyService.java:409)
-	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
-	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:317)
-	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
-	at java.base/java.lang.Thread.run(Thread.java:1583)
-Caused by: java.lang.NullPointerException: Cannot invoke "java.util.Map.get(Object)" because "props" is null
-	at com.bgpay.bgai.service.impl.RocketMQBillingServiceImpl.processMessage(RocketMQBillingServiceImpl.java:177)
-	... 8 common frames omitted
-11:03:26.636 [ConsumeMessageThread_billing-consumer-group_2] ERROR c.b.b.s.i.RocketMQBillingServiceImpl - Message consumption failed [MsgId=2408820C75288342B97D2A9EF333CE1B395C36BAF30C831E394C0000]
-com.bgpay.bgai.exception.BillingException: 消息处理失败
-	at com.bgpay.bgai.service.impl.RocketMQBillingServiceImpl.processMessage(RocketMQBillingServiceImpl.java:206)
-	at com.bgpay.bgai.service.impl.RocketMQBillingServiceImpl.lambda$initConsumer$4(RocketMQBillingServiceImpl.java:134)
-	at org.apache.rocketmq.client.impl.consumer.ConsumeMessageConcurrentlyService$ConsumeRequest.run(ConsumeMessageConcurrentlyService.java:409)
-	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
-	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:317)
-	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
-	at java.base/java.lang.Thread.run(Thread.java:1583)
-Caused by: java.lang.NullPointerException: Cannot invoke "java.util.Map.get(Object)" because "props" is null
-	at com.bgpay.bgai.service.impl.RocketMQBillingServiceImpl.processMessage(RocketMQBillingServiceImpl.java:177)
-	... 8 common frames omitted
-11:03:56.671 [ConsumeMessageThread_billing-consumer-group_3] ERROR c.b.b.s.i.RocketMQBillingServiceImpl - Message consumption failed [MsgId=2408820C75288342B97D2A9EF333CE1B395C36BAF30C831E394C0000]
-com.bgpay.bgai.exception.BillingException: 消息处理失败
-	at com.bgpay.bgai.service.impl.RocketMQBillingServiceImpl.processMessage(RocketMQBillingServiceImpl.java:206)
-	at com.bgpay.bgai.service.impl.RocketMQBillingServiceImpl.lambda$initConsumer$4(RocketMQBillingServiceImpl.java:134)
-	at org.apache.rocketmq.client.impl.consumer.ConsumeMessageConcurrentlyService$ConsumeRequest.run(ConsumeMessageConcurrentlyService.java:409)
-	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
-	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:317)
-	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
-	at java.base/java.lang.Thread.run(Thread.java:1583)
-Caused by: java.lang.NullPointerException: Cannot invoke "java.util.Map.get(Object)" because "props" is null
-	at com.bgpay.bgai.service.impl.RocketMQBillingServiceImpl.processMessage(RocketMQBillingServiceImpl.java:177)
-	... 8 common frames omitted
-11:04:59.869 [main] INFO  com.bgpay.bgai.BgaiApplication - No active profile set, falling back to 1 default profile: "default"
-11:05:03.616 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-11:05:03.636 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-11:05:03.668 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-11:05:03.670 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-11:05:03.670 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-11:05:03.680 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-11:05:05.438 [main] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Billing consumer started successfully
-11:05:06.626 [ConsumeMessageThread_billing-consumer-group_1] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Output price config priceVersion: 1
-11:05:06.666 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.UsageRecordMapper.insert - ==>  Preparing: INSERT INTO usage_record ( model_type, chat_completion_id, user_id, input_cost, output_cost, price_version, calculated_at ) VALUES ( ?, ?, ?, ?, ?, ?, ? )
-11:05:06.669 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.UsageRecordMapper.insert - ==> Parameters: deepseek-reasoner(String), 00714f8a-53c9-4d4c-aa99-a4afe3aa9095(String), 689258T(String), 0.0001(BigDecimal), 0.0079(BigDecimal), 1(Integer), 2025-03-26T11:05:06.626872100(LocalDateTime)
-11:05:06.689 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.UsageRecordMapper.insert - <==    Updates: 1
-11:05:06.716 [ConsumeMessageThread_billing-consumer-group_1] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Message consumed successfully: 2408820C75288342B97D2A9EF333CE1B395C36BAF30C831E394C0000
-11:05:07.134 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 9.107 seconds (process running for 10.234)
-11:05:07.142 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-11:05:07.142 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-11:05:07.152 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-11:05:07.153 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-11:05:07.153 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-11:05:07.164 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-11:05:07.164 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-11:05:07.164 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-11:05:07.172 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-11:05:07.172 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-11:05:07.173 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-11:05:07.178 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-11:05:16.170 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - ==>  Preparing: SELECT id,api_url,api_key,model_name,user_id FROM api_config WHERE (user_id = ?) ORDER BY id DESC
-11:05:16.170 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - ==> Parameters: 689258T(String)
-11:05:16.179 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - <==      Total: 1
-11:05:57.122 [http-nio-8080-exec-2] DEBUG c.b.b.m.ChatCompletionsMapper.insert - ==>  Preparing: INSERT INTO chat_completions ( object, created, model, system_fingerprint, api_key ) VALUES ( ?, ?, ?, ?, ? )
-11:05:57.125 [http-nio-8080-exec-2] DEBUG c.b.b.m.ChatCompletionsMapper.insert - ==> Parameters: chat.completion(String), 1742958316(Long), deepseek-reasoner(String), fp_5417b77867_prod0225(String), f6fb7c94-2a52-4452-af41-4ee2396ab977(String)
-11:05:57.143 [http-nio-8080-exec-2] DEBUG c.b.b.m.ChatCompletionsMapper.insert - <==    Updates: 1
-11:05:57.170 [FileWrite-1] INFO  c.b.b.s.deepseek.FileWriterService - Successfully wrote content to: \var\data\ai_responses\6324bac3-24ce-4c6f-acd6-7fda9241b2ab.txt
-11:05:57.174 [ForkJoinPool.commonPool-worker-1] DEBUG c.b.b.mapper.UsageInfoMapper.insert - ==>  Preparing: INSERT INTO usage_info ( chat_completion_id, prompt_tokens, completion_tokens, total_tokens, prompt_tokens_cached, completion_reasoning_tokens, prompt_cache_hit_tokens, prompt_cache_miss_tokens, created_at, model_type ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
-11:05:57.175 [ForkJoinPool.commonPool-worker-1] DEBUG c.b.b.mapper.UsageInfoMapper.insert - ==> Parameters: f6fb7c94-2a52-4452-af41-4ee2396ab977(String), 33(Integer), 580(Integer), 613(Integer), 0(Integer), 499(Integer), 0(Integer), 33(Integer), 2025-03-26T11:05:57.167023400(LocalDateTime), deepseek-reasoner(String)
-11:05:57.188 [ForkJoinPool.commonPool-worker-1] DEBUG c.b.b.mapper.UsageInfoMapper.insert - <==    Updates: 1
-11:05:57.205 [http-nio-8080-exec-2] DEBUG c.b.b.m.UsageInfoMapper.selectCount - ==>  Preparing: SELECT COUNT( * ) AS total FROM usage_info WHERE (chat_completion_id = ?)
-11:05:57.205 [http-nio-8080-exec-2] DEBUG c.b.b.m.UsageInfoMapper.selectCount - ==> Parameters: f6fb7c94-2a52-4452-af41-4ee2396ab977(String)
-11:05:57.211 [http-nio-8080-exec-2] DEBUG c.b.b.m.UsageInfoMapper.selectCount - <==      Total: 1
-11:05:57.221 [http-nio-8080-exec-2] DEBUG c.b.b.s.mq.BillingMessageService - Billing message sent successfully: f6fb7c94-2a52-4452-af41-4ee2396ab977
-11:05:57.346 [ConsumeMessageThread_billing-consumer-group_2] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Output price config priceVersion: 1
-11:05:57.347 [ConsumeMessageThread_billing-consumer-group_2] DEBUG c.b.b.m.UsageRecordMapper.insert - ==>  Preparing: INSERT INTO usage_record ( model_type, chat_completion_id, user_id, input_cost, output_cost, price_version, calculated_at ) VALUES ( ?, ?, ?, ?, ?, ?, ? )
-11:05:57.348 [ConsumeMessageThread_billing-consumer-group_2] DEBUG c.b.b.m.UsageRecordMapper.insert - ==> Parameters: deepseek-reasoner(String), f6fb7c94-2a52-4452-af41-4ee2396ab977(String), 689258T(String), 0.0001(BigDecimal), 0.0093(BigDecimal), 1(Integer), 2025-03-26T11:05:57.346080800(LocalDateTime)
-11:05:57.367 [ConsumeMessageThread_billing-consumer-group_2] DEBUG c.b.b.m.UsageRecordMapper.insert - <==    Updates: 1
-11:05:57.391 [ConsumeMessageThread_billing-consumer-group_2] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Message consumed successfully: 2408820C75288342B97D2A9EF333CE1B5A8836BAF30C8320AEBF0000
-11:16:28.042 [main] INFO  com.bgpay.bgai.BgaiApplication - No active profile set, falling back to 1 default profile: "default"
-11:16:31.824 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-11:16:31.845 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-11:16:31.876 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-11:16:31.878 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-11:16:31.878 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-11:16:31.896 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-11:16:33.647 [main] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Billing consumer started successfully
-11:16:35.304 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 9.344 seconds (process running for 10.546)
-11:16:35.309 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-11:16:35.309 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-11:16:35.320 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-11:16:35.320 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-11:16:35.320 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-11:16:35.330 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-11:16:35.330 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-11:16:35.331 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-11:16:35.338 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-11:16:35.338 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-11:16:35.338 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-11:16:35.346 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-11:16:41.101 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - ==>  Preparing: SELECT id,api_url,api_key,model_name,user_id FROM api_config WHERE (user_id = ?) ORDER BY id DESC
-11:16:41.103 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - ==> Parameters: 689258T(String)
-11:16:41.117 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - <==      Total: 1
-11:17:20.498 [http-nio-8080-exec-2] DEBUG c.b.b.m.ChatCompletionsMapper.insert - ==>  Preparing: INSERT INTO chat_completions ( object, created, model, system_fingerprint, api_key ) VALUES ( ?, ?, ?, ?, ? )
-11:17:20.500 [http-nio-8080-exec-2] DEBUG c.b.b.m.ChatCompletionsMapper.insert - ==> Parameters: chat.completion(String), 1742959001(Long), deepseek-reasoner(String), fp_5417b77867_prod0225(String), 68d89af6-e291-4d43-936b-ea8b61f2b3d3(String)
-11:17:20.520 [http-nio-8080-exec-2] DEBUG c.b.b.m.ChatCompletionsMapper.insert - <==    Updates: 1
-11:17:20.550 [FileWrite-1] INFO  c.b.b.s.deepseek.FileWriterService - Successfully wrote content to: \var\data\ai_responses\b41f1342-3574-4cfe-aff5-8122d92bc8c9.txt
-11:17:20.557 [ForkJoinPool.commonPool-worker-1] DEBUG c.b.b.mapper.UsageInfoMapper.insert - ==>  Preparing: INSERT INTO usage_info ( chat_completion_id, prompt_tokens, completion_tokens, total_tokens, prompt_tokens_cached, completion_reasoning_tokens, prompt_cache_hit_tokens, prompt_cache_miss_tokens, created_at, model_type ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
-11:17:20.559 [ForkJoinPool.commonPool-worker-1] DEBUG c.b.b.mapper.UsageInfoMapper.insert - ==> Parameters: 68d89af6-e291-4d43-936b-ea8b61f2b3d3(String), 33(Integer), 638(Integer), 671(Integer), 0(Integer), 431(Integer), 0(Integer), 33(Integer), 2025-03-26T11:17:20.548161(LocalDateTime), deepseek-reasoner(String)
-11:17:20.582 [ForkJoinPool.commonPool-worker-1] DEBUG c.b.b.mapper.UsageInfoMapper.insert - <==    Updates: 1
-11:17:20.925 [http-nio-8080-exec-2] DEBUG c.b.b.m.UsageInfoMapper.selectCount - ==>  Preparing: SELECT COUNT( * ) AS total FROM usage_info WHERE (chat_completion_id = ?)
-11:17:20.926 [http-nio-8080-exec-2] DEBUG c.b.b.m.UsageInfoMapper.selectCount - ==> Parameters: 68d89af6-e291-4d43-936b-ea8b61f2b3d3(String)
-11:17:20.933 [http-nio-8080-exec-2] DEBUG c.b.b.m.UsageInfoMapper.selectCount - <==      Total: 1
-11:17:20.947 [http-nio-8080-exec-2] DEBUG c.b.b.s.mq.BillingMessageService - Billing message sent successfully: 68d89af6-e291-4d43-936b-ea8b61f2b3d3
-11:17:21.360 [ConsumeMessageThread_billing-consumer-group_1] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Output price config priceVersion: 1
-11:17:21.362 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.UsageRecordMapper.insert - ==>  Preparing: INSERT INTO usage_record ( model_type, chat_completion_id, user_id, input_cost, output_cost, price_version, calculated_at ) VALUES ( ?, ?, ?, ?, ?, ?, ? )
-11:17:21.363 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.UsageRecordMapper.insert - ==> Parameters: deepseek-reasoner(String), 68d89af6-e291-4d43-936b-ea8b61f2b3d3(String), 689258T(String), 0.0001(BigDecimal), 0.0102(BigDecimal), 1(Integer), 2025-03-26T11:17:21.360025600(LocalDateTime)
-11:17:21.378 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.UsageRecordMapper.insert - <==    Updates: 1
-11:17:21.393 [ConsumeMessageThread_billing-consumer-group_1] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Message consumed successfully: 2408820C75288342B97D2A9EF333CE1B931036BAF30C832B1C3F0000
-11:23:16.030 [main] INFO  com.bgpay.bgai.BgaiApplication - No active profile set, falling back to 1 default profile: "default"
-11:23:19.736 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-11:23:19.758 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-11:23:19.789 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-11:23:19.791 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-11:23:19.792 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-11:23:19.802 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-11:23:21.607 [main] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Billing consumer started successfully
-11:23:23.774 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 9.565 seconds (process running for 10.743)
-11:23:23.780 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-11:23:23.781 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-11:23:23.790 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-11:23:23.791 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-11:23:23.791 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-11:23:23.801 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-11:23:23.801 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-11:23:23.801 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-11:23:23.809 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-11:23:23.809 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-11:23:23.809 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-11:23:23.815 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-11:23:34.271 [http-nio-8080-exec-1] DEBUG c.b.b.m.ApiConfigMapper.selectList - ==>  Preparing: SELECT id,api_url,api_key,model_name,user_id FROM api_config WHERE (user_id = ?) ORDER BY id DESC
-11:23:34.273 [http-nio-8080-exec-1] DEBUG c.b.b.m.ApiConfigMapper.selectList - ==> Parameters: 689258T(String)
-11:23:34.281 [http-nio-8080-exec-1] DEBUG c.b.b.m.ApiConfigMapper.selectList - <==      Total: 1
-11:24:04.912 [http-nio-8080-exec-1] DEBUG c.b.b.m.ChatCompletionsMapper.insert - ==>  Preparing: INSERT INTO chat_completions ( object, created, model, system_fingerprint, api_key ) VALUES ( ?, ?, ?, ?, ? )
-11:24:04.913 [http-nio-8080-exec-1] DEBUG c.b.b.m.ChatCompletionsMapper.insert - ==> Parameters: chat.completion(String), 1742959414(Long), deepseek-reasoner(String), fp_5417b77867_prod0225(String), 59f7bde5-c5bc-4f49-89d3-924506bb43da(String)
-11:24:04.927 [http-nio-8080-exec-1] DEBUG c.b.b.m.ChatCompletionsMapper.insert - <==    Updates: 1
-11:24:04.948 [FileWrite-1] INFO  c.b.b.s.deepseek.FileWriterService - Successfully wrote content to: \var\data\ai_responses\0d5d8958-97cc-46ec-91c4-9a6a205f4f2a.txt
-11:24:04.954 [ForkJoinPool.commonPool-worker-1] DEBUG c.b.b.mapper.UsageInfoMapper.insert - ==>  Preparing: INSERT INTO usage_info ( chat_completion_id, prompt_tokens, completion_tokens, total_tokens, prompt_tokens_cached, completion_reasoning_tokens, prompt_cache_hit_tokens, prompt_cache_miss_tokens, created_at, model_type ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
-11:24:04.957 [ForkJoinPool.commonPool-worker-1] DEBUG c.b.b.mapper.UsageInfoMapper.insert - ==> Parameters: 59f7bde5-c5bc-4f49-89d3-924506bb43da(String), 33(Integer), 509(Integer), 542(Integer), 0(Integer), 333(Integer), 0(Integer), 33(Integer), 2025-03-26T11:24:04.946261100(LocalDateTime), deepseek-reasoner(String)
-11:24:04.970 [ForkJoinPool.commonPool-worker-1] DEBUG c.b.b.mapper.UsageInfoMapper.insert - <==    Updates: 1
-11:24:05.275 [http-nio-8080-exec-1] DEBUG c.b.b.m.UsageInfoMapper.selectCount - ==>  Preparing: SELECT COUNT( * ) AS total FROM usage_info WHERE (chat_completion_id = ?)
-11:24:05.275 [http-nio-8080-exec-1] DEBUG c.b.b.m.UsageInfoMapper.selectCount - ==> Parameters: 59f7bde5-c5bc-4f49-89d3-924506bb43da(String)
-11:24:05.281 [http-nio-8080-exec-1] DEBUG c.b.b.m.UsageInfoMapper.selectCount - <==      Total: 1
-11:24:05.293 [http-nio-8080-exec-1] DEBUG c.b.b.s.mq.BillingMessageService - Billing message sent successfully: 59f7bde5-c5bc-4f49-89d3-924506bb43da
-11:24:05.675 [ConsumeMessageThread_billing-consumer-group_1] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Output price config priceVersion: 1
-11:24:05.677 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.UsageRecordMapper.insert - ==>  Preparing: INSERT INTO usage_record ( model_type, chat_completion_id, user_id, input_cost, output_cost, price_version, calculated_at ) VALUES ( ?, ?, ?, ?, ?, ?, ? )
-11:24:05.677 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.UsageRecordMapper.insert - ==> Parameters: deepseek-reasoner(String), 59f7bde5-c5bc-4f49-89d3-924506bb43da(String), 689258T(String), 0.0001(BigDecimal), 0.0081(BigDecimal), 1(Integer), 2025-03-26T11:24:05.675296800(LocalDateTime)
-11:24:05.693 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.UsageRecordMapper.insert - <==    Updates: 1
-11:24:05.709 [ConsumeMessageThread_billing-consumer-group_1] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Message consumed successfully: 2408820C75288342B97D2A9EF333CE1B078436BAF30C833147ED0000
-11:43:26.886 [main] INFO  com.bgpay.bgai.BgaiApplication - No active profile set, falling back to 1 default profile: "default"
-11:43:30.605 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-11:43:30.629 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-11:43:30.662 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-11:43:30.664 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-11:43:30.665 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-11:43:30.676 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-11:43:32.449 [main] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Billing consumer started successfully
-11:43:34.144 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 9.081 seconds (process running for 10.331)
-11:43:34.150 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-11:43:34.150 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-11:43:34.161 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-11:43:34.161 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-11:43:34.161 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-11:43:34.173 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-11:43:34.173 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-11:43:34.174 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-11:43:34.182 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-11:43:34.182 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-11:43:34.183 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-11:43:34.191 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-11:44:01.961 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - ==>  Preparing: SELECT id,api_url,api_key,model_name,user_id FROM api_config WHERE (user_id = ?) ORDER BY id DESC
-11:44:01.963 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - ==> Parameters: 689258T(String)
-11:44:01.971 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - <==      Total: 1
-11:44:39.437 [http-nio-8080-exec-2] DEBUG c.b.b.m.ChatCompletionsMapper.insert - ==>  Preparing: INSERT INTO chat_completions ( object, created, model, system_fingerprint, api_key ) VALUES ( ?, ?, ?, ?, ? )
-11:44:39.438 [http-nio-8080-exec-2] DEBUG c.b.b.m.ChatCompletionsMapper.insert - ==> Parameters: chat.completion(String), 1742960642(Long), deepseek-reasoner(String), fp_5417b77867_prod0225(String), 06e250b6-b4b2-48b1-963f-384dd394e679(String)
-11:44:39.454 [http-nio-8080-exec-2] DEBUG c.b.b.m.ChatCompletionsMapper.insert - <==    Updates: 1
-11:44:39.481 [FileWrite-1] INFO  c.b.b.s.deepseek.FileWriterService - Successfully wrote content to: \var\data\ai_responses\777b3e35-25fb-47d2-bccd-88a551004930.txt
-11:45:44.044 [ForkJoinPool.commonPool-worker-1] DEBUG c.b.b.mapper.UsageInfoMapper.insert - ==>  Preparing: INSERT INTO usage_info ( chat_completion_id, prompt_tokens, completion_tokens, total_tokens, prompt_tokens_cached, completion_reasoning_tokens, prompt_cache_hit_tokens, prompt_cache_miss_tokens, created_at, model_type ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
-11:45:44.050 [ForkJoinPool.commonPool-worker-1] DEBUG c.b.b.mapper.UsageInfoMapper.insert - ==> Parameters: 06e250b6-b4b2-48b1-963f-384dd394e679(String), 33(Integer), 684(Integer), 717(Integer), 0(Integer), 399(Integer), 0(Integer), 33(Integer), 2025-03-26T11:44:39.478263(LocalDateTime), deepseek-reasoner(String)
-11:45:44.065 [ForkJoinPool.commonPool-worker-1] DEBUG c.b.b.mapper.UsageInfoMapper.insert - <==    Updates: 1
-11:45:44.448 [http-nio-8080-exec-2] DEBUG c.b.b.m.UsageInfoMapper.selectCount - ==>  Preparing: SELECT COUNT( * ) AS total FROM usage_info WHERE (chat_completion_id = ?)
-11:45:44.448 [http-nio-8080-exec-2] DEBUG c.b.b.m.UsageInfoMapper.selectCount - ==> Parameters: 06e250b6-b4b2-48b1-963f-384dd394e679(String)
-11:45:44.456 [http-nio-8080-exec-2] DEBUG c.b.b.m.UsageInfoMapper.selectCount - <==      Total: 1
-11:45:44.468 [http-nio-8080-exec-2] DEBUG c.b.b.s.mq.BillingMessageService - Billing message sent successfully: 06e250b6-b4b2-48b1-963f-384dd394e679
-11:45:45.352 [ConsumeMessageThread_billing-consumer-group_1] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Output price config priceVersion: 1
-11:45:45.353 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.UsageRecordMapper.insert - ==>  Preparing: INSERT INTO usage_record ( model_type, chat_completion_id, user_id, input_cost, output_cost, price_version, calculated_at ) VALUES ( ?, ?, ?, ?, ?, ?, ? )
-11:45:45.355 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.UsageRecordMapper.insert - ==> Parameters: deepseek-reasoner(String), 06e250b6-b4b2-48b1-963f-384dd394e679(String), 689258T(String), 0.0001(BigDecimal), 0.0109(BigDecimal), 1(Integer), 2025-03-26T11:45:45.352206700(LocalDateTime)
-11:45:45.372 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.UsageRecordMapper.insert - <==    Updates: 1
-11:45:45.385 [ConsumeMessageThread_billing-consumer-group_1] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Message consumed successfully: 2408820C75288342B97D2A9EF333CE1B6DD436BAF30C83451A8F0000
-11:46:38.168 [main] INFO  com.bgpay.bgai.BgaiApplication - No active profile set, falling back to 1 default profile: "default"
-11:46:42.135 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-11:46:42.156 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-11:46:42.188 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-11:46:42.190 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-11:46:42.190 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-11:46:42.201 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-11:46:44.010 [main] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Billing consumer started successfully
-11:46:45.713 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 9.655 seconds (process running for 10.856)
-11:46:45.719 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-11:46:45.719 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-11:46:45.730 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-11:46:45.730 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-11:46:45.730 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-11:46:45.740 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-11:46:45.741 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-11:46:45.741 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-11:46:45.748 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-11:46:45.749 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-11:46:45.749 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-11:46:45.756 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-11:47:10.694 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - ==>  Preparing: SELECT id,api_url,api_key,model_name,user_id FROM api_config WHERE (user_id = ?) ORDER BY id DESC
-11:47:10.695 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - ==> Parameters: 689258T(String)
-11:47:10.703 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - <==      Total: 1
-11:47:37.252 [http-nio-8080-exec-2] DEBUG c.b.b.m.ChatCompletionsMapper.insert - ==>  Preparing: INSERT INTO chat_completions ( object, created, model, system_fingerprint, api_key ) VALUES ( ?, ?, ?, ?, ? )
-11:47:37.254 [http-nio-8080-exec-2] DEBUG c.b.b.m.ChatCompletionsMapper.insert - ==> Parameters: chat.completion(String), 1742960830(Long), deepseek-reasoner(String), fp_5417b77867_prod0225(String), 0d461a56-c795-4d51-8d63-b7a7c3410ac0(String)
-11:47:37.273 [http-nio-8080-exec-2] DEBUG c.b.b.m.ChatCompletionsMapper.insert - <==    Updates: 1
-11:48:15.362 [ForkJoinPool.commonPool-worker-1] DEBUG c.b.b.mapper.UsageInfoMapper.insert - ==>  Preparing: INSERT INTO usage_info ( chat_completion_id, prompt_tokens, completion_tokens, total_tokens, prompt_tokens_cached, completion_reasoning_tokens, prompt_cache_hit_tokens, prompt_cache_miss_tokens, created_at, model_type ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
-11:48:15.364 [FileWrite-1] INFO  c.b.b.s.deepseek.FileWriterService - Successfully wrote content to: \var\data\ai_responses\0fc5be90-c2ef-4ac0-9857-1b4e98db9825.txt
-11:48:15.368 [ForkJoinPool.commonPool-worker-1] DEBUG c.b.b.mapper.UsageInfoMapper.insert - ==> Parameters: 0d461a56-c795-4d51-8d63-b7a7c3410ac0(String), 33(Integer), 453(Integer), 486(Integer), 0(Integer), 350(Integer), 0(Integer), 33(Integer), 2025-03-26T11:47:37.297840800(LocalDateTime), deepseek-reasoner(String)
-11:48:15.397 [ForkJoinPool.commonPool-worker-1] DEBUG c.b.b.mapper.UsageInfoMapper.insert - <==    Updates: 1
-11:48:15.771 [http-nio-8080-exec-2] DEBUG c.b.b.m.UsageInfoMapper.selectCount - ==>  Preparing: SELECT COUNT( * ) AS total FROM usage_info WHERE (chat_completion_id = ?)
-11:48:15.771 [http-nio-8080-exec-2] DEBUG c.b.b.m.UsageInfoMapper.selectCount - ==> Parameters: 0d461a56-c795-4d51-8d63-b7a7c3410ac0(String)
-11:48:15.777 [http-nio-8080-exec-2] DEBUG c.b.b.m.UsageInfoMapper.selectCount - <==      Total: 1
-11:48:15.790 [http-nio-8080-exec-2] DEBUG c.b.b.s.mq.BillingMessageService - Billing message sent successfully: 0d461a56-c795-4d51-8d63-b7a7c3410ac0
-11:48:16.685 [ConsumeMessageThread_billing-consumer-group_1] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Output price config priceVersion: 1
-11:48:16.687 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.UsageRecordMapper.insert - ==>  Preparing: INSERT INTO usage_record ( model_type, chat_completion_id, user_id, input_cost, output_cost, price_version, calculated_at ) VALUES ( ?, ?, ?, ?, ?, ?, ? )
-11:48:16.689 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.UsageRecordMapper.insert - ==> Parameters: deepseek-reasoner(String), 0d461a56-c795-4d51-8d63-b7a7c3410ac0(String), 689258T(String), 0.0001(BigDecimal), 0.0072(BigDecimal), 1(Integer), 2025-03-26T11:48:16.685599100(LocalDateTime)
-11:48:16.705 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.UsageRecordMapper.insert - <==    Updates: 1
-11:48:16.720 [ConsumeMessageThread_billing-consumer-group_1] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Message consumed successfully: 2408820C75288342B97D2A9EF333CE1B576036BAF30C834769A90000
-12:08:04.649 [main] INFO  com.bgpay.bgai.BgaiApplication - No active profile set, falling back to 1 default profile: "default"
-12:08:08.411 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-12:08:08.431 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-12:08:08.461 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-12:08:08.463 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-12:08:08.464 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-12:08:08.474 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-12:08:10.225 [main] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Billing consumer started successfully
-12:08:11.908 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 9.398 seconds (process running for 10.61)
-12:08:11.915 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-12:08:11.915 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-12:08:11.926 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-12:08:11.926 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-12:08:11.926 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-12:08:11.937 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-12:08:11.937 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-12:08:11.937 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-12:08:11.945 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-12:08:11.945 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-12:08:11.946 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-12:08:11.953 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-12:08:16.404 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - ==>  Preparing: SELECT id,api_url,api_key,model_name,user_id FROM api_config WHERE (user_id = ?) ORDER BY id DESC
-12:08:16.405 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - ==> Parameters: 689258T(String)
-12:08:16.414 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - <==      Total: 1
-12:08:35.286 [http-nio-8080-exec-2] DEBUG c.b.b.m.ChatCompletionsMapper.insert - ==>  Preparing: INSERT INTO chat_completions ( object, created, model, system_fingerprint, api_key ) VALUES ( ?, ?, ?, ?, ? )
-12:08:35.288 [http-nio-8080-exec-2] DEBUG c.b.b.m.ChatCompletionsMapper.insert - ==> Parameters: chat.completion(String), 1742962096(Long), deepseek-reasoner(String), fp_5417b77867_prod0225(String), 56eb9a48-caf1-4740-bcb6-4e011fa71403(String)
-12:08:35.302 [http-nio-8080-exec-2] DEBUG c.b.b.m.ChatCompletionsMapper.insert - <==    Updates: 1
-12:08:35.331 [FileWrite-1] INFO  c.b.b.s.deepseek.FileWriterService - Successfully wrote content to: \var\data\ai_responses\73c94504-1258-4b4d-9632-00611f91d2c0.txt
-12:08:35.335 [ForkJoinPool.commonPool-worker-1] DEBUG c.b.b.mapper.UsageInfoMapper.insert - ==>  Preparing: INSERT INTO usage_info ( chat_completion_id, prompt_tokens, completion_tokens, total_tokens, prompt_tokens_cached, completion_reasoning_tokens, prompt_cache_hit_tokens, prompt_cache_miss_tokens, created_at, model_type ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
-12:08:35.338 [ForkJoinPool.commonPool-worker-1] DEBUG c.b.b.mapper.UsageInfoMapper.insert - ==> Parameters: 56eb9a48-caf1-4740-bcb6-4e011fa71403(String), 33(Integer), 323(Integer), 356(Integer), 0(Integer), 239(Integer), 0(Integer), 33(Integer), 2025-03-26T12:08:35.328397800(LocalDateTime), deepseek-reasoner(String)
-12:08:35.354 [ForkJoinPool.commonPool-worker-1] DEBUG c.b.b.mapper.UsageInfoMapper.insert - <==    Updates: 1
-12:19:40.783 [main] INFO  com.bgpay.bgai.BgaiApplication - No active profile set, falling back to 1 default profile: "default"
-12:19:44.827 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-12:19:44.848 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-12:19:44.880 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-12:19:44.882 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-12:19:44.882 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-12:19:44.892 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-12:19:46.682 [main] INFO  c.b.b.service.mq.MQConsumerService - MQ消费者启动成功 [group=billing-consumer-group, topic=BILLING_TOPIC, tag=USER_BILLING]
-12:19:48.641 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 9.951 seconds (process running for 11.15)
-12:19:48.647 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-12:19:48.647 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-12:19:48.658 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-12:19:48.658 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-12:19:48.658 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-12:19:48.668 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-12:19:48.668 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-12:19:48.668 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-12:19:48.675 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-12:19:48.676 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-12:19:48.676 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-12:19:48.682 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-12:20:10.618 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - ==>  Preparing: SELECT id,api_url,api_key,model_name,user_id FROM api_config WHERE (user_id = ?) ORDER BY id DESC
-12:20:10.619 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - ==> Parameters: 689258T(String)
-12:20:10.627 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - <==      Total: 1
-12:20:31.392 [http-nio-8080-exec-2] DEBUG c.b.b.m.ChatCompletionsMapper.insert - ==>  Preparing: INSERT INTO chat_completions ( object, created, model, system_fingerprint, api_key ) VALUES ( ?, ?, ?, ?, ? )
-12:20:31.393 [http-nio-8080-exec-2] DEBUG c.b.b.m.ChatCompletionsMapper.insert - ==> Parameters: chat.completion(String), 1742962810(Long), deepseek-reasoner(String), fp_5417b77867_prod0225(String), 031f12e2-d475-42bc-a88f-5110c950faa4(String)
-12:20:31.407 [http-nio-8080-exec-2] DEBUG c.b.b.m.ChatCompletionsMapper.insert - <==    Updates: 1
-12:20:31.436 [FileWrite-1] INFO  c.b.b.s.deepseek.FileWriterService - Successfully wrote content to: \var\data\ai_responses\3f3b4b4e-e00d-4add-b3af-4ea64ba63c1d.txt
-12:20:31.440 [ForkJoinPool.commonPool-worker-1] DEBUG c.b.b.mapper.UsageInfoMapper.insert - ==>  Preparing: INSERT INTO usage_info ( chat_completion_id, prompt_tokens, completion_tokens, total_tokens, prompt_tokens_cached, completion_reasoning_tokens, prompt_cache_hit_tokens, prompt_cache_miss_tokens, created_at, model_type ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
-12:20:31.442 [ForkJoinPool.commonPool-worker-1] DEBUG c.b.b.mapper.UsageInfoMapper.insert - ==> Parameters: 031f12e2-d475-42bc-a88f-5110c950faa4(String), 33(Integer), 369(Integer), 402(Integer), 0(Integer), 244(Integer), 0(Integer), 33(Integer), 2025-03-26T12:20:31.433717500(LocalDateTime), deepseek-reasoner(String)
-12:20:31.461 [ForkJoinPool.commonPool-worker-1] DEBUG c.b.b.mapper.UsageInfoMapper.insert - <==    Updates: 1
-12:20:31.775 [http-nio-8080-exec-2] DEBUG c.b.b.m.UsageInfoMapper.selectCount - ==>  Preparing: SELECT COUNT( * ) AS total FROM usage_info WHERE (chat_completion_id = ?)
-12:20:31.776 [http-nio-8080-exec-2] DEBUG c.b.b.m.UsageInfoMapper.selectCount - ==> Parameters: 031f12e2-d475-42bc-a88f-5110c950faa4(String)
-12:20:31.782 [http-nio-8080-exec-2] DEBUG c.b.b.m.UsageInfoMapper.selectCount - <==      Total: 1
-12:20:31.794 [http-nio-8080-exec-2] DEBUG c.b.b.s.mq.BillingMessageService - Billing message sent successfully: 031f12e2-d475-42bc-a88f-5110c950faa4
-12:20:32.099 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.PriceConfigMapper.selectList - ==>  Preparing: SELECT id,model_type,time_period,cache_status,io_type,price,version,effective_time FROM price_config WHERE (model_type = ? AND time_period = ? AND io_type = ? AND effective_time <= ? AND cache_status = ?) ORDER BY effective_time DESC LIMIT 1
-12:20:32.099 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.PriceConfigMapper.selectList - ==> Parameters: deepseek-reasoner(String), standard(String), input(String), 2025-03-26T12:20:32.097452600(LocalDateTime), miss(String)
-12:20:32.107 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.PriceConfigMapper.selectList - <==      Total: 1
-12:20:32.167 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.PriceConfigMapper.selectList - ==>  Preparing: SELECT id,model_type,time_period,cache_status,io_type,price,version,effective_time FROM price_config WHERE (model_type = ? AND time_period = ? AND io_type = ? AND effective_time <= ? AND cache_status IS NULL) ORDER BY effective_time DESC LIMIT 1
-12:20:32.168 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.PriceConfigMapper.selectList - ==> Parameters: deepseek-reasoner(String), standard(String), output(String), 2025-03-26T12:20:32.166269600(LocalDateTime)
-12:20:32.174 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.PriceConfigMapper.selectList - <==      Total: 1
-12:20:32.230 [ConsumeMessageThread_billing-consumer-group_1] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Output price config priceVersion: 1
-12:20:32.232 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.UsageRecordMapper.insert - ==>  Preparing: INSERT INTO usage_record ( model_type, chat_completion_id, user_id, input_cost, output_cost, price_version, calculated_at ) VALUES ( ?, ?, ?, ?, ?, ?, ? )
-12:20:32.232 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.UsageRecordMapper.insert - ==> Parameters: deepseek-reasoner(String), 031f12e2-d475-42bc-a88f-5110c950faa4(String), 689258T(String), 0.0001(BigDecimal), 0.0059(BigDecimal), 1(Integer), 2025-03-26T12:20:32.230097100(LocalDateTime)
-12:20:32.247 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.UsageRecordMapper.insert - <==    Updates: 1
-12:20:32.263 [ConsumeMessageThread_billing-consumer-group_1] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Billing message consumed: 2408820C75288342B97D2A9EF333CE1B807436BAF30C8364F4630000
-12:35:34.814 [main] INFO  com.bgpay.bgai.BgaiApplication - No active profile set, falling back to 1 default profile: "default"
-12:35:38.641 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-12:35:38.664 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-12:35:38.697 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-12:35:38.699 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-12:35:38.699 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-12:35:38.711 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-12:35:40.618 [main] INFO  c.b.b.service.mq.MQConsumerService - MQ消费者启动成功 [group=billing-consumer-group, topic=BILLING_TOPIC, tag=USER_BILLING]
-12:35:42.694 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 9.759 seconds (process running for 10.886)
-12:35:42.700 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-12:35:42.700 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-12:35:42.711 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-12:35:42.712 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-12:35:42.712 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-12:35:42.721 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-12:35:42.721 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-12:35:42.721 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-12:35:42.730 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-12:35:42.731 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-12:35:42.731 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-12:35:42.739 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-12:35:52.967 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - ==>  Preparing: SELECT id,api_url,api_key,model_name,user_id FROM api_config WHERE (user_id = ?) ORDER BY id DESC
-12:35:52.968 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - ==> Parameters: 689258T(String)
-12:35:52.976 [http-nio-8080-exec-2] DEBUG c.b.b.m.ApiConfigMapper.selectList - <==      Total: 1
-12:36:18.487 [http-nio-8080-exec-2] DEBUG c.b.b.m.ChatCompletionsMapper.insert - ==>  Preparing: INSERT INTO chat_completions ( object, created, model, system_fingerprint, api_key ) VALUES ( ?, ?, ?, ?, ? )
-12:36:18.489 [http-nio-8080-exec-2] DEBUG c.b.b.m.ChatCompletionsMapper.insert - ==> Parameters: chat.completion(String), 1742963753(Long), deepseek-reasoner(String), fp_5417b77867_prod0225(String), 357d40ef-fae0-4880-9742-d1165d5f7519(String)
-12:36:18.503 [http-nio-8080-exec-2] DEBUG c.b.b.m.ChatCompletionsMapper.insert - <==    Updates: 1
-12:36:18.528 [FileWrite-1] INFO  c.b.b.s.deepseek.FileWriterService - Successfully wrote content to: \var\data\ai_responses\bc90549f-6742-4121-a591-d7c073d7dbe1.txt
-12:36:18.534 [ForkJoinPool.commonPool-worker-1] DEBUG c.b.b.mapper.UsageInfoMapper.insert - ==>  Preparing: INSERT INTO usage_info ( chat_completion_id, prompt_tokens, completion_tokens, total_tokens, prompt_tokens_cached, completion_reasoning_tokens, prompt_cache_hit_tokens, prompt_cache_miss_tokens, created_at, model_type ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
-12:36:18.536 [ForkJoinPool.commonPool-worker-1] DEBUG c.b.b.mapper.UsageInfoMapper.insert - ==> Parameters: 357d40ef-fae0-4880-9742-d1165d5f7519(String), 33(Integer), 474(Integer), 507(Integer), 0(Integer), 289(Integer), 0(Integer), 33(Integer), 2025-03-26T12:36:18.526200500(LocalDateTime), deepseek-reasoner(String)
-12:36:18.550 [ForkJoinPool.commonPool-worker-1] DEBUG c.b.b.mapper.UsageInfoMapper.insert - <==    Updates: 1
-12:36:18.609 [http-nio-8080-exec-2] DEBUG c.b.b.m.UsageInfoMapper.selectCount - ==>  Preparing: SELECT COUNT( * ) AS total FROM usage_info WHERE (chat_completion_id = ?)
-12:36:18.609 [http-nio-8080-exec-2] DEBUG c.b.b.m.UsageInfoMapper.selectCount - ==> Parameters: 357d40ef-fae0-4880-9742-d1165d5f7519(String)
-12:36:18.615 [http-nio-8080-exec-2] DEBUG c.b.b.m.UsageInfoMapper.selectCount - <==      Total: 1
-12:36:18.627 [http-nio-8080-exec-2] DEBUG c.b.b.s.mq.RocketMQProducerService - Billing message sent successfully: 357d40ef-fae0-4880-9742-d1165d5f7519
-12:36:19.018 [ConsumeMessageThread_billing-consumer-group_1] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Output price config priceVersion: 1
-12:36:19.019 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.UsageRecordMapper.insert - ==>  Preparing: INSERT INTO usage_record ( model_type, chat_completion_id, user_id, input_cost, output_cost, price_version, calculated_at ) VALUES ( ?, ?, ?, ?, ?, ?, ? )
-12:36:19.020 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.UsageRecordMapper.insert - ==> Parameters: deepseek-reasoner(String), 357d40ef-fae0-4880-9742-d1165d5f7519(String), 689258T(String), 0.0001(BigDecimal), 0.0076(BigDecimal), 1(Integer), 2025-03-26T12:36:19.018010300(LocalDateTime)
-12:36:19.041 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.UsageRecordMapper.insert - <==    Updates: 1
-12:36:19.056 [ConsumeMessageThread_billing-consumer-group_1] INFO  c.b.b.s.i.RocketMQBillingServiceImpl - Billing message consumed: 2408820C75288342B97D2A9EF333CE1B762036BAF30C837367F30000
-12:38:19.826 [main] INFO  com.bgpay.bgai.BgaiApplication - No active profile set, falling back to 1 default profile: "default"
-12:38:23.773 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-12:38:23.796 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-12:38:23.836 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-12:38:23.839 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-12:38:23.839 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-12:38:23.856 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-12:38:25.651 [main] INFO  c.b.b.service.mq.MQConsumerService - MQ消费者启动成功 [group=billing-consumer-group, topic=BILLING_TOPIC, tag=USER_BILLING]
-12:38:27.410 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 9.47 seconds (process running for 10.592)
-12:38:27.415 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-12:38:27.415 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-12:38:27.427 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-12:38:27.428 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
-12:38:27.428 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
-12:38:27.439 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
-12:38:27.440 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-12:38:27.440 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-12:38:27.448 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
-12:38:27.448 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
-12:38:27.449 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
-12:38:27.456 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+15:45:31.813 [main] INFO  com.bgpay.bgai.BgaiApplication - No active profile set, falling back to 1 default profile: "default"
+15:45:36.413 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+15:45:36.438 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+15:45:36.487 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+15:45:36.490 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+15:45:36.490 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+15:45:36.505 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+15:45:37.144 [main] INFO  c.b.b.service.impl.UserServiceImpl - 初始化SSO配置: clientId=bgai-client-id, redirectUri=http://localhost:8080/api/auth/callback
+15:45:37.215 [main] INFO  c.b.bgai.controller.AuthController - 初始化认证控制器: clientId=bgai-client-id, redirectUri=http://localhost:8080/api/auth/callback
+15:45:39.681 [main] INFO  c.b.b.service.mq.MQConsumerService - MQ consumer startup successful [group=billing-consumer-group, topic=BILLING_TOPIC, tag=USER_BILLING]
+15:45:39.847 [main] DEBUG com.bgpay.bgai.config.AsyncConfig$1 - Initializing ExecutorService 'blockingExecutor'
+15:45:44.705 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 15.028 seconds (process running for 16.832)
+15:45:44.710 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+15:45:44.711 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+15:45:44.724 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+15:45:44.725 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+15:45:44.725 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+15:45:44.740 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+15:45:44.740 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+15:45:44.740 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+15:45:44.756 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+15:45:44.756 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+15:45:44.757 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+15:45:44.763 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+15:46:11.715 [http-nio-8080-exec-2] DEBUG c.b.b.f.ApiKeyAuthenticationFilter - Skipping API Key validation for excluded path: /api/simple-auth/token
+15:46:11.988 [http-nio-8080-exec-2] DEBUG c.b.b.m.UserMapper.findByAccessToken - ==>  Preparing: SELECT * FROM t_user WHERE access_token = ? AND token_expire_time > NOW()
+15:46:11.989 [http-nio-8080-exec-2] DEBUG c.b.b.m.UserMapper.findByAccessToken - ==> Parameters: d4bbd473-5bef-48b9-b0ba-ece206cb5d1d(String)
+15:46:12.004 [http-nio-8080-exec-2] DEBUG c.b.b.m.UserMapper.findByAccessToken - <==      Total: 0
+15:46:12.004 [http-nio-8080-exec-2] INFO  c.b.b.service.impl.UserServiceImpl - 为测试令牌创建临时用户: d4bbd473-5bef-48b9-b0ba-ece206cb5d1d
+15:46:12.020 [http-nio-8080-exec-2] INFO  c.b.b.c.SimpleAuthController - 生成测试令牌: d4bbd473-5bef-48b9-b0ba-ece206cb5d1d
+15:46:56.775 [http-nio-8080-exec-4] DEBUG c.b.b.f.ApiKeyAuthenticationFilter - Skipping API Key validation for excluded path: /auth/authorize
+15:46:56.789 [http-nio-8080-exec-4] INFO  c.b.b.controller.MockAuthController - Authorization request: client_id=bgai-client-id, redirect_uri=http://localhost:8080/api/auth/callback, response_type=code
+15:47:04.551 [http-nio-8080-exec-5] WARN  c.b.b.f.ApiKeyAuthenticationFilter - API Key is missing for path: /api/auth/callback
+15:50:03.321 [SpringApplicationShutdownHook] DEBUG com.bgpay.bgai.config.AsyncConfig$1 - Shutting down ExecutorService 'blockingExecutor'
+15:50:29.644 [main] INFO  com.bgpay.bgai.BgaiApplication - No active profile set, falling back to 1 default profile: "default"
+15:50:33.790 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+15:50:33.812 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+15:50:33.851 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+15:50:33.854 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+15:50:33.854 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+15:50:33.867 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+15:50:34.527 [main] INFO  c.b.b.service.impl.UserServiceImpl - 初始化SSO配置: clientId=bgai-client-id, redirectUri=http://localhost:8080/api/auth/callback
+15:50:34.604 [main] INFO  c.b.bgai.controller.AuthController - 初始化认证控制器: clientId=bgai-client-id, redirectUri=http://localhost:8080/api/auth/callback
+15:50:36.834 [main] INFO  c.b.b.service.mq.MQConsumerService - MQ consumer startup successful [group=billing-consumer-group, topic=BILLING_TOPIC, tag=USER_BILLING]
+15:50:36.989 [main] DEBUG com.bgpay.bgai.config.AsyncConfig$1 - Initializing ExecutorService 'blockingExecutor'
+15:50:41.580 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 13.868 seconds (process running for 15.198)
+15:50:41.584 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+15:50:41.584 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+15:50:41.593 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+15:50:41.594 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+15:50:41.594 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+15:50:41.603 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+15:50:41.603 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+15:50:41.603 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+15:50:41.610 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+15:50:41.612 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+15:50:41.612 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+15:50:41.617 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+15:50:48.657 [http-nio-8080-exec-2] DEBUG c.b.b.f.ApiKeyAuthenticationFilter - Skipping API Key validation for excluded path: /api/auth/callback
+15:51:52.238 [http-nio-8080-exec-5] DEBUG c.b.b.f.ApiKeyAuthenticationFilter - Skipping API Key validation for excluded path: /api/auth/callback
+15:53:02.775 [SpringApplicationShutdownHook] DEBUG com.bgpay.bgai.config.AsyncConfig$1 - Shutting down ExecutorService 'blockingExecutor'
+15:53:12.766 [main] INFO  com.bgpay.bgai.BgaiApplication - No active profile set, falling back to 1 default profile: "default"
+15:53:16.971 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+15:53:16.994 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+15:53:17.030 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+15:53:17.033 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+15:53:17.033 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+15:53:17.045 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+15:53:17.691 [main] INFO  c.b.b.service.impl.UserServiceImpl - 初始化SSO配置: clientId=bgai-client-id, redirectUri=http://localhost:8080/api/auth/callback
+15:53:17.763 [main] INFO  c.b.bgai.controller.AuthController - 初始化认证控制器: clientId=bgai-client-id, redirectUri=http://localhost:8080/api/auth/callback
+15:53:20.007 [main] INFO  c.b.b.service.mq.MQConsumerService - MQ consumer startup successful [group=billing-consumer-group, topic=BILLING_TOPIC, tag=USER_BILLING]
+15:53:20.150 [main] DEBUG com.bgpay.bgai.config.AsyncConfig$1 - Initializing ExecutorService 'blockingExecutor'
+15:53:24.851 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 14.115 seconds (process running for 15.36)
+15:53:24.855 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+15:53:24.856 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+15:53:24.866 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+15:53:24.867 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+15:53:24.867 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+15:53:24.878 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+15:53:24.878 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+15:53:24.878 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+15:53:24.886 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+15:53:24.887 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+15:53:24.887 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+15:53:24.895 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+15:53:33.426 [http-nio-8080-exec-3] DEBUG c.b.b.f.ApiKeyAuthenticationFilter - Skipping API Key validation for excluded path: /api/auth/callback
+15:56:32.276 [http-nio-8080-exec-4] DEBUG c.b.b.f.ApiKeyAuthenticationFilter - Skipping API Key validation for excluded path: /api/auth/callback
+15:57:18.622 [SpringApplicationShutdownHook] DEBUG com.bgpay.bgai.config.AsyncConfig$1 - Shutting down ExecutorService 'blockingExecutor'
+15:58:11.801 [main] INFO  com.bgpay.bgai.BgaiApplication - No active profile set, falling back to 1 default profile: "default"
+15:58:16.014 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+15:58:16.034 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+15:58:16.066 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+15:58:16.068 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+15:58:16.068 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+15:58:16.078 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+15:58:16.710 [main] INFO  c.b.b.service.impl.UserServiceImpl - 初始化SSO配置: clientId=bgai-client-id, redirectUri=http://localhost:8080/api/auth/callback
+15:58:16.777 [main] INFO  c.b.bgai.controller.AuthController - 初始化认证控制器: clientId=bgai-client-id, redirectUri=http://localhost:8080/api/auth/callback
+15:58:18.985 [main] INFO  c.b.b.service.mq.MQConsumerService - MQ consumer startup successful [group=billing-consumer-group, topic=BILLING_TOPIC, tag=USER_BILLING]
+15:58:19.155 [main] DEBUG com.bgpay.bgai.config.AsyncConfig$1 - Initializing ExecutorService 'blockingExecutor'
+15:58:23.692 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 13.737 seconds (process running for 14.996)
+15:58:23.696 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+15:58:23.696 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+15:58:23.705 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+15:58:23.706 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+15:58:23.706 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+15:58:23.716 [main] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+15:58:23.716 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+15:58:23.716 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+15:58:23.724 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+15:58:23.724 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+15:58:23.724 [main] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+15:58:23.729 [main] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+15:58:28.941 [http-nio-8080-exec-2] DEBUG c.b.b.f.ApiKeyAuthenticationFilter - Skipping API Key validation for excluded path: /api/auth/callback
+15:59:25.221 [http-nio-8080-exec-4] DEBUG c.b.b.f.ApiKeyAuthenticationFilter - Skipping API Key validation for excluded path: /auth/authorize
+15:59:25.226 [http-nio-8080-exec-4] INFO  c.b.b.controller.MockAuthController - Authorization request: client_id=bgai-client-id, redirect_uri=http://localhost:8080/api/auth/callback, response_type=code
+15:59:36.349 [http-nio-8080-exec-5] DEBUG c.b.b.f.ApiKeyAuthenticationFilter - Skipping API Key validation for excluded path: /api/auth/callback
+15:59:36.517 [http-nio-8080-exec-6] DEBUG c.b.b.f.ApiKeyAuthenticationFilter - Skipping API Key validation for excluded path: /auth/token
+15:59:36.519 [http-nio-8080-exec-6] INFO  c.b.b.controller.MockAuthController - Token request: grant_type=null, code=null, client_id=null
+15:59:36.534 [http-nio-8080-exec-8] DEBUG c.b.b.f.ApiKeyAuthenticationFilter - Skipping API Key validation for excluded path: /auth/userinfo
+15:59:36.540 [http-nio-8080-exec-5] DEBUG c.b.b.mapper.UserMapper.findByUserId - ==>  Preparing: SELECT * FROM t_user WHERE user_id = ?
+15:59:36.542 [http-nio-8080-exec-5] DEBUG c.b.b.mapper.UserMapper.findByUserId - ==> Parameters: 689258T(String)
+15:59:36.556 [http-nio-8080-exec-5] DEBUG c.b.b.mapper.UserMapper.findByUserId - <==      Total: 1
+15:59:36.637 [http-nio-8080-exec-5] DEBUG c.b.b.mapper.UserMapper.updateById - ==>  Preparing: UPDATE t_user SET user_id=?, username=?, email=?, avatar_url=?, last_login_time=?, access_token=?, refresh_token=?, token_expire_time=?, status=?, create_time=?, update_time=? WHERE id=?
+15:59:36.640 [http-nio-8080-exec-5] DEBUG c.b.b.mapper.UserMapper.updateById - ==> Parameters: 689258T(String), 测试用户(String), test@example.com(String), https://ui-avatars.com/api/?name=测试用户(String), 2025-05-08T15:59:36.557652700(LocalDateTime), 918e3f31-64ce-4938-9fd4-140e28f95d2b(String), 1c99d842-44bc-469f-a431-4d4290142b7c(String), 2025-05-08T16:59:36.557652700(LocalDateTime), 1(Integer), 2025-04-26T23:59:16(LocalDateTime), 2025-05-08T15:59:36.557652700(LocalDateTime), 1(Long)
+15:59:36.667 [http-nio-8080-exec-5] DEBUG c.b.b.mapper.UserMapper.updateById - <==    Updates: 1
+16:00:33.770 [http-nio-8080-exec-9] INFO  c.b.b.c.ReactiveChatController - Received chat request: question length = 0, file = none, multiTurn = false
+16:00:33.773 [http-nio-8080-exec-9] INFO  c.b.b.c.ReactiveChatController - Processing request for user ID: 689258T
+16:00:33.773 [http-nio-8080-exec-9] ERROR c.b.b.c.ReactiveChatController - Both file and question are empty
+16:02:16.420 [http-nio-8080-exec-2] INFO  c.b.b.c.ReactiveChatController - Received chat request: question length = 0, file = none, multiTurn = false
+16:02:16.420 [http-nio-8080-exec-2] INFO  c.b.b.c.ReactiveChatController - Processing request for user ID: 689258T
+16:02:16.420 [http-nio-8080-exec-2] ERROR c.b.b.c.ReactiveChatController - Both file and question are empty
+16:03:19.459 [http-nio-8080-exec-6] INFO  c.b.b.c.ReactiveChatController - Received chat request: question length = 0, file = 新文件 17.txt, multiTurn = false
+16:03:19.459 [http-nio-8080-exec-6] INFO  c.b.b.c.ReactiveChatController - Processing request for user ID: 689258T
+16:03:19.459 [http-nio-8080-exec-6] INFO  c.b.b.c.ReactiveChatController - Processing file with circuit breaker: fileName=新文件 17.txt, question=
+16:03:19.460 [http-nio-8080-exec-6] INFO  c.b.b.config.ReactiveFileProcessor - Processing file: 新文件 17.txt, content-type: text/plain
+16:03:19.462 [http-nio-8080-exec-6] INFO  c.b.b.c.ReactiveChatController - PARAM TRACE [689258T]: 尝试查找匹配配置 - 参数: apiUrl=null, modelName=null
+16:03:19.469 [http-nio-8080-exec-6] INFO  c.b.b.s.impl.ApiConfigServiceImpl - 查询配置 - userId=689258T
+16:03:19.470 [http-nio-8080-exec-6] INFO  c.b.b.s.impl.ApiConfigServiceImpl - 排序方式 - 按ID降序
+16:03:19.470 [http-nio-8080-exec-6] INFO  c.b.b.s.impl.ApiConfigServiceImpl - 限制结果数 - LIMIT 1
+16:03:19.555 [http-nio-8080-exec-6] DEBUG c.b.b.m.ApiConfigMapper.selectList - ==>  Preparing: SELECT id,api_url,api_key,model_name,user_id FROM api_config WHERE (user_id = ?) ORDER BY id DESC LIMIT 1
+16:03:19.555 [http-nio-8080-exec-6] DEBUG c.b.b.m.ApiConfigMapper.selectList - ==> Parameters: 689258T(String)
+16:03:19.578 [http-nio-8080-exec-6] DEBUG c.b.b.m.ApiConfigMapper.selectList - <==      Total: 1
+16:03:19.579 [http-nio-8080-exec-6] INFO  c.b.b.s.impl.ApiConfigServiceImpl - 查询结果 - 找到配置: id=2, modelName=deepseek-chat
+16:03:19.579 [http-nio-8080-exec-6] INFO  c.b.b.c.ReactiveChatController - PARAM TRACE [689258T]: 找到匹配配置 - apiUrl=https://api.deepseek.com/chat/completions, modelName=deepseek-chat (原始请求: null)
+16:03:19.579 [http-nio-8080-exec-6] INFO  c.b.b.c.ReactiveChatController - API config resolved: url=https://api.deepseek.com/chat/completions, model=deepseek-chat
+16:03:19.580 [http-nio-8080-exec-6] INFO  c.b.b.config.ReactiveFileProcessor - File processed successfully: size=18 bytes
+16:03:19.581 [http-nio-8080-exec-6] DEBUG c.b.b.c.ReactiveChatController - File+text content built, length: 38
+16:03:19.582 [http-nio-8080-exec-6] INFO  c.b.b.c.ReactiveChatController - Content processed, length: 38
+16:03:19.616 [http-nio-8080-exec-6] INFO  c.b.b.t.TransactionCoordinator - Transaction prepared for user 689258T: chatCompletionId=chat-d13a9b84-6dcc-4f61-befe-d32ea279325b
+16:03:23.716 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+16:03:23.716 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+16:03:23.726 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+16:03:23.727 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+16:03:23.727 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+16:03:23.737 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
+16:03:24.361 [reactor-http-nio-3] DEBUG c.b.b.m.ChatCompletionsMapper.insert - ==>  Preparing: INSERT INTO chat_completions ( object, created, model, system_fingerprint, api_key ) VALUES ( ?, ?, ?, ?, ? )
+16:03:24.362 [reactor-http-nio-3] DEBUG c.b.b.m.ChatCompletionsMapper.insert - ==> Parameters: chat.completion(String), 1746691404357(Long), deepseek-chat(String), 689258T(String), chat-d13a9b84-6dcc-4f61-befe-d32ea279325b(String)
+16:03:24.381 [reactor-http-nio-3] DEBUG c.b.b.m.ChatCompletionsMapper.insert - <==    Updates: 1
+16:03:24.384 [reactor-http-nio-3] INFO  c.b.b.t.TransactionCoordinator - Transaction committed for user 689258T: chatCompletionId=chat-d13a9b84-6dcc-4f61-befe-d32ea279325b
+16:03:24.407 [FileWrite-1] INFO  c.b.b.s.deepseek.FileWriterService - Successfully wrote content to: \var\data\ai_responses\9bf762c4-8b27-4a21-865a-45e96337a11e.txt
+16:03:24.414 [boundedElastic-9] DEBUG c.b.b.m.ChatCompletionsMapper.insert - ==>  Preparing: INSERT INTO chat_completions ( object, created, model, system_fingerprint, api_key ) VALUES ( ?, ?, ?, ?, ? )
+16:03:24.414 [boundedElastic-9] DEBUG c.b.b.m.ChatCompletionsMapper.insert - ==> Parameters: chat.completion(String), 1746691400(Long), deepseek-chat(String), fp_8802369eaa_prod0425fp8(String), chat-d13a9b84-6dcc-4f61-befe-d32ea279325b(String)
+16:03:24.428 [boundedElastic-9] DEBUG c.b.b.m.ChatCompletionsMapper.insert - <==    Updates: 1
+16:03:24.459 [boundedElastic-9] DEBUG c.b.b.mapper.UsageInfoMapper.insert - ==>  Preparing: INSERT INTO usage_info ( chat_completion_id, prompt_tokens, completion_tokens, total_tokens, prompt_tokens_cached, completion_reasoning_tokens, prompt_cache_hit_tokens, prompt_cache_miss_tokens, created_at, model_type ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
+16:03:24.459 [boundedElastic-9] DEBUG c.b.b.mapper.UsageInfoMapper.insert - ==> Parameters: chat-d13a9b84-6dcc-4f61-befe-d32ea279325b(String), 21(Integer), 5(Integer), 26(Integer), 0(Integer), 0(Integer), 0(Integer), 21(Integer), 2025-05-08T16:03:24.449588700(LocalDateTime), deepseek-chat(String)
+16:03:24.480 [boundedElastic-9] DEBUG c.b.b.mapper.UsageInfoMapper.insert - <==    Updates: 1
+16:03:24.561 [boundedElastic-9] INFO  c.b.b.c.ReactiveChatController - Processed response for user 689258T, content length: 9
+16:03:52.669 [pool-7-thread-1] DEBUG c.b.b.m.UsageInfoMapper.selectCount - ==>  Preparing: SELECT COUNT( * ) AS total FROM usage_info WHERE (chat_completion_id = ?)
+16:03:52.670 [pool-7-thread-1] DEBUG c.b.b.m.UsageInfoMapper.selectCount - ==> Parameters: chat-d13a9b84-6dcc-4f61-befe-d32ea279325b(String)
+16:03:52.689 [pool-7-thread-1] DEBUG c.b.b.m.UsageInfoMapper.selectCount - <==      Total: 1
+16:03:52.774 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.PriceConfigMapper.selectList - ==>  Preparing: SELECT id,model_type,time_period,cache_status,io_type,price,version,effective_time FROM price_config WHERE (model_type = ? AND time_period = ? AND io_type = ? AND effective_time <= ? AND cache_status = ?) ORDER BY effective_time DESC LIMIT 1
+16:03:52.775 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.PriceConfigMapper.selectList - ==> Parameters: deepseek-chat(String), standard(String), input(String), 2025-05-08T16:03:52.772011100(LocalDateTime), miss(String)
+16:03:52.788 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.PriceConfigMapper.selectList - <==      Total: 1
+16:03:52.834 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.PriceConfigMapper.selectList - ==>  Preparing: SELECT id,model_type,time_period,cache_status,io_type,price,version,effective_time FROM price_config WHERE (model_type = ? AND time_period = ? AND io_type = ? AND effective_time <= ? AND cache_status IS NULL) ORDER BY effective_time DESC LIMIT 1
+16:03:52.834 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.PriceConfigMapper.selectList - ==> Parameters: deepseek-chat(String), standard(String), output(String), 2025-05-08T16:03:52.832583700(LocalDateTime)
+16:03:52.841 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.PriceConfigMapper.selectList - <==      Total: 1
+16:03:52.899 [ConsumeMessageThread_billing-consumer-group_1] INFO  c.b.b.s.m.RocketMQBillingServiceImpl - Output price config priceVersion: 1
+16:03:52.901 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.UsageRecordMapper.insert - ==>  Preparing: INSERT INTO usage_record ( model_type, chat_completion_id, user_id, input_cost, output_cost, price_version, calculated_at ) VALUES ( ?, ?, ?, ?, ?, ?, ? )
+16:03:52.902 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.UsageRecordMapper.insert - ==> Parameters: deepseek-chat(String), chat-d13a9b84-6dcc-4f61-befe-d32ea279325b(String), 689258T(String), 0.0000(BigDecimal), 0.0000(BigDecimal), 1(Integer), 2025-05-08T16:03:52.899588200(LocalDateTime)
+16:03:52.923 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.b.b.m.UsageRecordMapper.insert - <==    Updates: 1
+16:03:52.933 [ConsumeMessageThread_billing-consumer-group_1] INFO  c.b.b.s.m.RocketMQBillingServiceImpl - Message consumed: 2408820C75288342909062BCE97060FCFB1436BAF30C277E8AED0000
+16:04:38.351 [http-nio-8080-exec-5] WARN  c.b.b.f.ApiKeyAuthenticationFilter - API Key is missing for path: /api/chatGatWay-internal
+16:04:51.239 [http-nio-8080-exec-9] INFO  c.b.b.c.ReactiveChatController - Received chat request: question length = 0, file = 模型 & 价格细节.xlsx, multiTurn = false
+16:04:51.239 [http-nio-8080-exec-9] INFO  c.b.b.c.ReactiveChatController - Processing request for user ID: 689258T
+16:04:51.239 [http-nio-8080-exec-9] INFO  c.b.b.c.ReactiveChatController - Processing file with circuit breaker: fileName=模型 & 价格细节.xlsx, question=
+16:04:51.239 [http-nio-8080-exec-9] INFO  c.b.b.config.ReactiveFileProcessor - Processing file: 模型 & 价格细节.xlsx, content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+16:04:51.240 [http-nio-8080-exec-9] INFO  c.b.b.c.ReactiveChatController - PARAM TRACE [689258T]: 尝试查找匹配配置 - 参数: apiUrl=null, modelName=null
+16:04:51.240 [http-nio-8080-exec-9] INFO  c.b.b.s.impl.ApiConfigServiceImpl - 查询配置 - userId=689258T
+16:04:51.240 [http-nio-8080-exec-9] INFO  c.b.b.s.impl.ApiConfigServiceImpl - 排序方式 - 按ID降序
+16:04:51.240 [http-nio-8080-exec-9] INFO  c.b.b.s.impl.ApiConfigServiceImpl - 限制结果数 - LIMIT 1
+16:04:51.240 [http-nio-8080-exec-9] DEBUG c.b.b.m.ApiConfigMapper.selectList - ==>  Preparing: SELECT id,api_url,api_key,model_name,user_id FROM api_config WHERE (user_id = ?) ORDER BY id DESC LIMIT 1
+16:04:51.241 [http-nio-8080-exec-9] DEBUG c.b.b.m.ApiConfigMapper.selectList - ==> Parameters: 689258T(String)
+16:04:51.251 [http-nio-8080-exec-9] DEBUG c.b.b.m.ApiConfigMapper.selectList - <==      Total: 1
+16:04:51.252 [http-nio-8080-exec-9] INFO  c.b.b.s.impl.ApiConfigServiceImpl - 查询结果 - 找到配置: id=2, modelName=deepseek-chat
+16:04:51.252 [http-nio-8080-exec-9] INFO  c.b.b.c.ReactiveChatController - PARAM TRACE [689258T]: 找到匹配配置 - apiUrl=https://api.deepseek.com/chat/completions, modelName=deepseek-chat (原始请求: null)
+16:04:51.252 [http-nio-8080-exec-9] INFO  c.b.b.c.ReactiveChatController - API config resolved: url=https://api.deepseek.com/chat/completions, model=deepseek-chat
+16:04:51.252 [http-nio-8080-exec-9] INFO  c.b.b.config.ReactiveFileProcessor - File processed successfully: size=10359 bytes
+16:04:51.253 [http-nio-8080-exec-9] DEBUG c.b.b.c.ReactiveChatController - File+text content built, length: 9920
+16:04:51.253 [http-nio-8080-exec-9] INFO  c.b.b.c.ReactiveChatController - Content processed, length: 9920
+16:04:51.267 [http-nio-8080-exec-9] INFO  c.b.b.t.TransactionCoordinator - Transaction prepared for user 689258T: chatCompletionId=chat-d95a87c9-2f7f-4ede-b49f-c21507ee7de9
+16:05:16.097 [reactor-http-nio-4] DEBUG c.b.b.m.ChatCompletionsMapper.insert - ==>  Preparing: INSERT INTO chat_completions ( object, created, model, system_fingerprint, api_key ) VALUES ( ?, ?, ?, ?, ? )
+16:05:16.098 [reactor-http-nio-4] DEBUG c.b.b.m.ChatCompletionsMapper.insert - ==> Parameters: chat.completion(String), 1746691516097(Long), deepseek-chat(String), 689258T(String), chat-d95a87c9-2f7f-4ede-b49f-c21507ee7de9(String)
+16:05:16.131 [reactor-http-nio-4] DEBUG c.b.b.m.ChatCompletionsMapper.insert - <==    Updates: 1
+16:05:16.131 [reactor-http-nio-4] INFO  c.b.b.t.TransactionCoordinator - Transaction committed for user 689258T: chatCompletionId=chat-d95a87c9-2f7f-4ede-b49f-c21507ee7de9
+16:05:16.153 [FileWrite-2] INFO  c.b.b.s.deepseek.FileWriterService - Successfully wrote content to: \var\data\ai_responses\24573f93-e4e2-4c40-af56-e5ba11adf29f.txt
+16:05:16.158 [boundedElastic-7] DEBUG c.b.b.m.ChatCompletionsMapper.insert - ==>  Preparing: INSERT INTO chat_completions ( object, created, model, system_fingerprint, api_key ) VALUES ( ?, ?, ?, ?, ? )
+16:05:16.158 [boundedElastic-7] DEBUG c.b.b.m.ChatCompletionsMapper.insert - ==> Parameters: chat.completion(String), 1746691491(Long), deepseek-chat(String), fp_8802369eaa_prod0425fp8(String), chat-d95a87c9-2f7f-4ede-b49f-c21507ee7de9(String)
+16:05:16.170 [boundedElastic-7] DEBUG c.b.b.m.ChatCompletionsMapper.insert - <==    Updates: 1
+16:05:16.192 [boundedElastic-7] DEBUG c.b.b.mapper.UsageInfoMapper.insert - ==>  Preparing: INSERT INTO usage_info ( chat_completion_id, prompt_tokens, completion_tokens, total_tokens, prompt_tokens_cached, completion_reasoning_tokens, prompt_cache_hit_tokens, prompt_cache_miss_tokens, created_at, model_type ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
+16:05:16.193 [boundedElastic-7] DEBUG c.b.b.mapper.UsageInfoMapper.insert - ==> Parameters: chat-d95a87c9-2f7f-4ede-b49f-c21507ee7de9(String), 7950(Integer), 280(Integer), 8230(Integer), 7936(Integer), 0(Integer), 0(Integer), 14(Integer), 2025-05-08T16:05:16.186425300(LocalDateTime), deepseek-chat(String)
+16:05:16.225 [boundedElastic-7] DEBUG c.b.b.mapper.UsageInfoMapper.insert - <==    Updates: 1
+16:05:16.252 [boundedElastic-7] INFO  c.b.b.c.ReactiveChatController - Processed response for user 689258T, content length: 1226
+16:05:52.483 [pool-7-thread-1] DEBUG c.b.b.m.UsageInfoMapper.selectCount - ==>  Preparing: SELECT COUNT( * ) AS total FROM usage_info WHERE (chat_completion_id = ?)
+16:05:52.484 [pool-7-thread-1] DEBUG c.b.b.m.UsageInfoMapper.selectCount - ==> Parameters: chat-d95a87c9-2f7f-4ede-b49f-c21507ee7de9(String)
+16:05:52.491 [pool-7-thread-1] DEBUG c.b.b.m.UsageInfoMapper.selectCount - <==      Total: 1
+16:05:52.602 [ConsumeMessageThread_billing-consumer-group_2] INFO  c.b.b.s.m.RocketMQBillingServiceImpl - Output price config priceVersion: 1
+16:05:52.602 [ConsumeMessageThread_billing-consumer-group_2] DEBUG c.b.b.m.UsageRecordMapper.insert - ==>  Preparing: INSERT INTO usage_record ( model_type, chat_completion_id, user_id, input_cost, output_cost, price_version, calculated_at ) VALUES ( ?, ?, ?, ?, ?, ?, ? )
+16:05:52.602 [ConsumeMessageThread_billing-consumer-group_2] DEBUG c.b.b.m.UsageRecordMapper.insert - ==> Parameters: deepseek-chat(String), chat-d95a87c9-2f7f-4ede-b49f-c21507ee7de9(String), 689258T(String), 0.0000(BigDecimal), 0.0022(BigDecimal), 1(Integer), 2025-05-08T16:05:52.602254600(LocalDateTime)
+16:05:52.618 [ConsumeMessageThread_billing-consumer-group_2] DEBUG c.b.b.m.UsageRecordMapper.insert - <==    Updates: 1
+16:05:52.625 [ConsumeMessageThread_billing-consumer-group_2] INFO  c.b.b.s.m.RocketMQBillingServiceImpl - Message consumed: 2408820C75288342909062BCE97060FCFB1436BAF30C27803F510002
+16:08:23.804 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+16:08:23.804 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - ==> Parameters: 
+16:08:23.814 [scheduling-1] DEBUG c.b.b.m.F.selectActiveMimeTypes - <==      Total: 52
+16:08:23.814 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+16:08:23.814 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - ==> Parameters: 
+16:08:23.821 [scheduling-1] DEBUG c.b.b.m.F.selectAllowedTypes - <==      Total: 52
