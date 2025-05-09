@@ -59,6 +59,9 @@ FROM eclipse-temurin:21-jre-jammy
 
 WORKDIR /app
 
+# 安装wget用于健康检查
+RUN apt-get update && apt-get install -y wget && rm -rf /var/lib/apt/lists/*
+
 # 复制JAR包
 COPY --from=build /app/target/*.jar app.jar
 
@@ -69,17 +72,17 @@ RUN mkdir -p /app/data /app/logs && chown -R bgai:bgai /app
 # 使用非root用户运行
 USER bgai
 
+# 暴露端口
+EXPOSE 8080
+
 # 环境变量
 ENV SPRING_PROFILES_ACTIVE=prod \
     TZ=Asia/Shanghai \
     JAVA_OPTS="-Xms512m -Xmx1g"
 
-# 暴露8086端口
-EXPOSE 8086
-
 # 健康检查
 HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
-  CMD java -version || exit 1
+  CMD wget -q --spider http://localhost:8080/actuator/health || exit 1
 
 # 启动命令
 ENTRYPOINT ["java", "-jar", "app.jar"] 

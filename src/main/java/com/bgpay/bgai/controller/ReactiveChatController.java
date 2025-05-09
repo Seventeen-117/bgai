@@ -220,7 +220,7 @@ public class ReactiveChatController {
                                 if ((file == null || (file.filename() != null && file.filename().isEmpty())) && 
                                     (finalQuestion == null || finalQuestion.trim().isEmpty())) {
                                     log.error("Both file and question are empty");
-                                    return Mono.just(errorResponse(400, "必须提供问题或文件"));
+                return Mono.just(errorResponse(400, "必须提供问题或文件"));
                                 }
 
                                 // 对于非用户请求，验证完整的API参数

@@ -7,6 +7,9 @@ FROM eclipse-temurin:17-jdk-alpine AS build
 
 WORKDIR /app
 
+# 安装wget用于健康检查
+RUN apk add --no-cache wget
+
 # Install necessary tools 
 RUN apk add --no-cache bash sed grep
 
@@ -63,6 +66,9 @@ RUN addgroup -S bgai && adduser -S bgai -G bgai
 # Set the working directory
 WORKDIR /app
 
+# 安装wget用于健康检查
+RUN apk add --no-cache wget
+
 # Create a data directory and make it writable
 RUN mkdir -p /app/data && chown -R bgai:bgai /app
 
@@ -73,7 +79,7 @@ COPY --from=build /app/target/*.jar app.jar
 USER bgai
 
 # Expose ports
-EXPOSE 8086
+EXPOSE 8080
 
 # Set environment variables
 ENV SPRING_PROFILES_ACTIVE=prod
@@ -82,7 +88,7 @@ ENV JAVA_OPTS="-Xms512m -Xmx1g -XX:+UseG1GC -XX:+UseContainerSupport -XX:MaxRAMP
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
-  CMD wget -q --spider http://localhost:8086/actuator/health || exit 1
+  CMD wget -q --spider http://localhost:8080/actuator/health || exit 1
 
 # Start the application
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"] 

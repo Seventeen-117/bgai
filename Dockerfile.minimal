@@ -13,6 +13,9 @@ FROM eclipse-temurin:17-jdk-slim AS build
 
 WORKDIR /app
 
+# 安装wget用于健康检查
+RUN apt-get update && apt-get install -y wget && rm -rf /var/lib/apt/lists/*
+
 # Copy Maven wrapper and pom.xml first for better layer caching
 COPY mvnw .
 COPY .mvn .mvn
@@ -44,6 +47,9 @@ FROM eclipse-temurin:17-jre-slim
 # Set the working directory
 WORKDIR /app
 
+# 安装wget用于健康检查
+RUN apt-get update && apt-get install -y wget && rm -rf /var/lib/apt/lists/*
+
 # Create a non-root user and group
 RUN groupadd -r bgai && useradd -r -g bgai bgai
 
@@ -57,7 +63,7 @@ COPY --from=build /app/target/*.jar app.jar
 USER bgai
 
 # Expose ports
-EXPOSE 8086
+EXPOSE 8080
 
 # Set environment variables
 ENV SPRING_PROFILES_ACTIVE=prod
