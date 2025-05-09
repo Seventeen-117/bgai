@@ -3,53 +3,37 @@
 #######################
 # Build stage
 #######################
-FROM eclipse-temurin:17-jdk-alpine AS build
+FROM eclipse-temurin:21-jdk-slim AS build
 
 WORKDIR /app
-
-# Install necessary tools
-RUN apk add --no-cache sed grep bash
 
 # Copy Maven wrapper and pom.xml first for better layer caching
 COPY mvnw .
 COPY .mvn .mvn
 COPY pom.xml .
-COPY fix-java-version.sh .
 
-# Make scripts executable
-RUN chmod +x ./mvnw && chmod +x ./fix-java-version.sh
+# Make mvnw executable
+RUN chmod +x ./mvnw
 
-# Run the Java version fix script
-RUN ./fix-java-version.sh
+# Copy application source code
+COPY src src
+
+# Build the application
+RUN ./mvnw clean package -DskipTests
 
 #######################
 # Runtime stage
 #######################
-FROM eclipse-temurin:17-jre-alpine
-
-# Install additional dependencies needed for image processing and OCR
-RUN apk add --no-cache \
-    # Required for PDF processing and OCR
-    tesseract-ocr \
-    tesseract-ocr-data-chi_sim \
-    tesseract-ocr-data-eng \
-    # Required for video processing
-    ffmpeg \
-    # Required for image processing
-    libpng \
-    libjpeg-turbo \
-    tiff \
-    # Required for wget (healthcheck)
-    wget
-
-# Create a non-root user
-RUN addgroup -S bgai && adduser -S bgai -G bgai
+FROM eclipse-temurin:21-jre-slim
 
 # Set the working directory
 WORKDIR /app
 
+# Create a non-root user and group
+RUN groupadd -r bgai && useradd -r -g bgai bgai
+
 # Create a data directory and make it writable
-RUN mkdir -p /app/data && chown -R bgai:bgai /app
+RUN mkdir -p /app/data /app/logs && chown -R bgai:bgai /app
 
 # Copy the JAR file from the build stage
 COPY --from=build /app/target/*.jar app.jar
