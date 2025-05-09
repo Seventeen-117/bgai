@@ -51,7 +51,7 @@ public class SimpleChatController {
         
         // 复用ReactiveChatController的handleChatRequest方法处理请求
         return reactiveChatController.handleChatRequest(
-                    file, question, apiUrl, apiKey, modelName, multiTurn, exchange
+                    file, question, apiUrl, apiKey, modelName, String.valueOf(multiTurn), exchange
                 )
                 .map(ResponseEntity::getBody)
                 .map(response -> {

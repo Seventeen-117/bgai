@@ -98,4 +98,14 @@ public class ReactiveFileProcessor {
             super(message);
         }
     }
+
+    /**
+     * 获取原始FileProcessor实例，用于直接文件处理
+     * 当常规反应式处理失败时，可以使用此方法获取FileProcessor进行备选处理
+     * 
+     * @return FileProcessor实例
+     */
+    public FileProcessor getFileProcessor() {
+        return this.fileProcessor;
+    }
 }

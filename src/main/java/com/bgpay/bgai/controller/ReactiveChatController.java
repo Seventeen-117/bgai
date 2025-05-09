@@ -19,12 +19,16 @@ import org.springframework.data.redis.RedisSystemException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.FilePart;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.Duration;
 import java.util.concurrent.TimeoutException;
 
@@ -141,90 +145,143 @@ public class ReactiveChatController {
     @ApiOperation(value = "处理文件聊天请求", hidden = true)
     @PostMapping(
             value = "/chatGatWay-internal",
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_FORM_URLENCODED_VALUE, 
+                       MediaType.APPLICATION_JSON_VALUE, MediaType.ALL_VALUE},
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public Mono<ResponseEntity<ChatResponse>> handleChatRequest(
             @RequestPart(value = "file", required = false) FilePart file,
-            @RequestParam(value = "question", required = false) String question,
-            @RequestParam(value = "apiUrl", required = false) String apiUrl,
-            @RequestParam(value = "apiKey", required = false) String apiKey,
-            @RequestParam(value = "modelName", required = false) String modelName,
-            @RequestParam(value = "multiTurn", defaultValue = "false") boolean multiTurn,
+            @RequestParam(value = "question", required = false) String questionParam,
+            @RequestParam(value = "apiUrl", required = false) String apiUrlParam,
+            @RequestParam(value = "apiKey", required = false) String apiKeyParam,
+            @RequestParam(value = "modelName", required = false) String modelNameParam,
+            @RequestParam(value = "multiTurn", required = false) String multiTurnStr,
             ServerWebExchange exchange) {
 
-        log.info("Received chat request: question = {}, file = {}, modelName = {}, multiTurn = {}",
-                question, file != null ? file.filename() : "none", modelName, multiTurn);
+        log.info("接收到请求: /api/chatGatWay-internal, 文件={}, 问题参数={}, 模型参数={}", 
+            file != null ? file.filename() : "无文件", 
+            questionParam, modelNameParam);
 
-        // 1. 验证请求参数和用户信息
-        return attributesProvider.getUserId(exchange)
-                .switchIfEmpty(Mono.error(new BillingException("需要SSO认证")))
-                .flatMap(userId -> {
-                    log.info("Processing request for user ID: {}", userId);
-
-                    if ((file == null || (file.filename() != null && file.filename().isEmpty())) && 
-                        (question == null || question.trim().isEmpty())) {
-                        log.error("Both file and question are empty");
-                return Mono.just(errorResponse(400, "必须提供问题或文件"));
-            }
-
-                    // 对于非用户请求，验证完整的API参数
-                    if ("default".equals(userId)) {
-                        if (!StringUtils.hasText(apiKey) || !StringUtils.hasText(apiUrl)) {
-                            log.error("Must provide complete API parameters when no user ID is available");
-                            return Mono.just(errorResponse(400, "未提供用户ID时，必须提供完整的API参数(apiUrl和apiKey)"));
-                        }
+        // 从请求体中尝试获取表单数据
+        Mono<String> contentTypeMono = Mono.justOrEmpty(exchange.getRequest().getHeaders().getContentType())
+            .map(MediaType::toString)
+            .defaultIfEmpty("unknown");
+            
+        return contentTypeMono.flatMap(contentType -> {
+            log.info("请求Content-Type: {}", contentType);
+            
+            // 从参数或表单数据中提取并构建完整的请求
+            return exchange.getFormData()
+                .doOnError(e -> log.warn("获取表单数据失败: {}", e.getMessage()))
+                .onErrorResume(e -> {
+                    log.warn("将使用URL参数代替表单数据");
+                    return Mono.just(new LinkedMultiValueMap<>());
+                })
+                .defaultIfEmpty(new LinkedMultiValueMap<>())
+                .flatMap(formData -> {
+                    // 从表单数据中提取，如果参数为空
+                    String question = StringUtils.hasText(questionParam) ? questionParam : 
+                            formData.getFirst("question");
+                    
+                    String apiUrl = StringUtils.hasText(apiUrlParam) ? apiUrlParam : 
+                            formData.getFirst("apiUrl");
+                    
+                    String apiKey = StringUtils.hasText(apiKeyParam) ? apiKeyParam : 
+                            formData.getFirst("apiKey");
+                    
+                    String modelName = StringUtils.hasText(modelNameParam) ? modelNameParam : 
+                            formData.getFirst("modelName");
+                    
+                    // 处理multiTurn参数，支持字符串和布尔值
+                    boolean multiTurn = false;
+                    if (StringUtils.hasText(multiTurnStr)) {
+                        multiTurn = "true".equalsIgnoreCase(multiTurnStr);
+                    } else if (formData.containsKey("multiTurn")) {
+                        multiTurn = "true".equalsIgnoreCase(formData.getFirst("multiTurn"));
                     }
 
-                    // 2. 处理文件 - 使用熔断器
-                    Mono<String> contentMono = file == null ?
-                        Mono.just(buildTextContent(question != null ? question : "")) :
-                        processFileWithCircuitBreaker(file, question != null ? question : "", multiTurn);
+                    // 记录所有收集到的参数
+                    log.info("收集到的完整参数: question=\"{}\", apiUrl=\"{}\", modelName=\"{}\", multiTurn={}", 
+                        question, apiUrl, modelName, multiTurn);
 
-                    return resolveApiConfigReactive(apiUrl, apiKey, modelName, userId)
-                            .flatMap(apiConfig -> {
-                                log.info("API config resolved: url={}, model={}",
-                                        apiConfig.getApiUrl(), apiConfig.getModelName());
+                    // 记录最终参数值
+                    final String finalQuestion = question;
+                    final String finalApiUrl = apiUrl;
+                    final String finalApiKey = apiKey;
+                    final String finalModelName = modelName;
+                    final boolean finalMultiTurn = multiTurn;
 
-                                return contentMono.flatMap(content -> {
-                                    log.info("Content processed, length: {}", content.length());
+                    // 继续原有的处理流程
+                    return attributesProvider.getUserId(exchange)
+                            .switchIfEmpty(Mono.error(new BillingException("需要SSO认证")))
+                            .flatMap(userId -> {
+                                log.info("Processing request for user ID: {}", userId);
 
-                                    // 3. API调用 - 添加超时熔断器
-                                    return callDeepSeekApiWithCircuitBreaker(
-                                            content,
-                                            apiConfig,
-                                            userId,
-                                            multiTurn
-                                    );
-                                });
+                                if ((file == null || (file.filename() != null && file.filename().isEmpty())) && 
+                                    (finalQuestion == null || finalQuestion.trim().isEmpty())) {
+                                    log.error("Both file and question are empty");
+                                    return Mono.just(errorResponse(400, "必须提供问题或文件"));
+                                }
+
+                                // 对于非用户请求，验证完整的API参数
+                                if ("default".equals(userId)) {
+                                    if (!StringUtils.hasText(finalApiKey) || !StringUtils.hasText(finalApiUrl)) {
+                                        log.error("Must provide complete API parameters when no user ID is available");
+                                        return Mono.just(errorResponse(400, "未提供用户ID时，必须提供完整的API参数(apiUrl和apiKey)"));
+                                    }
+                                }
+
+                                // 2. 处理文件 - 使用熔断器
+                                Mono<String> contentMono = file == null ?
+                                    Mono.just(buildTextContent(finalQuestion != null ? finalQuestion : "")) :
+                                    processFileWithCircuitBreaker(file, finalQuestion != null ? finalQuestion : "", finalMultiTurn);
+
+                                return resolveApiConfigReactive(finalApiUrl, finalApiKey, finalModelName, userId)
+                                        .flatMap(apiConfig -> {
+                                            log.info("API config resolved: url={}, model={}",
+                                                    apiConfig.getApiUrl(), apiConfig.getModelName());
+
+                                            return contentMono.flatMap(content -> {
+                                                log.info("Content processed, length: {}", content.length());
+
+                                                // 3. API调用 - 添加超时熔断器
+                                                return callDeepSeekApiWithCircuitBreaker(
+                                                        content,
+                                                        apiConfig,
+                                                        userId,
+                                                        finalMultiTurn
+                                                );
+                                            });
+                                        })
+                                        .onErrorResume(e -> {
+                                            if (e instanceof IllegalArgumentException) {
+                                                log.error("API configuration error: {}", e.getMessage());
+                                                return Mono.just(errorResponse(400, e.getMessage()));
+                                            }
+                                            if (e instanceof RedisSystemException) {
+                                                log.error("Redis error: {}", e.getMessage());
+                                                return Mono.just(errorResponse(503, "系统暂时不可用，请稍后重试"));
+                                            }
+                                            log.error("Request processing failed: {}", e.getMessage(), e);
+
+                                            // 创建通用错误熔断器
+                                            ReactiveCircuitBreaker generalErrorBreaker = createCircuitBreaker("generalErrorBreaker");
+
+                                            return generalErrorBreaker.run(
+                                                fallbackService.handleGeneralFallback(e),
+                                                throwable -> fallbackService.handleGeneralFallback(e)
+                                            );
+                                        });
                             })
                             .onErrorResume(e -> {
-                                if (e instanceof IllegalArgumentException) {
-                                    log.error("API configuration error: {}", e.getMessage());
-                                    return Mono.just(errorResponse(400, e.getMessage()));
+                                log.error("Authentication error: {}", e.getMessage());
+                                if (e instanceof BillingException) {
+                                    return Mono.just(errorResponse(401, e.getMessage()));
                                 }
-                                if (e instanceof RedisSystemException) {
-                                    log.error("Redis error: {}", e.getMessage());
-                                    return Mono.just(errorResponse(503, "系统暂时不可用，请稍后重试"));
-                                }
-                                log.error("Request processing failed: {}", e.getMessage(), e);
-
-                                // 创建通用错误熔断器
-                                ReactiveCircuitBreaker generalErrorBreaker = createCircuitBreaker("generalErrorBreaker");
-
-                                return generalErrorBreaker.run(
-                                    fallbackService.handleGeneralFallback(e),
-                                    throwable -> fallbackService.handleGeneralFallback(e)
-                                );
+                                return Mono.just(errorResponse(500, "处理失败: " + e.getMessage()));
                             });
-                })
-                .onErrorResume(e -> {
-                    log.error("Authentication error: {}", e.getMessage());
-                    if (e instanceof BillingException) {
-                        return Mono.just(errorResponse(401, e.getMessage()));
-                    }
-                    return Mono.just(errorResponse(500, "处理失败: " + e.getMessage()));
                 });
+        });
     }
 
     /**
@@ -235,7 +292,8 @@ public class ReactiveChatController {
     }
 
     /**
-     * 使用熔断器处理文件内容
+     * 使用熔断器处理文件内容，包含备选处理机制
+     * 当标准处理方法失败时，尝试使用FileProcessor直接处理
      */
     private Mono<String> processFileWithCircuitBreaker(FilePart file, String question, boolean multiTurn) {
         log.info("Processing file with circuit breaker: fileName={}, question={}", file.filename(), question);
@@ -246,17 +304,58 @@ public class ReactiveChatController {
         return fileProcessingBreaker.run(
             fileProcessor.processReactiveFile(file)
                 .onErrorResume(e -> {
-                    log.error("File processing failed: {}", e.getMessage(), e);
-                    return Mono.error(new RuntimeException("文件处理失败: " + e.getMessage()));
-                })
-                .map(fileContent -> buildFileContent(fileContent, question))
-                .doOnNext(c -> log.debug("File+text content built, length: {}", c.length())),
+                    log.error("Standard file processing failed, trying alternative method: {}", e.getMessage());
+                    return tryAlternativeFileProcessing(file);
+                }),
             throwable -> {
-                log.error("File processing circuit broken: {}", throwable.getMessage());
-                // 文件处理失败，但仍然返回问题内容以便能够处理纯文本问题
-                return Mono.just(buildTextContent(question + " (文件处理失败，仅处理文本问题)"));
+                log.warn("Circuit breaker triggered for file processing, using direct FileProcessor: {}", throwable.getMessage());
+                return tryAlternativeFileProcessing(file);
             }
-        );
+        ).map(fileContent -> buildFileContent(fileContent, question));
+    }
+    
+    /**
+     * 使用FileProcessor进行替代性文件处理
+     * 当反应式处理失败时作为备选方案
+     */
+    private Mono<String> tryAlternativeFileProcessing(FilePart file) {
+        try {
+            // 创建临时文件用于处理
+            Path tempFile = Files.createTempFile("alt_process_", "_" + sanitizeFilename(file.filename()));
+            
+            return file.transferTo(tempFile)
+                .then(Mono.fromCallable(() -> {
+                    try {
+                        log.info("Attempting alternative file processing with direct FileProcessor for: {}", file.filename());
+                        // 使用FileProcessor直接处理文件
+                        return fileProcessor.getFileProcessor().processFile(tempFile.toFile());
+                    } catch (Exception ex) {
+                        log.error("Alternative file processing failed: {}", ex.getMessage(), ex);
+                        throw new RuntimeException("所有文件处理方法均失败: " + ex.getMessage());
+                    } finally {
+                        // 清理临时文件
+                        try {
+                            Files.deleteIfExists(tempFile);
+                        } catch (Exception ignored) {
+                            log.warn("Failed to delete temp file: {}", tempFile);
+                        }
+                    }
+                }))
+                .onErrorResume(e -> {
+                    log.error("All file processing methods failed: {}", e.getMessage());
+                    return Mono.just("无法解析文件内容，请提供不同格式的文件或直接提问。错误: " + e.getMessage());
+                });
+        } catch (IOException e) {
+            log.error("Failed to create temporary file for alternative processing: {}", e.getMessage());
+            return Mono.just("文件处理失败: 无法创建临时文件");
+        }
+    }
+    
+    /**
+     * 清理文件名，防止路径遍历攻击
+     */
+    private String sanitizeFilename(String filename) {
+        return filename != null ? filename.replaceAll("[\\\\/:*?\"<>|]", "_") : "unknown";
     }
 
     /**

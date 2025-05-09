@@ -7,20 +7,75 @@ WORKDIR /app
 # 设置Maven配置以加速依赖下载
 ENV MAVEN_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1"
 
+# 创建Maven配置目录
+RUN mkdir -p /root/.m2
+
+# 创建Maven settings.xml以使用国内镜像源
+RUN echo '<?xml version="1.0" encoding="UTF-8"?>\
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" \
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" \
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">\
+  <mirrors>\
+    <mirror>\
+      <id>aliyun</id>\
+      <mirrorOf>central</mirrorOf>\
+      <name>Aliyun Maven Central</name>\
+      <url>https://maven.aliyun.com/repository/central</url>\
+    </mirror>\
+    <mirror>\
+      <id>aliyun-spring</id>\
+      <mirrorOf>spring</mirrorOf>\
+      <name>Aliyun Spring</name>\
+      <url>https://maven.aliyun.com/repository/spring</url>\
+    </mirror>\
+    <mirror>\
+      <id>aliyun-spring-plugin</id>\
+      <mirrorOf>spring-plugin</mirrorOf>\
+      <name>Aliyun Spring-plugin</name>\
+      <url>https://maven.aliyun.com/repository/spring-plugin</url>\
+    </mirror>\
+    <mirror>\
+      <id>huaweicloud</id>\
+      <mirrorOf>*,!aliyun,!aliyun-spring,!aliyun-spring-plugin</mirrorOf>\
+      <name>Huawei Cloud</name>\
+      <url>https://mirrors.huaweicloud.com/repository/maven/</url>\
+    </mirror>\
+  </mirrors>\
+  <profiles>\
+    <profile>\
+      <id>defaultProfile</id>\
+      <activation>\
+        <activeByDefault>true</activeByDefault>\
+      </activation>\
+      <repositories>\
+        <repository>\
+          <id>aliyun</id>\
+          <url>https://maven.aliyun.com/repository/public</url>\
+          <releases>\
+            <enabled>true</enabled>\
+          </releases>\
+          <snapshots>\
+            <enabled>true</enabled>\
+            <updatePolicy>always</updatePolicy>\
+          </snapshots>\
+        </repository>\
+      </repositories>\
+    </profile>\
+  </profiles>\
+</settings>' > /root/.m2/settings.xml
+
 # 复制pom.xml单独处理依赖，利用Docker缓存机制
 COPY pom.xml .
 COPY mvnw .
 COPY .mvn .mvn
 RUN chmod +x ./mvnw
 
-# 预下载依赖但跳过测试和构建，只解析依赖
-# -DskipTests 跳过测试
-# -Dmaven.repo.local=/app/.m2/repository 使用容器内本地仓库
-RUN ./mvnw dependency:go-offline -DskipTests
+# 预下载依赖但跳过测试和构建，修改为更简单的方式以避免依赖问题
+RUN ./mvnw dependency:resolve -DskipTests -Dmaven.wagon.http.retryHandler.count=5 -Dmaven.wagon.http.connectTimeout=60000 -Dmaven.wagon.http.readTimeout=60000
 
 # 然后复制源代码并构建
 COPY src src
-RUN ./mvnw package -DskipTests -Dmaven.test.skip=true
+RUN ./mvnw package -DskipTests -Dmaven.test.skip=true -Dmaven.wagon.http.retryHandler.count=5 -Dmaven.wagon.http.connectTimeout=60000 -Dmaven.wagon.http.readTimeout=60000
 
 # 运行阶段使用最小镜像
 FROM eclipse-temurin:21-jre-jammy
