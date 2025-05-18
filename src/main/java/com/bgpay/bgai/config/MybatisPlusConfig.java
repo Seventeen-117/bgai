@@ -8,6 +8,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+/**
+ * MyBatis-Plus配置类
+ * 集中管理MyBatis相关配置，包括Mapper扫描
+ */
 @Configuration
 @EnableTransactionManagement
 @MapperScan("com.bgpay.bgai.mapper")

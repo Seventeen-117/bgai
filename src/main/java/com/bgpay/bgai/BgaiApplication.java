@@ -1,6 +1,5 @@
 package com.bgpay.bgai;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -24,7 +23,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @Configuration
 @EnableDiscoveryClient
-@MapperScan(basePackages = {"com.bgpay.bgai.mapper"})
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @ComponentScan(basePackages = {"org.apache.rocketmq.spring", "com.bgpay.bgai"})
 public class BgaiApplication {
