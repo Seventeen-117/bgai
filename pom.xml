@@ -28,14 +28,7 @@
 	</scm>
 
 	<!-- ====================== 统一版本管理 ====================== -->
-	<properties>
-		<java.version>21</java.version>
-		<jackson.version>2.15.3</jackson.version>
-
-		<!-- Spring Cloud 相关 -->
-		<spring-cloud-dependencies.version>2022.0.4</spring-cloud-dependencies.version>
-		<spring-cloud-alibaba-dependencies.version>2022.0.0.0-RC2</spring-cloud-alibaba-dependencies.version>
-		<spring-cloud-starter-bootstrap.version>4.0.3</spring-cloud-starter-bootstrap.version>
+	<properties>		<java.version>21</java.version>		<jackson.version>2.15.3</jackson.version>		<!-- Spring Cloud 相关 -->		<spring-cloud-dependencies.version>2022.0.4</spring-cloud-dependencies.version>		<spring-cloud-alibaba-dependencies.version>2022.0.0.0-RC2</spring-cloud-alibaba-dependencies.version>		<spring-cloud-starter-bootstrap.version>4.0.3</spring-cloud-starter-bootstrap.version>		<seata.version>1.7.0</seata.version>
 
 		<!-- 基础依赖 -->
 		<pagehelper.version>5.3.2</pagehelper.version>
@@ -242,12 +235,7 @@
 			<version>${spring-boot-starter-freemarker.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-configuration-processor</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
+				<dependency>			<groupId>org.springframework.boot</groupId>			<artifactId>spring-boot-configuration-processor</artifactId>			<optional>true</optional>		</dependency>		<!-- Seata for distributed transaction management -->		<dependency>			<groupId>io.seata</groupId>			<artifactId>seata-spring-boot-starter</artifactId>			<version>1.7.0</version>		</dependency>		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>

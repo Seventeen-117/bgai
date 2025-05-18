@@ -1,0 +1,108 @@
+{
+  "Name": "bgai-saga-transaction",
+  "Comment": "BGAI Saga分布式事务状态机定义",
+  "StartState": "FirstState",
+  "Version": "0.0.1",
+  "States": {
+    "FirstState": {
+      "Type": "ServiceTask",
+      "ServiceName": "bgaiService",
+      "ServiceMethod": "executeFirstStep",
+      "CompensateState": "CompensateFirstState",
+      "Next": "SecondState",
+      "Input": [
+        {
+          "businessKey": "$.[businessKey]"
+        }
+      ],
+      "Output": {
+        "firstResult": "$.#root"
+      },
+      "Status": {
+        "#root == true": "SU",
+        "#root == false": "FA",
+        "$Exception{java.lang.Exception}": "UN"
+      }
+    },
+    "CompensateFirstState": {
+      "Type": "ServiceTask",
+      "ServiceName": "bgaiService",
+      "ServiceMethod": "compensateFirstStep",
+      "Input": [
+        {
+          "businessKey": "$.[businessKey]"
+        }
+      ]
+    },
+    "SecondState": {
+      "Type": "ServiceTask",
+      "ServiceName": "bgaiService",
+      "ServiceMethod": "executeSecondStep",
+      "CompensateState": "CompensateSecondState",
+      "Next": "ThirdState",
+      "Input": [
+        {
+          "businessKey": "$.[businessKey]",
+          "firstResult": "$.[firstResult]"
+        }
+      ],
+      "Output": {
+        "secondResult": "$.#root"
+      },
+      "Status": {
+        "#root == true": "SU",
+        "#root == false": "FA",
+        "$Exception{java.lang.Exception}": "UN"
+      }
+    },
+    "CompensateSecondState": {
+      "Type": "ServiceTask",
+      "ServiceName": "bgaiService",
+      "ServiceMethod": "compensateSecondStep",
+      "Input": [
+        {
+          "businessKey": "$.[businessKey]"
+        }
+      ]
+    },
+    "ThirdState": {
+      "Type": "ServiceTask",
+      "ServiceName": "bgaiService",
+      "ServiceMethod": "executeThirdStep",
+      "CompensateState": "CompensateThirdState",
+      "Next": "Succeed",
+      "Input": [
+        {
+          "businessKey": "$.[businessKey]",
+          "secondResult": "$.[secondResult]"
+        }
+      ],
+      "Output": {
+        "finalResult": "$.#root"
+      },
+      "Status": {
+        "#root == true": "SU",
+        "#root == false": "FA",
+        "$Exception{java.lang.Exception}": "UN"
+      }
+    },
+    "CompensateThirdState": {
+      "Type": "ServiceTask",
+      "ServiceName": "bgaiService",
+      "ServiceMethod": "compensateThirdStep",
+      "Input": [
+        {
+          "businessKey": "$.[businessKey]"
+        }
+      ]
+    },
+    "Succeed": {
+      "Type": "Succeed"
+    },
+    "Fail": {
+      "Type": "Fail",
+      "ErrorCode": "Saga-Transaction-Failed",
+      "Message": "Saga transaction execution failed"
+    }
+  }
+} 
