@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
+import io.seata.spring.annotation.GlobalTransactional;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.config.RequestConfig;
@@ -128,11 +129,12 @@ public class DeepSeekServiceImp implements DeepSeekService {
      * @param maxConn      The maximum number of connections in the connection pool.
      * @param maxPerRoute  The maximum number of connections per route in the connection pool.
      * @param meterRegistry The MeterRegistry instance for monitoring.
-     * @param webClient    The WebClient instance for making reactive HTTP requests.
      */
+    @Autowired
     public DeepSeekServiceImp(
             @Value("${http.max.conn:500}") int maxConn,
-            @Value("${http.max.conn.per.route:50}") int maxPerRoute, MeterRegistry meterRegistry, WebClient webClient) {
+            @Value("${http.max.conn.per.route:50}") int maxPerRoute, 
+            MeterRegistry meterRegistry) {
         this.meterRegistry = meterRegistry;
         this.webClient = WebClient.builder()
                 .clientConnector(new ReactorClientHttpConnector(
@@ -175,6 +177,7 @@ public class DeepSeekServiceImp implements DeepSeekService {
      * @param modelName The name of the model to use
      * @return A ChatResponse object containing the response content and usage information
      */
+    @GlobalTransactional(name = "deepseek-process-tx", rollbackFor = Exception.class)
     @DS("master")
     public ChatResponse processRequest(String content,
                                        String apiUrl,
@@ -263,6 +266,8 @@ public class DeepSeekServiceImp implements DeepSeekService {
      * @param multiTurn Whether it is a multi-turn conversation.
      * @return A Mono that emits a ChatResponse object containing the response content and usage information.
      */
+    @GlobalTransactional(name = "deepseek-process-tx", rollbackFor = Exception.class)
+    @DS("master")
     @Override
     public Mono<ChatResponse> processRequestReactive(String content,
                                                      String apiUrl,
