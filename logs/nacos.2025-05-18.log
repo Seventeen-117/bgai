@@ -6760,7 +6760,7 @@ io.seata.config.exception.ConfigNotFoundException: service.vgroupMapping.bgai-tx
 2025-05-18 17:00:59.554 [main] INFO  com.bgpay.bgai.service.mq.MQConsumerService - MQ consumer startup successful [group=billing-consumer-group, topic=BILLING_TOPIC, tag=USER_BILLING]
 2025-05-18 17:00:59.722 [main] WARN  i.s.s.b.a.provider.SpringBootConfigurationProvider - The get method not found for the field 'SeataProperties#accesskey'.
 2025-05-18 17:00:59.723 [main] WARN  i.s.s.b.a.provider.SpringBootConfigurationProvider - The get method not found for the field 'SeataProperties#secretkey'.
-2025-05-18 17:00:59.820 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Bean [com.bgpay.bgai.service.SeataTransactionService$$SpringCGLIB$$0] with name [seataTransactionService] would use interceptor [io.seata.spring.annotation.GlobalTransactionalInterceptor]
+2025-05-18 17:00:59.820 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Bean [com.bgpay.bgai.service.impl.SeataTransactionService$$SpringCGLIB$$0] with name [seataTransactionService] would use interceptor [io.seata.spring.annotation.GlobalTransactionalInterceptor]
 2025-05-18 17:01:01.042 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [After]
 2025-05-18 17:01:01.043 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Before]
 2025-05-18 17:01:01.043 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Between]
@@ -6973,7 +6973,7 @@ ip=192.168.86.8
 2025-05-18 17:03:24.901 [main] INFO  com.bgpay.bgai.service.mq.MQConsumerService - MQ consumer startup successful [group=billing-consumer-group, topic=BILLING_TOPIC, tag=USER_BILLING]
 2025-05-18 17:03:25.064 [main] WARN  i.s.s.b.a.provider.SpringBootConfigurationProvider - The get method not found for the field 'SeataProperties#accesskey'.
 2025-05-18 17:03:25.064 [main] WARN  i.s.s.b.a.provider.SpringBootConfigurationProvider - The get method not found for the field 'SeataProperties#secretkey'.
-2025-05-18 17:03:25.145 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Bean [com.bgpay.bgai.service.SeataTransactionService$$SpringCGLIB$$0] with name [seataTransactionService] would use interceptor [io.seata.spring.annotation.GlobalTransactionalInterceptor]
+2025-05-18 17:03:25.145 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Bean [com.bgpay.bgai.service.impl.SeataTransactionService$$SpringCGLIB$$0] with name [seataTransactionService] would use interceptor [io.seata.spring.annotation.GlobalTransactionalInterceptor]
 2025-05-18 17:03:26.296 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [After]
 2025-05-18 17:03:26.297 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Before]
 2025-05-18 17:03:26.297 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Between]
@@ -7348,7 +7348,7 @@ ip=192.168.86.8
 2025-05-18 17:11:11.447 [main] WARN  i.s.s.b.a.provider.SpringBootConfigurationProvider - The get method not found for the field 'SeataProperties#secretkey'.
 2025-05-18 17:11:11.456 [main] INFO  com.bgpay.bgai.config.SagaStateMachineConfig - 加载到1个Saga状态机定义文件
 2025-05-18 17:11:11.456 [main] INFO  com.bgpay.bgai.config.SagaStateMachineConfig - 状态机定义文件: file:/E:/project/bgai/target/classes/statelang/bgai-saga-transaction.json
-2025-05-18 17:11:11.523 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Bean [com.bgpay.bgai.service.SeataTransactionService$$SpringCGLIB$$0] with name [seataTransactionService] would use interceptor [io.seata.spring.annotation.GlobalTransactionalInterceptor]
+2025-05-18 17:11:11.523 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Bean [com.bgpay.bgai.service.impl.SeataTransactionService$$SpringCGLIB$$0] with name [seataTransactionService] would use interceptor [io.seata.spring.annotation.GlobalTransactionalInterceptor]
 2025-05-18 17:11:11.661 [main] DEBUG com.bgpay.bgai.config.AsyncConfig$1 - Initializing ExecutorService 'blockingExecutor'
 2025-05-18 17:11:12.716 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [After]
 2025-05-18 17:11:12.716 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Before]
@@ -7617,7 +7617,7 @@ ip=192.168.86.8
 2025-05-18 17:18:57.173 [redisson-netty-4-6] INFO  o.r.connection.pool.MasterPubSubConnectionPool - 1 connections initialized for 8.133.246.113/8.133.246.113:6379
 2025-05-18 17:18:57.529 [redisson-netty-4-19] INFO  org.redisson.connection.pool.MasterConnectionPool - 24 connections initialized for 8.133.246.113/8.133.246.113:6379
 2025-05-18 17:18:57.752 [main] INFO  com.bgpay.bgai.service.mq.MQConsumerService - MQ consumer startup successful [group=billing-consumer-group, topic=BILLING_TOPIC, tag=USER_BILLING]
-2025-05-18 17:18:57.956 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Bean [com.bgpay.bgai.service.SeataTransactionService$$SpringCGLIB$$0] with name [seataTransactionService] would use interceptor [io.seata.spring.annotation.GlobalTransactionalInterceptor]
+2025-05-18 17:18:57.956 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Bean [com.bgpay.bgai.service.impl.SeataTransactionService$$SpringCGLIB$$0] with name [seataTransactionService] would use interceptor [io.seata.spring.annotation.GlobalTransactionalInterceptor]
 2025-05-18 17:18:58.130 [main] DEBUG com.bgpay.bgai.config.AsyncConfig$1 - Initializing ExecutorService 'blockingExecutor'
 2025-05-18 17:18:59.139 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [After]
 2025-05-18 17:18:59.139 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Before]
@@ -7845,7 +7845,7 @@ ip=192.168.86.8
 2025-05-18 17:23:06.218 [redisson-netty-4-6] INFO  o.r.connection.pool.MasterPubSubConnectionPool - 1 connections initialized for 8.133.246.113/8.133.246.113:6379
 2025-05-18 17:23:06.569 [redisson-netty-4-19] INFO  org.redisson.connection.pool.MasterConnectionPool - 24 connections initialized for 8.133.246.113/8.133.246.113:6379
 2025-05-18 17:23:06.800 [main] INFO  com.bgpay.bgai.service.mq.MQConsumerService - MQ consumer startup successful [group=billing-consumer-group, topic=BILLING_TOPIC, tag=USER_BILLING]
-2025-05-18 17:23:07.058 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Bean [com.bgpay.bgai.service.SeataTransactionService$$SpringCGLIB$$0] with name [seataTransactionService] would use interceptor [io.seata.spring.annotation.GlobalTransactionalInterceptor]
+2025-05-18 17:23:07.058 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Bean [com.bgpay.bgai.service.impl.SeataTransactionService$$SpringCGLIB$$0] with name [seataTransactionService] would use interceptor [io.seata.spring.annotation.GlobalTransactionalInterceptor]
 2025-05-18 17:23:07.173 [main] DEBUG com.bgpay.bgai.config.AsyncConfig$1 - Initializing ExecutorService 'blockingExecutor'
 2025-05-18 17:23:08.233 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [After]
 2025-05-18 17:23:08.233 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Before]
@@ -8051,7 +8051,7 @@ ip=192.168.86.8
 2025-05-18 17:32:22.314 [redisson-netty-4-6] INFO  o.r.connection.pool.MasterPubSubConnectionPool - 1 connections initialized for 8.133.246.113/8.133.246.113:6379
 2025-05-18 17:32:22.647 [redisson-netty-4-19] INFO  org.redisson.connection.pool.MasterConnectionPool - 24 connections initialized for 8.133.246.113/8.133.246.113:6379
 2025-05-18 17:32:22.971 [main] INFO  com.bgpay.bgai.service.mq.MQConsumerService - MQ consumer startup successful [group=billing-consumer-group, topic=BILLING_TOPIC, tag=USER_BILLING]
-2025-05-18 17:32:23.174 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Bean [com.bgpay.bgai.service.SeataTransactionService$$SpringCGLIB$$0] with name [seataTransactionService] would use interceptor [io.seata.spring.annotation.GlobalTransactionalInterceptor]
+2025-05-18 17:32:23.174 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Bean [com.bgpay.bgai.service.impl.SeataTransactionService$$SpringCGLIB$$0] with name [seataTransactionService] would use interceptor [io.seata.spring.annotation.GlobalTransactionalInterceptor]
 2025-05-18 17:32:23.285 [main] DEBUG com.bgpay.bgai.config.AsyncConfig$1 - Initializing ExecutorService 'blockingExecutor'
 2025-05-18 17:32:24.305 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [After]
 2025-05-18 17:32:24.305 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Before]
@@ -8257,7 +8257,7 @@ ip=192.168.86.8
 2025-05-18 17:33:16.783 [redisson-netty-4-6] INFO  o.r.connection.pool.MasterPubSubConnectionPool - 1 connections initialized for 8.133.246.113/8.133.246.113:6379
 2025-05-18 17:33:17.219 [redisson-netty-4-19] INFO  org.redisson.connection.pool.MasterConnectionPool - 24 connections initialized for 8.133.246.113/8.133.246.113:6379
 2025-05-18 17:33:17.450 [main] INFO  com.bgpay.bgai.service.mq.MQConsumerService - MQ consumer startup successful [group=billing-consumer-group, topic=BILLING_TOPIC, tag=USER_BILLING]
-2025-05-18 17:33:17.646 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Bean [com.bgpay.bgai.service.SeataTransactionService$$SpringCGLIB$$0] with name [seataTransactionService] would use interceptor [io.seata.spring.annotation.GlobalTransactionalInterceptor]
+2025-05-18 17:33:17.646 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Bean [com.bgpay.bgai.service.impl.SeataTransactionService$$SpringCGLIB$$0] with name [seataTransactionService] would use interceptor [io.seata.spring.annotation.GlobalTransactionalInterceptor]
 2025-05-18 17:33:17.758 [main] DEBUG com.bgpay.bgai.config.AsyncConfig$1 - Initializing ExecutorService 'blockingExecutor'
 2025-05-18 17:33:18.818 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [After]
 2025-05-18 17:33:18.819 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Before]
@@ -8583,7 +8583,7 @@ ip=192.168.86.8
 2025-05-18 17:55:06.011 [redisson-netty-4-6] INFO  o.r.connection.pool.MasterPubSubConnectionPool - 1 connections initialized for 8.133.246.113/8.133.246.113:6379
 2025-05-18 17:55:06.390 [redisson-netty-4-19] INFO  org.redisson.connection.pool.MasterConnectionPool - 24 connections initialized for 8.133.246.113/8.133.246.113:6379
 2025-05-18 17:55:06.666 [main] INFO  com.bgpay.bgai.service.mq.MQConsumerService - MQ consumer startup successful [group=billing-consumer-group, topic=BILLING_TOPIC, tag=USER_BILLING]
-2025-05-18 17:55:06.918 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Bean [com.bgpay.bgai.service.SeataTransactionService$$SpringCGLIB$$0] with name [seataTransactionService] would use interceptor [io.seata.spring.annotation.GlobalTransactionalInterceptor]
+2025-05-18 17:55:06.918 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Bean [com.bgpay.bgai.service.impl.SeataTransactionService$$SpringCGLIB$$0] with name [seataTransactionService] would use interceptor [io.seata.spring.annotation.GlobalTransactionalInterceptor]
 2025-05-18 17:55:07.056 [main] DEBUG com.bgpay.bgai.config.AsyncConfig$1 - Initializing ExecutorService 'blockingExecutor'
 2025-05-18 17:55:08.135 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [After]
 2025-05-18 17:55:08.135 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Before]
@@ -9246,7 +9246,7 @@ ip=192.168.86.8
 2025-05-18 17:59:51.440 [redisson-netty-4-6] INFO  o.r.connection.pool.MasterPubSubConnectionPool - 1 connections initialized for 8.133.246.113/8.133.246.113:6379
 2025-05-18 17:59:51.747 [redisson-netty-4-19] INFO  org.redisson.connection.pool.MasterConnectionPool - 24 connections initialized for 8.133.246.113/8.133.246.113:6379
 2025-05-18 17:59:52.031 [main] INFO  com.bgpay.bgai.service.mq.MQConsumerService - MQ consumer startup successful [group=billing-consumer-group, topic=BILLING_TOPIC, tag=USER_BILLING]
-2025-05-18 17:59:52.253 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Bean [com.bgpay.bgai.service.SeataTransactionService$$SpringCGLIB$$0] with name [seataTransactionService] would use interceptor [io.seata.spring.annotation.GlobalTransactionalInterceptor]
+2025-05-18 17:59:52.253 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Bean [com.bgpay.bgai.service.impl.SeataTransactionService$$SpringCGLIB$$0] with name [seataTransactionService] would use interceptor [io.seata.spring.annotation.GlobalTransactionalInterceptor]
 2025-05-18 17:59:52.367 [main] DEBUG com.bgpay.bgai.config.AsyncConfig$1 - Initializing ExecutorService 'blockingExecutor'
 2025-05-18 17:59:53.413 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [After]
 2025-05-18 17:59:53.413 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Before]
@@ -9451,7 +9451,7 @@ ip=192.168.86.8
 2025-05-18 18:02:35.728 [redisson-netty-4-6] INFO  o.r.connection.pool.MasterPubSubConnectionPool - 1 connections initialized for 8.133.246.113/8.133.246.113:6379
 2025-05-18 18:02:36.116 [redisson-netty-4-19] INFO  org.redisson.connection.pool.MasterConnectionPool - 24 connections initialized for 8.133.246.113/8.133.246.113:6379
 2025-05-18 18:02:36.362 [main] INFO  com.bgpay.bgai.service.mq.MQConsumerService - MQ consumer startup successful [group=billing-consumer-group, topic=BILLING_TOPIC, tag=USER_BILLING]
-2025-05-18 18:02:36.585 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Bean [com.bgpay.bgai.service.SeataTransactionService$$SpringCGLIB$$0] with name [seataTransactionService] would use interceptor [io.seata.spring.annotation.GlobalTransactionalInterceptor]
+2025-05-18 18:02:36.585 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Bean [com.bgpay.bgai.service.impl.SeataTransactionService$$SpringCGLIB$$0] with name [seataTransactionService] would use interceptor [io.seata.spring.annotation.GlobalTransactionalInterceptor]
 2025-05-18 18:02:36.703 [main] DEBUG com.bgpay.bgai.config.AsyncConfig$1 - Initializing ExecutorService 'blockingExecutor'
 2025-05-18 18:02:37.954 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [After]
 2025-05-18 18:02:37.954 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Before]
@@ -9656,7 +9656,7 @@ ip=192.168.86.8
 2025-05-18 18:03:16.365 [redisson-netty-4-8] INFO  o.r.connection.pool.MasterPubSubConnectionPool - 1 connections initialized for 8.133.246.113/8.133.246.113:6379
 2025-05-18 18:03:16.710 [redisson-netty-4-19] INFO  org.redisson.connection.pool.MasterConnectionPool - 24 connections initialized for 8.133.246.113/8.133.246.113:6379
 2025-05-18 18:03:16.970 [main] INFO  com.bgpay.bgai.service.mq.MQConsumerService - MQ consumer startup successful [group=billing-consumer-group, topic=BILLING_TOPIC, tag=USER_BILLING]
-2025-05-18 18:03:17.169 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Bean [com.bgpay.bgai.service.SeataTransactionService$$SpringCGLIB$$0] with name [seataTransactionService] would use interceptor [io.seata.spring.annotation.GlobalTransactionalInterceptor]
+2025-05-18 18:03:17.169 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Bean [com.bgpay.bgai.service.impl.SeataTransactionService$$SpringCGLIB$$0] with name [seataTransactionService] would use interceptor [io.seata.spring.annotation.GlobalTransactionalInterceptor]
 2025-05-18 18:03:17.311 [main] DEBUG com.bgpay.bgai.config.AsyncConfig$1 - Initializing ExecutorService 'blockingExecutor'
 2025-05-18 18:03:18.380 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [After]
 2025-05-18 18:03:18.380 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Before]
@@ -9861,7 +9861,7 @@ ip=192.168.86.8
 2025-05-18 18:05:24.796 [redisson-netty-4-6] INFO  o.r.connection.pool.MasterPubSubConnectionPool - 1 connections initialized for 8.133.246.113/8.133.246.113:6379
 2025-05-18 18:05:25.137 [redisson-netty-4-19] INFO  org.redisson.connection.pool.MasterConnectionPool - 24 connections initialized for 8.133.246.113/8.133.246.113:6379
 2025-05-18 18:05:25.375 [main] INFO  com.bgpay.bgai.service.mq.MQConsumerService - MQ consumer startup successful [group=billing-consumer-group, topic=BILLING_TOPIC, tag=USER_BILLING]
-2025-05-18 18:05:25.570 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Bean [com.bgpay.bgai.service.SeataTransactionService$$SpringCGLIB$$0] with name [seataTransactionService] would use interceptor [io.seata.spring.annotation.GlobalTransactionalInterceptor]
+2025-05-18 18:05:25.570 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Bean [com.bgpay.bgai.service.impl.SeataTransactionService$$SpringCGLIB$$0] with name [seataTransactionService] would use interceptor [io.seata.spring.annotation.GlobalTransactionalInterceptor]
 2025-05-18 18:05:25.697 [main] DEBUG com.bgpay.bgai.config.AsyncConfig$1 - Initializing ExecutorService 'blockingExecutor'
 2025-05-18 18:05:26.814 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [After]
 2025-05-18 18:05:26.815 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Before]
@@ -10066,7 +10066,7 @@ ip=192.168.86.8
 2025-05-18 22:59:33.613 [redisson-netty-4-6] INFO  o.r.connection.pool.MasterPubSubConnectionPool - 1 connections initialized for 8.133.246.113/8.133.246.113:6379
 2025-05-18 22:59:33.979 [redisson-netty-4-19] INFO  org.redisson.connection.pool.MasterConnectionPool - 24 connections initialized for 8.133.246.113/8.133.246.113:6379
 2025-05-18 22:59:34.231 [main] INFO  com.bgpay.bgai.service.mq.MQConsumerService - MQ consumer startup successful [group=billing-consumer-group, topic=BILLING_TOPIC, tag=USER_BILLING]
-2025-05-18 22:59:34.426 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Bean [com.bgpay.bgai.service.SeataTransactionService$$SpringCGLIB$$0] with name [seataTransactionService] would use interceptor [io.seata.spring.annotation.GlobalTransactionalInterceptor]
+2025-05-18 22:59:34.426 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Bean [com.bgpay.bgai.service.impl.SeataTransactionService$$SpringCGLIB$$0] with name [seataTransactionService] would use interceptor [io.seata.spring.annotation.GlobalTransactionalInterceptor]
 2025-05-18 22:59:34.547 [main] DEBUG com.bgpay.bgai.config.AsyncConfig$1 - Initializing ExecutorService 'blockingExecutor'
 2025-05-18 22:59:35.634 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [After]
 2025-05-18 22:59:35.635 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Before]
@@ -10461,7 +10461,7 @@ ip=192.168.86.8
 2025-05-18 23:24:30.807 [redisson-netty-4-7] INFO  o.r.connection.pool.MasterPubSubConnectionPool - 1 connections initialized for 8.133.246.113/8.133.246.113:6379
 2025-05-18 23:24:31.139 [redisson-netty-4-19] INFO  org.redisson.connection.pool.MasterConnectionPool - 24 connections initialized for 8.133.246.113/8.133.246.113:6379
 2025-05-18 23:24:31.373 [main] INFO  com.bgpay.bgai.service.mq.MQConsumerService - MQ consumer startup successful [group=billing-consumer-group, topic=BILLING_TOPIC, tag=USER_BILLING]
-2025-05-18 23:24:31.629 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Bean [com.bgpay.bgai.service.SeataTransactionService$$SpringCGLIB$$0] with name [seataTransactionService] would use interceptor [io.seata.spring.annotation.GlobalTransactionalInterceptor]
+2025-05-18 23:24:31.629 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Bean [com.bgpay.bgai.service.impl.SeataTransactionService$$SpringCGLIB$$0] with name [seataTransactionService] would use interceptor [io.seata.spring.annotation.GlobalTransactionalInterceptor]
 2025-05-18 23:24:31.759 [main] DEBUG com.bgpay.bgai.config.AsyncConfig$1 - Initializing ExecutorService 'blockingExecutor'
 2025-05-18 23:24:33.145 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [After]
 2025-05-18 23:24:33.146 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Before]
@@ -10666,7 +10666,7 @@ ip=192.168.86.8
 2025-05-18 23:33:58.850 [redisson-netty-4-7] INFO  o.r.connection.pool.MasterPubSubConnectionPool - 1 connections initialized for 8.133.246.113/8.133.246.113:6379
 2025-05-18 23:33:59.206 [redisson-netty-4-19] INFO  org.redisson.connection.pool.MasterConnectionPool - 24 connections initialized for 8.133.246.113/8.133.246.113:6379
 2025-05-18 23:33:59.455 [main] INFO  com.bgpay.bgai.service.mq.MQConsumerService - MQ consumer startup successful [group=billing-consumer-group, topic=BILLING_TOPIC, tag=USER_BILLING]
-2025-05-18 23:33:59.704 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Bean [com.bgpay.bgai.service.SeataTransactionService$$SpringCGLIB$$0] with name [seataTransactionService] would use interceptor [io.seata.spring.annotation.GlobalTransactionalInterceptor]
+2025-05-18 23:33:59.704 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Bean [com.bgpay.bgai.service.impl.SeataTransactionService$$SpringCGLIB$$0] with name [seataTransactionService] would use interceptor [io.seata.spring.annotation.GlobalTransactionalInterceptor]
 2025-05-18 23:33:59.828 [main] DEBUG com.bgpay.bgai.config.AsyncConfig$1 - Initializing ExecutorService 'blockingExecutor'
 2025-05-18 23:34:01.190 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [After]
 2025-05-18 23:34:01.190 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Before]

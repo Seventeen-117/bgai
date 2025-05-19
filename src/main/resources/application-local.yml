@@ -1,0 +1,85 @@
+# 本地开发配置，在无法连接Nacos时使用
+# 这些配置不会上传至Git，适合本地开发环境
+
+server:
+  port: 8080
+
+spring:
+  datasource:
+    dynamic:
+      primary: master
+      strict: false
+      datasource:
+        master:
+          url: jdbc:mysql://localhost:3306/bgtech_ai?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=Asia/Shanghai&autoReconnect=true&rewriteBatchedStatements=true&allowMultiQueries=true
+          username: root
+          password: root
+          driver-class-name: com.mysql.cj.jdbc.Driver
+        slave:
+          url: jdbc:mysql://localhost:3306/bgtech_ai?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=Asia/Shanghai&autoReconnect=true&rewriteBatchedStatements=true&allowMultiQueries=true
+          username: root
+          password: root
+          driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # Redis 配置
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 0
+      password:
+      timeout: 5000
+      lettuce:
+        pool:
+          max-active: 8
+          max-wait: -1
+          max-idle: 8
+          min-idle: 0
+
+# RocketMQ 配置
+rocketmq:
+  name-server: localhost:9876
+  producer:
+    group: bgai-producer-group
+    send-message-timeout: 3000
+  consumer:
+    group: bgai-consumer-group
+
+# MyBatis-Plus配置
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  type-aliases-package: com.bgpay.bgai.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+  global-config:
+    db-config:
+      id-type: auto
+      update-strategy: not_null
+      
+# Seata配置
+seata:
+  enabled: true
+  application-id: ${spring.application.name}
+  tx-service-group: bgai-tx-group
+  service:
+    vgroupMapping:
+      bgai-tx-group: default
+    grouplist:
+      default: localhost:8091
+  registry:
+    type: file
+  config:
+    type: file
+    
+logging:
+  level:
+    com.bgpay.bgai: debug
+    org.springframework.web: info
+    
+# 深度学习模型配置
+deepseek:
+  api:
+    url: https://api.deepseek.com/v1/chat/completions
+    key: your_api_key_here
+    model: deepseek-chat 

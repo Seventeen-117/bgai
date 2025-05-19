@@ -131,7 +131,6 @@ public class SagaStateMachineConfig implements ApplicationRunner {
     
     @Override
     public void run(ApplicationArguments args) {
-        // 在应用启动完成后打印状态机解析和加载结果
         logger.info("==================== Saga状态机加载报告 ====================");
         logger.info("Saga状态机配置加载状态: {}", configLoadSuccess ? "成功" : "失败");
         logger.info("已加载的状态机定义文件数量: {}", loadedStateMachines.size());
