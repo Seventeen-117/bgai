@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.server.ServerWebExchange;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -57,20 +58,62 @@ public class SeataTransactionInterceptor {
         String sourceIp = "";
         String userId = "";
 
+        // 尝试从参数中获取请求信息
+        Object[] args = point.getArgs();
+        for (Object arg : args) {
+            // 尝试从方法参数中获取用户ID和其他信息
+            if (arg instanceof String && userId.isEmpty()) {
+                // 如果参数名看起来像用户ID，则使用它
+                if (arg.toString().matches("^(user|userId|username|uid).*")) {
+                    userId = arg.toString();
+                    log.debug("从方法参数中获取到用户ID: {}", userId);
+                }
+            } 
+            // 如果使用了WebFlux，可以从ServerWebExchange获取
+            else if (arg instanceof ServerWebExchange) {
+                ServerWebExchange exchange = (ServerWebExchange) arg;
+                // 获取请求路径
+                requestPath = exchange.getRequest().getURI().getPath();
+                // 获取来源IP
+                sourceIp = exchange.getRequest().getRemoteAddress() != null ? 
+                          exchange.getRequest().getRemoteAddress().getAddress().getHostAddress() : "";
+                // 尝试从请求头获取用户ID
+                userId = exchange.getRequest().getHeaders().getFirst("X-User-Id");
+                
+                log.debug("从ServerWebExchange获取请求信息: path={}, ip={}, userId={}", requestPath, sourceIp, userId);
+            }
+        }
+
+        // 如果还是没有获取到请求信息，尝试使用传统方式
         try {
             ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
             if (attributes != null) {
                 HttpServletRequest request = attributes.getRequest();
-                requestPath = request.getRequestURI();
-                sourceIp = getClientIp(request);
+                if (requestPath.isEmpty()) {
+                    requestPath = request.getRequestURI();
+                }
+                if (sourceIp.isEmpty()) {
+                    sourceIp = getClientIp(request);
+                }
                 // 从请求或会话中获取用户ID
-                userId = getUserId(request);
+                if (userId.isEmpty()) {
+                    userId = getUserId(request);
+                }
+                log.debug("从ServletRequestAttributes获取请求信息: path={}, ip={}, userId={}", requestPath, sourceIp, userId);
             }
         } catch (Exception e) {
-            log.warn("获取请求信息失败", e);
+            log.warn("获取请求信息失败: {}", e.getMessage());
+        }
+        
+        // 如果还没有获取到userId，设置为默认值
+        if (userId == null || userId.isEmpty()) {
+            userId = "system";
         }
 
         // 记录事务开始
+        log.info("准备记录分布式事务开始: XID={}, 业务={}, 路径={}, IP={}, 用户={}", 
+                xid, transactionName, requestPath, sourceIp, userId);
+        
         Long logId = transactionLogService.recordTransactionBegin(
                 xid, transactionName, "AT", requestPath, sourceIp, userId);
 
@@ -166,7 +209,7 @@ public class SeataTransactionInterceptor {
                     userId = userObj.toString();
                 }
             } catch (Exception e) {
-                log.debug("从会话获取用户ID失败", e);
+                log.debug("从会话获取用户ID失败: {}", e.getMessage());
             }
         }
         return userId != null ? userId : "anonymous";

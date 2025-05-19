@@ -58,8 +58,21 @@ public class TransactionLogServiceImpl implements TransactionLogService {
         try {
             TransactionLog txLog = findByXid(xid);
             if (txLog == null) {
-                log.warn("未找到事务记录: XID={}", xid);
-                return false;
+                log.warn("未找到事务记录: XID={}, 尝试创建新记录", xid);
+                // 尝试创建一个新记录，以便记录分支ID
+                txLog = new TransactionLog()
+                    .setXid(xid)
+                    .setTransactionName("auto-created")
+                    .setTransactionMode("AT")
+                    .setStatus(status)
+                    .setBranchId(branchId)
+                    .setStartTime(LocalDateTime.now())
+                    .setCreateTime(LocalDateTime.now())
+                    .setUpdateTime(LocalDateTime.now());
+                
+                transactionLogMapper.insert(txLog);
+                log.info("为XID={}创建了新的事务记录，分支ID={}", xid, branchId);
+                return true;
             }
             
             txLog.setStatus(status);
@@ -81,8 +94,22 @@ public class TransactionLogServiceImpl implements TransactionLogService {
         try {
             TransactionLog txLog = findByXid(xid);
             if (txLog == null) {
-                log.warn("未找到事务记录: XID={}", xid);
-                return false;
+                log.warn("未找到事务记录: XID={}, 尝试创建新记录", xid);
+                // 尝试创建一个新记录
+                txLog = new TransactionLog()
+                    .setXid(xid)
+                    .setTransactionName("auto-created-end")
+                    .setTransactionMode("AT")
+                    .setStatus(status)
+                    .setExtraData(extraData)
+                    .setStartTime(LocalDateTime.now())
+                    .setEndTime(LocalDateTime.now())
+                    .setCreateTime(LocalDateTime.now())
+                    .setUpdateTime(LocalDateTime.now());
+                
+                transactionLogMapper.insert(txLog);
+                log.info("为XID={}创建了结束事务记录", xid);
+                return true;
             }
             
             txLog.setStatus(status);
