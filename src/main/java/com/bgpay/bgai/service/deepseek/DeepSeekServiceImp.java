@@ -98,7 +98,8 @@ public class DeepSeekServiceImp implements DeepSeekService {
 
     private final CloseableHttpClient httpClient;
 
-    private final WebClient webClient;
+    @Autowired(required = false)
+    private WebClient webClient;
 
     private static final int CPU_CORES = Runtime.getRuntime().availableProcessors();
 
@@ -115,7 +116,7 @@ public class DeepSeekServiceImp implements DeepSeekService {
 
     /**
      * Constructor for DeepSeekServiceImp.
-     * Initializes the WebClient and CloseableHttpClient with the given configurations,
+     * Initializes the CloseableHttpClient with the given configurations,
      * and sets up the necessary connection managers and request configurations.
      *
      * @param maxConn      The maximum number of connections in the connection pool.
@@ -128,15 +129,7 @@ public class DeepSeekServiceImp implements DeepSeekService {
             @Value("${http.max.conn.per.route:50}") int maxPerRoute, 
             MeterRegistry meterRegistry) {
         this.meterRegistry = meterRegistry;
-        this.webClient = WebClient.builder()
-                .clientConnector(new ReactorClientHttpConnector(
-                        HttpClient.create()
-                                .responseTimeout(Duration.ofSeconds(120))
-                                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 30000)
-                                .doOnConnected(conn ->
-                                        conn.addHandlerLast(new ReadTimeoutHandler(120, TimeUnit.SECONDS)))
-                ))
-                .build();
+        
         PoolingHttpClientConnectionManager connManager = new PoolingHttpClientConnectionManager(
                 30, TimeUnit.SECONDS
         );
@@ -269,6 +262,15 @@ public class DeepSeekServiceImp implements DeepSeekService {
         log.info("Processing reactive request: content length={}, apiUrl={}, modelName={}, userId={}, multiTurn={}",
                 content.length(), apiUrl, modelName, userId, multiTurn);
 
+        // Check if WebClient is available
+        if (webClient == null) {
+            log.warn("WebClient is not available, falling back to synchronous implementation");
+            // Fall back to synchronous implementation
+            return Mono.fromCallable(() -> 
+                processRequest(content, apiUrl, apiKey, modelName, userId, multiTurn)
+            ).subscribeOn(Schedulers.boundedElastic());
+        }
+        
         WebClient client = webClient.mutate()
                 .baseUrl(apiUrl)
                 .build();

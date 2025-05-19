@@ -1,6 +1,7 @@
 package com.bgpay.bgai.config;
 
 import com.bgpay.bgai.context.ReactiveRequestContextHolder;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.server.ServerWebExchange;
@@ -12,6 +13,7 @@ import reactor.core.publisher.Mono;
  * WebFlux配置，添加请求上下文过滤器
  */
 @Configuration
+@ConditionalOnClass({WebFilter.class, ServerWebExchange.class})
 public class WebFluxConfig {
     
     /**
