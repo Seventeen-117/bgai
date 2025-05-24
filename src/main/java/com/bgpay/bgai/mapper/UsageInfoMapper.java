@@ -24,4 +24,10 @@ public interface UsageInfoMapper extends BaseMapper<UsageInfo> {
         return this.selectList(queryWrapper);
     }
 
+    default UsageInfo findByCompletionId(String completionId) {
+        LambdaQueryWrapper<UsageInfo> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(UsageInfo::getChatCompletionId, completionId);
+        return this.selectOne(queryWrapper);
+    }
+
 }

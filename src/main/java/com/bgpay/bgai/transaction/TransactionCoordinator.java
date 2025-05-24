@@ -24,6 +24,8 @@ public class TransactionCoordinator {
 
     private static final String TRANSACTION_KEY_PREFIX = "TX:CHAT:";
     private static final String COMPLETION_ID_PREFIX = "chat-";
+    private static final long TRANSACTION_TIMEOUT = 30;
+    private static final long COMPENSATION_TIMEOUT = 24;
     
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
@@ -44,19 +46,33 @@ public class TransactionCoordinator {
      * @return 生成的chatCompletionId
      */
     public String prepare(String userId) {
+        // 检查是否已存在进行中的事务
+        String existingId = getCurrentCompletionId(userId);
+        if (existingId != null) {
+            log.warn("Found existing transaction for user {}: {}", userId, existingId);
+            return existingId;
+        }
+        
         // 生成唯一的chatCompletionId
         String chatCompletionId = COMPLETION_ID_PREFIX + UUID.randomUUID().toString();
         
-        // 记录事务状态
+        // 使用Redis的事务特性确保原子性
         String transactionKey = TRANSACTION_KEY_PREFIX + userId;
-        redisTemplate.opsForValue().set(transactionKey, chatCompletionId, 30, TimeUnit.MINUTES);
+        Boolean success = redisTemplate.opsForValue().setIfAbsent(transactionKey, chatCompletionId, TRANSACTION_TIMEOUT, TimeUnit.MINUTES);
         
-        // 存入本地缓存和服务缓存
-        localTransactionCache.put(userId, new TransactionStatus(chatCompletionId, TransactionPhase.PREPARED));
-        fallbackService.saveChatCompletionId(userId, chatCompletionId);
-        
-        log.info("Transaction prepared for user {}: chatCompletionId={}", userId, chatCompletionId);
-        return chatCompletionId;
+        if (Boolean.TRUE.equals(success)) {
+            // 存入本地缓存和服务缓存
+            localTransactionCache.put(userId, new TransactionStatus(chatCompletionId, TransactionPhase.PREPARED));
+            fallbackService.saveChatCompletionId(userId, chatCompletionId);
+            
+            log.info("Transaction prepared for user {}: chatCompletionId={}", userId, chatCompletionId);
+            return chatCompletionId;
+        } else {
+            // 如果设置失败，说明已经存在事务，返回现有事务ID
+            String currentId = redisTemplate.opsForValue().get(transactionKey);
+            log.warn("Failed to prepare new transaction, using existing one: {}", currentId);
+            return currentId;
+        }
     }
     
     /**
@@ -114,7 +130,7 @@ public class TransactionCoordinator {
             
             // 记录失败但保持ID一致性
             String transactionKey = TRANSACTION_KEY_PREFIX + userId + ":COMPENSATED";
-            redisTemplate.opsForValue().set(transactionKey, chatCompletionId, 24, TimeUnit.HOURS);
+            redisTemplate.opsForValue().set(transactionKey, chatCompletionId, COMPENSATION_TIMEOUT, TimeUnit.HOURS);
             
             // 确保fallback服务仍然有这个ID的记录
             fallbackService.saveChatCompletionId(userId, chatCompletionId);
@@ -147,7 +163,7 @@ public class TransactionCoordinator {
             
             // 记录回滚状态
             String rollbackKey = TRANSACTION_KEY_PREFIX + userId + ":ROLLEDBACK";
-            redisTemplate.opsForValue().set(rollbackKey, chatCompletionId, 24, TimeUnit.HOURS);
+            redisTemplate.opsForValue().set(rollbackKey, chatCompletionId, COMPENSATION_TIMEOUT, TimeUnit.HOURS);
             
             log.info("Transaction rolled back for user {}: chatCompletionId={}", userId, chatCompletionId);
             return chatCompletionId;
@@ -167,14 +183,31 @@ public class TransactionCoordinator {
      * @return 当前的chatCompletionId，如果不存在则返回null
      */
     public String getCurrentCompletionId(String userId) {
-        // 首先检查本地缓存
-        TransactionStatus status = localTransactionCache.get(userId);
-        if (status != null) {
-            return status.getChatCompletionId();
+        String transactionKey = TRANSACTION_KEY_PREFIX + userId;
+        
+        // 首先查询Redis，因为Redis是分布式一致的数据源
+        String redisId = redisTemplate.opsForValue().get(transactionKey);
+        if (redisId != null) {
+            // 更新本地缓存
+            localTransactionCache.put(userId, new TransactionStatus(redisId, TransactionPhase.PREPARED));
+            return redisId;
         }
         
-        // 然后查询Redis
-        return redisTemplate.opsForValue().get(TRANSACTION_KEY_PREFIX + userId);
+        // 如果Redis中没有，检查本地缓存
+        TransactionStatus status = localTransactionCache.get(userId);
+        if (status != null) {
+            // 验证本地缓存的状态
+            if (status.getPhase() == TransactionPhase.PREPARED) {
+                // 尝试恢复Redis中的数据
+                redisTemplate.opsForValue().setIfAbsent(transactionKey, status.getChatCompletionId(), TRANSACTION_TIMEOUT, TimeUnit.MINUTES);
+                return status.getChatCompletionId();
+            } else {
+                // 如果不是PREPARED状态，清除本地缓存
+                localTransactionCache.remove(userId);
+            }
+        }
+        
+        return null;
     }
     
     /**
@@ -184,7 +217,6 @@ public class TransactionCoordinator {
      * @return 是否存在进行中的事务
      */
     public boolean hasActiveTransaction(String userId) {
-        return localTransactionCache.containsKey(userId) || 
-               Boolean.TRUE.equals(redisTemplate.hasKey(TRANSACTION_KEY_PREFIX + userId));
+        return getCurrentCompletionId(userId) != null;
     }
 } 

@@ -204,9 +204,19 @@ public class RocketMQBillingServiceImpl implements BillingService {
         record.setUserId(userId);
         record.setInputCost(inputCost);
         record.setOutputCost(outputCost);
-        Integer priceVersion = getPriceVersion(dto, timePeriod);
-        record.setPriceVersion(priceVersion);
         record.setCalculatedAt(LocalDateTime.now());
+        record.setStatus("PENDING");
+        record.setCreatedAt(LocalDateTime.now());
+        
+        // 获取价格版本
+        try {
+            Integer priceVersion = getPriceVersion(dto, timePeriod);
+            record.setPriceVersion(priceVersion);
+        } catch (BillingException e) {
+            log.warn("Failed to get price version, using default version 1: {}", e.getMessage());
+            record.setPriceVersion(1);
+        }
+        
         return record;
     }
 

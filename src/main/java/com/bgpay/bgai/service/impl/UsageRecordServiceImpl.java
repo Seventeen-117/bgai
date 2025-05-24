@@ -1,13 +1,20 @@
 package com.bgpay.bgai.service.impl;
 
-import com.bgpay.bgai.entity.UsageRecord;
-import com.bgpay.bgai.mapper.UsageRecordMapper;
-import com.bgpay.bgai.service.UsageRecordService;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.bgpay.bgai.entity.UsageCalculationDTO;
+import com.bgpay.bgai.entity.UsageRecord;
+import com.bgpay.bgai.entity.UsageInfo;
+import com.bgpay.bgai.mapper.UsageRecordMapper;
+import com.bgpay.bgai.mapper.UsageInfoMapper;
+import com.bgpay.bgai.service.UsageRecordService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -18,39 +25,127 @@ import java.util.List;
  * @author zly
  * @since 2025-03-09 21:17:29
  */
+@Slf4j
 @Service
 public class UsageRecordServiceImpl extends ServiceImpl<UsageRecordMapper, UsageRecord> implements UsageRecordService {
 
-    @Autowired
-    private UsageRecordMapper usageRecordMapper;
+    private final UsageInfoMapper usageInfoMapper;
 
-    @Override
-    public void insertUsageRecord(UsageRecord usageRecord) {
-        this.save(usageRecord);
+    public UsageRecordServiceImpl(UsageInfoMapper usageInfoMapper) {
+        this.usageInfoMapper = usageInfoMapper;
     }
 
     @Override
+    @Transactional
+    public void insertUsageRecord(UsageRecord usageRecord) {
+        save(usageRecord);
+    }
+
+    @Override
+    @Cacheable(value = "usageRecords", key = "#completionId")
     public UsageRecord findByCompletionId(String completionId) {
-        return usageRecordMapper.findByCompletionId(completionId);
+        LambdaQueryWrapper<UsageRecord> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(UsageRecord::getChatCompletionId, completionId);
+        return getOne(wrapper);
     }
 
     @Override
     public boolean existsByCompletionId(String chatCompletionId) {
-        // 使用 MyBatis-Plus 的 QueryWrapper 构建查询条件
-        com.baomidou.mybatisplus.core.conditions.query.QueryWrapper<UsageRecord> queryWrapper = new com.baomidou.mybatisplus.core.conditions.query.QueryWrapper<>();
-        queryWrapper.eq("chat_completion_id", chatCompletionId);
-        // 查询满足条件的记录数量
-        long count = usageRecordMapper.selectCount(queryWrapper);
-        // 如果记录数量大于 0，则表示存在该记录
-        return count >0;
+        LambdaQueryWrapper<UsageRecord> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(UsageRecord::getChatCompletionId, chatCompletionId);
+        return count(wrapper) > 0;
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public void batchInsert(List<UsageRecord> records) {
-        if (records == null || records.isEmpty()) {
-            return;
+        saveBatch(records);
+    }
+
+    @Override
+    @Cacheable(value = "usageCalculations", key = "#completionId")
+    public UsageCalculationDTO getCalculationDTO(String completionId) {
+        UsageRecord record = findByCompletionId(completionId);
+        if (record == null) {
+            return null;
         }
-        this.saveBatch(records, 1000);
+        
+        // 首先获取UsageInfo，因为它包含更详细的token信息
+        UsageInfo usageInfo = getUsageInfoByCompletionId(completionId);
+        if (usageInfo == null) {
+            log.warn("UsageInfo not found for completionId: {}, using record data only", completionId);
+        }
+        
+        UsageCalculationDTO dto = new UsageCalculationDTO();
+        // 基本信息
+        dto.setChatCompletionId(record.getChatCompletionId());
+        dto.setModelType(record.getModelType());
+        dto.setCreatedAt(record.getCalculatedAt());
+        
+        // Token计数 - 优先使用UsageInfo中的详细信息
+        if (usageInfo != null) {
+            // 缓存相关的token计数
+            dto.setPromptCacheHitTokens(usageInfo.getPromptTokensCached()); // 使用缓存的token数
+            dto.setPromptCacheMissTokens(usageInfo.getPromptTokens() - usageInfo.getPromptTokensCached()); // 总token数减去缓存的token数
+            
+            // 完成和推理相关的token计数
+            dto.setCompletionTokens(usageInfo.getCompletionTokens());
+        } else {
+            // 如果没有UsageInfo，使用UsageRecord中的基本信息
+            dto.setPromptCacheHitTokens(0);
+            dto.setPromptCacheMissTokens(record.getInputTokens());
+            dto.setCompletionTokens(record.getOutputTokens());
+        }
+        
+        // 成本计算 - 使用UsageRecord中的成本信息
+        dto.setInputCost(record.getInputCost());
+        dto.setOutputCost(record.getOutputCost());
+        
+        return dto;
+    }
+
+    /**
+     * 根据completionId获取UsageInfo
+     */
+    private UsageInfo getUsageInfoByCompletionId(String completionId) {
+        try {
+            return usageInfoMapper.findByCompletionId(completionId);
+        } catch (Exception e) {
+            log.warn("Failed to get usage info for completionId: {} - {}", completionId, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    @Transactional
+    @CacheEvict(value = {"usageRecords", "usageCalculations"}, key = "#completionId")
+    public void markAsCompensated(String completionId) {
+        UsageRecord record = findByCompletionId(completionId);
+        if (record != null) {
+            record.setStatus("COMPENSATED");
+            record.setUpdatedAt(LocalDateTime.now());
+            updateById(record);
+        }
+    }
+
+    @Override
+    @Transactional
+    @CacheEvict(value = {"usageRecords", "usageCalculations"}, key = "#completionId")
+    public void markAsCompleted(String completionId) {
+        UsageRecord record = findByCompletionId(completionId);
+        if (record != null) {
+            record.setStatus("COMPLETED");
+            record.setUpdatedAt(LocalDateTime.now());
+            updateById(record);
+        }
+    }
+
+    @Override
+    @Transactional
+    @CacheEvict(value = {"usageRecords", "usageCalculations"}, key = "#completionId")
+    public void deleteByCompletionId(String completionId) {
+        LambdaQueryWrapper<UsageRecord> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(UsageRecord::getChatCompletionId, completionId);
+        remove(wrapper);
     }
 }

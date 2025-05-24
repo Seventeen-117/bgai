@@ -28,8 +28,14 @@
 	</scm>
 
 	<!-- ====================== 统一版本管理 ====================== -->
-	<properties>		<java.version>21</java.version>		<jackson.version>2.15.3</jackson.version>		<!-- Spring Cloud 相关 -->		<spring-cloud-dependencies.version>2022.0.4</spring-cloud-dependencies.version>		<spring-cloud-alibaba-dependencies.version>2022.0.0.0-RC2</spring-cloud-alibaba-dependencies.version>		<spring-cloud-starter-bootstrap.version>4.0.3</spring-cloud-starter-bootstrap.version>		<seata.version>1.7.0</seata.version>
-
+	<properties>
+		<java.version>21</java.version>
+		<jackson.version>2.15.3</jackson.version>
+		<!-- Spring Cloud 相关 -->
+		<spring-cloud-dependencies.version>2022.0.4</spring-cloud-dependencies.version>
+		<spring-cloud-alibaba-dependencies.version>2022.0.0.0-RC2</spring-cloud-alibaba-dependencies.version>
+		<spring-cloud-starter-bootstrap.version>4.0.3</spring-cloud-starter-bootstrap.version>
+		<seata.version>1.7.0</seata.version>
 		<!-- 基础依赖 -->
 		<pagehelper.version>5.3.2</pagehelper.version>
 		<httpclient.version>4.5.13</httpclient.version>
@@ -90,6 +96,15 @@
 		<resilience4j.version>2.0.2</resilience4j.version>
 		<alipay-sdk-java.version>4.40.112.ALL</alipay-sdk-java.version>
 		<spring-cloud-alibaba.version>2022.0.0.0</spring-cloud-alibaba.version>
+		<!-- 新增版本管理 -->
+		<mybatis-spring-boot-starter.version>3.0.4</mybatis-spring-boot-starter.version>
+		<spring-session-core.version>3.2.0</spring-session-core.version>
+		<google-oauth-client.version>1.22.0</google-oauth-client.version>
+		<google-http-client-jackson2.version>1.11.0-beta</google-http-client-jackson2.version>
+		<javax.servlet-api.version>4.0.1</javax.servlet-api.version>
+		<javax.ws.rs-api.version>2.1.1</javax.ws.rs-api.version>
+		<imageio-pcx.version>3.6.4</imageio-pcx.version>
+		<hessian.version>4.0.66</hessian.version>
 	</properties>
 
 	<dependencyManagement>
@@ -201,12 +216,12 @@
 		<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>
 			<artifactId>mybatis-spring-boot-starter</artifactId>
-			<version>3.0.4</version> <!-- 若未在properties定义，需确认是否由BOM管理 -->
+			<version>${mybatis-spring-boot-starter.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.session</groupId>
 			<artifactId>spring-session-core</artifactId>
-			<version>3.2.0</version>
+			<version>${spring-session-core.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.session</groupId>
@@ -235,7 +250,18 @@
 			<version>${spring-boot-starter-freemarker.version}</version>
 		</dependency>
 
-				<dependency>			<groupId>org.springframework.boot</groupId>			<artifactId>spring-boot-configuration-processor</artifactId>			<optional>true</optional>		</dependency>		<!-- Seata for distributed transaction management -->		<dependency>			<groupId>io.seata</groupId>			<artifactId>seata-spring-boot-starter</artifactId>			<version>1.7.0</version>		</dependency>		<dependency>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-configuration-processor</artifactId>
+					<optional>true</optional>
+				</dependency>
+		<!-- Seata for distributed transaction management -->
+		<dependency>
+			<groupId>io.seata</groupId>
+			<artifactId>seata-spring-boot-starter</artifactId>
+			<version>${seata.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
@@ -271,24 +297,24 @@
 		<dependency>
 			<groupId>com.google.oauth-client</groupId>
 			<artifactId>google-oauth-client</artifactId>
-			<version>1.22.0</version>
+			<version>${google-oauth-client.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.http-client</groupId>
 			<artifactId>google-http-client-jackson2</artifactId>
-			<version>1.11.0-beta</version>
+			<version>${google-http-client-jackson2.version}</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>4.0.1</version>
+			<version>${javax.servlet-api.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.ws.rs</groupId>
 			<artifactId>javax.ws.rs-api</artifactId>
-			<version>2.1.1</version>
+			<version>${javax.ws.rs-api.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>javax.ws.rs</groupId>
@@ -305,7 +331,7 @@
 		<dependency>
 			<groupId>com.twelvemonkeys.imageio</groupId>
 			<artifactId>imageio-pcx</artifactId>
-			<version>3.6.4</version>
+			<version>${imageio-pcx.version}</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
 		<dependency>
@@ -713,7 +739,7 @@
 		<dependency>
 			<groupId>com.caucho</groupId>
 			<artifactId>hessian</artifactId>
-			<version>4.0.66</version>
+			<version>${hessian.version}</version>
 		</dependency>
 	</dependencies>
 
