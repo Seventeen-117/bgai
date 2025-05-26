@@ -1,4 +1,4 @@
-package com.bgpay.bgai.config;
+package com.bgpay.bgai.seata;
 
 import com.bgpay.bgai.saga.CustomSagaJsonParser;
 import io.seata.saga.engine.StateMachineEngine;

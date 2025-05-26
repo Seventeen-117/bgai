@@ -18,9 +18,7 @@ import org.springframework.http.HttpStatus;
  */
 @Service
 public class FallbackService {
-    
-    @Autowired
-    private ApiConfigService apiConfigService;
+
     
     /**
      * 缓存chatCompletionId的Map，用于确保熔断前后ID一致性

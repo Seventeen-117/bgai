@@ -30,6 +30,40 @@ public class SeataTransactionInterceptor {
     private static final ThreadLocal<Map<String, Object>> TX_INFO = new ThreadLocal<>();
 
     /**
+     * 获取本地IP地址
+     */
+    private String getLocalIp() {
+        try {
+            java.net.InetAddress localHost = java.net.InetAddress.getLocalHost();
+            String localIp = localHost.getHostAddress();
+            if (localIp != null && !localIp.isEmpty() && !"127.0.0.1".equals(localIp)) {
+                return localIp;
+            }
+
+            // 如果获取到的是本地回环地址，则遍历网卡获取第一个非回环地址
+            java.util.Enumeration<java.net.NetworkInterface> networkInterfaces = java.net.NetworkInterface.getNetworkInterfaces();
+            while (networkInterfaces.hasMoreElements()) {
+                java.net.NetworkInterface networkInterface = networkInterfaces.nextElement();
+                if (!networkInterface.isUp() || networkInterface.isLoopback() || networkInterface.isVirtual()) {
+                    continue;
+                }
+                java.util.Enumeration<java.net.InetAddress> addresses = networkInterface.getInetAddresses();
+                while (addresses.hasMoreElements()) {
+                    java.net.InetAddress address = addresses.nextElement();
+                    if (address instanceof java.net.Inet4Address && !address.isLoopbackAddress()) {
+                        return address.getHostAddress();
+                    }
+                }
+            }
+            log.warn("无法获取本地IP地址，将使用localhost");
+            return "127.0.0.1"; // 如果无法获取，返回本地回环地址
+        } catch (Exception e) {
+            log.warn("获取本地IP失败: {}", e.getMessage());
+            return "127.0.0.1"; // 发生异常时返回本地回环地址
+        }
+    }
+
+    /**
      * 定义切点 - 拦截GlobalTransactional注解的方法
      */
     @Pointcut("@annotation(io.seata.spring.annotation.GlobalTransactional)")
@@ -55,7 +89,7 @@ public class SeataTransactionInterceptor {
 
         // 获取请求信息
         String requestPath = "";
-        String sourceIp = "";
+        String sourceIp = getLocalIp(); // 使用本地IP
         String userId = "";
 
         // 尝试从参数中获取请求信息

@@ -1,4 +1,4 @@
-package com.bgpay.bgai.config;
+package com.bgpay.bgai.seata;
 
 import io.seata.spring.annotation.GlobalTransactionScanner;
 import org.springframework.beans.factory.annotation.Value;

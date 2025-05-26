@@ -9,8 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 分布式事务日志服务实现
@@ -30,6 +35,25 @@ public class TransactionLogServiceImpl implements TransactionLogService {
         log.info("记录分布式事务开始: XID={}, 业务={}", xid, transactionName);
         
         try {
+            // 从XID中提取branchId（如果有的话）
+            String branchId = "";
+            if (xid != null && xid.split(":").length > 2) {
+                branchId = xid.split(":")[2];
+            }
+            
+            // 构建初始extraData
+            String extraData = String.format(
+                "{\"startTime\":%d,\"result\":\"active\",\"branchId\":\"%s\"}",
+                System.currentTimeMillis(),
+                branchId
+            );
+            
+            // 初始化branchIds列表
+            List<String> branchIds = new ArrayList<>();
+            if (!branchId.isEmpty()) {
+                branchIds.add(branchId);
+            }
+            
             TransactionLog transactionLog = new TransactionLog()
                     .setXid(xid)
                     .setTransactionName(transactionName)
@@ -38,6 +62,9 @@ public class TransactionLogServiceImpl implements TransactionLogService {
                     .setSourceIp(sourceIp)
                     .setUserId(userId)
                     .setStatus("ACTIVE")
+                    .setBranchId(branchId)  // 设置当前branchId
+                    .setBranchIds(branchIds)  // 设置branchIds列表
+                    .setExtraData(extraData) // 设置extraData
                     .setStartTime(LocalDateTime.now())
                     .setCreateTime(LocalDateTime.now());
             
@@ -59,6 +86,19 @@ public class TransactionLogServiceImpl implements TransactionLogService {
             TransactionLog txLog = findByXid(xid);
             if (txLog == null) {
                 log.warn("未找到事务记录: XID={}, 尝试创建新记录", xid);
+                // 构建extraData
+                String extraData = String.format(
+                    "{\"updateTime\":%d,\"result\":\"active\",\"branchId\":\"%s\"}",
+                    System.currentTimeMillis(),
+                    branchId
+                );
+                
+                // 初始化branchIds列表
+                List<String> branchIds = new ArrayList<>();
+                if (branchId != null && !branchId.isEmpty()) {
+                    branchIds.add(branchId);
+                }
+                
                 // 尝试创建一个新记录，以便记录分支ID
                 txLog = new TransactionLog()
                     .setXid(xid)
@@ -66,6 +106,8 @@ public class TransactionLogServiceImpl implements TransactionLogService {
                     .setTransactionMode("AT")
                     .setStatus(status)
                     .setBranchId(branchId)
+                    .setBranchIds(branchIds)  // 设置branchIds列表
+                    .setExtraData(extraData)
                     .setStartTime(LocalDateTime.now())
                     .setCreateTime(LocalDateTime.now())
                     .setUpdateTime(LocalDateTime.now());
@@ -75,8 +117,29 @@ public class TransactionLogServiceImpl implements TransactionLogService {
                 return true;
             }
             
+            // 更新branchIds列表
+            List<String> branchIds = txLog.getBranchIds();
+            if (branchIds == null) {
+                branchIds = new ArrayList<>();
+            }
+            if (branchId != null && !branchId.isEmpty() && !branchIds.contains(branchId)) {
+                branchIds.add(branchId);
+            }
+            
+            // 更新extraData
+            String extraData = String.format(
+                "{\"updateTime\":%d,\"result\":\"%s\",\"branchId\":\"%s\",\"previousBranchId\":\"%s\",\"totalBranches\":%d}",
+                System.currentTimeMillis(),
+                status.toLowerCase(),
+                branchId,
+                txLog.getBranchId(),
+                branchIds.size()
+            );
+            
             txLog.setStatus(status);
             txLog.setBranchId(branchId);
+            txLog.setBranchIds(branchIds);  // 更新branchIds列表
+            txLog.setExtraData(extraData);
             txLog.setUpdateTime(LocalDateTime.now());
             
             return transactionLogMapper.updateById(txLog) > 0;
@@ -95,12 +158,27 @@ public class TransactionLogServiceImpl implements TransactionLogService {
             TransactionLog txLog = findByXid(xid);
             if (txLog == null) {
                 log.warn("未找到事务记录: XID={}, 尝试创建新记录", xid);
+                
+                // 从XID中提取branchId（如果有的话）
+                String branchId = "";
+                if (xid != null && xid.split(":").length > 2) {
+                    branchId = xid.split(":")[2];
+                }
+                
+                // 初始化branchIds列表
+                List<String> branchIds = new ArrayList<>();
+                if (!branchId.isEmpty()) {
+                    branchIds.add(branchId);
+                }
+                
                 // 尝试创建一个新记录
                 txLog = new TransactionLog()
                     .setXid(xid)
                     .setTransactionName("auto-created-end")
                     .setTransactionMode("AT")
                     .setStatus(status)
+                    .setBranchId(branchId)
+                    .setBranchIds(branchIds)  // 设置branchIds列表
                     .setExtraData(extraData)
                     .setStartTime(LocalDateTime.now())
                     .setEndTime(LocalDateTime.now())

@@ -1,12 +1,16 @@
 package com.bgpay.bgai.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 分布式事务日志实体
@@ -14,7 +18,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @Accessors(chain = true)
-@TableName("transaction_log")
+@TableName(value = "transaction_log", autoResultMap = true)
 public class TransactionLog {
 
     /**
@@ -74,8 +78,15 @@ public class TransactionLog {
     private String userId;
 
     /**
+     * 分支事务ID列表
+     */
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private List<String> branchIds = new ArrayList<>();
+
+    /**
      * 额外信息 (JSON格式)
      */
+    @TableField(typeHandler = JacksonTypeHandler.class)
     private String extraData;
 
     /**

@@ -110,9 +110,6 @@ public class DeepSeekServiceImp implements DeepSeekService {
     );
 
     @Autowired
-    private FallbackService fallbackService;
-
-    @Autowired
     private TransactionCoordinator transactionCoordinator;
 
     @Autowired
@@ -918,51 +915,6 @@ public class DeepSeekServiceImp implements DeepSeekService {
     }
 
 
-
-    /**
-     * 创建带有指定chatCompletionId的错误响应
-     */
-    private ChatResponse createErrorResponseWithId(String errorMessage, String chatCompletionId) {
-        ChatResponse response = createErrorResponse(errorMessage);
-        UsageInfo usage = new UsageInfo();
-        usage.setChatCompletionId(chatCompletionId);
-        response.setUsage(usage);
-        return response;
-    }
-
-    /**
-     * 同步保存完成数据，包括chat completions和usage information
-     * 
-     * @param responseJson DeepSeek API的JSON响应
-     * @param chatCompletionId 指定的chatCompletionId，确保一致性
-     */
-    @Transactional
-    public void saveCompletionDataSync(String responseJson, String chatCompletionId) {
-        try {
-            JsonNode root = mapper.readTree(responseJson);
-            
-            // 解析并保存ChatCompletions
-            ChatCompletions completion = parseChatCompletion(root);
-            // 确保使用事务一致的chatCompletionId
-            completion.setApiKeyId(chatCompletionId);
-            
-            // 同步保存完成记录
-            chatCompletionsService.insertChatCompletions(completion);
-            
-            // 解析并保存UsageInfo
-            UsageInfo usage = parseUsageInfo(root);
-            // 确保使用事务一致的chatCompletionId
-            usage.setChatCompletionId(chatCompletionId);
-            
-            // 同步保存使用信息
-            usageInfoService.insertUsageInfo(usage);
-            
-            log.info("Completion data saved synchronously for chatCompletionId: {}", chatCompletionId);
-        } catch (Exception e) {
-            log.error("Failed to save completion data synchronously: {}", e.getMessage(), e);
-            throw new RuntimeException("Failed to save completion data", e);
-        }
-    }
 
     /**
      * Execute the HTTP request to the DeepSeek API.
