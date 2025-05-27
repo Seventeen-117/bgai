@@ -105,6 +105,7 @@
 		<javax.ws.rs-api.version>2.1.1</javax.ws.rs-api.version>
 		<imageio-pcx.version>3.6.4</imageio-pcx.version>
 		<hessian.version>4.0.66</hessian.version>
+		<spring-boot-starter-cache.version>3.0.12</spring-boot-starter-cache.version>
 	</properties>
 
 	<dependencyManagement>
@@ -377,6 +378,16 @@
 			<groupId>org.apache.rocketmq</groupId>
 			<artifactId>rocketmq-spring-boot-starter</artifactId>
 			<version>${rocketmq-spring-boot-starter.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>javax.servlet-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.alibaba.cloud/spring-cloud-starter-alibaba-nacos-discovery -->
 		<dependency>
@@ -740,6 +751,12 @@
 			<groupId>com.caucho</groupId>
 			<artifactId>hessian</artifactId>
 			<version>${hessian.version}</version>
+		</dependency>
+		<!-- Spring Cache -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-cache</artifactId>
+			<version>${spring-boot-starter-cache.version}</version>
 		</dependency>
 	</dependencies>
 

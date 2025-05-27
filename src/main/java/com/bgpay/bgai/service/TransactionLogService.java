@@ -3,7 +3,7 @@ package com.bgpay.bgai.service;
 import com.bgpay.bgai.entity.TransactionLog;
 
 /**
- * 分布式事务日志服务接口
+ * 事务日志服务接口
  */
 public interface TransactionLogService {
 
@@ -15,7 +15,7 @@ public interface TransactionLogService {
      * @param requestPath 请求路径
      * @param sourceIp 来源IP
      * @param userId 用户ID
-     * @return 记录ID
+     * @return 事务日志ID
      */
     Long recordTransactionBegin(String xid, String transactionName, String transactionMode, 
                                String requestPath, String sourceIp, String userId);
@@ -24,19 +24,17 @@ public interface TransactionLogService {
      * 更新事务状态
      * @param xid 事务ID
      * @param status 事务状态
-     * @param branchId 分支ID
-     * @return 是否更新成功
+     * @param extraData 额外数据
      */
-    boolean updateTransactionStatus(String xid, String status, String branchId);
+    void updateTransactionStatus(String xid, String status, String extraData);
 
     /**
      * 记录事务结束
      * @param xid 事务ID
-     * @param status 最终状态
+     * @param status 事务状态
      * @param extraData 额外数据
-     * @return 是否更新成功
      */
-    boolean recordTransactionEnd(String xid, String status, String extraData);
+    void recordTransactionEnd(String xid, String status, String extraData);
 
     /**
      * 根据XID查询事务日志

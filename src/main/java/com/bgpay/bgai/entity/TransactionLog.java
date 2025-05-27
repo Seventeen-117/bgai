@@ -9,7 +9,6 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,11 +30,6 @@ public class TransactionLog {
      * 全局事务ID (XID)
      */
     private String xid;
-
-    /**
-     * 事务分支ID
-     */
-    private String branchId;
 
     /**
      * 事务名称/业务标识
@@ -63,16 +57,6 @@ public class TransactionLog {
     private String sourceIp;
 
     /**
-     * 事务开始时间
-     */
-    private LocalDateTime startTime;
-
-    /**
-     * 事务结束时间
-     */
-    private LocalDateTime endTime;
-
-    /**
      * 操作用户ID
      */
     private String userId;
@@ -81,13 +65,22 @@ public class TransactionLog {
      * 分支事务ID列表
      */
     @TableField(typeHandler = JacksonTypeHandler.class)
-    private List<String> branchIds = new ArrayList<>();
+    private List<String> branchIds;
 
     /**
      * 额外信息 (JSON格式)
      */
-    @TableField(typeHandler = JacksonTypeHandler.class)
     private String extraData;
+
+    /**
+     * 事务开始时间
+     */
+    private LocalDateTime startTime;
+
+    /**
+     * 事务结束时间
+     */
+    private LocalDateTime endTime;
 
     /**
      * 创建时间

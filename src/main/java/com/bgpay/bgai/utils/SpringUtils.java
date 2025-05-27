@@ -1,4 +1,4 @@
-package com.bgpay.bgai.config;
+package com.bgpay.bgai.utils;
 
 
 

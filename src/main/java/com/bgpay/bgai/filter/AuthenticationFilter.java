@@ -1,4 +1,4 @@
-package com.bgpay.bgai.config;
+package com.bgpay.bgai.filter;
 
 import com.bgpay.bgai.entity.UserToken;
 import com.bgpay.bgai.service.UserService;

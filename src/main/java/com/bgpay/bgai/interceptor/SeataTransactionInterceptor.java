@@ -2,18 +2,22 @@ package com.bgpay.bgai.interceptor;
 
 import com.bgpay.bgai.service.TransactionLogService;
 import io.seata.core.context.RootContext;
+import io.seata.core.model.BranchType;
+import io.seata.spring.annotation.GlobalTransactional;
+import io.seata.tm.api.GlobalTransaction;
+import io.seata.tm.api.GlobalTransactionContext;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.server.ServerWebExchange;
 
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Seata分布式事务拦截器
@@ -28,6 +32,151 @@ public class SeataTransactionInterceptor {
     private TransactionLogService transactionLogService;
 
     private static final ThreadLocal<Map<String, Object>> TX_INFO = new ThreadLocal<>();
+    
+    // 用于存储每个XID对应的branchIds
+    private static final Map<String, Set<Long>> XID_BRANCH_MAP = new ConcurrentHashMap<>();
+
+    @Around("@annotation(io.seata.spring.annotation.GlobalTransactional)")
+    public Object aroundTransaction(ProceedingJoinPoint point) throws Throwable {
+        String xid = RootContext.getXID();
+        if (xid == null) {
+            return point.proceed();
+        }
+
+        // 获取请求信息
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = attributes != null ? attributes.getRequest() : null;
+        String requestPath = request != null ? request.getRequestURI() : "";
+        String sourceIp = getLocalIp();
+        String userId = "system"; // 这里可以根据实际情况获取用户ID
+
+        // 清理旧的branchIds记录
+        XID_BRANCH_MAP.remove(xid);
+
+        // 记录事务开始
+        Long transactionId = recordTransactionBegin(xid, point, requestPath, sourceIp, userId);
+        
+        try {
+            // 执行业务方法
+            Object result = point.proceed();
+            
+            // 记录事务成功
+            recordTransactionEnd(xid, "Committed", buildSuccessExtraData(result));
+            return result;
+        } catch (Throwable e) {
+            // 记录事务失败
+            recordTransactionEnd(xid, "Rollbacked", buildFailureExtraData(e));
+            throw e;
+        } finally {
+            // 清理branchIds记录
+            XID_BRANCH_MAP.remove(xid);
+        }
+    }
+
+    private Long recordTransactionBegin(String xid, ProceedingJoinPoint point, String requestPath, String sourceIp, String userId) {
+        try {
+            String transactionName = point.getSignature().getDeclaringTypeName() + "." + point.getSignature().getName();
+            
+            // 获取当前事务的模式（默认为AT）
+            String transactionMode = BranchType.AT.name();
+            
+            // 保存事务信息到ThreadLocal，用于后续更新
+            Map<String, Object> txInfo = new HashMap<>();
+            txInfo.put("xid", xid);
+            txInfo.put("transactionName", transactionName);
+            txInfo.put("startTime", System.currentTimeMillis());
+            TX_INFO.set(txInfo);
+            
+            // 记录事务开始
+            return transactionLogService.recordTransactionBegin(
+                xid, transactionName, transactionMode, requestPath, sourceIp, userId);
+        } catch (Exception e) {
+            log.error("记录事务开始失败: {}", e.getMessage(), e);
+            return null;
+        }
+    }
+
+    private void recordTransactionEnd(String xid, String status, String extraData) {
+        try {
+            // 获取当前事务的信息
+            GlobalTransaction globalTransaction = GlobalTransactionContext.getCurrentOrCreate();
+            if (globalTransaction != null) {
+                // 更新事务状态
+                transactionLogService.updateTransactionStatus(xid, status, String.valueOf(globalTransaction.getXid()));
+            }
+            
+            // 记录事务结束
+            transactionLogService.recordTransactionEnd(xid, status, extraData);
+        } catch (Exception e) {
+            log.error("记录事务结束失败: {}", e.getMessage(), e);
+        } finally {
+            TX_INFO.remove();
+        }
+    }
+
+    private String buildSuccessExtraData(Object result) {
+        Map<String, Object> txInfo = TX_INFO.get();
+        if (txInfo == null) {
+            txInfo = new HashMap<>();
+        }
+
+        Map<String, Object> extraData = new HashMap<>();
+        extraData.put("startTime", txInfo.getOrDefault("startTime", System.currentTimeMillis()));
+        extraData.put("endTime", System.currentTimeMillis());
+        extraData.put("duration", System.currentTimeMillis() - (Long) txInfo.getOrDefault("startTime", System.currentTimeMillis()));
+        extraData.put("result", "success");
+        
+        // 添加事务信息
+        try {
+            GlobalTransaction globalTransaction = GlobalTransactionContext.getCurrentOrCreate();
+            if (globalTransaction != null) {
+                extraData.put("xid", globalTransaction.getXid());
+                extraData.put("status", globalTransaction.getStatus().name());
+            }
+        } catch (Exception e) {
+            log.warn("获取事务信息失败", e);
+        }
+        
+        try {
+            return new com.fasterxml.jackson.databind.ObjectMapper().writeValueAsString(extraData);
+        } catch (Exception e) {
+            log.error("构建成功extraData失败", e);
+            return "{}";
+        }
+    }
+
+    private String buildFailureExtraData(Throwable e) {
+        Map<String, Object> txInfo = TX_INFO.get();
+        if (txInfo == null) {
+            txInfo = new HashMap<>();
+        }
+
+        Map<String, Object> extraData = new HashMap<>();
+        extraData.put("startTime", txInfo.getOrDefault("startTime", System.currentTimeMillis()));
+        extraData.put("endTime", System.currentTimeMillis());
+        extraData.put("duration", System.currentTimeMillis() - (Long) txInfo.getOrDefault("startTime", System.currentTimeMillis()));
+        extraData.put("result", "failure");
+        extraData.put("errorMessage", e.getMessage());
+        extraData.put("errorType", e.getClass().getName());
+        
+        // 添加事务信息
+        try {
+            GlobalTransaction globalTransaction = GlobalTransactionContext.getCurrentOrCreate();
+            if (globalTransaction != null) {
+                extraData.put("xid", globalTransaction.getXid());
+                extraData.put("status", globalTransaction.getStatus().name());
+            }
+        } catch (Exception ex) {
+            log.warn("获取事务信息失败", ex);
+        }
+        
+        try {
+            return new com.fasterxml.jackson.databind.ObjectMapper().writeValueAsString(extraData);
+        } catch (Exception ex) {
+            log.error("构建失败extraData失败", ex);
+            return "{}";
+        }
+    }
 
     /**
      * 获取本地IP地址
@@ -56,196 +205,10 @@ public class SeataTransactionInterceptor {
                 }
             }
             log.warn("无法获取本地IP地址，将使用localhost");
-            return "127.0.0.1"; // 如果无法获取，返回本地回环地址
+            return "127.0.0.1";
         } catch (Exception e) {
             log.warn("获取本地IP失败: {}", e.getMessage());
-            return "127.0.0.1"; // 发生异常时返回本地回环地址
+            return "127.0.0.1";
         }
-    }
-
-    /**
-     * 定义切点 - 拦截GlobalTransactional注解的方法
-     */
-    @Pointcut("@annotation(io.seata.spring.annotation.GlobalTransactional)")
-    public void seataTransactionalMethod() {
-    }
-
-    /**
-     * 事务开始前
-     */
-    @Before("seataTransactionalMethod()")
-    public void beforeTransaction(JoinPoint point) {
-        // 获取全局事务XID
-        String xid = RootContext.getXID();
-        if (xid == null) {
-            log.debug("未找到全局事务XID，可能事务尚未开始");
-            return;
-        }
-
-        // 获取方法信息
-        String methodName = point.getSignature().getName();
-        String className = point.getTarget().getClass().getName();
-        String transactionName = className + "." + methodName;
-
-        // 获取请求信息
-        String requestPath = "";
-        String sourceIp = getLocalIp(); // 使用本地IP
-        String userId = "";
-
-        // 尝试从参数中获取请求信息
-        Object[] args = point.getArgs();
-        for (Object arg : args) {
-            // 尝试从方法参数中获取用户ID和其他信息
-            if (arg instanceof String && userId.isEmpty()) {
-                // 如果参数名看起来像用户ID，则使用它
-                if (arg.toString().matches("^(user|userId|username|uid).*")) {
-                    userId = arg.toString();
-                    log.debug("从方法参数中获取到用户ID: {}", userId);
-                }
-            } 
-            // 如果使用了WebFlux，可以从ServerWebExchange获取
-            else if (arg instanceof ServerWebExchange) {
-                ServerWebExchange exchange = (ServerWebExchange) arg;
-                // 获取请求路径
-                requestPath = exchange.getRequest().getURI().getPath();
-                // 获取来源IP
-                sourceIp = exchange.getRequest().getRemoteAddress() != null ? 
-                          exchange.getRequest().getRemoteAddress().getAddress().getHostAddress() : "";
-                // 尝试从请求头获取用户ID
-                userId = exchange.getRequest().getHeaders().getFirst("X-User-Id");
-                
-                log.debug("从ServerWebExchange获取请求信息: path={}, ip={}, userId={}", requestPath, sourceIp, userId);
-            }
-        }
-
-        // 如果还是没有获取到请求信息，尝试使用传统方式
-        try {
-            ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-            if (attributes != null) {
-                HttpServletRequest request = attributes.getRequest();
-                if (requestPath.isEmpty()) {
-                    requestPath = request.getRequestURI();
-                }
-                if (sourceIp.isEmpty()) {
-                    sourceIp = getClientIp(request);
-                }
-                // 从请求或会话中获取用户ID
-                if (userId.isEmpty()) {
-                    userId = getUserId(request);
-                }
-                log.debug("从ServletRequestAttributes获取请求信息: path={}, ip={}, userId={}", requestPath, sourceIp, userId);
-            }
-        } catch (Exception e) {
-            log.warn("获取请求信息失败: {}", e.getMessage());
-        }
-        
-        // 如果还没有获取到userId，设置为默认值
-        if (userId == null || userId.isEmpty()) {
-            userId = "system";
-        }
-
-        // 记录事务开始
-        log.info("准备记录分布式事务开始: XID={}, 业务={}, 路径={}, IP={}, 用户={}", 
-                xid, transactionName, requestPath, sourceIp, userId);
-        
-        Long logId = transactionLogService.recordTransactionBegin(
-                xid, transactionName, "AT", requestPath, sourceIp, userId);
-
-        // 在线程本地变量中保存信息，用于后续处理
-        Map<String, Object> txInfo = new HashMap<>();
-        txInfo.put("xid", xid);
-        txInfo.put("logId", logId);
-        txInfo.put("startTime", System.currentTimeMillis());
-        TX_INFO.set(txInfo);
-
-        log.info("开始分布式事务: XID={}, 方法={}", xid, transactionName);
-    }
-
-    /**
-     * 事务成功完成
-     */
-    @AfterReturning("seataTransactionalMethod()")
-    public void afterReturning() {
-        Map<String, Object> txInfo = TX_INFO.get();
-        if (txInfo == null || !txInfo.containsKey("xid")) {
-            return;
-        }
-
-        String xid = (String) txInfo.get("xid");
-        long startTime = (long) txInfo.get("startTime");
-        long duration = System.currentTimeMillis() - startTime;
-
-        String extraData = String.format("{\"duration\":%d,\"result\":\"success\"}", duration);
-        transactionLogService.recordTransactionEnd(xid, "COMMITTED", extraData);
-
-        log.info("分布式事务成功完成: XID={}, 耗时={}ms", xid, duration);
-        TX_INFO.remove();
-    }
-
-    /**
-     * 事务异常
-     */
-    @AfterThrowing(value = "seataTransactionalMethod()", throwing = "ex")
-    public void afterThrowing(Throwable ex) {
-        Map<String, Object> txInfo = TX_INFO.get();
-        if (txInfo == null || !txInfo.containsKey("xid")) {
-            return;
-        }
-
-        String xid = (String) txInfo.get("xid");
-        long startTime = (long) txInfo.get("startTime");
-        long duration = System.currentTimeMillis() - startTime;
-
-        String extraData = String.format(
-                "{\"duration\":%d,\"result\":\"failure\",\"error\":\"%s\"}",
-                duration, ex.getMessage().replace("\"", "\\\""));
-        transactionLogService.recordTransactionEnd(xid, "ROLLBACKED", extraData);
-
-        log.warn("分布式事务回滚: XID={}, 耗时={}ms, 原因={}", xid, duration, ex.getMessage());
-        TX_INFO.remove();
-    }
-
-    /**
-     * 获取客户端真实IP
-     */
-    private String getClientIp(HttpServletRequest request) {
-        String ip = request.getHeader("X-Forwarded-For");
-        if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("Proxy-Client-IP");
-        }
-        if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("WL-Proxy-Client-IP");
-        }
-        if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("HTTP_CLIENT_IP");
-        }
-        if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("HTTP_X_FORWARDED_FOR");
-        }
-        if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getRemoteAddr();
-        }
-        return ip;
-    }
-
-    /**
-     * 获取用户ID
-     */
-    private String getUserId(HttpServletRequest request) {
-        // 可以从请求头、Session或JWT Token中获取用户ID
-        // 这里简单示例，实际应根据项目认证机制实现
-        String userId = request.getHeader("X-User-ID");
-        if (userId == null || userId.isEmpty()) {
-            // 尝试从会话中获取
-            try {
-                Object userObj = request.getSession().getAttribute("userId");
-                if (userObj != null) {
-                    userId = userObj.toString();
-                }
-            } catch (Exception e) {
-                log.debug("从会话获取用户ID失败: {}", e.getMessage());
-            }
-        }
-        return userId != null ? userId : "anonymous";
     }
 } 

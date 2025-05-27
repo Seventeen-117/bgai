@@ -1,6 +1,5 @@
-package com.bgpay.bgai.config;
+package com.bgpay.bgai.cache;
 
-import com.bgpay.bgai.entity.UserToken;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
