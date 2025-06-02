@@ -1,0 +1,636 @@
+2025-05-27 22:31:01.404 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2025-05-27 22:31:01.405 [main] INFO  com.bgpay.bgai.BgaiApplication - The following 1 profile is active: "dev"
+2025-05-27 22:31:02.710 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-05-27 22:31:02.712 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-27 22:31:02.735 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 17 ms. Found 0 JPA repository interfaces.
+2025-05-27 22:31:02.747 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-05-27 22:31:02.747 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-05-27 22:31:02.759 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 4 ms. Found 0 Redis repository interfaces.
+2025-05-27 22:31:03.379 [main] INFO  io.seata.config.ConfigurationFactory - load Configuration from :Spring Configuration
+2025-05-27 22:31:03.390 [main] INFO  io.seata.config.ConfigurationFactory - load Configuration from :Spring Configuration
+2025-05-27 22:31:03.398 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Initializing Global Transaction Clients ... 
+2025-05-27 22:31:03.521 [main] INFO  io.seata.core.rpc.netty.NettyClientBootstrap - NettyClientBootstrap has started
+2025-05-27 22:31:03.523 [main] INFO  io.seata.discovery.registry.RegistryFactory - use registry center type: file
+2025-05-27 22:31:03.529 [main] INFO  io.seata.core.rpc.netty.NettyClientChannelManager - will connect to 8.133.246.113:8091
+2025-05-27 22:31:03.533 [main] INFO  io.seata.core.rpc.netty.NettyPoolableFactory - NettyPool create channel to transactionRole:TMROLE,address:8.133.246.113:8091,msg:< RegisterTMRequest{version='1.7.0', applicationId='bgai', transactionServiceGroup='default-tx-group', extraData='ak=null
+digest=default-tx-group,192.168.86.8,1748356263532
+timestamp=1748356263532
+authVersion=V4
+vgroup=default-tx-group
+ip=192.168.86.8
+'} >
+2025-05-27 22:31:03.676 [main] INFO  io.seata.core.rpc.netty.TmNettyRemotingClient - register TM success. client version:1.7.0, server version:1.8.1-SNAPSHOT,channel:[id: 0x1d0374e7, L:/192.168.86.8:62343 - R:/8.133.246.113:8091]
+2025-05-27 22:31:03.682 [main] INFO  io.seata.core.rpc.netty.NettyPoolableFactory - register success, cost 66 ms, version:1.8.1-SNAPSHOT,role:TMROLE,channel:[id: 0x1d0374e7, L:/192.168.86.8:62343 - R:/8.133.246.113:8091]
+2025-05-27 22:31:03.683 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Transaction Manager Client is initialized. applicationId[bgai] txServiceGroup[default-tx-group]
+2025-05-27 22:31:03.696 [main] INFO  io.seata.rm.datasource.AsyncWorker - Async Commit Buffer Limit: 10000
+2025-05-27 22:31:03.697 [main] INFO  io.seata.rm.datasource.xa.ResourceManagerXA - ResourceManagerXA init ...
+2025-05-27 22:31:03.703 [main] INFO  io.seata.core.rpc.netty.NettyClientBootstrap - NettyClientBootstrap has started
+2025-05-27 22:31:03.703 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Resource Manager is initialized. applicationId[bgai] txServiceGroup[default-tx-group]
+2025-05-27 22:31:03.703 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Global Transaction Clients are initialized. 
+2025-05-27 22:31:04.801 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2025-05-27 22:31:04.811 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - The ["http-nio-8080"] connector has been configured to support HTTP upgrade to [h2c]
+2025-05-27 22:31:04.811 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-27 22:31:04.813 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-27 22:31:04.813 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.15]
+2025-05-27 22:31:05.197 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2025-05-27 22:31:05.465 [main] INFO  io.seata.core.rpc.netty.NettyClientChannelManager - will connect to 8.133.246.113:8091
+2025-05-27 22:31:05.465 [main] INFO  io.seata.core.rpc.netty.RmNettyRemotingClient - RM will register :jdbc:mysql://8.133.246.113:3306/deepseek
+2025-05-27 22:31:05.465 [main] INFO  io.seata.core.rpc.netty.NettyPoolableFactory - NettyPool create channel to transactionRole:RMROLE,address:8.133.246.113:8091,msg:< RegisterRMRequest{resourceIds='jdbc:mysql://8.133.246.113:3306/deepseek', version='1.7.0', applicationId='bgai', transactionServiceGroup='default-tx-group', extraData='null'} >
+2025-05-27 22:31:05.484 [main] INFO  io.seata.core.rpc.netty.RmNettyRemotingClient - register RM success. client version:1.7.0, server version:1.8.1-SNAPSHOT,channel:[id: 0x5e647a2d, L:/192.168.86.8:62347 - R:/8.133.246.113:8091]
+2025-05-27 22:31:05.484 [main] INFO  io.seata.core.rpc.netty.NettyPoolableFactory - register success, cost 10 ms, version:1.8.1-SNAPSHOT,role:RMROLE,channel:[id: 0x5e647a2d, L:/192.168.86.8:62347 - R:/8.133.246.113:8091]
+2025-05-27 22:31:05.486 [main] INFO  i.s.s.a.datasource.SeataAutoDataSourceProxyCreator - Auto proxy data source 'masterDataSource' by 'AT' mode.
+2025-05-27 22:31:05.557 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-2} inited
+2025-05-27 22:31:05.624 [main] INFO  io.seata.core.rpc.netty.RmNettyRemotingClient - will register resourceId:jdbc:mysql://8.133.246.113:3306/deepseek
+2025-05-27 22:31:05.625 [main] INFO  i.s.s.a.datasource.SeataAutoDataSourceProxyCreator - Auto proxy data source 'slaveDataSource' by 'AT' mode.
+2025-05-27 22:31:05.632 [NettyClientSelector_RMROLE_1_1] INFO  io.seata.rm.AbstractRMHandler - the rm client received response msg [RegisterRMResponse{version='1.8.1-SNAPSHOT', extraData='null', identified=true, resultCode=null, msg='null'}] from tc server.
+2025-05-27 22:31:05.648 [main] INFO  io.seata.core.rpc.netty.RmNettyRemotingClient - will register resourceId:jdbc:mysql://8.133.246.113:3306/deepseek
+2025-05-27 22:31:05.648 [main] INFO  i.s.s.a.datasource.SeataAutoDataSourceProxyCreator - Auto proxy data source 'dynamicDataSource' by 'AT' mode.
+2025-05-27 22:31:05.657 [NettyClientSelector_RMROLE_1_1] INFO  io.seata.rm.AbstractRMHandler - the rm client received response msg [RegisterRMResponse{version='1.8.1-SNAPSHOT', extraData='null', identified=true, resultCode=null, msg='null'}] from tc server.
+2025-05-27 22:31:05.762 [main] INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-27 22:31:05.817 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.1.7.Final
+2025-05-27 22:31:06.128 [main] INFO  SQL dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2025-05-27 22:31:06.132 [main] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-05-27 22:31:06.420 [main] INFO  o.h.e.t.jta.platform.internal.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2025-05-27 22:31:06.431 [main] INFO  o.s.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-27 22:31:06.818 [main] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+2025-05-27 22:31:06.829 [main] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - ==> Parameters: 
+2025-05-27 22:31:06.856 [main] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - <==      Total: 52
+2025-05-27 22:31:06.858 [main] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+2025-05-27 22:31:06.858 [main] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - ==> Parameters: 
+2025-05-27 22:31:06.869 [main] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - <==      Total: 52
+2025-05-27 22:31:07.521 [main] INFO  com.bgpay.bgai.service.impl.UserServiceImpl - 初始化SSO配置: clientId=bgai-client-id, redirectUri=http://localhost:8080/api/auth/callback
+2025-05-27 22:31:07.568 [main] INFO  com.bgpay.bgai.controller.AuthController - 初始化认证控制器: clientId=bgai-client-id, redirectUri=http://localhost:8080/api/auth/callback
+2025-05-27 22:31:08.433 [main] INFO  org.redisson.Version - Redisson 3.24.3
+2025-05-27 22:31:08.566 [redisson-netty-4-6] INFO  o.r.connection.pool.MasterPubSubConnectionPool - 1 connections initialized for 8.133.246.113/8.133.246.113:6379
+2025-05-27 22:31:08.901 [redisson-netty-4-19] INFO  org.redisson.connection.pool.MasterConnectionPool - 24 connections initialized for 8.133.246.113/8.133.246.113:6379
+2025-05-27 22:31:09.086 [main] INFO  o.a.r.s.autoconfigure.RocketMQAutoConfiguration - a producer (billing-producer-group) init on namesrv 8.133.246.113:9876
+2025-05-27 22:31:09.620 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Bean [com.bgpay.bgai.service.deepseek.DeepSeekServiceImp$$SpringCGLIB$$0] with name [deepSeekServiceImp] would use interceptor [io.seata.spring.annotation.GlobalTransactionalInterceptor]
+2025-05-27 22:31:09.915 [main] WARN  i.s.s.b.a.provider.SpringBootConfigurationProvider - The get method not found for the field 'SeataProperties#accesskey'.
+2025-05-27 22:31:09.917 [main] WARN  i.s.s.b.a.provider.SpringBootConfigurationProvider - The get method not found for the field 'SeataProperties#secretkey'.
+2025-05-27 22:31:09.928 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - 加载到1个Saga状态机定义文件
+2025-05-27 22:31:10.100 [main] INFO  com.bgpay.bgai.saga.CustomSagaJsonParser - 开始解析状态机定义: bgai-saga-transaction
+2025-05-27 22:31:10.100 [main] INFO  com.bgpay.bgai.saga.CustomSagaJsonParser - 状态机定义解析成功: bgai-saga-transaction
+2025-05-27 22:31:10.100 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - 成功加载状态机定义: /E:/project/bgai/target/classes/statelang/bgai-saga-transaction.json
+2025-05-27 22:31:10.283 [main] INFO  com.bgpay.bgai.service.mq.MQConsumerService - MQ consumer startup successful [group=billing-consumer-group, topic=BILLING_TOPIC, tag=USER_BILLING]
+2025-05-27 22:31:10.347 [main] INFO  io.seata.core.rpc.netty.RmNettyRemotingClient - will register resourceId:jdbc:mysql://8.133.246.113:3306/deepseek
+2025-05-27 22:31:10.348 [main] INFO  io.seata.core.rpc.netty.RmNettyRemotingClient - will register resourceId:bgai:default
+2025-05-27 22:31:10.348 [main] INFO  com.bgpay.bgai.seata.SeataResourceManagerListener - Resource registered: bgai:default
+2025-05-27 22:31:10.348 [main] INFO  com.bgpay.bgai.seata.SeataResourceManagerListener - Seata Resource Manager registered successfully for application: bgai
+2025-05-27 22:31:10.355 [NettyClientSelector_RMROLE_1_1] INFO  io.seata.rm.AbstractRMHandler - the rm client received response msg [RegisterRMResponse{version='1.8.1-SNAPSHOT', extraData='null', identified=true, resultCode=null, msg='null'}] from tc server.
+2025-05-27 22:31:10.356 [NettyClientSelector_RMROLE_1_1] INFO  io.seata.rm.AbstractRMHandler - the rm client received response msg [RegisterRMResponse{version='1.8.1-SNAPSHOT', extraData='null', identified=true, resultCode=null, msg='null'}] from tc server.
+2025-05-27 22:31:10.500 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Bean [com.bgpay.bgai.service.mq.BillingTransactionListenerImpl$$SpringCGLIB$$0] with name [billingTransactionListenerImpl] would use interceptor [io.seata.spring.annotation.GlobalTransactionalInterceptor]
+2025-05-27 22:31:10.644 [main] DEBUG com.bgpay.bgai.config.AsyncConfig$1 - Initializing ExecutorService 'blockingExecutor'
+2025-05-27 22:31:10.667 [main] INFO  c.b.bgai.config.NacosConfig$NacosWarningHandler - Nacos警告处理器已启用，将忽略配置中心连接警告
+2025-05-27 22:31:11.758 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [After]
+2025-05-27 22:31:11.759 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Before]
+2025-05-27 22:31:11.759 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Between]
+2025-05-27 22:31:11.759 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Cookie]
+2025-05-27 22:31:11.759 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Header]
+2025-05-27 22:31:11.759 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Host]
+2025-05-27 22:31:11.759 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Method]
+2025-05-27 22:31:11.759 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Path]
+2025-05-27 22:31:11.759 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Query]
+2025-05-27 22:31:11.759 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [ReadBody]
+2025-05-27 22:31:11.759 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [RemoteAddr]
+2025-05-27 22:31:11.759 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [XForwardedRemoteAddr]
+2025-05-27 22:31:11.759 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Weight]
+2025-05-27 22:31:11.759 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [CloudFoundryRouteService]
+2025-05-27 22:31:13.066 [main] INFO  o.s.b.actuate.endpoint.web.EndpointLinksResolver - Exposing 3 endpoint(s) beneath base path '/actuator'
+2025-05-27 22:31:14.558 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-27 22:31:14.571 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2025-05-27 22:31:14.581 [main] INFO  com.alibaba.nacos.client.naming - initializer namespace from ans.namespace attribute : null
+2025-05-27 22:31:14.581 [main] INFO  com.alibaba.nacos.client.naming - initializer namespace from ALIBABA_ALIWARE_NAMESPACE attribute :null
+2025-05-27 22:31:14.582 [main] INFO  com.alibaba.nacos.client.naming - initializer namespace from namespace attribute :null
+2025-05-27 22:31:14.593 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
+2025-05-27 22:31:14.593 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
+2025-05-27 22:31:14.597 [main] INFO  com.alibaba.nacos.common.remote.client - [RpcClientFactory] create a new rpc client of c395fe83-a342-47ae-bf8c-eca1d8229ba5
+2025-05-27 22:31:14.598 [main] INFO  com.alibaba.nacos.common.remote.client - [c395fe83-a342-47ae-bf8c-eca1d8229ba5] RpcClient init, ServerListFactory = com.alibaba.nacos.client.naming.core.ServerListManager
+2025-05-27 22:31:14.598 [main] INFO  com.alibaba.nacos.common.remote.client - [c395fe83-a342-47ae-bf8c-eca1d8229ba5] Registry connection listener to current client:com.alibaba.nacos.client.naming.remote.gprc.redo.NamingGrpcRedoService
+2025-05-27 22:31:14.599 [main] INFO  com.alibaba.nacos.common.remote.client - [c395fe83-a342-47ae-bf8c-eca1d8229ba5] Register server push request handler:com.alibaba.nacos.client.naming.remote.gprc.NamingPushRequestHandler
+2025-05-27 22:31:14.599 [main] INFO  com.alibaba.nacos.common.remote.client - [c395fe83-a342-47ae-bf8c-eca1d8229ba5] Try to connect to server on start up, server: {serverIp = '8.133.246.113', server main port = 8848}
+2025-05-27 22:31:14.599 [main] INFO  c.a.nacos.common.remote.client.grpc.GrpcClient - grpc client connection server:8.133.246.113 ip,serverPort:9848,grpcTslConfig:{"sslProvider":"OPENSSL","enableTls":false,"mutualAuthEnable":false,"trustAll":false}
+2025-05-27 22:31:14.726 [main] INFO  com.alibaba.nacos.common.remote.client - [c395fe83-a342-47ae-bf8c-eca1d8229ba5] Success to connect to server [8.133.246.113:8848] on start up, connectionId = 1748356275317_139.227.195.166_38668
+2025-05-27 22:31:14.726 [main] INFO  com.alibaba.nacos.common.remote.client - [c395fe83-a342-47ae-bf8c-eca1d8229ba5] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$ConnectResetRequestHandler
+2025-05-27 22:31:14.726 [main] INFO  com.alibaba.nacos.common.remote.client - [c395fe83-a342-47ae-bf8c-eca1d8229ba5] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$$Lambda/0x0000012ab4528cd8
+2025-05-27 22:31:14.726 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.common.remote.client - [c395fe83-a342-47ae-bf8c-eca1d8229ba5] Notify connected event to listeners.
+2025-05-27 22:31:14.726 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.client.naming - Grpc connection connect
+2025-05-27 22:31:14.727 [main] INFO  com.alibaba.nacos.client.naming - [REGISTER-SERVICE] d750d92e-152f-4055-a641-3bc9dda85a29 registering service bgai with instance Instance{instanceId='null', ip='192.168.86.8', port=8080, weight=1.0, healthy=true, enabled=true, ephemeral=true, clusterName='DEFAULT', serviceName='null', metadata={IPv6=[2408:820c:7528:d042:4b93:b843:49be:5352], preserved.register.source=SPRING_CLOUD}}
+2025-05-27 22:31:14.743 [main] INFO  c.a.cloud.nacos.registry.NacosServiceRegistry - nacos registry, DEFAULT_GROUP bgai 192.168.86.8:8080 register finished
+2025-05-27 22:31:14.788 [main] INFO  com.bgpay.bgai.config.NacosConfig - 应用启动完成，当前环境: dev
+2025-05-27 22:31:14.788 [main] INFO  com.bgpay.bgai.config.NacosConfig - Nacos配置中心: 8.133.246.113:8848, 命名空间: d750d92e-152f-4055-a641-3bc9dda85a29
+2025-05-27 22:31:14.788 [main] INFO  com.bgpay.bgai.config.NacosConfig - 注意: 如果看到Nacos配置加载警告，但应用正常启动，说明应用正在使用本地配置文件
+2025-05-27 22:31:14.790 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 15.391 seconds (process running for 16.67)
+2025-05-27 22:31:14.794 [scheduling-1] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+2025-05-27 22:31:14.794 [scheduling-1] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - ==> Parameters: 
+2025-05-27 22:31:14.805 [scheduling-1] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - <==      Total: 52
+2025-05-27 22:31:14.805 [main] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+2025-05-27 22:31:14.805 [main] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - ==> Parameters: 
+2025-05-27 22:31:14.816 [main] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - <==      Total: 52
+2025-05-27 22:31:14.816 [scheduling-1] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+2025-05-27 22:31:14.817 [scheduling-1] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - ==> Parameters: 
+2025-05-27 22:31:14.824 [scheduling-1] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - <==      Total: 52
+2025-05-27 22:31:14.824 [main] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+2025-05-27 22:31:14.824 [main] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - ==> Parameters: 
+2025-05-27 22:31:14.830 [main] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - <==      Total: 52
+2025-05-27 22:31:14.831 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - ==================== Saga状态机加载报告 ====================
+2025-05-27 22:31:14.831 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - Saga状态机配置加载状态: 成功
+2025-05-27 22:31:14.831 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - 已加载的状态机定义文件数量: 1
+2025-05-27 22:31:14.831 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - 已加载的状态机定义文件:
+2025-05-27 22:31:14.831 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig -  - /E:/project/bgai/target/classes/statelang/bgai-saga-transaction.json
+2025-05-27 22:31:14.831 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - Saga解析器状态: CUSTOM_FASTJSON2
+2025-05-27 22:31:14.831 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - 状态机解析结果: 成功 1 个, 失败 0 个
+2025-05-27 22:31:14.831 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - =============================================================
+2025-05-27 22:31:14.835 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - nacos.cache.data.init.snapshot = true 
+2025-05-27 22:31:14.836 [main] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [subscribe] common-dev.yaml+DEFAULT_GROUP+d750d92e-152f-4055-a641-3bc9dda85a29
+2025-05-27 22:31:14.845 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [add-listener] ok, tenant=d750d92e-152f-4055-a641-3bc9dda85a29, dataId=common-dev.yaml, group=DEFAULT_GROUP, cnt=1
+2025-05-27 22:31:14.846 [main] INFO  c.a.cloud.nacos.refresh.NacosContextRefresher - [Nacos Config] Listening config: dataId=common-dev.yaml, group=DEFAULT_GROUP
+2025-05-27 22:31:14.846 [main] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [subscribe] bgtech-ai.yaml+DEFAULT_GROUP+d750d92e-152f-4055-a641-3bc9dda85a29
+2025-05-27 22:31:14.846 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [add-listener] ok, tenant=d750d92e-152f-4055-a641-3bc9dda85a29, dataId=bgtech-ai.yaml, group=DEFAULT_GROUP, cnt=1
+2025-05-27 22:31:14.846 [main] INFO  c.a.cloud.nacos.refresh.NacosContextRefresher - [Nacos Config] Listening config: dataId=bgtech-ai.yaml, group=DEFAULT_GROUP
+2025-05-27 22:31:14.847 [main] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [subscribe] bgtech-ai-dev.yaml+DEFAULT_GROUP+d750d92e-152f-4055-a641-3bc9dda85a29
+2025-05-27 22:31:14.847 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [add-listener] ok, tenant=d750d92e-152f-4055-a641-3bc9dda85a29, dataId=bgtech-ai-dev.yaml, group=DEFAULT_GROUP, cnt=1
+2025-05-27 22:31:14.848 [main] INFO  c.a.cloud.nacos.refresh.NacosContextRefresher - [Nacos Config] Listening config: dataId=bgtech-ai-dev.yaml, group=DEFAULT_GROUP
+2025-05-27 22:31:14.848 [main] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [subscribe] bgtech-ai+DEFAULT_GROUP+d750d92e-152f-4055-a641-3bc9dda85a29
+2025-05-27 22:31:14.848 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [add-listener] ok, tenant=d750d92e-152f-4055-a641-3bc9dda85a29, dataId=bgtech-ai, group=DEFAULT_GROUP, cnt=1
+2025-05-27 22:31:14.848 [main] INFO  c.a.cloud.nacos.refresh.NacosContextRefresher - [Nacos Config] Listening config: dataId=bgtech-ai, group=DEFAULT_GROUP
+2025-05-27 22:31:20.100 [http-nio-8080-exec-5] INFO  com.bgpay.bgai.controller.ReactiveChatController - 接收到请求: /api/chatGatWay-internal, 文件=新文件 17.txt, 问题参数=null, 模型参数=null
+2025-05-27 22:31:20.102 [http-nio-8080-exec-5] INFO  com.bgpay.bgai.controller.ReactiveChatController - 请求Content-Type: multipart/form-data;boundary=--------------------------943104095676779749308262
+2025-05-27 22:31:20.102 [http-nio-8080-exec-5] INFO  com.bgpay.bgai.controller.ReactiveChatController - 收集到的完整参数: question="null", apiUrl="null", modelName="null", multiTurn=false
+2025-05-27 22:31:20.104 [http-nio-8080-exec-5] INFO  com.bgpay.bgai.controller.ReactiveChatController - Processing request for user ID: 689258T
+2025-05-27 22:31:20.104 [http-nio-8080-exec-5] INFO  com.bgpay.bgai.controller.ReactiveChatController - Processing file with circuit breaker: fileName=新文件 17.txt, question=
+2025-05-27 22:31:20.106 [http-nio-8080-exec-5] INFO  com.bgpay.bgai.config.ReactiveFileProcessor - Processing file: 新文件 17.txt, content-type: text/plain
+2025-05-27 22:31:20.113 [http-nio-8080-exec-5] INFO  com.bgpay.bgai.controller.ReactiveChatController - PARAM TRACE [689258T]: 尝试查找匹配配置 - 参数: apiUrl=null, modelName=null
+2025-05-27 22:31:20.122 [http-nio-8080-exec-5] INFO  com.bgpay.bgai.service.impl.ApiConfigServiceImpl - 查询配置 - userId=689258T
+2025-05-27 22:31:20.123 [http-nio-8080-exec-5] INFO  com.bgpay.bgai.service.impl.ApiConfigServiceImpl - 排序方式 - 按ID降序
+2025-05-27 22:31:20.123 [http-nio-8080-exec-5] INFO  com.bgpay.bgai.service.impl.ApiConfigServiceImpl - 限制结果数 - LIMIT 1
+2025-05-27 22:31:20.184 [http-nio-8080-exec-5] DEBUG com.bgpay.bgai.mapper.ApiConfigMapper.selectList - ==>  Preparing: SELECT id,api_url,api_key,model_name,user_id FROM api_config WHERE (user_id = ?) ORDER BY id DESC LIMIT 1
+2025-05-27 22:31:20.185 [http-nio-8080-exec-5] DEBUG com.bgpay.bgai.mapper.ApiConfigMapper.selectList - ==> Parameters: 689258T(String)
+2025-05-27 22:31:20.195 [http-nio-8080-exec-5] DEBUG com.bgpay.bgai.mapper.ApiConfigMapper.selectList - <==      Total: 1
+2025-05-27 22:31:20.195 [http-nio-8080-exec-5] INFO  com.bgpay.bgai.service.impl.ApiConfigServiceImpl - 查询结果 - 找到配置: id=2, modelName=deepseek-chat
+2025-05-27 22:31:20.195 [http-nio-8080-exec-5] INFO  com.bgpay.bgai.controller.ReactiveChatController - PARAM TRACE [689258T]: 找到匹配配置 - apiUrl=https://api.deepseek.com/chat/completions, modelName=deepseek-chat (原始请求: null)
+2025-05-27 22:31:20.195 [http-nio-8080-exec-5] INFO  com.bgpay.bgai.controller.ReactiveChatController - API config resolved: url=https://api.deepseek.com/chat/completions, model=deepseek-chat
+2025-05-27 22:31:20.213 [Thread-48] INFO  com.bgpay.bgai.config.ReactiveFileProcessor - File processed successfully: size=37 bytes
+2025-05-27 22:31:20.218 [Thread-48] INFO  com.bgpay.bgai.controller.ReactiveChatController - Content processed, length: 54
+2025-05-27 22:31:20.223 [Thread-48] INFO  io.seata.tm.TransactionManagerHolder - TransactionManager Singleton io.seata.tm.DefaultTransactionManager@26952da2
+2025-05-27 22:31:20.247 [Thread-48] INFO  io.seata.tm.api.DefaultGlobalTransaction - Begin new global transaction [seata-server:8091:81719820132151323]
+2025-05-27 22:31:20.271 [Thread-48] INFO  c.b.bgai.service.impl.TransactionLogServiceImpl - Transaction begin - XID: seata-server:8091:81719820132151323, Name: com.bgpay.bgai.service.deepseek.DeepSeekServiceImp.processRequestReactive, Mode: AT, Path: , IP: 192.168.86.8, User: system
+2025-05-27 22:31:20.282 [Thread-48] DEBUG com.bgpay.bgai.mapper.TransactionLogMapper.insert - ==>  Preparing: INSERT INTO transaction_log ( xid, transaction_name, transaction_mode, status, request_path, source_ip, user_id, branch_ids, extra_data, start_time, create_time ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
+2025-05-27 22:31:20.288 [Thread-48] DEBUG com.bgpay.bgai.mapper.TransactionLogMapper.insert - ==> Parameters: seata-server:8091:81719820132151323(String), com.bgpay.bgai.service.deepseek.DeepSeekServiceImp.processRequestReactive(String), AT(String), ACTIVE(String), (String), 192.168.86.8(String), system(String), [](String), {"result":"active","startTime":1748356280271,"branches":[],"resourceIds":[]}(String), 2025-05-27T22:31:20.273848100(LocalDateTime), 2025-05-27T22:31:20.273848100(LocalDateTime)
+2025-05-27 22:31:20.713 [Thread-48] DEBUG com.bgpay.bgai.mapper.TransactionLogMapper.insert - <==    Updates: 1
+2025-05-27 22:31:20.730 [Thread-48] INFO  io.seata.rm.AbstractResourceManager - branch register success, xid:seata-server:8091:81719820132151323, branchId:81719820132151324, lockKeys:transaction_log:125
+2025-05-27 22:31:20.740 [Thread-48] WARN  i.s.c.l.EnhancedServiceLoader$InnerEnhancedServiceLoader - Load [io.seata.rm.datasource.undo.parser.ProtostuffUndoLogParser] class fail: io/protostuff/runtime/IdStrategy
+2025-05-27 22:31:20.809 [Thread-48] INFO  io.seata.rm.AbstractResourceManager - branch register success, xid:seata-server:8091:81719820132151323, branchId:81719820132151325, lockKeys:transaction_log:125;undo_log:515
+2025-05-27 22:31:20.894 [Thread-48] INFO  com.bgpay.bgai.seata.SeataTransactionListener - Transaction method starting: XID=seata-server:8091:81719820132151323, method=processRequestReactive
+2025-05-27 22:31:20.904 [Thread-48] INFO  org.reflections.Reflections - Processing reactive request: content length=54, apiUrl=https://api.deepseek.com/chat/completions, modelName=deepseek-chat, userId=689258T, multiTurn=false
+2025-05-27 22:31:20.906 [Thread-48] INFO  com.bgpay.bgai.seata.SeataTransactionListener - Transaction method completed: XID=seata-server:8091:81719820132151323, method=processRequestReactive
+2025-05-27 22:31:20.922 [Thread-48] DEBUG c.b.bgai.service.impl.TransactionLogServiceImpl - 更新分布式事务状态: XID=seata-server:8091:81719820132151323, 状态=Committed
+2025-05-27 22:31:20.924 [Thread-48] DEBUG c.b.bgai.mapper.TransactionLogMapper.selectList - ==>  Preparing: SELECT id,xid,transaction_name,transaction_mode,status,request_path,source_ip,user_id,branch_ids,extra_data,start_time,end_time,create_time,update_time FROM transaction_log WHERE (xid = ?) LIMIT 1
+2025-05-27 22:31:20.926 [Thread-48] DEBUG c.b.bgai.mapper.TransactionLogMapper.selectList - ==> Parameters: seata-server:8091:81719820132151323(String)
+2025-05-27 22:31:20.947 [Thread-48] DEBUG c.b.bgai.mapper.TransactionLogMapper.selectList - <==      Total: 1
+2025-05-27 22:31:20.954 [Thread-48] DEBUG c.b.bgai.mapper.TransactionLogMapper.updateById - ==>  Preparing: UPDATE transaction_log SET xid=?, transaction_name=?, transaction_mode=?, status=?, request_path=?, source_ip=?, user_id=?, branch_ids=?, extra_data=?, start_time=?, create_time=?, update_time=? WHERE id=?
+2025-05-27 22:31:20.965 [Thread-48] DEBUG c.b.bgai.mapper.TransactionLogMapper.updateById - ==> Parameters: seata-server:8091:81719820132151323(String), com.bgpay.bgai.service.deepseek.DeepSeekServiceImp.processRequestReactive(String), AT(String), Committed(String), (String), 192.168.86.8(String), system(String), [](String), {"duration":13,"result":"success","xid":"seata-server:8091:81719820132151323","startTime":1748356280893,"endTime":1748356280906,"transactionId":125,"status":"Begin"}(String), 2025-05-27T22:31:20(LocalDateTime), 2025-05-27T22:31:20(LocalDateTime), 2025-05-27T22:31:20.948487900(LocalDateTime), 125(Long)
+2025-05-27 22:31:21.022 [Thread-48] DEBUG c.b.bgai.mapper.TransactionLogMapper.updateById - <==    Updates: 1
+2025-05-27 22:31:21.022 [Thread-48] INFO  c.b.bgai.service.impl.TransactionLogServiceImpl - 更新事务状态成功: XID=seata-server:8091:81719820132151323, 状态=Committed
+2025-05-27 22:31:21.030 [Thread-48] INFO  io.seata.rm.AbstractResourceManager - branch register success, xid:seata-server:8091:81719820132151323, branchId:81719820132151326, lockKeys:transaction_log:125
+2025-05-27 22:31:21.051 [Thread-48] INFO  io.seata.rm.AbstractResourceManager - branch register success, xid:seata-server:8091:81719820132151323, branchId:81719820132151327, lockKeys:transaction_log:125;undo_log:517
+2025-05-27 22:31:21.103 [Thread-48] INFO  c.b.bgai.service.impl.TransactionLogServiceImpl - 记录分布式事务结束: XID=seata-server:8091:81719820132151323, 状态=Committed
+2025-05-27 22:31:21.104 [Thread-48] DEBUG c.b.bgai.mapper.TransactionLogMapper.selectList - ==>  Preparing: SELECT id,xid,transaction_name,transaction_mode,status,request_path,source_ip,user_id,branch_ids,extra_data,start_time,end_time,create_time,update_time FROM transaction_log WHERE (xid = ?) LIMIT 1
+2025-05-27 22:31:21.104 [Thread-48] DEBUG c.b.bgai.mapper.TransactionLogMapper.selectList - ==> Parameters: seata-server:8091:81719820132151323(String)
+2025-05-27 22:31:21.111 [Thread-48] DEBUG c.b.bgai.mapper.TransactionLogMapper.selectList - <==      Total: 1
+2025-05-27 22:31:21.112 [Thread-48] DEBUG c.b.bgai.mapper.TransactionLogMapper.updateById - ==>  Preparing: UPDATE transaction_log SET xid=?, transaction_name=?, transaction_mode=?, status=?, request_path=?, source_ip=?, user_id=?, branch_ids=?, extra_data=?, start_time=?, end_time=?, create_time=?, update_time=? WHERE id=?
+2025-05-27 22:31:21.113 [Thread-48] DEBUG c.b.bgai.mapper.TransactionLogMapper.updateById - ==> Parameters: seata-server:8091:81719820132151323(String), com.bgpay.bgai.service.deepseek.DeepSeekServiceImp.processRequestReactive(String), AT(String), Committed(String), (String), 192.168.86.8(String), system(String), [](String), {"duration":13,"result":"success","xid":"seata-server:8091:81719820132151323","startTime":1748356280893,"endTime":1748356280906,"transactionId":125,"status":"Begin"}(String), 2025-05-27T22:31:20(LocalDateTime), 2025-05-27T22:31:21.112555300(LocalDateTime), 2025-05-27T22:31:20(LocalDateTime), 2025-05-27T22:31:21.112555300(LocalDateTime), 125(Long)
+2025-05-27 22:31:21.154 [Thread-48] DEBUG c.b.bgai.mapper.TransactionLogMapper.updateById - <==    Updates: 1
+2025-05-27 22:31:21.154 [Thread-48] INFO  c.b.bgai.service.impl.TransactionLogServiceImpl - 记录事务结束成功: XID=seata-server:8091:81719820132151323, 状态=Committed
+2025-05-27 22:31:21.162 [Thread-48] INFO  io.seata.rm.AbstractResourceManager - branch register success, xid:seata-server:8091:81719820132151323, branchId:81719820132151328, lockKeys:transaction_log:125
+2025-05-27 22:31:21.186 [Thread-48] INFO  io.seata.rm.AbstractResourceManager - branch register success, xid:seata-server:8091:81719820132151323, branchId:81719820132151329, lockKeys:transaction_log:125;undo_log:519
+2025-05-27 22:31:21.238 [Thread-48] INFO  io.seata.tm.api.DefaultGlobalTransaction - transaction seata-server:8091:81719820132151323 will be commit
+2025-05-27 22:31:21.252 [Thread-48] INFO  io.seata.tm.api.DefaultGlobalTransaction - transaction end, xid = seata-server:8091:81719820132151323
+2025-05-27 22:31:21.252 [Thread-48] INFO  io.seata.tm.api.DefaultGlobalTransaction - [seata-server:8091:81719820132151323] commit status: Committed
+2025-05-27 22:31:21.287 [boundedElastic-1] WARN  com.bgpay.bgai.transaction.TransactionCoordinator - Found existing transaction for user 689258T: chat-cc34cd05-5309-4b26-8c09-eb28eb100637
+2025-05-27 22:31:21.287 [boundedElastic-1] INFO  org.reflections.Reflections - Transaction prepared with chatCompletionId: chat-cc34cd05-5309-4b26-8c09-eb28eb100637
+2025-05-27 22:31:21.574 [rpcDispatch_RMROLE_1_1_24] INFO  i.s.c.rpc.processor.client.RmBranchCommitProcessor - rm client handle branch commit process:BranchCommitRequest{xid='seata-server:8091:81719820132151323', branchId=81719820132151324, branchType=AT, resourceId='jdbc:mysql://8.133.246.113:3306/deepseek', applicationData='null'}
+2025-05-27 22:31:21.575 [rpcDispatch_RMROLE_1_1_24] INFO  io.seata.rm.AbstractRMHandler - Branch committing: seata-server:8091:81719820132151323 81719820132151324 jdbc:mysql://8.133.246.113:3306/deepseek null
+2025-05-27 22:31:21.576 [rpcDispatch_RMROLE_1_1_24] INFO  io.seata.rm.AbstractRMHandler - Branch commit result: PhaseTwo_Committed
+2025-05-27 22:31:21.587 [rpcDispatch_RMROLE_1_2_24] INFO  i.s.c.rpc.processor.client.RmBranchCommitProcessor - rm client handle branch commit process:BranchCommitRequest{xid='seata-server:8091:81719820132151323', branchId=81719820132151325, branchType=AT, resourceId='jdbc:mysql://8.133.246.113:3306/deepseek', applicationData='null'}
+2025-05-27 22:31:21.587 [rpcDispatch_RMROLE_1_2_24] INFO  io.seata.rm.AbstractRMHandler - Branch committing: seata-server:8091:81719820132151323 81719820132151325 jdbc:mysql://8.133.246.113:3306/deepseek null
+2025-05-27 22:31:21.587 [rpcDispatch_RMROLE_1_2_24] INFO  io.seata.rm.AbstractRMHandler - Branch commit result: PhaseTwo_Committed
+2025-05-27 22:31:21.595 [rpcDispatch_RMROLE_1_3_24] INFO  i.s.c.rpc.processor.client.RmBranchCommitProcessor - rm client handle branch commit process:BranchCommitRequest{xid='seata-server:8091:81719820132151323', branchId=81719820132151326, branchType=AT, resourceId='jdbc:mysql://8.133.246.113:3306/deepseek', applicationData='null'}
+2025-05-27 22:31:21.595 [rpcDispatch_RMROLE_1_3_24] INFO  io.seata.rm.AbstractRMHandler - Branch committing: seata-server:8091:81719820132151323 81719820132151326 jdbc:mysql://8.133.246.113:3306/deepseek null
+2025-05-27 22:31:21.595 [rpcDispatch_RMROLE_1_3_24] INFO  io.seata.rm.AbstractRMHandler - Branch commit result: PhaseTwo_Committed
+2025-05-27 22:31:21.610 [rpcDispatch_RMROLE_1_4_24] INFO  i.s.c.rpc.processor.client.RmBranchCommitProcessor - rm client handle branch commit process:BranchCommitRequest{xid='seata-server:8091:81719820132151323', branchId=81719820132151327, branchType=AT, resourceId='jdbc:mysql://8.133.246.113:3306/deepseek', applicationData='null'}
+2025-05-27 22:31:21.611 [rpcDispatch_RMROLE_1_4_24] INFO  io.seata.rm.AbstractRMHandler - Branch committing: seata-server:8091:81719820132151323 81719820132151327 jdbc:mysql://8.133.246.113:3306/deepseek null
+2025-05-27 22:31:21.611 [rpcDispatch_RMROLE_1_4_24] INFO  io.seata.rm.AbstractRMHandler - Branch commit result: PhaseTwo_Committed
+2025-05-27 22:31:21.623 [rpcDispatch_RMROLE_1_5_24] INFO  i.s.c.rpc.processor.client.RmBranchCommitProcessor - rm client handle branch commit process:BranchCommitRequest{xid='seata-server:8091:81719820132151323', branchId=81719820132151328, branchType=AT, resourceId='jdbc:mysql://8.133.246.113:3306/deepseek', applicationData='null'}
+2025-05-27 22:31:21.623 [rpcDispatch_RMROLE_1_5_24] INFO  io.seata.rm.AbstractRMHandler - Branch committing: seata-server:8091:81719820132151323 81719820132151328 jdbc:mysql://8.133.246.113:3306/deepseek null
+2025-05-27 22:31:21.623 [rpcDispatch_RMROLE_1_5_24] INFO  io.seata.rm.AbstractRMHandler - Branch commit result: PhaseTwo_Committed
+2025-05-27 22:31:21.632 [rpcDispatch_RMROLE_1_6_24] INFO  i.s.c.rpc.processor.client.RmBranchCommitProcessor - rm client handle branch commit process:BranchCommitRequest{xid='seata-server:8091:81719820132151323', branchId=81719820132151329, branchType=AT, resourceId='jdbc:mysql://8.133.246.113:3306/deepseek', applicationData='null'}
+2025-05-27 22:31:21.632 [rpcDispatch_RMROLE_1_6_24] INFO  io.seata.rm.AbstractRMHandler - Branch committing: seata-server:8091:81719820132151323 81719820132151329 jdbc:mysql://8.133.246.113:3306/deepseek null
+2025-05-27 22:31:21.632 [rpcDispatch_RMROLE_1_6_24] INFO  io.seata.rm.AbstractRMHandler - Branch commit result: PhaseTwo_Committed
+2025-05-27 22:32:01.324 [FileWrite-1] INFO  com.bgpay.bgai.service.deepseek.FileWriterService - Successfully wrote content to: \var\data\ai_responses\d49eaa4d-8720-4eb8-ab1c-cd4d9e71afb7.txt
+2025-05-27 22:32:01.339 [reactor-http-nio-2] DEBUG c.bgpay.bgai.mapper.ChatCompletionsMapper.insert - ==>  Preparing: INSERT INTO chat_completions ( object, created, model, system_fingerprint, api_key ) VALUES ( ?, ?, ?, ?, ? )
+2025-05-27 22:32:01.340 [reactor-http-nio-2] DEBUG c.bgpay.bgai.mapper.ChatCompletionsMapper.insert - ==> Parameters: chat.completion(String), 1748356321336(Long), deepseek-chat(String), 689258T(String), chat-cc34cd05-5309-4b26-8c09-eb28eb100637(String)
+2025-05-27 22:32:01.352 [reactor-http-nio-2] DEBUG c.bgpay.bgai.mapper.ChatCompletionsMapper.insert - <==    Updates: 1
+2025-05-27 22:32:01.352 [reactor-http-nio-2] INFO  com.bgpay.bgai.transaction.TransactionCoordinator - Transaction committed for user 689258T: chatCompletionId=chat-cc34cd05-5309-4b26-8c09-eb28eb100637
+2025-05-27 22:32:01.373 [reactor-http-nio-2] INFO  org.reflections.Reflections - 开始发送账单消息，chatCompletionId: chat-cc34cd05-5309-4b26-8c09-eb28eb100637, userId: 689258T
+2025-05-27 22:32:01.426 [reactor-http-nio-2] INFO  io.seata.tm.api.DefaultGlobalTransaction - Begin new global transaction [seata-server:8091:81719820132151330]
+2025-05-27 22:32:01.433 [reactor-http-nio-2] INFO  c.b.bgai.service.impl.TransactionLogServiceImpl - Transaction begin - XID: seata-server:8091:81719820132151330, Name: com.bgpay.bgai.service.mq.BillingTransactionListenerImpl.executeLocalTransaction, Mode: AT, Path: , IP: 192.168.86.8, User: system
+2025-05-27 22:32:01.434 [reactor-http-nio-2] DEBUG com.bgpay.bgai.mapper.TransactionLogMapper.insert - ==>  Preparing: INSERT INTO transaction_log ( xid, transaction_name, transaction_mode, status, request_path, source_ip, user_id, branch_ids, extra_data, start_time, create_time ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
+2025-05-27 22:32:01.435 [reactor-http-nio-2] DEBUG com.bgpay.bgai.mapper.TransactionLogMapper.insert - ==> Parameters: seata-server:8091:81719820132151330(String), com.bgpay.bgai.service.mq.BillingTransactionListenerImpl.executeLocalTransaction(String), AT(String), ACTIVE(String), (String), 192.168.86.8(String), system(String), [](String), {"result":"active","startTime":1748356321433,"branches":[],"resourceIds":[]}(String), 2025-05-27T22:32:01.433169500(LocalDateTime), 2025-05-27T22:32:01.433169500(LocalDateTime)
+2025-05-27 22:32:01.462 [reactor-http-nio-2] DEBUG com.bgpay.bgai.mapper.TransactionLogMapper.insert - <==    Updates: 1
+2025-05-27 22:32:01.472 [reactor-http-nio-2] INFO  io.seata.rm.AbstractResourceManager - branch register success, xid:seata-server:8091:81719820132151330, branchId:81719820132151331, lockKeys:transaction_log:126
+2025-05-27 22:32:01.491 [reactor-http-nio-2] INFO  io.seata.rm.AbstractResourceManager - branch register success, xid:seata-server:8091:81719820132151330, branchId:81719820132151332, lockKeys:undo_log:521;transaction_log:126
+2025-05-27 22:32:01.540 [reactor-http-nio-2] INFO  com.bgpay.bgai.seata.SeataTransactionListener - Transaction method starting: XID=seata-server:8091:81719820132151330, method=executeLocalTransaction
+2025-05-27 22:32:01.540 [reactor-http-nio-2] INFO  c.b.bgai.service.mq.BillingTransactionListenerImpl - 开始执行本地事务, xid: seata-server:8091:81719820132151330, userId: 689258T, completionId: chat-cc34cd05-5309-4b26-8c09-eb28eb100637
+2025-05-27 22:32:01.553 [reactor-http-nio-2] INFO  c.b.bgai.service.mq.BillingTransactionListenerImpl - 消息已处理，提交事务, completionId: chat-cc34cd05-5309-4b26-8c09-eb28eb100637
+2025-05-27 22:32:01.553 [reactor-http-nio-2] INFO  com.bgpay.bgai.seata.SeataTransactionListener - Transaction method completed: XID=seata-server:8091:81719820132151330, method=executeLocalTransaction
+2025-05-27 22:32:01.566 [reactor-http-nio-2] DEBUG c.b.bgai.service.impl.TransactionLogServiceImpl - 更新分布式事务状态: XID=seata-server:8091:81719820132151330, 状态=Committed
+2025-05-27 22:32:01.567 [reactor-http-nio-2] DEBUG c.b.bgai.mapper.TransactionLogMapper.selectList - ==>  Preparing: SELECT id,xid,transaction_name,transaction_mode,status,request_path,source_ip,user_id,branch_ids,extra_data,start_time,end_time,create_time,update_time FROM transaction_log WHERE (xid = ?) LIMIT 1
+2025-05-27 22:32:01.568 [reactor-http-nio-2] DEBUG c.b.bgai.mapper.TransactionLogMapper.selectList - ==> Parameters: seata-server:8091:81719820132151330(String)
+2025-05-27 22:32:01.575 [reactor-http-nio-2] DEBUG c.b.bgai.mapper.TransactionLogMapper.selectList - <==      Total: 1
+2025-05-27 22:32:01.576 [reactor-http-nio-2] DEBUG c.b.bgai.mapper.TransactionLogMapper.updateById - ==>  Preparing: UPDATE transaction_log SET xid=?, transaction_name=?, transaction_mode=?, status=?, request_path=?, source_ip=?, user_id=?, branch_ids=?, extra_data=?, start_time=?, create_time=?, update_time=? WHERE id=?
+2025-05-27 22:32:01.576 [reactor-http-nio-2] DEBUG c.b.bgai.mapper.TransactionLogMapper.updateById - ==> Parameters: seata-server:8091:81719820132151330(String), com.bgpay.bgai.service.mq.BillingTransactionListenerImpl.executeLocalTransaction(String), AT(String), Committed(String), (String), 192.168.86.8(String), system(String), [](String), {"duration":13,"result":"success","xid":"seata-server:8091:81719820132151330","startTime":1748356321540,"endTime":1748356321553,"transactionId":126,"status":"Begin"}(String), 2025-05-27T22:32:01(LocalDateTime), 2025-05-27T22:32:01(LocalDateTime), 2025-05-27T22:32:01.575565900(LocalDateTime), 126(Long)
+2025-05-27 22:32:01.615 [reactor-http-nio-2] DEBUG c.b.bgai.mapper.TransactionLogMapper.updateById - <==    Updates: 1
+2025-05-27 22:32:01.615 [reactor-http-nio-2] INFO  c.b.bgai.service.impl.TransactionLogServiceImpl - 更新事务状态成功: XID=seata-server:8091:81719820132151330, 状态=Committed
+2025-05-27 22:32:01.626 [reactor-http-nio-2] INFO  io.seata.rm.AbstractResourceManager - branch register success, xid:seata-server:8091:81719820132151330, branchId:81719820132151333, lockKeys:transaction_log:126
+2025-05-27 22:32:01.648 [reactor-http-nio-2] INFO  io.seata.rm.AbstractResourceManager - branch register success, xid:seata-server:8091:81719820132151330, branchId:81719820132151334, lockKeys:transaction_log:126;undo_log:523
+2025-05-27 22:32:01.705 [reactor-http-nio-2] INFO  c.b.bgai.service.impl.TransactionLogServiceImpl - 记录分布式事务结束: XID=seata-server:8091:81719820132151330, 状态=Committed
+2025-05-27 22:32:01.706 [reactor-http-nio-2] DEBUG c.b.bgai.mapper.TransactionLogMapper.selectList - ==>  Preparing: SELECT id,xid,transaction_name,transaction_mode,status,request_path,source_ip,user_id,branch_ids,extra_data,start_time,end_time,create_time,update_time FROM transaction_log WHERE (xid = ?) LIMIT 1
+2025-05-27 22:32:01.707 [reactor-http-nio-2] DEBUG c.b.bgai.mapper.TransactionLogMapper.selectList - ==> Parameters: seata-server:8091:81719820132151330(String)
+2025-05-27 22:32:01.714 [reactor-http-nio-2] DEBUG c.b.bgai.mapper.TransactionLogMapper.selectList - <==      Total: 1
+2025-05-27 22:32:01.715 [reactor-http-nio-2] DEBUG c.b.bgai.mapper.TransactionLogMapper.updateById - ==>  Preparing: UPDATE transaction_log SET xid=?, transaction_name=?, transaction_mode=?, status=?, request_path=?, source_ip=?, user_id=?, branch_ids=?, extra_data=?, start_time=?, end_time=?, create_time=?, update_time=? WHERE id=?
+2025-05-27 22:32:01.716 [reactor-http-nio-2] DEBUG c.b.bgai.mapper.TransactionLogMapper.updateById - ==> Parameters: seata-server:8091:81719820132151330(String), com.bgpay.bgai.service.mq.BillingTransactionListenerImpl.executeLocalTransaction(String), AT(String), Committed(String), (String), 192.168.86.8(String), system(String), [](String), {"duration":13,"result":"success","xid":"seata-server:8091:81719820132151330","startTime":1748356321540,"endTime":1748356321553,"transactionId":126,"status":"Begin"}(String), 2025-05-27T22:32:01(LocalDateTime), 2025-05-27T22:32:01.714223600(LocalDateTime), 2025-05-27T22:32:01(LocalDateTime), 2025-05-27T22:32:01.714223600(LocalDateTime), 126(Long)
+2025-05-27 22:32:01.760 [reactor-http-nio-2] DEBUG c.b.bgai.mapper.TransactionLogMapper.updateById - <==    Updates: 1
+2025-05-27 22:32:01.760 [reactor-http-nio-2] INFO  c.b.bgai.service.impl.TransactionLogServiceImpl - 记录事务结束成功: XID=seata-server:8091:81719820132151330, 状态=Committed
+2025-05-27 22:32:01.767 [reactor-http-nio-2] INFO  io.seata.rm.AbstractResourceManager - branch register success, xid:seata-server:8091:81719820132151330, branchId:81719820132151335, lockKeys:transaction_log:126
+2025-05-27 22:32:01.789 [reactor-http-nio-2] INFO  io.seata.rm.AbstractResourceManager - branch register success, xid:seata-server:8091:81719820132151330, branchId:81719820132151336, lockKeys:undo_log:525;transaction_log:126
+2025-05-27 22:32:01.834 [reactor-http-nio-2] INFO  io.seata.tm.api.DefaultGlobalTransaction - transaction seata-server:8091:81719820132151330 will be commit
+2025-05-27 22:32:01.841 [reactor-http-nio-2] INFO  io.seata.tm.api.DefaultGlobalTransaction - transaction end, xid = seata-server:8091:81719820132151330
+2025-05-27 22:32:01.842 [reactor-http-nio-2] INFO  io.seata.tm.api.DefaultGlobalTransaction - [seata-server:8091:81719820132151330] commit status: Committed
+2025-05-27 22:32:01.844 [reactor-http-nio-2] INFO  org.reflections.Reflections - 账单消息发送成功，chatCompletionId: chat-cc34cd05-5309-4b26-8c09-eb28eb100637, userId: 689258T
+2025-05-27 22:32:01.849 [reactor-http-nio-2] INFO  com.bgpay.bgai.service.impl.BGAIServiceImpl - 执行第一步操作 - 发送账单消息, businessKey: 689258T:chat-cc34cd05-5309-4b26-8c09-eb28eb100637
+2025-05-27 22:32:01.850 [reactor-http-nio-2] DEBUG c.bgpay.bgai.mapper.UsageRecordMapper.selectCount - ==>  Preparing: SELECT COUNT( * ) AS total FROM usage_record WHERE (chat_completion_id = ?)
+2025-05-27 22:32:01.850 [reactor-http-nio-2] DEBUG c.bgpay.bgai.mapper.UsageRecordMapper.selectCount - ==> Parameters: chat-cc34cd05-5309-4b26-8c09-eb28eb100637(String)
+2025-05-27 22:32:01.861 [reactor-http-nio-2] DEBUG c.bgpay.bgai.mapper.UsageRecordMapper.selectCount - <==      Total: 1
+2025-05-27 22:32:01.862 [reactor-http-nio-2] INFO  com.bgpay.bgai.service.impl.BGAIServiceImpl - 账单消息已处理，跳过发送, completionId: chat-cc34cd05-5309-4b26-8c09-eb28eb100637
+2025-05-27 22:32:01.874 [reactor-http-nio-2] INFO  com.bgpay.bgai.controller.ReactiveChatController - Processed response for user 689258T, content length: 2714
+2025-05-27 22:32:01.956 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.bgpay.bgai.mapper.PriceConfigMapper.selectList - ==>  Preparing: SELECT id,model_type,time_period,cache_status,io_type,price,version,effective_time FROM price_config WHERE (model_type = ? AND time_period = ? AND io_type = ? AND effective_time <= ? AND cache_status = ?) ORDER BY effective_time DESC LIMIT 1
+2025-05-27 22:32:01.957 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.bgpay.bgai.mapper.PriceConfigMapper.selectList - ==> Parameters: deepseek-chat(String), discount(String), input(String), 2025-05-27T22:32:01.954937400(LocalDateTime), miss(String)
+2025-05-27 22:32:01.968 [ConsumeMessageThread_billing-consumer-group_1] DEBUG c.bgpay.bgai.mapper.PriceConfigMapper.selectList - <==      Total: 1
+2025-05-27 22:32:02.148 [ConsumeMessageThread_billing-consumer-group_1] INFO  c.bgpay.bgai.service.mq.RocketMQBillingServiceImpl - Output price config priceVersion: 1
+2025-05-27 22:32:02.159 [ConsumeMessageThread_billing-consumer-group_1] DEBUG com.bgpay.bgai.mapper.UsageRecordMapper.insert - ==>  Preparing: INSERT INTO usage_record ( model_type, chat_completion_id, user_id, input_cost, output_cost, price_version, calculated_at, status, created_at ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ? )
+2025-05-27 22:32:02.160 [ConsumeMessageThread_billing-consumer-group_1] DEBUG com.bgpay.bgai.mapper.UsageRecordMapper.insert - ==> Parameters: deepseek-chat(String), chat-cc34cd05-5309-4b26-8c09-eb28eb100637(String), 689258T(String), 0.0000(BigDecimal), 0.0032(BigDecimal), 1(Integer), 2025-05-27T22:32:02.106969100(LocalDateTime), PENDING(String), 2025-05-27T22:32:02.106969100(LocalDateTime)
+2025-05-27 22:32:02.173 [ConsumeMessageThread_billing-consumer-group_1] DEBUG com.bgpay.bgai.mapper.UsageRecordMapper.insert - <==    Updates: 1
+2025-05-27 22:32:02.211 [ConsumeMessageThread_billing-consumer-group_1] INFO  c.bgpay.bgai.service.mq.RocketMQBillingServiceImpl - Message consumed: 2408820C7528D0424B93B84349BE5352A2B036BAF30C8ABB28800000
+2025-05-27 22:32:02.581 [rpcDispatch_RMROLE_1_7_24] INFO  i.s.c.rpc.processor.client.RmBranchCommitProcessor - rm client handle branch commit process:BranchCommitRequest{xid='seata-server:8091:81719820132151330', branchId=81719820132151331, branchType=AT, resourceId='jdbc:mysql://8.133.246.113:3306/deepseek', applicationData='null'}
+2025-05-27 22:32:02.581 [rpcDispatch_RMROLE_1_7_24] INFO  io.seata.rm.AbstractRMHandler - Branch committing: seata-server:8091:81719820132151330 81719820132151331 jdbc:mysql://8.133.246.113:3306/deepseek null
+2025-05-27 22:32:02.581 [rpcDispatch_RMROLE_1_7_24] INFO  io.seata.rm.AbstractRMHandler - Branch commit result: PhaseTwo_Committed
+2025-05-27 22:32:02.589 [rpcDispatch_RMROLE_1_8_24] INFO  i.s.c.rpc.processor.client.RmBranchCommitProcessor - rm client handle branch commit process:BranchCommitRequest{xid='seata-server:8091:81719820132151330', branchId=81719820132151332, branchType=AT, resourceId='jdbc:mysql://8.133.246.113:3306/deepseek', applicationData='null'}
+2025-05-27 22:32:02.590 [rpcDispatch_RMROLE_1_8_24] INFO  io.seata.rm.AbstractRMHandler - Branch committing: seata-server:8091:81719820132151330 81719820132151332 jdbc:mysql://8.133.246.113:3306/deepseek null
+2025-05-27 22:32:02.590 [rpcDispatch_RMROLE_1_8_24] INFO  io.seata.rm.AbstractRMHandler - Branch commit result: PhaseTwo_Committed
+2025-05-27 22:32:02.597 [rpcDispatch_RMROLE_1_9_24] INFO  i.s.c.rpc.processor.client.RmBranchCommitProcessor - rm client handle branch commit process:BranchCommitRequest{xid='seata-server:8091:81719820132151330', branchId=81719820132151333, branchType=AT, resourceId='jdbc:mysql://8.133.246.113:3306/deepseek', applicationData='null'}
+2025-05-27 22:32:02.597 [rpcDispatch_RMROLE_1_9_24] INFO  io.seata.rm.AbstractRMHandler - Branch committing: seata-server:8091:81719820132151330 81719820132151333 jdbc:mysql://8.133.246.113:3306/deepseek null
+2025-05-27 22:32:02.597 [rpcDispatch_RMROLE_1_9_24] INFO  io.seata.rm.AbstractRMHandler - Branch commit result: PhaseTwo_Committed
+2025-05-27 22:32:02.602 [rpcDispatch_RMROLE_1_10_24] INFO  i.s.c.rpc.processor.client.RmBranchCommitProcessor - rm client handle branch commit process:BranchCommitRequest{xid='seata-server:8091:81719820132151330', branchId=81719820132151334, branchType=AT, resourceId='jdbc:mysql://8.133.246.113:3306/deepseek', applicationData='null'}
+2025-05-27 22:32:02.602 [rpcDispatch_RMROLE_1_10_24] INFO  io.seata.rm.AbstractRMHandler - Branch committing: seata-server:8091:81719820132151330 81719820132151334 jdbc:mysql://8.133.246.113:3306/deepseek null
+2025-05-27 22:32:02.602 [rpcDispatch_RMROLE_1_10_24] INFO  io.seata.rm.AbstractRMHandler - Branch commit result: PhaseTwo_Committed
+2025-05-27 22:32:02.609 [rpcDispatch_RMROLE_1_11_24] INFO  i.s.c.rpc.processor.client.RmBranchCommitProcessor - rm client handle branch commit process:BranchCommitRequest{xid='seata-server:8091:81719820132151330', branchId=81719820132151335, branchType=AT, resourceId='jdbc:mysql://8.133.246.113:3306/deepseek', applicationData='null'}
+2025-05-27 22:32:02.609 [rpcDispatch_RMROLE_1_11_24] INFO  io.seata.rm.AbstractRMHandler - Branch committing: seata-server:8091:81719820132151330 81719820132151335 jdbc:mysql://8.133.246.113:3306/deepseek null
+2025-05-27 22:32:02.609 [rpcDispatch_RMROLE_1_11_24] INFO  io.seata.rm.AbstractRMHandler - Branch commit result: PhaseTwo_Committed
+2025-05-27 22:32:02.615 [rpcDispatch_RMROLE_1_12_24] INFO  i.s.c.rpc.processor.client.RmBranchCommitProcessor - rm client handle branch commit process:BranchCommitRequest{xid='seata-server:8091:81719820132151330', branchId=81719820132151336, branchType=AT, resourceId='jdbc:mysql://8.133.246.113:3306/deepseek', applicationData='null'}
+2025-05-27 22:32:02.615 [rpcDispatch_RMROLE_1_12_24] INFO  io.seata.rm.AbstractRMHandler - Branch committing: seata-server:8091:81719820132151330 81719820132151336 jdbc:mysql://8.133.246.113:3306/deepseek null
+2025-05-27 22:32:02.615 [rpcDispatch_RMROLE_1_12_24] INFO  io.seata.rm.AbstractRMHandler - Branch commit result: PhaseTwo_Committed
+2025-05-27 22:32:55.772 [Thread-7] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Start destroying Publisher
+2025-05-27 22:32:55.772 [Thread-7] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Destruction of the end
+2025-05-27 22:32:55.772 [Thread-1] WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Start destroying common HttpClient
+2025-05-27 22:32:55.773 [Thread-1] WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Destruction of the end
+2025-05-27 22:32:55.792 [SpringContextShutdownHook] INFO  c.a.cloud.nacos.registry.NacosServiceRegistry - De-registering from Nacos Server now...
+2025-05-27 22:32:55.793 [SpringContextShutdownHook] INFO  com.alibaba.nacos.client.naming - [DEREGISTER-SERVICE] d750d92e-152f-4055-a641-3bc9dda85a29 deregistering service bgai with instance: Instance{instanceId='null', ip='192.168.86.8', port=8080, weight=1.0, healthy=true, enabled=true, ephemeral=true, clusterName='DEFAULT', serviceName='null', metadata={}}
+2025-05-27 22:32:55.808 [SpringContextShutdownHook] INFO  c.a.cloud.nacos.registry.NacosServiceRegistry - De-registration finished.
+2025-05-27 22:32:55.809 [SpringContextShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.cache.ServiceInfoHolder do shutdown begin
+2025-05-27 22:32:55.809 [SpringContextShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.backups.FailoverReactor do shutdown begin
+2025-05-27 22:32:55.809 [SpringContextShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.backups.FailoverReactor do shutdown stop
+2025-05-27 22:32:55.809 [SpringContextShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.cache.ServiceInfoHolder do shutdown stop
+2025-05-27 22:32:55.809 [SpringContextShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.remote.NamingClientProxyDelegate do shutdown begin
+2025-05-27 22:32:55.809 [SpringContextShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.core.ServiceInfoUpdateService do shutdown begin
+2025-05-27 22:32:55.809 [SpringContextShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.core.ServiceInfoUpdateService do shutdown stop
+2025-05-27 22:32:55.809 [SpringContextShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.core.ServerListManager do shutdown begin
+2025-05-27 22:32:55.809 [SpringContextShutdownHook] WARN  com.alibaba.nacos.client.naming - [NamingHttpClientManager] Start destroying NacosRestTemplate
+2025-05-27 22:32:55.809 [SpringContextShutdownHook] WARN  com.alibaba.nacos.client.naming - [NamingHttpClientManager] Destruction of the end
+2025-05-27 22:32:55.809 [SpringContextShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.core.ServerListManager do shutdown stop
+2025-05-27 22:32:55.809 [SpringContextShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.remote.http.NamingHttpClientProxy do shutdown begin
+2025-05-27 22:32:55.809 [SpringContextShutdownHook] WARN  com.alibaba.nacos.client.naming - [NamingHttpClientManager] Start destroying NacosRestTemplate
+2025-05-27 22:32:55.809 [SpringContextShutdownHook] WARN  com.alibaba.nacos.client.naming - [NamingHttpClientManager] Destruction of the end
+2025-05-27 22:32:55.809 [SpringContextShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.remote.http.NamingHttpClientProxy do shutdown stop
+2025-05-27 22:32:55.809 [SpringContextShutdownHook] INFO  com.alibaba.nacos.common.remote.client - Shutdown rpc client, set status to shutdown
+2025-05-27 22:32:55.809 [SpringContextShutdownHook] INFO  com.alibaba.nacos.common.remote.client - Shutdown client event executor java.util.concurrent.ScheduledThreadPoolExecutor@bf0e1c3[Running, pool size = 2, active threads = 2, queued tasks = 0, completed tasks = 0]
+2025-05-27 22:32:55.809 [SpringContextShutdownHook] INFO  com.alibaba.nacos.common.remote.client - Close current connection 1748356275317_139.227.195.166_38668
+2025-05-27 22:32:55.813 [nacos-grpc-client-executor-8.133.246.113-38] WARN  c.a.nacos.common.remote.client.grpc.GrpcClient - [1748356275317_139.227.195.166_38668]Ignore error event,isRunning:false,isAbandon=false
+2025-05-27 22:32:55.814 [SpringContextShutdownHook] INFO  c.a.nacos.common.remote.client.grpc.GrpcClient - Shutdown grpc executor java.util.concurrent.ThreadPoolExecutor@68989b46[Running, pool size = 6, active threads = 0, queued tasks = 0, completed tasks = 39]
+2025-05-27 22:32:55.814 [SpringContextShutdownHook] INFO  com.alibaba.nacos.client.naming - Shutdown grpc redo service executor java.util.concurrent.ScheduledThreadPoolExecutor@114fa25b[Running, pool size = 1, active threads = 0, queued tasks = 1, completed tasks = 33]
+2025-05-27 22:32:55.814 [SpringContextShutdownHook] INFO  c.a.n.client.auth.ram.identify.CredentialWatcher - [null] CredentialWatcher is stopped
+2025-05-27 22:32:55.814 [SpringContextShutdownHook] INFO  c.a.n.client.auth.ram.identify.CredentialService - [null] CredentialService is freed
+2025-05-27 22:32:55.814 [SpringContextShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.remote.NamingClientProxyDelegate do shutdown stop
+2025-05-27 22:32:55.820 [SpringContextShutdownHook] DEBUG com.bgpay.bgai.config.AsyncConfig$1 - Shutting down ExecutorService 'blockingExecutor'
+2025-05-27 22:32:57.858 [NettyClientSelector_1] INFO  RocketmqRemoting - closeChannel: close the connection to remote address[8.133.246.113:10911] result: true
+2025-05-27 22:32:57.858 [NettyClientSelector_1] INFO  RocketmqRemoting - closeChannel: close the connection to remote address[8.133.246.113:9876] result: true
+2025-05-27 22:32:57.871 [NettyClientSelector_1] INFO  RocketmqRemoting - closeChannel: close the connection to remote address[8.133.246.113:10911] result: true
+2025-05-27 22:32:57.871 [NettyClientSelector_1] INFO  RocketmqRemoting - closeChannel: close the connection to remote address[8.133.246.113:9876] result: true
+2025-05-27 22:32:58.003 [SpringContextShutdownHook] INFO  o.s.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-27 22:32:58.004 [SpringContextShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-2} closing ...
+2025-05-27 22:32:58.008 [SpringContextShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-2} closed
+2025-05-27 22:32:58.008 [SpringContextShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2025-05-27 22:32:58.009 [SpringContextShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2025-05-27 22:32:58.009 [NettyClientSelector_TMROLE_1_1] INFO  i.seata.core.rpc.netty.AbstractNettyRemotingClient - channel inactive: [id: 0x1d0374e7, L:/192.168.86.8:62343 ! R:/8.133.246.113:8091]
+2025-05-27 22:32:58.009 [NettyClientSelector_TMROLE_1_1] INFO  io.seata.core.rpc.netty.NettyClientChannelManager - return to pool, rm channel:[id: 0x1d0374e7, L:/192.168.86.8:62343 ! R:/8.133.246.113:8091]
+2025-05-27 22:32:58.009 [NettyClientSelector_TMROLE_1_1] INFO  io.seata.core.rpc.netty.NettyPoolableFactory - channel valid false,channel:[id: 0x1d0374e7, L:/192.168.86.8:62343 ! R:/8.133.246.113:8091]
+2025-05-27 22:32:58.009 [NettyClientSelector_TMROLE_1_1] INFO  io.seata.core.rpc.netty.NettyPoolableFactory - will destroy channel:[id: 0x1d0374e7, L:/192.168.86.8:62343 ! R:/8.133.246.113:8091]
+2025-05-27 22:32:58.009 [NettyClientSelector_TMROLE_1_1] INFO  i.seata.core.rpc.netty.AbstractNettyRemotingClient - ChannelHandlerContext(AbstractNettyRemotingClient$ClientHandler#0, [id: 0x1d0374e7, L:/192.168.86.8:62343 ! R:/8.133.246.113:8091]) will closed
+2025-05-27 22:32:58.009 [NettyClientSelector_TMROLE_1_1] INFO  i.seata.core.rpc.netty.AbstractNettyRemotingClient - ChannelHandlerContext(AbstractNettyRemotingClient$ClientHandler#0, [id: 0x1d0374e7, L:/192.168.86.8:62343 ! R:/8.133.246.113:8091]) will closed
+2025-05-27 22:32:58.010 [NettyClientSelector_RMROLE_1_1] INFO  i.seata.core.rpc.netty.AbstractNettyRemotingClient - channel inactive: [id: 0x5e647a2d, L:/192.168.86.8:62347 ! R:/8.133.246.113:8091]
+2025-05-27 22:32:58.010 [NettyClientSelector_RMROLE_1_1] INFO  io.seata.core.rpc.netty.NettyClientChannelManager - return to pool, rm channel:[id: 0x5e647a2d, L:/192.168.86.8:62347 ! R:/8.133.246.113:8091]
+2025-05-27 22:32:58.010 [NettyClientSelector_RMROLE_1_1] INFO  io.seata.core.rpc.netty.NettyPoolableFactory - channel valid false,channel:[id: 0x5e647a2d, L:/192.168.86.8:62347 ! R:/8.133.246.113:8091]
+2025-05-27 22:32:58.010 [NettyClientSelector_RMROLE_1_1] INFO  io.seata.core.rpc.netty.NettyPoolableFactory - will destroy channel:[id: 0x5e647a2d, L:/192.168.86.8:62347 ! R:/8.133.246.113:8091]
+2025-05-27 22:32:58.010 [NettyClientSelector_RMROLE_1_1] INFO  i.seata.core.rpc.netty.AbstractNettyRemotingClient - ChannelHandlerContext(AbstractNettyRemotingClient$ClientHandler#0, [id: 0x5e647a2d, L:/192.168.86.8:62347 ! R:/8.133.246.113:8091]) will closed
+2025-05-27 22:32:58.010 [NettyClientSelector_RMROLE_1_1] INFO  i.seata.core.rpc.netty.AbstractNettyRemotingClient - ChannelHandlerContext(AbstractNettyRemotingClient$ClientHandler#0, [id: 0x5e647a2d, L:/192.168.86.8:62347 ! R:/8.133.246.113:8091]) will closed
+2025-05-27 22:33:21.689 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2025-05-27 22:33:21.690 [main] INFO  com.bgpay.bgai.BgaiApplication - The following 1 profile is active: "dev"
+2025-05-27 22:33:22.987 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-05-27 22:33:22.988 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-27 22:33:23.012 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 18 ms. Found 0 JPA repository interfaces.
+2025-05-27 22:33:23.023 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-05-27 22:33:23.024 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-05-27 22:33:23.036 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 4 ms. Found 0 Redis repository interfaces.
+2025-05-27 22:33:23.547 [main] INFO  io.seata.config.ConfigurationFactory - load Configuration from :Spring Configuration
+2025-05-27 22:33:23.555 [main] INFO  io.seata.config.ConfigurationFactory - load Configuration from :Spring Configuration
+2025-05-27 22:33:23.561 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Initializing Global Transaction Clients ... 
+2025-05-27 22:33:23.667 [main] INFO  io.seata.core.rpc.netty.NettyClientBootstrap - NettyClientBootstrap has started
+2025-05-27 22:33:23.668 [main] INFO  io.seata.discovery.registry.RegistryFactory - use registry center type: file
+2025-05-27 22:33:23.678 [main] INFO  io.seata.core.rpc.netty.NettyClientChannelManager - will connect to 8.133.246.113:8091
+2025-05-27 22:33:23.682 [main] INFO  io.seata.core.rpc.netty.NettyPoolableFactory - NettyPool create channel to transactionRole:TMROLE,address:8.133.246.113:8091,msg:< RegisterTMRequest{version='1.7.0', applicationId='bgai', transactionServiceGroup='default-tx-group', extraData='ak=null
+digest=default-tx-group,192.168.86.8,1748356403680
+timestamp=1748356403680
+authVersion=V4
+vgroup=default-tx-group
+ip=192.168.86.8
+'} >
+2025-05-27 22:33:23.832 [main] INFO  io.seata.core.rpc.netty.TmNettyRemotingClient - register TM success. client version:1.7.0, server version:1.8.1-SNAPSHOT,channel:[id: 0xe18f41df, L:/192.168.86.8:62715 - R:/8.133.246.113:8091]
+2025-05-27 22:33:23.840 [main] INFO  io.seata.core.rpc.netty.NettyPoolableFactory - register success, cost 74 ms, version:1.8.1-SNAPSHOT,role:TMROLE,channel:[id: 0xe18f41df, L:/192.168.86.8:62715 - R:/8.133.246.113:8091]
+2025-05-27 22:33:23.840 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Transaction Manager Client is initialized. applicationId[bgai] txServiceGroup[default-tx-group]
+2025-05-27 22:33:23.851 [main] INFO  io.seata.rm.datasource.AsyncWorker - Async Commit Buffer Limit: 10000
+2025-05-27 22:33:23.852 [main] INFO  io.seata.rm.datasource.xa.ResourceManagerXA - ResourceManagerXA init ...
+2025-05-27 22:33:23.857 [main] INFO  io.seata.core.rpc.netty.NettyClientBootstrap - NettyClientBootstrap has started
+2025-05-27 22:33:23.858 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Resource Manager is initialized. applicationId[bgai] txServiceGroup[default-tx-group]
+2025-05-27 22:33:23.858 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Global Transaction Clients are initialized. 
+2025-05-27 22:33:24.891 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2025-05-27 22:33:24.902 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - The ["http-nio-8080"] connector has been configured to support HTTP upgrade to [h2c]
+2025-05-27 22:33:24.902 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-27 22:33:24.904 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-27 22:33:24.904 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.15]
+2025-05-27 22:33:25.266 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2025-05-27 22:33:25.510 [main] INFO  io.seata.core.rpc.netty.NettyClientChannelManager - will connect to 8.133.246.113:8091
+2025-05-27 22:33:25.510 [main] INFO  io.seata.core.rpc.netty.RmNettyRemotingClient - RM will register :jdbc:mysql://8.133.246.113:3306/deepseek
+2025-05-27 22:33:25.510 [main] INFO  io.seata.core.rpc.netty.NettyPoolableFactory - NettyPool create channel to transactionRole:RMROLE,address:8.133.246.113:8091,msg:< RegisterRMRequest{resourceIds='jdbc:mysql://8.133.246.113:3306/deepseek', version='1.7.0', applicationId='bgai', transactionServiceGroup='default-tx-group', extraData='null'} >
+2025-05-27 22:33:25.527 [main] INFO  io.seata.core.rpc.netty.RmNettyRemotingClient - register RM success. client version:1.7.0, server version:1.8.1-SNAPSHOT,channel:[id: 0x73b2236f, L:/192.168.86.8:62721 - R:/8.133.246.113:8091]
+2025-05-27 22:33:25.527 [main] INFO  io.seata.core.rpc.netty.NettyPoolableFactory - register success, cost 9 ms, version:1.8.1-SNAPSHOT,role:RMROLE,channel:[id: 0x73b2236f, L:/192.168.86.8:62721 - R:/8.133.246.113:8091]
+2025-05-27 22:33:25.529 [main] INFO  i.s.s.a.datasource.SeataAutoDataSourceProxyCreator - Auto proxy data source 'masterDataSource' by 'AT' mode.
+2025-05-27 22:33:25.602 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-2} inited
+2025-05-27 22:33:25.680 [main] INFO  io.seata.core.rpc.netty.RmNettyRemotingClient - will register resourceId:jdbc:mysql://8.133.246.113:3306/deepseek
+2025-05-27 22:33:25.681 [main] INFO  i.s.s.a.datasource.SeataAutoDataSourceProxyCreator - Auto proxy data source 'slaveDataSource' by 'AT' mode.
+2025-05-27 22:33:25.688 [NettyClientSelector_RMROLE_1_1] INFO  io.seata.rm.AbstractRMHandler - the rm client received response msg [RegisterRMResponse{version='1.8.1-SNAPSHOT', extraData='null', identified=true, resultCode=null, msg='null'}] from tc server.
+2025-05-27 22:33:25.705 [main] INFO  io.seata.core.rpc.netty.RmNettyRemotingClient - will register resourceId:jdbc:mysql://8.133.246.113:3306/deepseek
+2025-05-27 22:33:25.705 [main] INFO  i.s.s.a.datasource.SeataAutoDataSourceProxyCreator - Auto proxy data source 'dynamicDataSource' by 'AT' mode.
+2025-05-27 22:33:25.718 [NettyClientSelector_RMROLE_1_1] INFO  io.seata.rm.AbstractRMHandler - the rm client received response msg [RegisterRMResponse{version='1.8.1-SNAPSHOT', extraData='null', identified=true, resultCode=null, msg='null'}] from tc server.
+2025-05-27 22:33:25.821 [main] INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-27 22:33:25.868 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.1.7.Final
+2025-05-27 22:33:26.172 [main] INFO  SQL dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2025-05-27 22:33:26.174 [main] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-05-27 22:33:26.434 [main] INFO  o.h.e.t.jta.platform.internal.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2025-05-27 22:33:26.445 [main] INFO  o.s.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-27 22:33:26.835 [main] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+2025-05-27 22:33:26.846 [main] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - ==> Parameters: 
+2025-05-27 22:33:26.876 [main] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - <==      Total: 52
+2025-05-27 22:33:26.878 [main] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+2025-05-27 22:33:26.878 [main] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - ==> Parameters: 
+2025-05-27 22:33:26.889 [main] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - <==      Total: 52
+2025-05-27 22:33:27.550 [main] INFO  com.bgpay.bgai.service.impl.UserServiceImpl - 初始化SSO配置: clientId=bgai-client-id, redirectUri=http://localhost:8080/api/auth/callback
+2025-05-27 22:33:27.587 [main] INFO  com.bgpay.bgai.controller.AuthController - 初始化认证控制器: clientId=bgai-client-id, redirectUri=http://localhost:8080/api/auth/callback
+2025-05-27 22:33:28.417 [main] INFO  org.redisson.Version - Redisson 3.24.3
+2025-05-27 22:33:28.553 [redisson-netty-4-6] INFO  o.r.connection.pool.MasterPubSubConnectionPool - 1 connections initialized for 8.133.246.113/8.133.246.113:6379
+2025-05-27 22:33:28.911 [redisson-netty-4-19] INFO  org.redisson.connection.pool.MasterConnectionPool - 24 connections initialized for 8.133.246.113/8.133.246.113:6379
+2025-05-27 22:33:29.084 [main] INFO  o.a.r.s.autoconfigure.RocketMQAutoConfiguration - a producer (billing-producer-group) init on namesrv 8.133.246.113:9876
+2025-05-27 22:33:29.633 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Bean [com.bgpay.bgai.service.deepseek.DeepSeekServiceImp$$SpringCGLIB$$0] with name [deepSeekServiceImp] would use interceptor [io.seata.spring.annotation.GlobalTransactionalInterceptor]
+2025-05-27 22:33:29.943 [main] WARN  i.s.s.b.a.provider.SpringBootConfigurationProvider - The get method not found for the field 'SeataProperties#accesskey'.
+2025-05-27 22:33:29.943 [main] WARN  i.s.s.b.a.provider.SpringBootConfigurationProvider - The get method not found for the field 'SeataProperties#secretkey'.
+2025-05-27 22:33:29.954 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - 加载到1个Saga状态机定义文件
+2025-05-27 22:33:30.092 [main] INFO  com.bgpay.bgai.saga.CustomSagaJsonParser - 开始解析状态机定义: bgai-saga-transaction
+2025-05-27 22:33:30.092 [main] INFO  com.bgpay.bgai.saga.CustomSagaJsonParser - 状态机定义解析成功: bgai-saga-transaction
+2025-05-27 22:33:30.092 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - 成功加载状态机定义: /E:/project/bgai/target/classes/statelang/bgai-saga-transaction.json
+2025-05-27 22:33:30.219 [main] INFO  com.bgpay.bgai.service.mq.MQConsumerService - MQ consumer startup successful [group=billing-consumer-group, topic=BILLING_TOPIC, tag=USER_BILLING]
+2025-05-27 22:33:30.265 [main] INFO  io.seata.core.rpc.netty.RmNettyRemotingClient - will register resourceId:jdbc:mysql://8.133.246.113:3306/deepseek
+2025-05-27 22:33:30.266 [main] INFO  io.seata.core.rpc.netty.RmNettyRemotingClient - will register resourceId:bgai:default
+2025-05-27 22:33:30.267 [main] INFO  com.bgpay.bgai.seata.SeataResourceManagerListener - Resource registered: bgai:default
+2025-05-27 22:33:30.267 [main] INFO  com.bgpay.bgai.seata.SeataResourceManagerListener - Seata Resource Manager registered successfully for application: bgai
+2025-05-27 22:33:30.272 [NettyClientSelector_RMROLE_1_1] INFO  io.seata.rm.AbstractRMHandler - the rm client received response msg [RegisterRMResponse{version='1.8.1-SNAPSHOT', extraData='null', identified=true, resultCode=null, msg='null'}] from tc server.
+2025-05-27 22:33:30.273 [NettyClientSelector_RMROLE_1_1] INFO  io.seata.rm.AbstractRMHandler - the rm client received response msg [RegisterRMResponse{version='1.8.1-SNAPSHOT', extraData='null', identified=true, resultCode=null, msg='null'}] from tc server.
+2025-05-27 22:33:30.380 [main] INFO  i.seata.spring.annotation.GlobalTransactionScanner - Bean [com.bgpay.bgai.service.mq.BillingTransactionListenerImpl$$SpringCGLIB$$0] with name [billingTransactionListenerImpl] would use interceptor [io.seata.spring.annotation.GlobalTransactionalInterceptor]
+2025-05-27 22:33:30.528 [main] DEBUG com.bgpay.bgai.config.AsyncConfig$1 - Initializing ExecutorService 'blockingExecutor'
+2025-05-27 22:33:30.556 [main] INFO  c.b.bgai.config.NacosConfig$NacosWarningHandler - Nacos警告处理器已启用，将忽略配置中心连接警告
+2025-05-27 22:33:31.631 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [After]
+2025-05-27 22:33:31.632 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Before]
+2025-05-27 22:33:31.632 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Between]
+2025-05-27 22:33:31.632 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Cookie]
+2025-05-27 22:33:31.632 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Header]
+2025-05-27 22:33:31.632 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Host]
+2025-05-27 22:33:31.632 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Method]
+2025-05-27 22:33:31.632 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Path]
+2025-05-27 22:33:31.632 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Query]
+2025-05-27 22:33:31.632 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [ReadBody]
+2025-05-27 22:33:31.632 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [RemoteAddr]
+2025-05-27 22:33:31.632 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [XForwardedRemoteAddr]
+2025-05-27 22:33:31.632 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Weight]
+2025-05-27 22:33:31.632 [main] INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [CloudFoundryRouteService]
+2025-05-27 22:33:32.977 [main] INFO  o.s.b.actuate.endpoint.web.EndpointLinksResolver - Exposing 3 endpoint(s) beneath base path '/actuator'
+2025-05-27 22:33:34.423 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-27 22:33:34.438 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2025-05-27 22:33:34.449 [main] INFO  com.alibaba.nacos.client.naming - initializer namespace from ans.namespace attribute : null
+2025-05-27 22:33:34.449 [main] INFO  com.alibaba.nacos.client.naming - initializer namespace from ALIBABA_ALIWARE_NAMESPACE attribute :null
+2025-05-27 22:33:34.449 [main] INFO  com.alibaba.nacos.client.naming - initializer namespace from namespace attribute :null
+2025-05-27 22:33:34.459 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
+2025-05-27 22:33:34.459 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
+2025-05-27 22:33:34.463 [main] INFO  com.alibaba.nacos.common.remote.client - [RpcClientFactory] create a new rpc client of 82bcbcf7-f7e9-448e-8d8f-e32acd25eada
+2025-05-27 22:33:34.465 [main] INFO  com.alibaba.nacos.common.remote.client - [82bcbcf7-f7e9-448e-8d8f-e32acd25eada] RpcClient init, ServerListFactory = com.alibaba.nacos.client.naming.core.ServerListManager
+2025-05-27 22:33:34.465 [main] INFO  com.alibaba.nacos.common.remote.client - [82bcbcf7-f7e9-448e-8d8f-e32acd25eada] Registry connection listener to current client:com.alibaba.nacos.client.naming.remote.gprc.redo.NamingGrpcRedoService
+2025-05-27 22:33:34.465 [main] INFO  com.alibaba.nacos.common.remote.client - [82bcbcf7-f7e9-448e-8d8f-e32acd25eada] Register server push request handler:com.alibaba.nacos.client.naming.remote.gprc.NamingPushRequestHandler
+2025-05-27 22:33:34.465 [main] INFO  com.alibaba.nacos.common.remote.client - [82bcbcf7-f7e9-448e-8d8f-e32acd25eada] Try to connect to server on start up, server: {serverIp = '8.133.246.113', server main port = 8848}
+2025-05-27 22:33:34.466 [main] INFO  c.a.nacos.common.remote.client.grpc.GrpcClient - grpc client connection server:8.133.246.113 ip,serverPort:9848,grpcTslConfig:{"sslProvider":"OPENSSL","enableTls":false,"mutualAuthEnable":false,"trustAll":false}
+2025-05-27 22:33:34.597 [main] INFO  com.alibaba.nacos.common.remote.client - [82bcbcf7-f7e9-448e-8d8f-e32acd25eada] Success to connect to server [8.133.246.113:8848] on start up, connectionId = 1748356415156_139.227.195.166_38048
+2025-05-27 22:33:34.597 [main] INFO  com.alibaba.nacos.common.remote.client - [82bcbcf7-f7e9-448e-8d8f-e32acd25eada] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$ConnectResetRequestHandler
+2025-05-27 22:33:34.597 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.common.remote.client - [82bcbcf7-f7e9-448e-8d8f-e32acd25eada] Notify connected event to listeners.
+2025-05-27 22:33:34.597 [main] INFO  com.alibaba.nacos.common.remote.client - [82bcbcf7-f7e9-448e-8d8f-e32acd25eada] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$$Lambda/0x00000195cb528870
+2025-05-27 22:33:34.597 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.client.naming - Grpc connection connect
+2025-05-27 22:33:34.598 [main] INFO  com.alibaba.nacos.client.naming - [REGISTER-SERVICE] d750d92e-152f-4055-a641-3bc9dda85a29 registering service bgai with instance Instance{instanceId='null', ip='192.168.86.8', port=8080, weight=1.0, healthy=true, enabled=true, ephemeral=true, clusterName='DEFAULT', serviceName='null', metadata={IPv6=[2408:820c:7528:d042:4b93:b843:49be:5352], preserved.register.source=SPRING_CLOUD}}
+2025-05-27 22:33:34.616 [main] INFO  c.a.cloud.nacos.registry.NacosServiceRegistry - nacos registry, DEFAULT_GROUP bgai 192.168.86.8:8080 register finished
+2025-05-27 22:33:34.663 [main] INFO  com.bgpay.bgai.config.NacosConfig - 应用启动完成，当前环境: dev
+2025-05-27 22:33:34.663 [main] INFO  com.bgpay.bgai.config.NacosConfig - Nacos配置中心: 8.133.246.113:8848, 命名空间: d750d92e-152f-4055-a641-3bc9dda85a29
+2025-05-27 22:33:34.663 [main] INFO  com.bgpay.bgai.config.NacosConfig - 注意: 如果看到Nacos配置加载警告，但应用正常启动，说明应用正在使用本地配置文件
+2025-05-27 22:33:34.664 [main] INFO  com.bgpay.bgai.BgaiApplication - Started BgaiApplication in 14.99 seconds (process running for 16.25)
+2025-05-27 22:33:34.668 [scheduling-1] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+2025-05-27 22:33:34.668 [scheduling-1] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - ==> Parameters: 
+2025-05-27 22:33:34.679 [scheduling-1] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - <==      Total: 52
+2025-05-27 22:33:34.679 [main] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - ==>  Preparing: SELECT * FROM mime_type_config WHERE enabled = true
+2025-05-27 22:33:34.679 [main] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - ==> Parameters: 
+2025-05-27 22:33:34.689 [main] DEBUG c.b.b.mapper.FileTypeMapper.selectActiveMimeTypes - <==      Total: 52
+2025-05-27 22:33:34.690 [scheduling-1] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+2025-05-27 22:33:34.690 [scheduling-1] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - ==> Parameters: 
+2025-05-27 22:33:34.700 [scheduling-1] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - <==      Total: 52
+2025-05-27 22:33:34.701 [main] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - ==>  Preparing: SELECT mime_type FROM allowed_file_type WHERE enabled = true
+2025-05-27 22:33:34.701 [main] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - ==> Parameters: 
+2025-05-27 22:33:34.706 [main] DEBUG c.b.bgai.mapper.FileTypeMapper.selectAllowedTypes - <==      Total: 52
+2025-05-27 22:33:34.706 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - ==================== Saga状态机加载报告 ====================
+2025-05-27 22:33:34.706 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - Saga状态机配置加载状态: 成功
+2025-05-27 22:33:34.706 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - 已加载的状态机定义文件数量: 1
+2025-05-27 22:33:34.706 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - 已加载的状态机定义文件:
+2025-05-27 22:33:34.707 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig -  - /E:/project/bgai/target/classes/statelang/bgai-saga-transaction.json
+2025-05-27 22:33:34.707 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - Saga解析器状态: CUSTOM_FASTJSON2
+2025-05-27 22:33:34.707 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - 状态机解析结果: 成功 1 个, 失败 0 个
+2025-05-27 22:33:34.707 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - =============================================================
+2025-05-27 22:33:34.711 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - nacos.cache.data.init.snapshot = true 
+2025-05-27 22:33:34.711 [main] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [subscribe] common-dev.yaml+DEFAULT_GROUP+d750d92e-152f-4055-a641-3bc9dda85a29
+2025-05-27 22:33:34.720 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [add-listener] ok, tenant=d750d92e-152f-4055-a641-3bc9dda85a29, dataId=common-dev.yaml, group=DEFAULT_GROUP, cnt=1
+2025-05-27 22:33:34.720 [main] INFO  c.a.cloud.nacos.refresh.NacosContextRefresher - [Nacos Config] Listening config: dataId=common-dev.yaml, group=DEFAULT_GROUP
+2025-05-27 22:33:34.720 [main] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [subscribe] bgtech-ai.yaml+DEFAULT_GROUP+d750d92e-152f-4055-a641-3bc9dda85a29
+2025-05-27 22:33:34.720 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [add-listener] ok, tenant=d750d92e-152f-4055-a641-3bc9dda85a29, dataId=bgtech-ai.yaml, group=DEFAULT_GROUP, cnt=1
+2025-05-27 22:33:34.720 [main] INFO  c.a.cloud.nacos.refresh.NacosContextRefresher - [Nacos Config] Listening config: dataId=bgtech-ai.yaml, group=DEFAULT_GROUP
+2025-05-27 22:33:34.722 [main] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [subscribe] bgtech-ai-dev.yaml+DEFAULT_GROUP+d750d92e-152f-4055-a641-3bc9dda85a29
+2025-05-27 22:33:34.722 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [add-listener] ok, tenant=d750d92e-152f-4055-a641-3bc9dda85a29, dataId=bgtech-ai-dev.yaml, group=DEFAULT_GROUP, cnt=1
+2025-05-27 22:33:34.722 [main] INFO  c.a.cloud.nacos.refresh.NacosContextRefresher - [Nacos Config] Listening config: dataId=bgtech-ai-dev.yaml, group=DEFAULT_GROUP
+2025-05-27 22:33:34.722 [main] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [subscribe] bgtech-ai+DEFAULT_GROUP+d750d92e-152f-4055-a641-3bc9dda85a29
+2025-05-27 22:33:34.722 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [add-listener] ok, tenant=d750d92e-152f-4055-a641-3bc9dda85a29, dataId=bgtech-ai, group=DEFAULT_GROUP, cnt=1
+2025-05-27 22:33:34.722 [main] INFO  c.a.cloud.nacos.refresh.NacosContextRefresher - [Nacos Config] Listening config: dataId=bgtech-ai, group=DEFAULT_GROUP
+2025-05-27 22:33:47.136 [http-nio-8080-exec-2] INFO  com.bgpay.bgai.controller.ReactiveChatController - 接收到请求: /api/chatGatWay-internal, 文件=新文件 17.txt, 问题参数=null, 模型参数=null
+2025-05-27 22:33:47.137 [http-nio-8080-exec-2] INFO  com.bgpay.bgai.controller.ReactiveChatController - 请求Content-Type: multipart/form-data;boundary=--------------------------933113639115901287698226
+2025-05-27 22:33:47.139 [http-nio-8080-exec-2] INFO  com.bgpay.bgai.controller.ReactiveChatController - 收集到的完整参数: question="null", apiUrl="null", modelName="null", multiTurn=false
+2025-05-27 22:33:47.141 [http-nio-8080-exec-2] INFO  com.bgpay.bgai.controller.ReactiveChatController - Processing request for user ID: 689258T
+2025-05-27 22:33:47.141 [http-nio-8080-exec-2] INFO  com.bgpay.bgai.controller.ReactiveChatController - Processing file with circuit breaker: fileName=新文件 17.txt, question=
+2025-05-27 22:33:47.144 [http-nio-8080-exec-2] INFO  com.bgpay.bgai.config.ReactiveFileProcessor - Processing file: 新文件 17.txt, content-type: text/plain
+2025-05-27 22:33:47.151 [http-nio-8080-exec-2] INFO  com.bgpay.bgai.controller.ReactiveChatController - PARAM TRACE [689258T]: 尝试查找匹配配置 - 参数: apiUrl=null, modelName=null
+2025-05-27 22:33:47.164 [http-nio-8080-exec-2] INFO  com.bgpay.bgai.service.impl.ApiConfigServiceImpl - 查询配置 - userId=689258T
+2025-05-27 22:33:47.165 [http-nio-8080-exec-2] INFO  com.bgpay.bgai.service.impl.ApiConfigServiceImpl - 排序方式 - 按ID降序
+2025-05-27 22:33:47.165 [http-nio-8080-exec-2] INFO  com.bgpay.bgai.service.impl.ApiConfigServiceImpl - 限制结果数 - LIMIT 1
+2025-05-27 22:33:47.239 [http-nio-8080-exec-2] DEBUG com.bgpay.bgai.mapper.ApiConfigMapper.selectList - ==>  Preparing: SELECT id,api_url,api_key,model_name,user_id FROM api_config WHERE (user_id = ?) ORDER BY id DESC LIMIT 1
+2025-05-27 22:33:47.240 [http-nio-8080-exec-2] DEBUG com.bgpay.bgai.mapper.ApiConfigMapper.selectList - ==> Parameters: 689258T(String)
+2025-05-27 22:33:47.248 [http-nio-8080-exec-2] DEBUG com.bgpay.bgai.mapper.ApiConfigMapper.selectList - <==      Total: 1
+2025-05-27 22:33:47.249 [http-nio-8080-exec-2] INFO  com.bgpay.bgai.service.impl.ApiConfigServiceImpl - 查询结果 - 找到配置: id=2, modelName=deepseek-chat
+2025-05-27 22:33:47.249 [http-nio-8080-exec-2] INFO  com.bgpay.bgai.controller.ReactiveChatController - PARAM TRACE [689258T]: 找到匹配配置 - apiUrl=https://api.deepseek.com/chat/completions, modelName=deepseek-chat (原始请求: null)
+2025-05-27 22:33:47.249 [http-nio-8080-exec-2] INFO  com.bgpay.bgai.controller.ReactiveChatController - API config resolved: url=https://api.deepseek.com/chat/completions, model=deepseek-chat
+2025-05-27 22:33:47.268 [Thread-50] INFO  com.bgpay.bgai.config.ReactiveFileProcessor - File processed successfully: size=37 bytes
+2025-05-27 22:33:47.273 [Thread-50] INFO  com.bgpay.bgai.controller.ReactiveChatController - Content processed, length: 54
+2025-05-27 22:33:47.279 [Thread-50] INFO  io.seata.tm.TransactionManagerHolder - TransactionManager Singleton io.seata.tm.DefaultTransactionManager@64bdb74
+2025-05-27 22:33:47.292 [Thread-50] INFO  io.seata.tm.api.DefaultGlobalTransaction - Begin new global transaction [seata-server:8091:81719820132151337]
+2025-05-27 22:33:47.310 [Thread-50] INFO  c.b.bgai.service.impl.TransactionLogServiceImpl - Transaction begin - XID: seata-server:8091:81719820132151337, Name: com.bgpay.bgai.service.deepseek.DeepSeekServiceImp.processRequestReactive, Mode: AT, Path: , IP: 192.168.86.8, User: system
+2025-05-27 22:33:47.318 [Thread-50] DEBUG com.bgpay.bgai.mapper.TransactionLogMapper.insert - ==>  Preparing: INSERT INTO transaction_log ( xid, transaction_name, transaction_mode, status, request_path, source_ip, user_id, branch_ids, extra_data, start_time, create_time ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
+2025-05-27 22:33:47.323 [Thread-50] DEBUG com.bgpay.bgai.mapper.TransactionLogMapper.insert - ==> Parameters: seata-server:8091:81719820132151337(String), com.bgpay.bgai.service.deepseek.DeepSeekServiceImp.processRequestReactive(String), AT(String), ACTIVE(String), (String), 192.168.86.8(String), system(String), [](String), {"result":"active","startTime":1748356427310,"branches":[],"resourceIds":[]}(String), 2025-05-27T22:33:47.313322200(LocalDateTime), 2025-05-27T22:33:47.313322200(LocalDateTime)
+2025-05-27 22:33:47.725 [Thread-50] DEBUG com.bgpay.bgai.mapper.TransactionLogMapper.insert - <==    Updates: 1
+2025-05-27 22:33:47.742 [Thread-50] INFO  io.seata.rm.AbstractResourceManager - branch register success, xid:seata-server:8091:81719820132151337, branchId:81719820132151338, lockKeys:transaction_log:127
+2025-05-27 22:33:47.752 [Thread-50] WARN  i.s.c.l.EnhancedServiceLoader$InnerEnhancedServiceLoader - Load [io.seata.rm.datasource.undo.parser.ProtostuffUndoLogParser] class fail: io/protostuff/runtime/IdStrategy
+2025-05-27 22:33:47.820 [Thread-50] INFO  io.seata.rm.AbstractResourceManager - branch register success, xid:seata-server:8091:81719820132151337, branchId:81719820132151339, lockKeys:transaction_log:127;undo_log:527
+2025-05-27 22:33:47.854 [Thread-50] INFO  com.bgpay.bgai.seata.SeataTransactionListener - Transaction method starting: XID=seata-server:8091:81719820132151337, method=processRequestReactive
+2025-05-27 22:33:47.864 [Thread-50] INFO  org.reflections.Reflections - Processing reactive request: content length=54, apiUrl=https://api.deepseek.com/chat/completions, modelName=deepseek-chat, userId=689258T, multiTurn=false
+2025-05-27 22:33:47.866 [Thread-50] INFO  com.bgpay.bgai.seata.SeataTransactionListener - Transaction method completed: XID=seata-server:8091:81719820132151337, method=processRequestReactive
+2025-05-27 22:33:47.883 [Thread-50] DEBUG c.b.bgai.service.impl.TransactionLogServiceImpl - 更新分布式事务状态: XID=seata-server:8091:81719820132151337, 状态=Committed
+2025-05-27 22:33:47.884 [Thread-50] DEBUG c.b.bgai.mapper.TransactionLogMapper.selectList - ==>  Preparing: SELECT id,xid,transaction_name,transaction_mode,status,request_path,source_ip,user_id,branch_ids,extra_data,start_time,end_time,create_time,update_time FROM transaction_log WHERE (xid = ?) LIMIT 1
+2025-05-27 22:33:47.886 [Thread-50] DEBUG c.b.bgai.mapper.TransactionLogMapper.selectList - ==> Parameters: seata-server:8091:81719820132151337(String)
+2025-05-27 22:33:47.895 [Thread-50] DEBUG c.b.bgai.mapper.TransactionLogMapper.selectList - <==      Total: 1
+2025-05-27 22:33:47.899 [Thread-50] DEBUG c.b.bgai.mapper.TransactionLogMapper.updateById - ==>  Preparing: UPDATE transaction_log SET xid=?, transaction_name=?, transaction_mode=?, status=?, request_path=?, source_ip=?, user_id=?, branch_ids=?, extra_data=?, start_time=?, create_time=?, update_time=? WHERE id=?
+2025-05-27 22:33:47.906 [Thread-50] DEBUG c.b.bgai.mapper.TransactionLogMapper.updateById - ==> Parameters: seata-server:8091:81719820132151337(String), com.bgpay.bgai.service.deepseek.DeepSeekServiceImp.processRequestReactive(String), AT(String), Committed(String), (String), 192.168.86.8(String), system(String), [](String), {"duration":13,"result":"success","xid":"seata-server:8091:81719820132151337","startTime":1748356427853,"endTime":1748356427866,"transactionId":127,"status":"Begin"}(String), 2025-05-27T22:33:47(LocalDateTime), 2025-05-27T22:33:47(LocalDateTime), 2025-05-27T22:33:47.895484100(LocalDateTime), 127(Long)
+2025-05-27 22:33:47.959 [Thread-50] DEBUG c.b.bgai.mapper.TransactionLogMapper.updateById - <==    Updates: 1
+2025-05-27 22:33:47.959 [Thread-50] INFO  c.b.bgai.service.impl.TransactionLogServiceImpl - 更新事务状态成功: XID=seata-server:8091:81719820132151337, 状态=Committed
+2025-05-27 22:33:47.969 [Thread-50] INFO  io.seata.rm.AbstractResourceManager - branch register success, xid:seata-server:8091:81719820132151337, branchId:81719820132151340, lockKeys:transaction_log:127
+2025-05-27 22:33:47.993 [Thread-50] INFO  io.seata.rm.AbstractResourceManager - branch register success, xid:seata-server:8091:81719820132151337, branchId:81719820132151341, lockKeys:transaction_log:127;undo_log:529
+2025-05-27 22:33:48.026 [Thread-50] INFO  c.b.bgai.service.impl.TransactionLogServiceImpl - 记录分布式事务结束: XID=seata-server:8091:81719820132151337, 状态=Committed
+2025-05-27 22:33:48.027 [Thread-50] DEBUG c.b.bgai.mapper.TransactionLogMapper.selectList - ==>  Preparing: SELECT id,xid,transaction_name,transaction_mode,status,request_path,source_ip,user_id,branch_ids,extra_data,start_time,end_time,create_time,update_time FROM transaction_log WHERE (xid = ?) LIMIT 1
+2025-05-27 22:33:48.027 [Thread-50] DEBUG c.b.bgai.mapper.TransactionLogMapper.selectList - ==> Parameters: seata-server:8091:81719820132151337(String)
+2025-05-27 22:33:48.035 [Thread-50] DEBUG c.b.bgai.mapper.TransactionLogMapper.selectList - <==      Total: 1
+2025-05-27 22:33:48.036 [Thread-50] DEBUG c.b.bgai.mapper.TransactionLogMapper.updateById - ==>  Preparing: UPDATE transaction_log SET xid=?, transaction_name=?, transaction_mode=?, status=?, request_path=?, source_ip=?, user_id=?, branch_ids=?, extra_data=?, start_time=?, end_time=?, create_time=?, update_time=? WHERE id=?
+2025-05-27 22:33:48.037 [Thread-50] DEBUG c.b.bgai.mapper.TransactionLogMapper.updateById - ==> Parameters: seata-server:8091:81719820132151337(String), com.bgpay.bgai.service.deepseek.DeepSeekServiceImp.processRequestReactive(String), AT(String), Committed(String), (String), 192.168.86.8(String), system(String), [](String), {"duration":13,"result":"success","xid":"seata-server:8091:81719820132151337","startTime":1748356427853,"endTime":1748356427866,"transactionId":127,"status":"Begin"}(String), 2025-05-27T22:33:47(LocalDateTime), 2025-05-27T22:33:48.036519800(LocalDateTime), 2025-05-27T22:33:47(LocalDateTime), 2025-05-27T22:33:48.036519800(LocalDateTime), 127(Long)
+2025-05-27 22:33:48.073 [Thread-50] DEBUG c.b.bgai.mapper.TransactionLogMapper.updateById - <==    Updates: 1
+2025-05-27 22:33:48.073 [Thread-50] INFO  c.b.bgai.service.impl.TransactionLogServiceImpl - 记录事务结束成功: XID=seata-server:8091:81719820132151337, 状态=Committed
+2025-05-27 22:33:48.087 [Thread-50] INFO  io.seata.rm.AbstractResourceManager - branch register success, xid:seata-server:8091:81719820132151337, branchId:81719820132151342, lockKeys:transaction_log:127
+2025-05-27 22:33:48.115 [Thread-50] INFO  io.seata.rm.AbstractResourceManager - branch register success, xid:seata-server:8091:81719820132151337, branchId:81719820132151343, lockKeys:undo_log:531;transaction_log:127
+2025-05-27 22:33:48.150 [Thread-50] INFO  io.seata.tm.api.DefaultGlobalTransaction - transaction seata-server:8091:81719820132151337 will be commit
+2025-05-27 22:33:48.159 [Thread-50] INFO  io.seata.tm.api.DefaultGlobalTransaction - transaction end, xid = seata-server:8091:81719820132151337
+2025-05-27 22:33:48.159 [Thread-50] INFO  io.seata.tm.api.DefaultGlobalTransaction - [seata-server:8091:81719820132151337] commit status: Committed
+2025-05-27 22:33:48.216 [boundedElastic-1] INFO  com.bgpay.bgai.transaction.TransactionCoordinator - Transaction prepared for user 689258T: chatCompletionId=chat-f73558c8-e9d6-4c99-809b-43fa344aa824
+2025-05-27 22:33:48.216 [boundedElastic-1] INFO  org.reflections.Reflections - Transaction prepared with chatCompletionId: chat-f73558c8-e9d6-4c99-809b-43fa344aa824
+2025-05-27 22:33:48.607 [rpcDispatch_RMROLE_1_1_24] INFO  i.s.c.rpc.processor.client.RmBranchCommitProcessor - rm client handle branch commit process:BranchCommitRequest{xid='seata-server:8091:81719820132151337', branchId=81719820132151338, branchType=AT, resourceId='jdbc:mysql://8.133.246.113:3306/deepseek', applicationData='{"autoCommit":false,"skipCheckLock":true}'}
+2025-05-27 22:33:48.608 [rpcDispatch_RMROLE_1_1_24] INFO  io.seata.rm.AbstractRMHandler - Branch committing: seata-server:8091:81719820132151337 81719820132151338 jdbc:mysql://8.133.246.113:3306/deepseek {"autoCommit":false,"skipCheckLock":true}
+2025-05-27 22:33:48.609 [rpcDispatch_RMROLE_1_1_24] INFO  io.seata.rm.AbstractRMHandler - Branch commit result: PhaseTwo_Committed
+2025-05-27 22:33:48.621 [rpcDispatch_RMROLE_1_2_24] INFO  i.s.c.rpc.processor.client.RmBranchCommitProcessor - rm client handle branch commit process:BranchCommitRequest{xid='seata-server:8091:81719820132151337', branchId=81719820132151339, branchType=AT, resourceId='jdbc:mysql://8.133.246.113:3306/deepseek', applicationData='{"autoCommit":false,"skipCheckLock":true}'}
+2025-05-27 22:33:48.621 [rpcDispatch_RMROLE_1_2_24] INFO  io.seata.rm.AbstractRMHandler - Branch committing: seata-server:8091:81719820132151337 81719820132151339 jdbc:mysql://8.133.246.113:3306/deepseek {"autoCommit":false,"skipCheckLock":true}
+2025-05-27 22:33:48.621 [rpcDispatch_RMROLE_1_2_24] INFO  io.seata.rm.AbstractRMHandler - Branch commit result: PhaseTwo_Committed
+2025-05-27 22:33:48.639 [rpcDispatch_RMROLE_1_3_24] INFO  i.s.c.rpc.processor.client.RmBranchCommitProcessor - rm client handle branch commit process:BranchCommitRequest{xid='seata-server:8091:81719820132151337', branchId=81719820132151340, branchType=AT, resourceId='jdbc:mysql://8.133.246.113:3306/deepseek', applicationData='{"autoCommit":false}'}
+2025-05-27 22:33:48.639 [rpcDispatch_RMROLE_1_3_24] INFO  io.seata.rm.AbstractRMHandler - Branch committing: seata-server:8091:81719820132151337 81719820132151340 jdbc:mysql://8.133.246.113:3306/deepseek {"autoCommit":false}
+2025-05-27 22:33:48.639 [rpcDispatch_RMROLE_1_3_24] INFO  io.seata.rm.AbstractRMHandler - Branch commit result: PhaseTwo_Committed
+2025-05-27 22:33:48.655 [rpcDispatch_RMROLE_1_4_24] INFO  i.s.c.rpc.processor.client.RmBranchCommitProcessor - rm client handle branch commit process:BranchCommitRequest{xid='seata-server:8091:81719820132151337', branchId=81719820132151341, branchType=AT, resourceId='jdbc:mysql://8.133.246.113:3306/deepseek', applicationData='{"autoCommit":false}'}
+2025-05-27 22:33:48.655 [rpcDispatch_RMROLE_1_4_24] INFO  io.seata.rm.AbstractRMHandler - Branch committing: seata-server:8091:81719820132151337 81719820132151341 jdbc:mysql://8.133.246.113:3306/deepseek {"autoCommit":false}
+2025-05-27 22:33:48.655 [rpcDispatch_RMROLE_1_4_24] INFO  io.seata.rm.AbstractRMHandler - Branch commit result: PhaseTwo_Committed
+2025-05-27 22:33:48.663 [rpcDispatch_RMROLE_1_5_24] INFO  i.s.c.rpc.processor.client.RmBranchCommitProcessor - rm client handle branch commit process:BranchCommitRequest{xid='seata-server:8091:81719820132151337', branchId=81719820132151342, branchType=AT, resourceId='jdbc:mysql://8.133.246.113:3306/deepseek', applicationData='{"autoCommit":false}'}
+2025-05-27 22:33:48.663 [rpcDispatch_RMROLE_1_5_24] INFO  io.seata.rm.AbstractRMHandler - Branch committing: seata-server:8091:81719820132151337 81719820132151342 jdbc:mysql://8.133.246.113:3306/deepseek {"autoCommit":false}
+2025-05-27 22:33:48.663 [rpcDispatch_RMROLE_1_5_24] INFO  io.seata.rm.AbstractRMHandler - Branch commit result: PhaseTwo_Committed
+2025-05-27 22:33:48.671 [rpcDispatch_RMROLE_1_6_24] INFO  i.s.c.rpc.processor.client.RmBranchCommitProcessor - rm client handle branch commit process:BranchCommitRequest{xid='seata-server:8091:81719820132151337', branchId=81719820132151343, branchType=AT, resourceId='jdbc:mysql://8.133.246.113:3306/deepseek', applicationData='{"autoCommit":false}'}
+2025-05-27 22:33:48.672 [rpcDispatch_RMROLE_1_6_24] INFO  io.seata.rm.AbstractRMHandler - Branch committing: seata-server:8091:81719820132151337 81719820132151343 jdbc:mysql://8.133.246.113:3306/deepseek {"autoCommit":false}
+2025-05-27 22:33:48.672 [rpcDispatch_RMROLE_1_6_24] INFO  io.seata.rm.AbstractRMHandler - Branch commit result: PhaseTwo_Committed
+2025-05-27 22:34:13.036 [Thread-7] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Start destroying Publisher
+2025-05-27 22:34:13.036 [Thread-1] WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Start destroying common HttpClient
+2025-05-27 22:34:13.036 [Thread-7] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Destruction of the end
+2025-05-27 22:34:13.037 [Thread-1] WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Destruction of the end
+2025-05-27 22:34:15.059 [SpringContextShutdownHook] INFO  c.a.cloud.nacos.registry.NacosServiceRegistry - De-registering from Nacos Server now...
+2025-05-27 22:34:15.059 [SpringContextShutdownHook] INFO  com.alibaba.nacos.client.naming - [DEREGISTER-SERVICE] d750d92e-152f-4055-a641-3bc9dda85a29 deregistering service bgai with instance: Instance{instanceId='null', ip='192.168.86.8', port=8080, weight=1.0, healthy=true, enabled=true, ephemeral=true, clusterName='DEFAULT', serviceName='null', metadata={}}
+2025-05-27 22:34:15.074 [SpringContextShutdownHook] INFO  c.a.cloud.nacos.registry.NacosServiceRegistry - De-registration finished.
+2025-05-27 22:34:15.075 [SpringContextShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.cache.ServiceInfoHolder do shutdown begin
+2025-05-27 22:34:15.076 [SpringContextShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.backups.FailoverReactor do shutdown begin
+2025-05-27 22:34:15.076 [SpringContextShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.backups.FailoverReactor do shutdown stop
+2025-05-27 22:34:15.076 [SpringContextShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.cache.ServiceInfoHolder do shutdown stop
+2025-05-27 22:34:15.076 [SpringContextShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.remote.NamingClientProxyDelegate do shutdown begin
+2025-05-27 22:34:15.076 [SpringContextShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.core.ServiceInfoUpdateService do shutdown begin
+2025-05-27 22:34:15.076 [SpringContextShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.core.ServiceInfoUpdateService do shutdown stop
+2025-05-27 22:34:15.076 [SpringContextShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.core.ServerListManager do shutdown begin
+2025-05-27 22:34:15.076 [SpringContextShutdownHook] WARN  com.alibaba.nacos.client.naming - [NamingHttpClientManager] Start destroying NacosRestTemplate
+2025-05-27 22:34:15.076 [SpringContextShutdownHook] WARN  com.alibaba.nacos.client.naming - [NamingHttpClientManager] Destruction of the end
+2025-05-27 22:34:15.076 [SpringContextShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.core.ServerListManager do shutdown stop
+2025-05-27 22:34:15.076 [SpringContextShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.remote.http.NamingHttpClientProxy do shutdown begin
+2025-05-27 22:34:15.076 [SpringContextShutdownHook] WARN  com.alibaba.nacos.client.naming - [NamingHttpClientManager] Start destroying NacosRestTemplate
+2025-05-27 22:34:15.076 [SpringContextShutdownHook] WARN  com.alibaba.nacos.client.naming - [NamingHttpClientManager] Destruction of the end
+2025-05-27 22:34:15.076 [SpringContextShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.remote.http.NamingHttpClientProxy do shutdown stop
+2025-05-27 22:34:15.077 [SpringContextShutdownHook] INFO  com.alibaba.nacos.common.remote.client - Shutdown rpc client, set status to shutdown
+2025-05-27 22:34:15.077 [SpringContextShutdownHook] INFO  com.alibaba.nacos.common.remote.client - Shutdown client event executor java.util.concurrent.ScheduledThreadPoolExecutor@7a2141b4[Running, pool size = 2, active threads = 2, queued tasks = 0, completed tasks = 0]
+2025-05-27 22:34:15.077 [SpringContextShutdownHook] INFO  com.alibaba.nacos.common.remote.client - Close current connection 1748356415156_139.227.195.166_38048
+2025-05-27 22:34:15.080 [nacos-grpc-client-executor-8.133.246.113-19] WARN  c.a.nacos.common.remote.client.grpc.GrpcClient - [1748356415156_139.227.195.166_38048]Ignore error event,isRunning:false,isAbandon=false
+2025-05-27 22:34:15.082 [SpringContextShutdownHook] INFO  c.a.nacos.common.remote.client.grpc.GrpcClient - Shutdown grpc executor java.util.concurrent.ThreadPoolExecutor@7f8a2f71[Running, pool size = 6, active threads = 0, queued tasks = 0, completed tasks = 20]
+2025-05-27 22:34:15.082 [SpringContextShutdownHook] INFO  com.alibaba.nacos.client.naming - Shutdown grpc redo service executor java.util.concurrent.ScheduledThreadPoolExecutor@2f873ee5[Running, pool size = 1, active threads = 0, queued tasks = 1, completed tasks = 13]
+2025-05-27 22:34:15.082 [SpringContextShutdownHook] INFO  c.a.n.client.auth.ram.identify.CredentialWatcher - [null] CredentialWatcher is stopped
+2025-05-27 22:34:15.082 [SpringContextShutdownHook] INFO  c.a.n.client.auth.ram.identify.CredentialService - [null] CredentialService is freed
+2025-05-27 22:34:15.082 [SpringContextShutdownHook] INFO  com.alibaba.nacos.client.naming - com.alibaba.nacos.client.naming.remote.NamingClientProxyDelegate do shutdown stop
+2025-05-27 22:34:15.089 [SpringContextShutdownHook] DEBUG com.bgpay.bgai.config.AsyncConfig$1 - Shutting down ExecutorService 'blockingExecutor'
+2025-05-27 22:34:15.549 [com.alibaba.nacos.client.Worker] INFO  c.a.n.client.auth.ram.identify.CredentialWatcher - null No credential found
+2025-05-27 22:34:17.127 [NettyClientSelector_1] INFO  RocketmqRemoting - closeChannel: close the connection to remote address[8.133.246.113:10911] result: true
+2025-05-27 22:34:17.127 [NettyClientSelector_1] INFO  RocketmqRemoting - closeChannel: close the connection to remote address[8.133.246.113:9876] result: true
+2025-05-27 22:34:17.140 [NettyClientSelector_1] INFO  RocketmqRemoting - closeChannel: close the connection to remote address[8.133.246.113:10911] result: true
+2025-05-27 22:34:17.140 [NettyClientSelector_1] INFO  RocketmqRemoting - closeChannel: close the connection to remote address[8.133.246.113:9876] result: true
+2025-05-27 22:34:17.271 [SpringContextShutdownHook] INFO  o.s.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-27 22:34:17.273 [SpringContextShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-2} closing ...
+2025-05-27 22:34:17.277 [SpringContextShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-2} closed
+2025-05-27 22:34:17.278 [SpringContextShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2025-05-27 22:34:17.278 [SpringContextShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2025-05-27 22:34:17.279 [NettyClientSelector_TMROLE_1_1] INFO  i.seata.core.rpc.netty.AbstractNettyRemotingClient - channel inactive: [id: 0xe18f41df, L:/192.168.86.8:62715 ! R:/8.133.246.113:8091]
+2025-05-27 22:34:17.279 [NettyClientSelector_TMROLE_1_1] INFO  io.seata.core.rpc.netty.NettyClientChannelManager - return to pool, rm channel:[id: 0xe18f41df, L:/192.168.86.8:62715 ! R:/8.133.246.113:8091]
+2025-05-27 22:34:17.279 [NettyClientSelector_TMROLE_1_1] INFO  io.seata.core.rpc.netty.NettyPoolableFactory - channel valid false,channel:[id: 0xe18f41df, L:/192.168.86.8:62715 ! R:/8.133.246.113:8091]
+2025-05-27 22:34:17.279 [NettyClientSelector_TMROLE_1_1] INFO  io.seata.core.rpc.netty.NettyPoolableFactory - will destroy channel:[id: 0xe18f41df, L:/192.168.86.8:62715 ! R:/8.133.246.113:8091]
+2025-05-27 22:34:17.279 [NettyClientSelector_TMROLE_1_1] INFO  i.seata.core.rpc.netty.AbstractNettyRemotingClient - ChannelHandlerContext(AbstractNettyRemotingClient$ClientHandler#0, [id: 0xe18f41df, L:/192.168.86.8:62715 ! R:/8.133.246.113:8091]) will closed
+2025-05-27 22:34:17.279 [NettyClientSelector_TMROLE_1_1] INFO  i.seata.core.rpc.netty.AbstractNettyRemotingClient - ChannelHandlerContext(AbstractNettyRemotingClient$ClientHandler#0, [id: 0xe18f41df, L:/192.168.86.8:62715 ! R:/8.133.246.113:8091]) will closed
+2025-05-27 22:34:17.280 [NettyClientSelector_RMROLE_1_1] INFO  i.seata.core.rpc.netty.AbstractNettyRemotingClient - channel inactive: [id: 0x73b2236f, L:/192.168.86.8:62721 ! R:/8.133.246.113:8091]
+2025-05-27 22:34:17.280 [NettyClientSelector_RMROLE_1_1] INFO  io.seata.core.rpc.netty.NettyClientChannelManager - return to pool, rm channel:[id: 0x73b2236f, L:/192.168.86.8:62721 ! R:/8.133.246.113:8091]
+2025-05-27 22:34:17.280 [NettyClientSelector_RMROLE_1_1] INFO  io.seata.core.rpc.netty.NettyPoolableFactory - channel valid false,channel:[id: 0x73b2236f, L:/192.168.86.8:62721 ! R:/8.133.246.113:8091]
+2025-05-27 22:34:17.280 [NettyClientSelector_RMROLE_1_1] INFO  io.seata.core.rpc.netty.NettyPoolableFactory - will destroy channel:[id: 0x73b2236f, L:/192.168.86.8:62721 ! R:/8.133.246.113:8091]
+2025-05-27 22:34:17.280 [NettyClientSelector_RMROLE_1_1] INFO  i.seata.core.rpc.netty.AbstractNettyRemotingClient - ChannelHandlerContext(AbstractNettyRemotingClient$ClientHandler#0, [id: 0x73b2236f, L:/192.168.86.8:62721 ! R:/8.133.246.113:8091]) will closed
+2025-05-27 22:34:17.281 [NettyClientSelector_RMROLE_1_1] INFO  i.seata.core.rpc.netty.AbstractNettyRemotingClient - ChannelHandlerContext(AbstractNettyRemotingClient$ClientHandler#0, [id: 0x73b2236f, L:/192.168.86.8:62721 ! R:/8.133.246.113:8091]) will closed

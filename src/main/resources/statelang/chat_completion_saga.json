@@ -1,0 +1,74 @@
+{
+    "Name": "ChatCompletionSaga",
+    "Comment": "Chat completion saga transaction process",
+    "StartState": "Start",
+    "Version": "0.0.1",
+    "States": {
+        "Start": {
+            "Type": "ServiceTask",
+            "ServiceName": "chatCompletionService",
+            "ServiceMethod": "processRequest",
+            "CompensateState": "CompensateChat",
+            "Next": "RecordTransaction",
+            "Input": [
+                "$.[*]"
+            ],
+            "Output": {
+                "chatResult": "$.#root"
+            },
+            "Status": {
+                "#root == null": "FA",
+                "#root != null": "SU"
+            },
+            "Retry": [
+                {
+                    "Exceptions": ["java.lang.Exception"],
+                    "IntervalSeconds": 1,
+                    "MaxAttempts": 3,
+                    "BackoffRate": 1.5
+                }
+            ],
+            "Catch": [
+                {
+                    "Exceptions": ["java.lang.Exception"],
+                    "Next": "CompensationTrigger"
+                }
+            ]
+        },
+        "RecordTransaction": {
+            "Type": "ServiceTask",
+            "ServiceName": "transactionLogService",
+            "ServiceMethod": "recordTransaction",
+            "Input": [
+                "$.[*]"
+            ],
+            "Next": "End",
+            "Catch": [
+                {
+                    "Exceptions": ["java.lang.Exception"],
+                    "Next": "CompensationTrigger"
+                }
+            ]
+        },
+        "CompensateChat": {
+            "Type": "ServiceTask",
+            "ServiceName": "chatCompletionService",
+            "ServiceMethod": "compensateRequest",
+            "Input": [
+                "$.[*]"
+            ]
+        },
+        "CompensationTrigger": {
+            "Type": "CompensationTrigger",
+            "Next": "Fail"
+        },
+        "Fail": {
+            "Type": "Fail",
+            "ErrorCode": "ChatCompletionSaga-Failed",
+            "Message": "Chat completion saga transaction failed"
+        },
+        "End": {
+            "Type": "Succeed"
+        }
+    }
+} 
