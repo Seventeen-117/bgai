@@ -44,16 +44,26 @@ public class UsageRecordServiceImpl extends ServiceImpl<UsageRecordMapper, Usage
     @Override
     @Cacheable(value = "usageRecords", key = "#completionId")
     public UsageRecord findByCompletionId(String completionId) {
-        LambdaQueryWrapper<UsageRecord> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(UsageRecord::getChatCompletionId, completionId);
-        return getOne(wrapper);
+        try {
+            LambdaQueryWrapper<UsageRecord> wrapper = new LambdaQueryWrapper<>();
+            wrapper.eq(UsageRecord::getChatCompletionId, completionId);
+            return getOne(wrapper);
+        } catch (Exception e) {
+            log.error("查询记录失败: {}", completionId, e);
+            return null;
+        }
     }
 
     @Override
     public boolean existsByCompletionId(String chatCompletionId) {
-        LambdaQueryWrapper<UsageRecord> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(UsageRecord::getChatCompletionId, chatCompletionId);
-        return count(wrapper) > 0;
+        try {
+            // 使用findByCompletionId来保持一致性
+            UsageRecord record = findByCompletionId(chatCompletionId);
+            return record != null;
+        } catch (Exception e) {
+            log.error("检查记录是否存在失败: {}", chatCompletionId, e);
+            return false;
+        }
     }
 
     @Override
@@ -65,43 +75,34 @@ public class UsageRecordServiceImpl extends ServiceImpl<UsageRecordMapper, Usage
     @Override
     @Cacheable(value = "usageCalculations", key = "#completionId")
     public UsageCalculationDTO getCalculationDTO(String completionId) {
-        UsageRecord record = findByCompletionId(completionId);
-        if (record == null) {
+        try {
+            // 首先从UsageInfo获取数据
+            UsageInfo usageInfo = getUsageInfoByCompletionId(completionId);
+            if (usageInfo == null) {
+                log.warn("未找到UsageInfo数据: {}", completionId);
+                return null;
+            }
+            
+            UsageCalculationDTO dto = new UsageCalculationDTO();
+            dto.setChatCompletionId(usageInfo.getChatCompletionId());
+            dto.setModelType(usageInfo.getModelType());
+            dto.setCreatedAt(usageInfo.getCreatedAt());
+            
+            // 设置Token计数
+            dto.setPromptCacheHitTokens(usageInfo.getPromptCacheHitTokens());
+            dto.setPromptCacheMissTokens(usageInfo.getPromptCacheMissTokens());
+            dto.setPromptTokensCached(usageInfo.getPromptTokensCached());
+            dto.setCompletionTokens(usageInfo.getCompletionTokens());
+            dto.setCompletionReasoningTokens(usageInfo.getCompletionReasoningTokens());
+            
+            log.info("成功获取计费数据: completionId={}, modelType={}, tokens={}/{}", 
+                completionId, dto.getModelType(), dto.getPromptTokens(), dto.getCompletionTokens());
+            
+            return dto;
+        } catch (Exception e) {
+            log.error("获取计费数据失败: {}", completionId, e);
             return null;
         }
-        
-        // 首先获取UsageInfo，因为它包含更详细的token信息
-        UsageInfo usageInfo = getUsageInfoByCompletionId(completionId);
-        if (usageInfo == null) {
-            log.warn("UsageInfo not found for completionId: {}, using record data only", completionId);
-        }
-        
-        UsageCalculationDTO dto = new UsageCalculationDTO();
-        // 基本信息
-        dto.setChatCompletionId(record.getChatCompletionId());
-        dto.setModelType(record.getModelType());
-        dto.setCreatedAt(record.getCalculatedAt());
-        
-        // Token计数 - 优先使用UsageInfo中的详细信息
-        if (usageInfo != null) {
-            // 缓存相关的token计数
-            dto.setPromptCacheHitTokens(usageInfo.getPromptTokensCached()); // 使用缓存的token数
-            dto.setPromptCacheMissTokens(usageInfo.getPromptTokens() - usageInfo.getPromptTokensCached()); // 总token数减去缓存的token数
-            
-            // 完成和推理相关的token计数
-            dto.setCompletionTokens(usageInfo.getCompletionTokens());
-        } else {
-            // 如果没有UsageInfo，使用UsageRecord中的基本信息
-            dto.setPromptCacheHitTokens(0);
-            dto.setPromptCacheMissTokens(record.getInputTokens());
-            dto.setCompletionTokens(record.getOutputTokens());
-        }
-        
-        // 成本计算 - 使用UsageRecord中的成本信息
-        dto.setInputCost(record.getInputCost());
-        dto.setOutputCost(record.getOutputCost());
-        
-        return dto;
     }
 
     /**
@@ -120,11 +121,19 @@ public class UsageRecordServiceImpl extends ServiceImpl<UsageRecordMapper, Usage
     @Transactional
     @CacheEvict(value = {"usageRecords", "usageCalculations"}, key = "#completionId")
     public void markAsCompensated(String completionId) {
-        UsageRecord record = findByCompletionId(completionId);
-        if (record != null) {
-            record.setStatus("COMPENSATED");
-            record.setUpdatedAt(LocalDateTime.now());
-            updateById(record);
+        try {
+            UsageRecord record = findByCompletionId(completionId);
+            if (record != null) {
+                record.setStatus("COMPENSATED");
+                record.setUpdatedAt(LocalDateTime.now());
+                updateById(record);
+                log.info("标记记录为已补偿: {}", completionId);
+            } else {
+                log.warn("未找到需要标记为已补偿的记录: {}", completionId);
+            }
+        } catch (Exception e) {
+            log.error("标记记录为已补偿失败: {}", completionId, e);
+            throw e;
         }
     }
 
@@ -132,11 +141,19 @@ public class UsageRecordServiceImpl extends ServiceImpl<UsageRecordMapper, Usage
     @Transactional
     @CacheEvict(value = {"usageRecords", "usageCalculations"}, key = "#completionId")
     public void markAsCompleted(String completionId) {
-        UsageRecord record = findByCompletionId(completionId);
-        if (record != null) {
-            record.setStatus("COMPLETED");
-            record.setUpdatedAt(LocalDateTime.now());
-            updateById(record);
+        try {
+            UsageRecord record = findByCompletionId(completionId);
+            if (record != null) {
+                record.setStatus("COMPLETED");
+                record.setUpdatedAt(LocalDateTime.now());
+                updateById(record);
+                log.info("标记记录为已完成: {}", completionId);
+            } else {
+                log.warn("未找到需要标记为已完成的记录: {}", completionId);
+            }
+        } catch (Exception e) {
+            log.error("标记记录为已完成失败: {}", completionId, e);
+            throw e;
         }
     }
 
@@ -144,8 +161,14 @@ public class UsageRecordServiceImpl extends ServiceImpl<UsageRecordMapper, Usage
     @Transactional
     @CacheEvict(value = {"usageRecords", "usageCalculations"}, key = "#completionId")
     public void deleteByCompletionId(String completionId) {
-        LambdaQueryWrapper<UsageRecord> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(UsageRecord::getChatCompletionId, completionId);
-        remove(wrapper);
+        try {
+            LambdaQueryWrapper<UsageRecord> wrapper = new LambdaQueryWrapper<>();
+            wrapper.eq(UsageRecord::getChatCompletionId, completionId);
+            remove(wrapper);
+            log.info("删除记录成功: {}", completionId);
+        } catch (Exception e) {
+            log.error("删除记录失败: {}", completionId, e);
+            throw e;
+        }
     }
 }

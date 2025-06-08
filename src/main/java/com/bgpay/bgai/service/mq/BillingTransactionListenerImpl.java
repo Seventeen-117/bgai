@@ -2,7 +2,6 @@ package com.bgpay.bgai.service.mq;
 
 import com.alibaba.fastjson2.JSON;
 import com.bgpay.bgai.entity.UsageCalculationDTO;
-import com.bgpay.bgai.entity.UsageInfo;
 import com.bgpay.bgai.service.UsageInfoService;
 import com.bgpay.bgai.transaction.TransactionCoordinator;
 import com.github.benmanes.caffeine.cache.Cache;
@@ -20,10 +19,12 @@ import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.concurrent.TimeUnit;
 
 @Component
-@RocketMQTransactionListener()
+@RocketMQTransactionListener(rocketMQTemplateBeanName = "rocketMQTemplate")
 @Slf4j
 public class BillingTransactionListenerImpl implements RocketMQLocalTransactionListener {
     private static final String PROCESSED_KEY_PREFIX = "PROCESSED:";
@@ -68,8 +69,16 @@ public class BillingTransactionListenerImpl implements RocketMQLocalTransactionL
                 return RocketMQLocalTransactionState.ROLLBACK;
             }
             
-            // 执行本地事务逻辑
-            UsageCalculationDTO dto = JSON.parseObject((byte[]) msg.getPayload(), UsageCalculationDTO.class);
+            // 兼容 RocketMQ payload 实际为 Base64 字符串的情况
+            byte[] payload = (byte[]) msg.getPayload();
+            String base64Str = new String(payload, StandardCharsets.UTF_8).trim();
+            if (base64Str.startsWith("\"") && base64Str.endsWith("\"")) {
+                base64Str = base64Str.substring(1, base64Str.length() - 1);
+            }
+            byte[] jsonBytes = Base64.getDecoder().decode(base64Str);
+            String jsonStr = new String(jsonBytes, StandardCharsets.UTF_8);
+            UsageCalculationDTO dto = JSON.parseObject(jsonStr, UsageCalculationDTO.class);
+            
             boolean success = usageInfoService.processUsageInfo(dto, userId);
             
             if (success) {
@@ -82,12 +91,9 @@ public class BillingTransactionListenerImpl implements RocketMQLocalTransactionL
             
             // 执行失败，回滚事务
             log.warn("本地事务执行失败，回滚事务, completionId: {}", completionId);
-            transactionCoordinator.compensate(userId, completionId);
             return RocketMQLocalTransactionState.ROLLBACK;
-            
         } catch (Exception e) {
             log.error("本地事务执行异常，回滚事务, xid: {}, completionId: {}", xid, completionId, e);
-            transactionCoordinator.compensate(userId, completionId);
             return RocketMQLocalTransactionState.ROLLBACK;
         }
     }
@@ -136,7 +142,8 @@ public class BillingTransactionListenerImpl implements RocketMQLocalTransactionL
         }
 
         try {
-            UsageCalculationDTO dto = JSON.parseObject((byte[]) msg.getPayload(), UsageCalculationDTO.class);
+            byte[] payload = (byte[]) msg.getPayload();
+            UsageCalculationDTO dto = JSON.parseObject(payload, UsageCalculationDTO.class);
             return dto.getChatCompletionId();
         } catch (Exception e) {
             log.error("消息体解析失败", e);

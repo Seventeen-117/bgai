@@ -9,6 +9,7 @@ import com.bgpay.bgai.exception.BillingException;
 import com.bgpay.bgai.service.BillingService;
 import com.bgpay.bgai.service.PriceCacheService;
 import com.bgpay.bgai.service.UsageRecordService;
+import com.bgpay.bgai.service.impl.BGAIServiceImpl;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import io.micrometer.core.instrument.MeterRegistry;
@@ -31,8 +32,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.*;
 import java.util.*;
-import java.util.concurrent.Callable;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 import static com.bgpay.bgai.entity.PriceConstants.*;
@@ -45,7 +44,8 @@ import static com.bgpay.bgai.entity.PriceConstants.INPUT_TYPE;
 public class RocketMQBillingServiceImpl implements BillingService {
     private static final String BILLING_TOPIC = "BILLING_TOPIC";
     private static final String BILLING_TAG = "USER_BILLING";
-    private static final String LOCK_KEY_PREFIX = "BILLING_LOCK:";
+    private static final String PROCESSED_KEY_PREFIX = "PROCESSED:";
+    private static final int REDIS_CACHE_EXPIRE_HOURS = 24;
     private static final ZoneId BEIJING_ZONE = ZoneId.of("Asia/Shanghai");
     private static final LocalTime DISCOUNT_START = LocalTime.of(0, 30);
     private static final LocalTime DISCOUNT_END = LocalTime.of(8, 30);
@@ -57,16 +57,16 @@ public class RocketMQBillingServiceImpl implements BillingService {
     private final RedisTemplate<String, String> redisTemplate;
     private final PriceCacheService priceCache;
     private final UsageRecordService usageRecordService;
-    private final MeterRegistry meterRegistry;
     private final RocketMQProducerService mqProducer;
-
     private final MQConsumerService mqConsumerService;
-
+    private final BGAIServiceImpl bgaiService;
 
     private final Cache<String, Boolean> localCache = Caffeine.newBuilder()
             .maximumSize(100_000)
             .expireAfterWrite(5, TimeUnit.MINUTES)
             .build();
+
+    private final long startupTime = System.currentTimeMillis();
 
     @Override
     @Async("billingExecutor")
@@ -78,123 +78,130 @@ public class RocketMQBillingServiceImpl implements BillingService {
 
     @Override
     public void processSingleRecord(UsageCalculationDTO dto, String userId) {
-        mqProducer.sendBillingMessage(dto, userId);
+        // 启动时不发送消息，只在API调用时发送
+        if (!isStartup()) {
+            mqProducer.sendBillingMessage(dto, userId);
+        } else {
+            log.info("Skipping message sending during startup for userId: {}, completionId: {}", 
+                    userId, dto.getChatCompletionId());
+        }
     }
+
     @PostConstruct
     public void initConsumer() throws MQClientException {
+        // 只初始化消费者，不发送消息
         mqConsumerService.initConsumer(
                 nameServer,
                 consumerGroup,
                 BILLING_TOPIC,
                 BILLING_TAG,
-                this::processMessage,  // 方法引用处理逻辑
+                this::processMessage,
                 msg -> log.info("Message consumed: {}", msg.getMsgId())
         );
+        log.info("Billing consumer initialized successfully. Ready to process unconsumed messages.");
     }
 
     @Transactional(rollbackFor = Exception.class)
     public void processMessage(MessageExt messageExt) {
         String completionId = null;
+        String userId = null;
         try {
-            String userId = Optional.ofNullable(messageExt.getUserProperty("USER_ID"))
+            userId = Optional.ofNullable(messageExt.getUserProperty("USER_ID"))
                     .orElseThrow(() -> new BillingException("缺失USER_ID"));
             UsageCalculationDTO dto = deserializeMessageBody(messageExt);
             completionId = dto.getChatCompletionId();
-
-            // 前置幂等检查
-            if (checkProcessed(completionId)) {
-                log.debug("消息已处理 [CompletionId={}]", completionId);
+            
+            String businessKey = userId + ":" + completionId;
+            
+            // 检查是否已处理过
+            if (checkProcessed(businessKey)) {
+                log.info("Message already processed, skipping. businessKey: {}", businessKey);
                 return;
             }
-
-            String finalCompletionId = completionId;
-            processWithDistributedLock(userId, completionId, () -> {
-                // 锁内二次幂等检查
-                if (checkProcessed(finalCompletionId)) {
-                    log.debug("消息已处理 [CompletionId={}]", finalCompletionId);
-                    return null;
-                }
-
-                ZonedDateTime beijingTime = convertToBeijingTime(dto.getCreatedAt());
-                String timePeriod = determineTimePeriod(beijingTime);
-
-                BigDecimal inputCost = calculateInputCost(dto, timePeriod);
-                BigDecimal outputCost = calculateOutputCost(dto, timePeriod);
-
-                UsageRecord record = convertToEntity(dto, inputCost, outputCost, userId, timePeriod);
-                usageRecordService.insertUsageRecord(record);
-
-                // 异步更新缓存，确保主流程快速完成
-                updateProcessedCache(finalCompletionId);
-                return null;
-            });
-        } catch (DuplicateKeyException e) {
-            log.warn("重复记录 [CompletionId={}]", completionId);
-            updateProcessedCache(completionId);
+            
+            // 在启动阶段，只处理未消费的消息，不发送新消息
+            if (isStartup()) {
+                log.info("System is in startup phase, processing unconsumed message: {}", businessKey);
+                processUnconsumedMessage(dto, userId, businessKey);
+                return;
+            }
+            
+            // 执行第一步：发送账单消息
+            boolean firstStepResult = bgaiService.executeFirstStep(businessKey);
+            if (!firstStepResult) {
+                log.error("第一步执行失败，开始补偿, businessKey: {}", businessKey);
+                bgaiService.compensateFirstStep(businessKey);
+                throw new BillingException("第一步执行失败");
+            }
+            
+            // 执行第二步：处理账单消息
+            boolean secondStepResult = bgaiService.executeSecondStep(businessKey, firstStepResult);
+            if (!secondStepResult) {
+                log.error("第二步执行失败，开始补偿, businessKey: {}", businessKey);
+                bgaiService.compensateSecondStep(businessKey);
+                bgaiService.compensateFirstStep(businessKey);
+                throw new BillingException("第二步执行失败");
+            }
+            
+            // 执行第三步：更新账单状态
+            boolean thirdStepResult = bgaiService.executeThirdStep(businessKey, secondStepResult);
+            if (!thirdStepResult) {
+                log.error("第三步执行失败，开始补偿, businessKey: {}", businessKey);
+                bgaiService.compensateThirdStep(businessKey);
+                bgaiService.compensateSecondStep(businessKey);
+                bgaiService.compensateFirstStep(businessKey);
+                throw new BillingException("第三步执行失败");
+            }
+            
+            // 标记消息已处理
+            markAsProcessed(businessKey);
+            log.info("消息处理成功完成, businessKey: {}", businessKey);
+            
         } catch (Exception e) {
+            log.error("消息处理失败 [CompletionId={}, UserId={}]", completionId, userId, e);
+            if (completionId != null && userId != null) {
+                String businessKey = userId + ":" + completionId;
+                // 发生异常时执行完整的补偿链
+                bgaiService.compensateThirdStep(businessKey);
+                bgaiService.compensateSecondStep(businessKey);
+                bgaiService.compensateFirstStep(businessKey);
+            }
             throw new BillingException("消息处理失败", e);
         }
     }
 
-    private void updateProcessedCache(String completionId) {
-        localCache.put(completionId, true);
-        // 异步更新Redis
-        CompletableFuture.runAsync(() -> {
-            String redisKey = "PROCESSED:" + completionId;
-            redisTemplate.opsForValue().set(redisKey, "1", 24, TimeUnit.HOURS);
-        }).exceptionally(e -> {
-            log.error("更新Redis缓存失败: {}", e.getMessage());
-            return null;
-        });
-    }
-
-    private <T> T processWithDistributedLock(String userId, String completionId, Callable<T> callback) {
-        String lockKey = LOCK_KEY_PREFIX + userId + ":" + completionId;
+    private void processUnconsumedMessage(UsageCalculationDTO dto, String userId, String businessKey) {
         try {
-            // 设置较短的锁超时时间（如5秒）
-            Boolean locked = redisTemplate.opsForValue().setIfAbsent(
-                    lockKey, "processing", 5, TimeUnit.SECONDS
-            );
-            if (!Boolean.TRUE.equals(locked)) {
-                throw new BillingException("系统繁忙，请稍后重试");
-            }
-            return callback.call();
+            // 直接处理消息，不发送新消息
+            UsageRecord record = convertToEntity(dto, dto.getInputCost(), dto.getOutputCost(), userId, determineTimePeriod(convertToBeijingTime(dto.getCreatedAt())));
+            usageRecordService.insertUsageRecord(record);
+            markAsProcessed(businessKey);
+            log.info("Successfully processed unconsumed message during startup: {}", businessKey);
         } catch (Exception e) {
-            throw new BillingException("处理异常", e);
-        } finally {
-            redisTemplate.delete(lockKey);
+            log.error("Failed to process unconsumed message during startup: {}", businessKey, e);
+            throw new BillingException("Failed to process unconsumed message", e);
         }
     }
 
+    private boolean checkProcessed(String businessKey) {
+        String redisKey = PROCESSED_KEY_PREFIX + businessKey;
+        return Boolean.TRUE.equals(redisTemplate.hasKey(redisKey));
+    }
+
+    private void markAsProcessed(String businessKey) {
+        String redisKey = PROCESSED_KEY_PREFIX + businessKey;
+        redisTemplate.opsForValue().set(redisKey, "1", REDIS_CACHE_EXPIRE_HOURS, TimeUnit.HOURS);
+    }
 
     private UsageCalculationDTO deserializeMessageBody(MessageExt messageExt) {
-        return JSON.parseObject(messageExt.getBody(), UsageCalculationDTO.class);
-    }
-
-
-    private boolean checkProcessed(String completionId) {
-        // 本地缓存检查
-        if (localCache.getIfPresent(completionId) != null) return false;
-
-        // Redis检查
-        String redisKey = "PROCESSED:" + completionId;
-        Boolean exists = redisTemplate.hasKey(redisKey);
-        if (exists != null && exists) {
-            localCache.put(completionId, true);
-            return false;
+        byte[] body = messageExt.getBody();
+        String base64Str = new String(body, java.nio.charset.StandardCharsets.UTF_8).trim();
+        if (base64Str.startsWith("\"") && base64Str.endsWith("\"")) {
+            base64Str = base64Str.substring(1, base64Str.length() - 1);
         }
-
-        // 数据库检查（兜底）
-        boolean dbExists = usageRecordService.existsByCompletionId(completionId);
-        if (dbExists) {
-            // 异步设置Redis，避免阻塞
-            CompletableFuture.runAsync(() ->
-                    redisTemplate.opsForValue().set(redisKey, "1", 24, TimeUnit.HOURS)
-            );
-            localCache.put(completionId, true);
-            return true;
-        }
-        return false;
+        byte[] jsonBytes = java.util.Base64.getDecoder().decode(base64Str);
+        String jsonStr = new String(jsonBytes, java.nio.charset.StandardCharsets.UTF_8);
+        return com.alibaba.fastjson2.JSON.parseObject(jsonStr, UsageCalculationDTO.class);
     }
 
     private UsageRecord convertToEntity(UsageCalculationDTO dto, BigDecimal inputCost, BigDecimal outputCost, String userId, String timePeriod) {
@@ -302,6 +309,10 @@ public class RocketMQBillingServiceImpl implements BillingService {
                 .divide(ONE_MILLION, 6, RoundingMode.HALF_UP)
                 .multiply(pricePerMillion)
                 .setScale(4, RoundingMode.HALF_UP);
+    }
+
+    private boolean isStartup() {
+        return System.currentTimeMillis() - startupTime < 60000; // 启动后1分钟内认为是启动阶段
     }
 }
 

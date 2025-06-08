@@ -1,4 +1,13 @@
-package com.bgpay.bgai.service.deepseek;import com.bgpay.bgai.datasource.DS;import com.bgpay.bgai.entity.UsageCalculationDTO;import com.bgpay.bgai.response.ChatResponse;import com.bgpay.bgai.service.ChatCompletionsService;import com.bgpay.bgai.service.UsageInfoService;import com.bgpay.bgai.service.mq.MQCallback;import com.bgpay.bgai.service.mq.RocketMQProducerService;import io.seata.spring.annotation.GlobalTransactional;
+package com.bgpay.bgai.service.deepseek;
+
+import com.bgpay.bgai.datasource.DS;
+import com.bgpay.bgai.entity.UsageCalculationDTO;
+import com.bgpay.bgai.response.ChatResponse;
+import com.bgpay.bgai.service.ChatCompletionsService;
+import com.bgpay.bgai.service.UsageInfoService;
+import com.bgpay.bgai.service.mq.MQCallback;
+import com.bgpay.bgai.service.mq.RocketMQProducerService;
+import io.seata.spring.annotation.GlobalTransactional;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;

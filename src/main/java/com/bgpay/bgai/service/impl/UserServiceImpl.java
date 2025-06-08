@@ -23,8 +23,16 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.HashMap;
+import org.springframework.web.client.HttpClientErrorException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import java.util.Set;
 
 /**
  * 用户服务实现类
@@ -42,7 +50,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private UserMapper userMapper;
 
     @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+    private RedisTemplate<String, UserToken> userTokenRedisTemplate;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -69,6 +77,28 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         logoutUrl = environment.getProperty("sso.logout-url", "https://localhost:8080/oauth2/logout");
         
         log.info("初始化SSO配置: clientId={}, redirectUri={}", clientId, redirectUri);
+        
+        // 清理旧的Redis数据
+        cleanupOldRedisData();
+    }
+    
+    private void cleanupOldRedisData() {
+        try {
+            Set<String> tokenKeys = userTokenRedisTemplate.keys(TOKEN_KEY_PREFIX + "*");
+            Set<String> userInfoKeys = userTokenRedisTemplate.keys(USER_INFO_KEY_PREFIX + "*");
+            
+            if (tokenKeys != null && !tokenKeys.isEmpty()) {
+                userTokenRedisTemplate.delete(tokenKeys);
+                log.info("已清理 {} 个旧的token缓存", tokenKeys.size());
+            }
+            
+            if (userInfoKeys != null && !userInfoKeys.isEmpty()) {
+                userTokenRedisTemplate.delete(userInfoKeys);
+                log.info("已清理 {} 个旧的用户信息缓存", userInfoKeys.size());
+            }
+        } catch (Exception e) {
+            log.error("清理旧的Redis数据时发生错误", e);
+        }
     }
 
     /**
@@ -82,6 +112,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @DS("master")
     public UserToken loginWithSSO(String code) {
         try {
+            log.info("开始SSO登录流程, 授权码: {}", code);
+            
             // 1. 获取 access_token
             MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
             params.add("grant_type", "authorization_code");
@@ -92,47 +124,178 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
             HttpHeaders headers = new HttpHeaders();
             headers.set("Content-Type", "application/x-www-form-urlencoded");
+            headers.set("Accept", "application/json");
             HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(params, headers);
 
-            ResponseEntity<Map> responseEntity = restTemplate.exchange(
+            log.debug("发送token请求: URL={}, params={}", tokenUrl, params);
+            
+            try {
+                log.info("Token request URL: {}", tokenUrl);
+                log.info("Token request params: {}", params);
+                
+                ResponseEntity<String> responseEntity = restTemplate.exchange(
                     tokenUrl,
                     HttpMethod.POST,
                     requestEntity,
-                    Map.class
-            );
+                        String.class  // Change to String.class to see raw response
+                );
 
-            Map<String, Object> tokenResponse = responseEntity.getBody();
-            if (tokenResponse == null || !tokenResponse.containsKey("access_token")) {
-                log.error("Failed to get access token: {}", tokenResponse);
-                throw new BillingException("获取访问令牌失败");
-            }
+                String rawResponse = responseEntity.getBody();
+                log.info("Raw token response: {}", rawResponse);
+                
+                // Parse response manually to handle different formats
+                Map<String, Object> tokenResponse;
+                try {
+                    if (rawResponse.startsWith("[")) {
+                        // Response is a JSON array
+                        if (rawResponse.contains("error")) {
+                            // Error response in array format
+                            if (rawResponse.contains("invalid_token")) {
+                                throw new BillingException("授权码无效或已过期，请重新获取授权码");
+                            }
+                            throw new BillingException("获取访问令牌失败: " + rawResponse);
+                        }
+                        
+                        // Try to extract the token from array format
+                        String tokenValue = rawResponse.substring(rawResponse.indexOf("access_token") + "access_token".length() + 3);
+                        tokenValue = tokenValue.substring(0, tokenValue.indexOf("\""));
+                        
+                        tokenResponse = new HashMap<>();
+                        tokenResponse.put("access_token", tokenValue);
+                        tokenResponse.put("token_type", "Bearer");
+                        tokenResponse.put("expires_in", 3600);
+                    } else if (rawResponse.startsWith("{")) {
+                        // Response is a JSON object
+                        ObjectMapper mapper = new ObjectMapper();
+                        tokenResponse = mapper.readValue(rawResponse, Map.class);
+                        
+                        if (tokenResponse.containsKey("error")) {
+                            String error = String.valueOf(tokenResponse.get("error"));
+                            String errorDescription = tokenResponse.containsKey("error_description") ? 
+                                String.valueOf(tokenResponse.get("error_description")) : "";
+                            throw new BillingException(String.format("获取访问令牌失败: %s - %s", error, errorDescription));
+                        }
+                    } else {
+                        // Response is possibly a direct token string
+                        tokenResponse = new HashMap<>();
+                        tokenResponse.put("access_token", rawResponse.trim());
+                        tokenResponse.put("token_type", "Bearer");
+                        tokenResponse.put("expires_in", 3600);
+                    }
+                } catch (Exception e) {
+                    log.error("Failed to parse token response: {}", rawResponse, e);
+                    throw new BillingException("解析访问令牌响应失败: " + e.getMessage());
+                }
 
-            String accessToken = (String) tokenResponse.get("access_token");
-            String refreshToken = (String) tokenResponse.get("refresh_token");
-            Integer expiresIn = (Integer) tokenResponse.get("expires_in");
+                if (!tokenResponse.containsKey("access_token")) {
+                    log.error("Token response does not contain access_token: {}", tokenResponse);
+                    throw new BillingException("获取访问令牌失败: 响应中缺少access_token");
+                }
+
+                String accessToken = String.valueOf(tokenResponse.get("access_token"));
+                String refreshToken = tokenResponse.get("refresh_token") != null ? 
+                    String.valueOf(tokenResponse.get("refresh_token")) : null;
+                Integer expiresIn = tokenResponse.get("expires_in") instanceof Number ? 
+                    ((Number) tokenResponse.get("expires_in")).intValue() : 3600;
 
             // 2. 获取用户信息
             HttpHeaders userInfoHeaders = new HttpHeaders();
             userInfoHeaders.set("Authorization", "Bearer " + accessToken);
+                userInfoHeaders.set("Accept", "application/json");
             HttpEntity<Void> userInfoRequestEntity = new HttpEntity<>(userInfoHeaders);
 
-            ResponseEntity<Map> userInfoResponse = restTemplate.exchange(
+                log.info("User info request URL: {}", userInfoUrl);
+                log.debug("User info request headers: {}", userInfoHeaders);
+                
+                ResponseEntity<String> userInfoResponse = restTemplate.exchange(
                     userInfoUrl,
                     HttpMethod.GET,
                     userInfoRequestEntity,
-                    Map.class
-            );
+                        String.class
+                );
 
-            Map<String, Object> userInfo = userInfoResponse.getBody();
-            if (userInfo == null || !userInfo.containsKey("user_id")) {
-                log.error("Failed to get user info: {}", userInfo);
-                throw new BillingException("获取用户信息失败");
-            }
+                String rawUserInfo = userInfoResponse.getBody();
+                log.info("User info response status: {}", userInfoResponse.getStatusCode());
+                log.debug("Raw user info response: {}", rawUserInfo);
+                
+                Map<String, Object> userInfo;
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                mapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
+                mapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
+                
+                try {
+                    if (rawUserInfo == null || rawUserInfo.trim().isEmpty()) {
+                        throw new BillingException("获取用户信息失败: 空响应");
+                    }
+                    
+                    String trimmedResponse = rawUserInfo.trim();
+                    if (trimmedResponse.startsWith("[")) {
+                        // Response is a JSON array
+                        JsonNode rootNode = mapper.readTree(trimmedResponse);
+                        if (rootNode.size() == 0) {
+                            throw new BillingException("获取用户信息失败: 空数组响应");
+                        }
+                        
+                        // Get the first element if it's an array
+                        JsonNode firstNode = rootNode.get(0);
+                        if (firstNode.isObject()) {
+                            userInfo = mapper.convertValue(firstNode, Map.class);
+                        } else if (firstNode.isTextual()) {
+                            // Handle case where array contains simple strings
+                            String userId = firstNode.asText();
+                            userInfo = new HashMap<>();
+                            userInfo.put("user_id", userId);
+                            userInfo.put("name", "User " + userId);
+                            userInfo.put("email", userId + "@example.com");
+                        } else {
+                            log.error("Unexpected array element type: {}", firstNode.getNodeType());
+                            throw new BillingException("获取用户信息失败: 数组元素格式错误");
+                        }
+                    } else if (trimmedResponse.startsWith("{")) {
+                        // Response is a JSON object
+                        userInfo = mapper.readValue(trimmedResponse, Map.class);
+                    } else {
+                        // Try to parse as JSON first
+                        try {
+                            JsonNode node = mapper.readTree(trimmedResponse);
+                            if (node.isObject()) {
+                                userInfo = mapper.convertValue(node, Map.class);
+                            } else if (node.isTextual() || node.isNumber()) {
+                                // Handle simple value as user ID
+                                String userId = node.asText();
+                                userInfo = new HashMap<>();
+                                userInfo.put("user_id", userId);
+                                userInfo.put("name", "User " + userId);
+                                userInfo.put("email", userId + "@example.com");
+                            } else {
+                                throw new BillingException("获取用户信息失败: 未知的JSON格式");
+                            }
+                        } catch (JsonProcessingException e) {
+                            // Not valid JSON, treat as plain text user ID
+                            String userId = trimmedResponse;
+                            userInfo = new HashMap<>();
+                            userInfo.put("user_id", userId);
+                            userInfo.put("name", "User " + userId);
+                            userInfo.put("email", userId + "@example.com");
+                        }
+                    }
 
-            String userId = (String) userInfo.get("user_id");
-            String username = (String) userInfo.get("name");
-            String email = (String) userInfo.get("email");
-            String avatarUrl = (String) userInfo.get("picture");
+                    // Validate and normalize user info
+                    if (!userInfo.containsKey("user_id") || userInfo.get("user_id") == null) {
+                        log.error("User info missing required user_id field: {}", userInfo);
+                        throw new BillingException("获取用户信息失败: 缺少用户ID");
+                    }
+
+                    // Normalize all fields to String type
+                    String userId = String.valueOf(userInfo.get("user_id")).trim();
+                    if (userId.isEmpty()) {
+                        throw new BillingException("获取用户信息失败: 用户ID为空");
+                    }
+
+                    String username = userInfo.get("name") != null ? String.valueOf(userInfo.get("name")).trim() : "User " + userId;
+                    String email = userInfo.get("email") != null ? String.valueOf(userInfo.get("email")).trim() : userId + "@example.com";
+                    String avatarUrl = userInfo.get("picture") != null ? String.valueOf(userInfo.get("picture")).trim() : null;
 
             // 3. 更新或创建用户
             User existingUser = userMapper.findByUserId(userId);
@@ -180,13 +343,31 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
             // 缓存令牌
             String tokenKey = TOKEN_KEY_PREFIX + accessToken;
-            redisTemplate.opsForValue().set(tokenKey, userToken, TOKEN_CACHE_DAYS, TimeUnit.DAYS);
+                    userTokenRedisTemplate.opsForValue().set(tokenKey, userToken, TOKEN_CACHE_DAYS, TimeUnit.DAYS);
 
             // 缓存用户信息
             String userInfoKey = USER_INFO_KEY_PREFIX + userId;
-            redisTemplate.opsForValue().set(userInfoKey, userToken, USER_CACHE_DAYS, TimeUnit.DAYS);
+                    userTokenRedisTemplate.opsForValue().set(userInfoKey, userToken, USER_CACHE_DAYS, TimeUnit.DAYS);
 
             return userToken;
+                } catch (Exception e) {
+                    log.error("Failed to get user info", e);
+                    throw new BillingException("获取用户信息失败: " + e.getMessage());
+                }
+            } catch (HttpClientErrorException.Unauthorized ex) {
+                log.error("Token endpoint returned unauthorized error", ex);
+                String responseBody = ex.getResponseBodyAsString();
+                if (responseBody != null && responseBody.contains("invalid_token")) {
+                    throw new BillingException("授权码无效或已过期，请重新获取授权码");
+                } else {
+                    throw new BillingException("SSO认证失败: " + ex.getMessage());
+                }
+            } catch (HttpClientErrorException ex) {
+                log.error("Token endpoint returned error", ex);
+                throw new BillingException("SSO服务器错误: " + ex.getMessage());
+            }
+        } catch (BillingException e) {
+            throw e;
         } catch (Exception e) {
             log.error("SSO login failed", e);
             throw new BillingException("SSO登录失败: " + e.getMessage());
@@ -207,7 +388,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         // 1. 首先检查缓存中是否存在令牌
         String tokenKey = TOKEN_KEY_PREFIX + accessToken;
-        UserToken cachedToken = (UserToken) redisTemplate.opsForValue().get(tokenKey);
+        UserToken cachedToken = userTokenRedisTemplate.opsForValue().get(tokenKey);
 
         if (cachedToken != null) {
             // 检查令牌是否过期
@@ -215,7 +396,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 return cachedToken;
             } else {
                 // 令牌已过期，从缓存中删除
-                redisTemplate.delete(tokenKey);
+                userTokenRedisTemplate.delete(tokenKey);
                 return null;
             }
         }
@@ -237,7 +418,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                         .build();
 
                 // 缓存令牌
-                redisTemplate.opsForValue().set(tokenKey, userToken, TOKEN_CACHE_DAYS, TimeUnit.DAYS);
+                userTokenRedisTemplate.opsForValue().set(tokenKey, userToken, TOKEN_CACHE_DAYS, TimeUnit.DAYS);
                 return userToken;
             }
         }
@@ -257,7 +438,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                     .build();
             
             // 缓存测试令牌
-            redisTemplate.opsForValue().set(tokenKey, testToken, TOKEN_CACHE_DAYS, TimeUnit.DAYS);
+            userTokenRedisTemplate.opsForValue().set(tokenKey, testToken, TOKEN_CACHE_DAYS, TimeUnit.DAYS);
             return testToken;
         }
 
@@ -275,7 +456,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public User getUserInfo(String userId) {
         // 1. 首先检查缓存中是否存在用户信息
         String userInfoKey = USER_INFO_KEY_PREFIX + userId;
-        UserToken cachedUserToken = (UserToken) redisTemplate.opsForValue().get(userInfoKey);
+        UserToken cachedUserToken = userTokenRedisTemplate.opsForValue().get(userInfoKey);
 
         if (cachedUserToken != null) {
             // 从缓存的用户令牌构建用户信息
@@ -367,7 +548,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             // 4. 更新缓存
             // 删除旧令牌
             String oldTokenKey = TOKEN_KEY_PREFIX + user.getAccessToken();
-            redisTemplate.delete(oldTokenKey);
+            userTokenRedisTemplate.delete(oldTokenKey);
 
             // 创建新的用户令牌
             UserToken userToken = UserToken.builder()
@@ -382,11 +563,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
             // 缓存新令牌
             String newTokenKey = TOKEN_KEY_PREFIX + newAccessToken;
-            redisTemplate.opsForValue().set(newTokenKey, userToken, TOKEN_CACHE_DAYS, TimeUnit.DAYS);
+            userTokenRedisTemplate.opsForValue().set(newTokenKey, userToken, TOKEN_CACHE_DAYS, TimeUnit.DAYS);
 
             // 更新用户信息缓存
             String userInfoKey = USER_INFO_KEY_PREFIX + userId;
-            redisTemplate.opsForValue().set(userInfoKey, userToken, USER_CACHE_DAYS, TimeUnit.DAYS);
+            userTokenRedisTemplate.opsForValue().set(userInfoKey, userToken, USER_CACHE_DAYS, TimeUnit.DAYS);
 
             return userToken;
         } catch (Exception e) {
@@ -405,7 +586,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         try {
             // 1. 从缓存中获取用户令牌
             String tokenKey = TOKEN_KEY_PREFIX + accessToken;
-            UserToken userToken = (UserToken) redisTemplate.opsForValue().get(tokenKey);
+            UserToken userToken = userTokenRedisTemplate.opsForValue().get(tokenKey);
 
             if (userToken != null) {
                 // 2. 调用SSO登出接口
@@ -421,7 +602,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 );
 
                 // 3. 删除令牌缓存
-                redisTemplate.delete(tokenKey);
+                userTokenRedisTemplate.delete(tokenKey);
 
                 // 4. 在数据库中将令牌置为无效
                 User user = userMapper.findByUserId(userToken.getUserId());
