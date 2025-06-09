@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.0.12</version>
+		<version>3.2.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.bgpay</groupId>
@@ -32,12 +32,12 @@
 		<java.version>21</java.version>
 		<jackson.version>2.15.3</jackson.version>
 		<!-- Spring Cloud 相关 -->
-		<spring-cloud-dependencies.version>2022.0.4</spring-cloud-dependencies.version>
+		<spring-cloud-dependencies.version>2023.0.1</spring-cloud-dependencies.version>
 		<spring-cloud-alibaba-dependencies.version>2022.0.0.0-RC2</spring-cloud-alibaba-dependencies.version>
 		<spring-cloud-starter-bootstrap.version>4.0.3</spring-cloud-starter-bootstrap.version>
 		<seata.version>1.7.0</seata.version>
 		<!-- Elasticsearch 版本 -->
-		<elasticsearch.version>7.17.14</elasticsearch.version>
+		<elasticsearch.version>8.12.2</elasticsearch.version>
 		<!-- 基础依赖 -->
 		<pagehelper.version>5.3.2</pagehelper.version>
 		<httpclient.version>4.5.13</httpclient.version>
@@ -151,6 +151,12 @@
 				<version>${spring-cloud-alibaba-dependencies.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+			<!-- 强制指定elasticsearch-java版本，解决依赖冲突 -->
+			<dependency>
+				<groupId>co.elastic.clients</groupId>
+				<artifactId>elasticsearch-java</artifactId>
+				<version>8.12.2</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -781,17 +787,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-elasticsearch</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework.data</groupId>
-					<artifactId>spring-data-elasticsearch</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-elasticsearch</artifactId>
-			<version>5.0.5</version>
 		</dependency>
 		<!-- RocketMQ -->
 		<dependency>
