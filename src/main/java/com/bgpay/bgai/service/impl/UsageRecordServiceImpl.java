@@ -1,5 +1,6 @@
 package com.bgpay.bgai.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bgpay.bgai.entity.UsageCalculationDTO;
@@ -170,5 +171,10 @@ public class UsageRecordServiceImpl extends ServiceImpl<UsageRecordMapper, Usage
             log.error("删除记录失败: {}", completionId, e);
             throw e;
         }
+    }
+
+    @Override
+    public boolean update(Wrapper<UsageRecord> updateWrapper) {
+        return super.update(updateWrapper);
     }
 }

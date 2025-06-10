@@ -1,5 +1,6 @@
 package com.bgpay.bgai.service;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.bgpay.bgai.entity.UsageCalculationDTO;
 import com.bgpay.bgai.entity.UsageRecord;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -17,6 +18,8 @@ import java.util.List;
  */
 public interface UsageRecordService extends IService<UsageRecord> {
     public void insertUsageRecord(UsageRecord usageRecord);
+
+    public boolean update(Wrapper<UsageRecord> updateWrapper);
 
     public UsageRecord findByCompletionId(String completionId);
 

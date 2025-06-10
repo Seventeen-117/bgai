@@ -173,7 +173,8 @@ public class RocketMQBillingServiceImpl implements BillingService {
     private void processUnconsumedMessage(UsageCalculationDTO dto, String userId, String businessKey) {
         try {
             // 直接处理消息，不发送新消息
-            UsageRecord record = convertToEntity(dto, dto.getInputCost(), dto.getOutputCost(), userId, determineTimePeriod(convertToBeijingTime(dto.getCreatedAt())));
+            UsageRecord record = convertToEntity(dto, dto.getInputCost(), dto.getOutputCost(),
+                    userId, determineTimePeriod(convertToBeijingTime(dto.getCreatedAt())));
             usageRecordService.insertUsageRecord(record);
             markAsProcessed(businessKey);
             log.info("Successfully processed unconsumed message during startup: {}", businessKey);

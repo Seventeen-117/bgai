@@ -38,7 +38,7 @@ public class ChatRecordWebFilter implements WebFilter {
 
         final long startTime = System.currentTimeMillis();
         ServerHttpRequest request = exchange.getRequest();
-        
+
         // Store request body content
         AtomicReference<String> requestBodyRef = new AtomicReference<>("");
 
@@ -49,11 +49,11 @@ public class ChatRecordWebFilter implements WebFilter {
                     byte[] bytes = new byte[buffer.readableByteCount()];
                     buffer.read(bytes);
                     DataBufferUtils.release(buffer);
-                    
+
                     // Append to request body reference
                     String chunk = new String(bytes, StandardCharsets.UTF_8);
                     requestBodyRef.accumulateAndGet(chunk, (current, newValue) -> current + newValue);
-                    
+
                     // Return a new buffer with the same content
                     return bufferFactory.wrap(bytes);
                 });
@@ -84,4 +84,4 @@ public class ChatRecordWebFilter implements WebFilter {
                     chatRecordRepository.save(record);
                 });
     }
-} 
+}

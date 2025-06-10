@@ -168,7 +168,7 @@ public class BGAIServiceImpl {
                 completionId, dto.getModelType(), dto.getPromptTokens(), dto.getCompletionTokens());
             
             try {
-                // 计算费用并保存使用记录
+//                 计算费用并保存使用记录
                 UsageRecord record = convertToUsageRecord(dto, userId);
                 usageRecordService.insertUsageRecord(record);
                 logger.info("成功插入使用记录: completionId={}, userId={}", completionId, userId);
