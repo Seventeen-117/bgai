@@ -28,7 +28,7 @@
 
     <!-- Logstash 输出 -->
     <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>8.133.246.113:5044</destination>
+        <destination>8.133.246.113:5000</destination>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
             <protocol>beats</protocol>
             <customFields>{"app_name":"${springAppName}"}</customFields>
