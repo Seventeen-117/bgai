@@ -53,7 +53,8 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import static org.reflections.Reflections.log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.bgpay.bgai.service.impl.FallbackService;
 import com.bgpay.bgai.transaction.TransactionCoordinator;
 import com.bgpay.bgai.service.impl.BGAIServiceImpl;
@@ -68,6 +69,8 @@ import com.bgpay.bgai.service.impl.BGAIServiceImpl;
 public class DeepSeekServiceImp implements DeepSeekService {
     private static final ObjectMapper mapper = new ObjectMapper()
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            
+    private static final Logger log = LoggerFactory.getLogger(DeepSeekServiceImp.class);
 
     @Value("${stream:false}")
     private boolean stream;
