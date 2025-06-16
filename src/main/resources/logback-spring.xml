@@ -79,6 +79,7 @@
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
-        <appender-ref ref="ASYNC_LOGSTASH"/>
+        <!-- 临时注释掉Logstash，直到服务可用 -->
+        <!--<appender-ref ref="ASYNC_LOGSTASH"/>-->
     </root>
 </configuration>
