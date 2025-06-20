@@ -3,6 +3,7 @@ package com.bgpay.bgai.service.impl;
 import com.bgpay.bgai.entity.UsageCalculationDTO;
 import com.bgpay.bgai.entity.UsageRecord;
 import com.bgpay.bgai.service.UsageRecordService;
+import com.bgpay.bgai.service.UsageInfoService;
 import com.bgpay.bgai.service.mq.RocketMQProducerService;
 import com.bgpay.bgai.service.PriceCacheService;
 import com.bgpay.bgai.entity.PriceConfig;
@@ -43,40 +44,24 @@ public class BGAIServiceImpl {
     private UsageRecordService usageRecordService;
     
     @Autowired
+    private UsageInfoService usageInfoService;
+    
+    @Autowired
     private PriceCacheService priceCache;
     
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
     
     /**
-     * 执行第一步操作：发送账单消息
+     * 执行第一步操作：准备处理环境
      */
     @Transactional
     public boolean executeFirstStep(String businessKey) {
         try {
-            logger.info("执行第一步操作 - 发送账单消息, businessKey: {}", businessKey);
+            logger.info("执行第一步操作 - 准备处理环境, businessKey: {}", businessKey);
             String[] parts = businessKey.split(":");
             String userId = parts[0];
             String completionId = parts[1];
-            
-            // 检查是否已经处理过
-            boolean exists = usageRecordService.existsByCompletionId(completionId);
-            logger.info("检查记录是否存在: completionId={}, exists={}", completionId, exists);
-            
-            if (exists) {
-                logger.info("账单消息已处理，跳过发送, completionId: {}", completionId);
-                return true;
-            }
-            
-            // 从缓存或其他地方获取 UsageCalculationDTO
-            UsageCalculationDTO dto = usageRecordService.getCalculationDTO(completionId);
-            if (dto == null) {
-                logger.error("未找到计费数据, completionId: {}, userId: {}", completionId, userId);
-                throw new BillingException("计费数据不存在");
-            }
-            
-            logger.info("获取到计费数据: completionId={}, modelType={}, tokens={}/{}", 
-                completionId, dto.getModelType(), dto.getPromptTokens(), dto.getCompletionTokens());
             
             // 检查Redis状态并清理可能存在的旧状态
             String redisKey = PROCESSED_KEY_PREFIX + completionId;
@@ -87,17 +72,14 @@ public class BGAIServiceImpl {
                 redisTemplate.delete(redisKey + ":processed");
             }
             
-            // 发送账单消息
-            rocketMQProducer.sendBillingMessage(dto, userId);
-            
             // 设置处理中状态
             redisTemplate.opsForValue().set(redisKey + ":processing", "1", 30, TimeUnit.MINUTES);
             logger.info("成功设置处理中状态: {}", redisKey + ":processing");
             
             return true;
         } catch (Exception e) {
-            logger.error("发送账单消息失败, businessKey: {}, error: {}", businessKey, e.getMessage(), e);
-            throw new BillingException("发送账单消息失败: " + e.getMessage());
+            logger.error("准备处理环境失败, businessKey: {}, error: {}", businessKey, e.getMessage(), e);
+            throw new BillingException("准备处理环境失败: " + e.getMessage());
         }
     }
     
@@ -125,7 +107,7 @@ public class BGAIServiceImpl {
     }
 
     /**
-     * 执行第二步操作：处理账单消息
+     * 执行第二步操作：处理账单消息，插入使用记录
      */
     @Transactional
     public boolean executeSecondStep(String businessKey, Object firstResult) {
@@ -168,10 +150,12 @@ public class BGAIServiceImpl {
                 completionId, dto.getModelType(), dto.getPromptTokens(), dto.getCompletionTokens());
             
             try {
-//                 计算费用并保存使用记录
-                UsageRecord record = convertToUsageRecord(dto, userId);
-                usageRecordService.insertUsageRecord(record);
-                logger.info("成功插入使用记录: completionId={}, userId={}", completionId, userId);
+                // 处理用户使用信息
+                boolean success = usageInfoService.processUsageInfo(dto, userId);
+                if (!success) {
+                    logger.error("处理用户使用信息失败, completionId: {}", completionId);
+                    throw new BillingException("处理用户使用信息失败");
+                }
                 
                 // 更新处理状态
                 redisTemplate.opsForValue().set(redisKey + ":processed", "1", 24, TimeUnit.HOURS);
@@ -190,7 +174,7 @@ public class BGAIServiceImpl {
     }
     
     /**
-     * 执行第三步操作：更新账单状态
+     * 执行第三步操作：更新账单状态，完成最终处理
      */
     @Transactional
     public boolean executeThirdStep(String businessKey, Object secondResult) {
@@ -302,105 +286,6 @@ public class BGAIServiceImpl {
         } catch (Exception e) {
             logger.error("补偿账单状态失败, businessKey: {}", businessKey, e);
             return false;
-        }
-    }
-
-    /**
-     * 将UsageCalculationDTO转换为UsageRecord
-     */
-    private UsageRecord convertToUsageRecord(UsageCalculationDTO dto, String userId) {
-        UsageRecord record = new UsageRecord();
-        record.setModelType(dto.getModelType());
-        record.setChatCompletionId(dto.getChatCompletionId());
-        record.setUserId(userId);
-        record.setCalculatedAt(LocalDateTime.now());
-        record.setStatus("PENDING");
-        record.setCreatedAt(LocalDateTime.now());
-
-        // 计算费用
-        ZonedDateTime beijingTime = dto.getCreatedAt()
-                .atZone(ZoneId.systemDefault())
-                .withZoneSameInstant(BEIJING_ZONE);
-        String timePeriod = determineTimePeriod(beijingTime);
-        
-        // 计算输入成本
-        BigDecimal inputCost = calculateInputCost(dto, timePeriod);
-        record.setInputCost(inputCost);
-        
-        // 计算输出成本
-        BigDecimal outputCost = calculateOutputCost(dto, timePeriod);
-        record.setOutputCost(outputCost);
-        
-        // 设置价格版本
-        record.setPriceVersion(getPriceVersion(dto, timePeriod));
-        
-        return record;
-    }
-
-    private String determineTimePeriod(ZonedDateTime beijingTime) {
-        // 实现时间段判断逻辑
-        return "standard"; // 根据实际需求实现
-    }
-
-    private BigDecimal calculateInputCost(UsageCalculationDTO dto, String timePeriod) {
-        try {
-            PriceQuery query = new PriceQuery(dto.getModelType(), timePeriod, null, INPUT_TYPE);
-            PriceConfig config = priceCache.getPriceConfig(query);
-            
-            if (config == null) {
-                logger.warn("No price configuration found for input cost calculation. Using default pricing. Query: {}", query);
-                // Default pricing: 0.002 per 1K tokens for input
-                return calculateCost(dto.getPromptTokens(), new BigDecimal("2.0"));
-            }
-            
-            return calculateCost(dto.getPromptTokens(), config.getPrice());
-        } catch (Exception e) {
-            logger.error("Error calculating input cost for model: {}, timePeriod: {}", dto.getModelType(), timePeriod, e);
-            // Default pricing as fallback
-            return calculateCost(dto.getPromptTokens(), new BigDecimal("2.0"));
-        }
-    }
-
-    private BigDecimal calculateOutputCost(UsageCalculationDTO dto, String timePeriod) {
-        try {
-            PriceQuery query = new PriceQuery(dto.getModelType(), timePeriod, null, OUTPUT_TYPE);
-            PriceConfig config = priceCache.getPriceConfig(query);
-            
-            if (config == null) {
-                logger.warn("No price configuration found for output cost calculation. Using default pricing. Query: {}", query);
-                // Default pricing: 0.004 per 1K tokens for output
-                return calculateCost(dto.getCompletionTokens(), new BigDecimal("4.0"));
-            }
-            
-            return calculateCost(dto.getCompletionTokens(), config.getPrice());
-        } catch (Exception e) {
-            logger.error("Error calculating output cost for model: {}, timePeriod: {}", dto.getModelType(), timePeriod, e);
-            // Default pricing as fallback
-            return calculateCost(dto.getCompletionTokens(), new BigDecimal("4.0"));
-        }
-    }
-
-    private BigDecimal calculateCost(int tokens, BigDecimal pricePerMillion) {
-        return BigDecimal.valueOf(tokens)
-                .divide(ONE_MILLION, 6, RoundingMode.HALF_UP)
-                .multiply(pricePerMillion)
-                .setScale(4, RoundingMode.HALF_UP);
-    }
-
-    private Integer getPriceVersion(UsageCalculationDTO dto, String timePeriod) {
-        try {
-            PriceQuery query = new PriceQuery(dto.getModelType(), timePeriod, null, OUTPUT_TYPE);
-            PriceConfig config = priceCache.getPriceConfig(query);
-            
-            if (config == null) {
-                logger.warn("No price configuration found for version lookup. Using default version 1. Query: {}", query);
-                return 1;
-            }
-            
-            return config.getVersion();
-        } catch (Exception e) {
-            logger.error("Error getting price version for model: {}, timePeriod: {}", dto.getModelType(), timePeriod, e);
-            return 1;
         }
     }
 } 

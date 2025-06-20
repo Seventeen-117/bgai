@@ -1,7 +1,9 @@
 package com.bgpay.bgai.service.mq;
 
 import com.alibaba.fastjson2.JSON;
+import com.bgpay.bgai.entity.TransactionLog;
 import com.bgpay.bgai.entity.UsageCalculationDTO;
+import com.bgpay.bgai.service.TransactionLogService;
 import com.bgpay.bgai.service.UsageInfoService;
 import com.bgpay.bgai.transaction.TransactionCoordinator;
 import com.github.benmanes.caffeine.cache.Cache;
@@ -41,6 +43,9 @@ public class BillingTransactionListenerImpl implements RocketMQLocalTransactionL
     private RedisTemplate<String, String> redisTemplate;
     
     @Autowired
+    private TransactionLogService transactionLogService;
+    
+    @Autowired
     private UsageInfoService usageInfoService;
     
     @Autowired
@@ -62,6 +67,19 @@ public class BillingTransactionListenerImpl implements RocketMQLocalTransactionL
                 return RocketMQLocalTransactionState.COMMIT;
             }
             
+            // 检查事务日志
+            TransactionLog txLog = transactionLogService.findByXid(xid);
+            if (txLog == null) {
+                log.error("事务日志不存在，回滚事务, xid: {}", xid);
+                return RocketMQLocalTransactionState.ROLLBACK;
+            }
+            
+            // 检查事务状态
+            if ("COMPLETED".equals(txLog.getStatus())) {
+                log.info("事务已完成，提交事务, xid: {}", xid);
+                return RocketMQLocalTransactionState.COMMIT;
+            }
+            
             // 验证事务ID是否存在且一致
             String currentId = transactionCoordinator.getCurrentCompletionId(userId);
             if (currentId == null || !currentId.equals(completionId)) {
@@ -69,29 +87,12 @@ public class BillingTransactionListenerImpl implements RocketMQLocalTransactionL
                 return RocketMQLocalTransactionState.ROLLBACK;
             }
             
-            // 兼容 RocketMQ payload 实际为 Base64 字符串的情况
-            byte[] payload = (byte[]) msg.getPayload();
-            String base64Str = new String(payload, StandardCharsets.UTF_8).trim();
-            if (base64Str.startsWith("\"") && base64Str.endsWith("\"")) {
-                base64Str = base64Str.substring(1, base64Str.length() - 1);
-            }
-            byte[] jsonBytes = Base64.getDecoder().decode(base64Str);
-            String jsonStr = new String(jsonBytes, StandardCharsets.UTF_8);
-            UsageCalculationDTO dto = JSON.parseObject(jsonStr, UsageCalculationDTO.class);
+            // 更新事务状态为已完成
+            transactionLogService.updateTransactionStatus(xid, "COMPLETED", null);
             
-            boolean success = usageInfoService.processUsageInfo(dto, userId);
+            log.info("本地事务执行成功，提交事务, xid: {}, completionId: {}", xid, completionId);
+            return RocketMQLocalTransactionState.COMMIT;
             
-            if (success) {
-                // 提交事务
-                if (transactionCoordinator.commit(userId, completionId, dto.getModelType())) {
-                    log.info("本地事务执行成功，提交事务, completionId: {}", completionId);
-                    return RocketMQLocalTransactionState.COMMIT;
-                }
-            }
-            
-            // 执行失败，回滚事务
-            log.warn("本地事务执行失败，回滚事务, completionId: {}", completionId);
-            return RocketMQLocalTransactionState.ROLLBACK;
         } catch (Exception e) {
             log.error("本地事务执行异常，回滚事务, xid: {}, completionId: {}", xid, completionId, e);
             return RocketMQLocalTransactionState.ROLLBACK;

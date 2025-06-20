@@ -20,6 +20,8 @@ public interface UsageRecordService extends IService<UsageRecord> {
     public void insertUsageRecord(UsageRecord usageRecord);
 
     public boolean update(Wrapper<UsageRecord> updateWrapper);
+    public boolean saveOrUpdate(UsageRecord entity);
+    public void updateUsageRecord(UsageRecord entity,String userId);
 
     public UsageRecord findByCompletionId(String completionId);
 
@@ -51,4 +53,6 @@ public interface UsageRecordService extends IService<UsageRecord> {
      * @param completionId 完成ID
      */
     void deleteByCompletionId(String completionId);
+
+    void cacheCalculationDTO(String completionId, UsageCalculationDTO dto);
 }

@@ -1,6 +1,7 @@
 package com.bgpay.bgai.service.mq;
 
 import com.alibaba.fastjson2.JSON;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.bgpay.bgai.entity.PriceConfig;
 import com.bgpay.bgai.entity.PriceQuery;
 import com.bgpay.bgai.entity.UsageCalculationDTO;
@@ -8,6 +9,7 @@ import com.bgpay.bgai.entity.UsageRecord;
 import com.bgpay.bgai.exception.BillingException;
 import com.bgpay.bgai.service.BillingService;
 import com.bgpay.bgai.service.PriceCacheService;
+import com.bgpay.bgai.service.UsageInfoService;
 import com.bgpay.bgai.service.UsageRecordService;
 import com.bgpay.bgai.service.impl.BGAIServiceImpl;
 import com.github.benmanes.caffeine.cache.Cache;
@@ -30,9 +32,12 @@ import org.springframework.transaction.annotation.Transactional;
 import jakarta.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.nio.charset.StandardCharsets;
 import java.time.*;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.Base64;
+import java.util.Optional;
 
 import static com.bgpay.bgai.entity.PriceConstants.*;
 import static com.bgpay.bgai.entity.PriceConstants.INPUT_TYPE;
@@ -57,6 +62,7 @@ public class RocketMQBillingServiceImpl implements BillingService {
     private final RedisTemplate<String, String> redisTemplate;
     private final PriceCacheService priceCache;
     private final UsageRecordService usageRecordService;
+    private final UsageInfoService usageInfoService;
     private final RocketMQProducerService mqProducer;
     private final MQConsumerService mqConsumerService;
     private final BGAIServiceImpl bgaiService;
@@ -108,25 +114,41 @@ public class RocketMQBillingServiceImpl implements BillingService {
         try {
             userId = Optional.ofNullable(messageExt.getUserProperty("USER_ID"))
                     .orElseThrow(() -> new BillingException("缺失USER_ID"));
-            UsageCalculationDTO dto = deserializeMessageBody(messageExt);
+            
+            // 解析消息体 - 处理Base64编码
+            String base64Body = new String(messageExt.getBody(), StandardCharsets.UTF_8);
+            // 移除可能存在的引号
+            if (base64Body.startsWith("\"") && base64Body.endsWith("\"")) {
+                base64Body = base64Body.substring(1, base64Body.length() - 1);
+            }
+            
+            // Base64解码
+            byte[] jsonBytes = Base64.getDecoder().decode(base64Body);
+            String jsonStr = new String(jsonBytes, StandardCharsets.UTF_8);
+            
+            log.debug("解码后的JSON数据: {}", jsonStr);
+            
+            // 解析JSON
+            UsageCalculationDTO dto = JSON.parseObject(jsonStr, UsageCalculationDTO.class);
             completionId = dto.getChatCompletionId();
             
             String businessKey = userId + ":" + completionId;
             
-            // 检查是否已处理过
-            if (checkProcessed(businessKey)) {
-                log.info("Message already processed, skipping. businessKey: {}", businessKey);
-                return;
+            // 检查是否已经完全处理过（所有步骤都已完成）
+            String redisKey = PROCESSED_KEY_PREFIX + completionId;
+            if (Boolean.TRUE.equals(redisTemplate.hasKey(redisKey))) {
+                // 检查数据库中的状态
+                UsageRecord record = usageRecordService.findByCompletionId(completionId);
+                if (record != null && "COMPLETED".equals(record.getStatus())) {
+                    log.info("消息已完全处理，跳过处理, businessKey: {}", businessKey);
+                    return;
+                }
             }
             
-            // 在启动阶段，只处理未消费的消息，不发送新消息
-            if (isStartup()) {
-                log.info("System is in startup phase, processing unconsumed message: {}", businessKey);
-                processUnconsumedMessage(dto, userId, businessKey);
-                return;
-            }
+            // 保存计费数据到缓存，供后续步骤使用
+            usageRecordService.cacheCalculationDTO(completionId, dto);
             
-            // 执行第一步：发送账单消息
+            // 执行第一步：准备处理
             boolean firstStepResult = bgaiService.executeFirstStep(businessKey);
             if (!firstStepResult) {
                 log.error("第一步执行失败，开始补偿, businessKey: {}", businessKey);
@@ -134,7 +156,7 @@ public class RocketMQBillingServiceImpl implements BillingService {
                 throw new BillingException("第一步执行失败");
             }
             
-            // 执行第二步：处理账单消息
+            // 执行第二步：处理账单消息和数据插入
             boolean secondStepResult = bgaiService.executeSecondStep(businessKey, firstStepResult);
             if (!secondStepResult) {
                 log.error("第二步执行失败，开始补偿, businessKey: {}", businessKey);
@@ -153,12 +175,11 @@ public class RocketMQBillingServiceImpl implements BillingService {
                 throw new BillingException("第三步执行失败");
             }
             
-            // 标记消息已处理
-            markAsProcessed(businessKey);
-            log.info("消息处理成功完成, businessKey: {}", businessKey);
+            // 标记消息完全处理完成
+            redisTemplate.opsForValue().set(redisKey, "1", 24, TimeUnit.HOURS);
             
         } catch (Exception e) {
-            log.error("消息处理失败 [CompletionId={}, UserId={}]", completionId, userId, e);
+            log.error("消息处理失败 [CompletionId={}, UserId={}], error: {}", completionId, userId, e.getMessage(), e);
             if (completionId != null && userId != null) {
                 String businessKey = userId + ":" + completionId;
                 // 发生异常时执行完整的补偿链
@@ -166,151 +187,10 @@ public class RocketMQBillingServiceImpl implements BillingService {
                 bgaiService.compensateSecondStep(businessKey);
                 bgaiService.compensateFirstStep(businessKey);
             }
-            throw new BillingException("消息处理失败", e);
+            throw new BillingException("消息处理失败: " + e.getMessage(), e);
         }
     }
 
-    private void processUnconsumedMessage(UsageCalculationDTO dto, String userId, String businessKey) {
-        try {
-            // 直接处理消息，不发送新消息
-            UsageRecord record = convertToEntity(dto, dto.getInputCost(), dto.getOutputCost(),
-                    userId, determineTimePeriod(convertToBeijingTime(dto.getCreatedAt())));
-            usageRecordService.insertUsageRecord(record);
-            markAsProcessed(businessKey);
-            log.info("Successfully processed unconsumed message during startup: {}", businessKey);
-        } catch (Exception e) {
-            log.error("Failed to process unconsumed message during startup: {}", businessKey, e);
-            throw new BillingException("Failed to process unconsumed message", e);
-        }
-    }
-
-    private boolean checkProcessed(String businessKey) {
-        String redisKey = PROCESSED_KEY_PREFIX + businessKey;
-        return Boolean.TRUE.equals(redisTemplate.hasKey(redisKey));
-    }
-
-    private void markAsProcessed(String businessKey) {
-        String redisKey = PROCESSED_KEY_PREFIX + businessKey;
-        redisTemplate.opsForValue().set(redisKey, "1", REDIS_CACHE_EXPIRE_HOURS, TimeUnit.HOURS);
-    }
-
-    private UsageCalculationDTO deserializeMessageBody(MessageExt messageExt) {
-        byte[] body = messageExt.getBody();
-        String base64Str = new String(body, java.nio.charset.StandardCharsets.UTF_8).trim();
-        if (base64Str.startsWith("\"") && base64Str.endsWith("\"")) {
-            base64Str = base64Str.substring(1, base64Str.length() - 1);
-        }
-        byte[] jsonBytes = java.util.Base64.getDecoder().decode(base64Str);
-        String jsonStr = new String(jsonBytes, java.nio.charset.StandardCharsets.UTF_8);
-        return com.alibaba.fastjson2.JSON.parseObject(jsonStr, UsageCalculationDTO.class);
-    }
-
-    private UsageRecord convertToEntity(UsageCalculationDTO dto, BigDecimal inputCost, BigDecimal outputCost, String userId, String timePeriod) {
-        UsageRecord record = new UsageRecord();
-        record.setModelType(dto.getModelType());
-        record.setChatCompletionId(dto.getChatCompletionId());
-        record.setUserId(userId);
-        record.setInputCost(inputCost);
-        record.setOutputCost(outputCost);
-        record.setCalculatedAt(LocalDateTime.now());
-        record.setStatus("PENDING");
-        record.setCreatedAt(LocalDateTime.now());
-        
-        // 获取价格版本
-        try {
-            Integer priceVersion = getPriceVersion(dto, timePeriod);
-            record.setPriceVersion(priceVersion);
-        } catch (BillingException e) {
-            log.warn("Failed to get price version, using default version 1: {}", e.getMessage());
-            record.setPriceVersion(1);
-        }
-        
-        return record;
-    }
-
-    private Integer getPriceVersion(UsageCalculationDTO dto, String timePeriod) {
-        // Create a price query object for output
-        PriceQuery query = new PriceQuery(
-                dto.getModelType(),
-                timePeriod,
-                null,
-                OUTPUT_TYPE
-        );
-
-        PriceConfig config = priceCache.getPriceConfig(query);
-
-        if (config == null) {
-            throw new BillingException("Price config not found");
-        } else if (!(config instanceof PriceConfig)) {
-            log.error("refresh Cache config by ModelType: {}", dto.getModelType());
-            priceCache.refreshCacheByModel(dto.getModelType());
-        }
-        Integer cachedVersion = config.getVersion();
-        log.info("Output price config priceVersion: {}", cachedVersion);
-        return cachedVersion;
-    }
-
-    private ZonedDateTime convertToBeijingTime(LocalDateTime utcTime) {
-        return utcTime.atZone(ZoneOffset.UTC)
-                .withZoneSameInstant(BEIJING_ZONE);
-    }
-
-    private String determineTimePeriod(ZonedDateTime beijingTime) {
-        LocalDate date = beijingTime.toLocalDate();
-
-        ZonedDateTime discountStart = ZonedDateTime.of(date, DISCOUNT_START, BEIJING_ZONE);
-        ZonedDateTime discountEnd = ZonedDateTime.of(date, DISCOUNT_END, BEIJING_ZONE);
-
-        if (discountEnd.isBefore(discountStart)) {
-            discountEnd = discountEnd.plusDays(1);
-        }
-
-        return (beijingTime.isAfter(discountStart) && beijingTime.isBefore(discountEnd))
-                ? "discount" : "standard";
-    }
-
-    private BigDecimal calculateInputCost(UsageCalculationDTO dto, String timePeriod) {
-        String cacheStatus = dto.getPromptCacheHitTokens() > 0 ? CACHE_HIT : CACHE_MISS;
-        PriceQuery query = new PriceQuery(dto.getModelType(), timePeriod,
-                cacheStatus, INPUT_TYPE);
-        PriceConfig config = priceCache.getPriceConfig(query);
-        int totalTokens = dto.getPromptCacheHitTokens() +
-                dto.getPromptCacheMissTokens();
-        return calculateTokenCost(totalTokens, config.getPrice());
-    }
-
-    private BigDecimal calculateTokenCost(int tokens, BigDecimal price) {
-        return BigDecimal.valueOf(tokens)
-                .divide(ONE_MILLION, 6, RoundingMode.HALF_UP)
-                .multiply(price)
-                .setScale(4, RoundingMode.HALF_UP);
-    }
-
-    private BigDecimal calculateOutputCost(UsageCalculationDTO usage, String timePeriod) {
-        PriceQuery query = new PriceQuery(
-                usage.getModelType(),
-                timePeriod,
-                null,
-                OUTPUT_TYPE
-        );
-
-        PriceConfig config = priceCache.getPriceConfig(query);
-        if (config == null) {
-            throw new BillingException("Price config not found");
-        } else if (!(config instanceof PriceConfig)) {
-            log.error("Invalid cache data type: {}", config.getClass());
-            priceCache.refreshCacheByModel(usage.getModelType());
-            return calculateOutputCost(usage, timePeriod);
-        }
-        return calculateCost(usage.getCompletionTokens(), config.getPrice());
-    }
-
-    private BigDecimal calculateCost(int tokens, BigDecimal pricePerMillion) {
-        return BigDecimal.valueOf(tokens)
-                .divide(ONE_MILLION, 6, RoundingMode.HALF_UP)
-                .multiply(pricePerMillion)
-                .setScale(4, RoundingMode.HALF_UP);
-    }
 
     private boolean isStartup() {
         return System.currentTimeMillis() - startupTime < 60000; // 启动后1分钟内认为是启动阶段

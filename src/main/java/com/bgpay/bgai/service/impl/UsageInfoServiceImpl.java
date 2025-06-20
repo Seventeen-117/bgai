@@ -68,7 +68,8 @@ public class UsageInfoServiceImpl extends ServiceImpl<UsageInfoMapper, UsageInfo
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public boolean processUsageInfo(UsageCalculationDTO dto, String userId) {
+    public boolean
+    processUsageInfo(UsageCalculationDTO dto, String userId) {
         try {
             // 检查是否已处理
             if (existsByCompletionId(dto.getChatCompletionId())) {
