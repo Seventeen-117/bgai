@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.bgpay.bgai.entity.UsageInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -29,5 +31,8 @@ public interface UsageInfoMapper extends BaseMapper<UsageInfo> {
         queryWrapper.eq(UsageInfo::getChatCompletionId, completionId);
         return this.selectOne(queryWrapper);
     }
+
+    @Select("SELECT * FROM usage_info WHERE chat_completion_id = #{completionId} LIMIT 1")
+    UsageInfo selectByCompletionId(@Param("completionId") String completionId);
 
 }

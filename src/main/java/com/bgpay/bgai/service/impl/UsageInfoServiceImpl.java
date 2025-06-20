@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.dao.DuplicateKeyException;
 
 import java.time.*;
 import java.util.List;
@@ -67,64 +68,97 @@ public class UsageInfoServiceImpl extends ServiceImpl<UsageInfoMapper, UsageInfo
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED)
-    public boolean
-    processUsageInfo(UsageCalculationDTO dto, String userId) {
+    @Transactional(rollbackFor = Exception.class)
+    public boolean processUsageInfo(UsageCalculationDTO dto, String userId) {
+        // 计算总的输入和输出tokens，处理可能为null的情况
+        int totalInputTokens = (dto.getPromptCacheHitTokens() != null ? dto.getPromptCacheHitTokens() : 0) + 
+                             (dto.getPromptCacheMissTokens() != null ? dto.getPromptCacheMissTokens() : 0);
+        int totalOutputTokens = dto.getCompletionTokens() != null ? dto.getCompletionTokens() : 0;
+
         try {
-            // 检查是否已处理
-            if (existsByCompletionId(dto.getChatCompletionId())) {
-                log.info("Usage info already processed for completionId: {}", dto.getChatCompletionId());
+            log.info("Processing usage info for user: {}, completionId: {}", userId, dto.getChatCompletionId());
+            
+            // 检查是否已经处理过
+            UsageInfo existingInfo = usageInfoMapper.selectByCompletionId(dto.getChatCompletionId());
+            if (existingInfo != null) {
+                log.info("Usage info already exists for completionId: {}, updating...", dto.getChatCompletionId());
+                // 更新现有记录
+                int newInputTokens = existingInfo.getPromptTokens() + totalInputTokens;
+                int newOutputTokens = existingInfo.getCompletionTokens() + totalOutputTokens;
+                int newCacheHitTokens = existingInfo.getPromptCacheHitTokens() + 
+                    (dto.getPromptCacheHitTokens() != null ? dto.getPromptCacheHitTokens() : 0);
+                int newCacheMissTokens = existingInfo.getPromptCacheMissTokens() + 
+                    (dto.getPromptCacheMissTokens() != null ? dto.getPromptCacheMissTokens() : 0);
+                int newReasoningTokens = existingInfo.getCompletionReasoningTokens() + 
+                    (dto.getCompletionReasoningTokens() != null ? dto.getCompletionReasoningTokens() : 0);
+                
+                existingInfo.setPromptTokens(newInputTokens);
+                existingInfo.setCompletionTokens(newOutputTokens);
+                existingInfo.setTotalTokens(newInputTokens + newOutputTokens);
+                existingInfo.setPromptCacheHitTokens(newCacheHitTokens);
+                existingInfo.setPromptCacheMissTokens(newCacheMissTokens);
+                existingInfo.setPromptTokensCached(dto.getPromptTokensCached());
+                existingInfo.setCompletionReasoningTokens(newReasoningTokens);
+                existingInfo.setUpdatedAt(LocalDateTime.now());
+                usageInfoMapper.updateById(existingInfo);
                 return true;
             }
 
-            // 确定时间段
-            ZonedDateTime beijingTime = convertToBeijingTime(dto.getCreatedAt());
-            String timePeriod = determineTimePeriod(beijingTime);
-
-            // 创建使用记录
-            UsageRecord record = new UsageRecord();
-            record.setUserId(userId);
-            record.setChatCompletionId(dto.getChatCompletionId());
-            record.setModelType(dto.getModelType());
-            record.setInputTokens(dto.getPromptCacheHitTokens() + dto.getPromptCacheMissTokens());
-            record.setOutputTokens(dto.getCompletionTokens());
-            record.setInputCost(dto.getInputCost());
-            record.setOutputCost(dto.getOutputCost());
-            record.setCalculatedAt(dto.getCreatedAt());
-            record.setStatus("PENDING");
-            record.setCreatedAt(LocalDateTime.now());
-
-            // 获取价格版本
-            try {
-                Integer priceVersion = getPriceVersion(dto, timePeriod);
-                record.setPriceVersion(priceVersion);
-            } catch (BillingException e) {
-                log.warn("Failed to get price version, using default version 1: {}", e.getMessage());
-                record.setPriceVersion(1);
-            }
-
-            // 保存使用记录
-            usageRecordService.insertUsageRecord(record);
-
-            // 创建使用信息
+            // 创建新的使用信息记录
             UsageInfo usageInfo = new UsageInfo();
+            usageInfo.setUserId(userId);
             usageInfo.setChatCompletionId(dto.getChatCompletionId());
             usageInfo.setModelType(dto.getModelType());
-            usageInfo.setPromptTokens(dto.getPromptCacheHitTokens() + dto.getPromptCacheMissTokens());
-            usageInfo.setCompletionTokens(dto.getCompletionTokens());
-            usageInfo.setTotalTokens(usageInfo.getPromptTokens() + usageInfo.getCompletionTokens());
-            usageInfo.setPromptCacheHitTokens(dto.getPromptCacheHitTokens());
-            usageInfo.setPromptCacheMissTokens(dto.getPromptCacheMissTokens());
+            usageInfo.setPromptTokens(totalInputTokens);
+            usageInfo.setCompletionTokens(totalOutputTokens);
+            usageInfo.setTotalTokens(totalInputTokens + totalOutputTokens);
+            usageInfo.setPromptCacheHitTokens(dto.getPromptCacheHitTokens() != null ? dto.getPromptCacheHitTokens() : 0);
+            usageInfo.setPromptCacheMissTokens(dto.getPromptCacheMissTokens() != null ? dto.getPromptCacheMissTokens() : 0);
             usageInfo.setPromptTokensCached(dto.getPromptTokensCached());
-            usageInfo.setCompletionReasoningTokens(dto.getCompletionReasoningTokens());
+            usageInfo.setCompletionReasoningTokens(dto.getCompletionReasoningTokens() != null ? dto.getCompletionReasoningTokens() : 0);
             usageInfo.setCreatedAt(LocalDateTime.now());
+            usageInfo.setUpdatedAt(LocalDateTime.now());
 
-            // 保存使用信息
-            insertUsageInfo(usageInfo);
-
+            // 插入新记录
+            usageInfoMapper.insert(usageInfo);
+            log.info("Successfully processed usage info for completionId: {}", dto.getChatCompletionId());
+            
             return true;
+        } catch (DuplicateKeyException e) {
+            // 处理并发情况下可能出现的重复插入
+            log.warn("Duplicate record detected for completionId: {}, retrying update...", 
+                    dto.getChatCompletionId());
+            try {
+                // 重试更新现有记录
+                UsageInfo existingInfo = usageInfoMapper.selectByCompletionId(dto.getChatCompletionId());
+                if (existingInfo != null) {
+                    int newInputTokens = existingInfo.getPromptTokens() + totalInputTokens;
+                    int newOutputTokens = existingInfo.getCompletionTokens() + totalOutputTokens;
+                    int newCacheHitTokens = existingInfo.getPromptCacheHitTokens() + 
+                        (dto.getPromptCacheHitTokens() != null ? dto.getPromptCacheHitTokens() : 0);
+                    int newCacheMissTokens = existingInfo.getPromptCacheMissTokens() + 
+                        (dto.getPromptCacheMissTokens() != null ? dto.getPromptCacheMissTokens() : 0);
+                    int newReasoningTokens = existingInfo.getCompletionReasoningTokens() + 
+                        (dto.getCompletionReasoningTokens() != null ? dto.getCompletionReasoningTokens() : 0);
+                    
+                    existingInfo.setPromptTokens(newInputTokens);
+                    existingInfo.setCompletionTokens(newOutputTokens);
+                    existingInfo.setTotalTokens(newInputTokens + newOutputTokens);
+                    existingInfo.setPromptCacheHitTokens(newCacheHitTokens);
+                    existingInfo.setPromptCacheMissTokens(newCacheMissTokens);
+                    existingInfo.setPromptTokensCached(dto.getPromptTokensCached());
+                    existingInfo.setCompletionReasoningTokens(newReasoningTokens);
+                    existingInfo.setUpdatedAt(LocalDateTime.now());
+                    usageInfoMapper.updateById(existingInfo);
+                    return true;
+                }
+            } catch (Exception retryEx) {
+                log.error("Failed to update existing record on retry: {}", retryEx.getMessage(), retryEx);
+            }
+            return false;
         } catch (Exception e) {
-            log.error("Failed to process usage info for completionId: {}", dto.getChatCompletionId(), e);
+            log.error("Failed to process usage info for completionId: {}", 
+                    dto.getChatCompletionId(), e);
             return false;
         }
     }

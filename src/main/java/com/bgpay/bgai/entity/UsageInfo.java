@@ -6,9 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import jakarta.validation.constraints.Pattern;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
@@ -20,15 +18,15 @@ import java.time.LocalDateTime;
  * @author zly
  * @since 2025-03-08 23:09:50
  */
-@Getter
-@Setter
-@Accessors(chain = true)
+@Data
 @TableName("usage_info")
 @ApiModel(value = "UsageInfo对象", description = "")
-public final class UsageInfo {
+public class UsageInfo {
 
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    @TableId(type = IdType.AUTO)
+    private Long id;
+
+    private String userId;
 
     @TableField("chat_completion_id")
     private String chatCompletionId;
@@ -60,5 +58,5 @@ public final class UsageInfo {
     @TableField("model_type")
     private String modelType;
 
-
+    private LocalDateTime updatedAt;
 }

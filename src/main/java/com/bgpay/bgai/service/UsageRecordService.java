@@ -55,4 +55,6 @@ public interface UsageRecordService extends IService<UsageRecord> {
     void deleteByCompletionId(String completionId);
 
     void cacheCalculationDTO(String completionId, UsageCalculationDTO dto);
+
+    void updateOrInsertUsageRecord(UsageRecord record);
 }

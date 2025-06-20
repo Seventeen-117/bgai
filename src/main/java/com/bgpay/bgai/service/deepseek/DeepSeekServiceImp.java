@@ -883,7 +883,7 @@ public class DeepSeekServiceImp implements DeepSeekService {
         long leastSignificantBits = uuid.getLeastSignificantBits();
         long combined = (mostSignificantBits << 32) | (leastSignificantBits & 0xFFFFFFFFL);
         int thirtyBitInt = (int) (combined & 0x3FFFFFFFL);
-        usage.setId(thirtyBitInt);
+        usage.setId((long) thirtyBitInt);
         usage.setChatCompletionId(root.path("id").asText());
         usage.setPromptTokens(usageNode.path("prompt_tokens").asInt());
         usage.setTotalTokens(usageNode.path("total_tokens").asInt());
