@@ -55,6 +55,9 @@ public class UsageCalculationDTO implements Serializable {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime createdAt;
 
+    // 新增
+    private Long updatedAt;
+
     @Min(0)
     private BigDecimal inputCost;
 
@@ -77,5 +80,12 @@ public class UsageCalculationDTO implements Serializable {
                     .multiply(BigDecimal.valueOf(0.002)); // 示例：每1000个token收费2元
         }
         return outputCost;
+    }
+
+    public Long getUpdatedAt() {
+        return updatedAt;
+    }
+    public void setUpdatedAt(Long updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

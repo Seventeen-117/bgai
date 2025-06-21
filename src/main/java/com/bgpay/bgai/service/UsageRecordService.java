@@ -57,4 +57,7 @@ public interface UsageRecordService extends IService<UsageRecord> {
     void cacheCalculationDTO(String completionId, UsageCalculationDTO dto);
 
     void updateOrInsertUsageRecord(UsageRecord record);
+
+    // 新增
+    List<UsageRecord> findAllByCompletionId(String completionId);
 }

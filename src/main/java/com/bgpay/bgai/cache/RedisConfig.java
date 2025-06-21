@@ -1,4 +1,4 @@
-package com.bgpay.bgai.config;
+package com.bgpay.bgai.cache;
 
 import com.bgpay.bgai.entity.PriceConfig;
 import com.bgpay.bgai.entity.UserToken;
