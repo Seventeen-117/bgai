@@ -1,228 +1,167 @@
-# BGAI - AI Gateway and Processing Platform
+# BGAI 项目说明
 
-BGAI is an enterprise-grade AI gateway and processing platform designed to integrate with various large language models (LLMs), provide distributed transaction management, and implement robust billing and authentication mechanisms.
+## 项目简介
 
-## Project Overview
+BGAI 是一个基于 Spring Boot 3、Spring Cloud Alibaba、Seata 分布式事务、MyBatis-Plus、RocketMQ、Elasticsearch、Redis、Druid 动态数据源、Pinia+Vue3 前后端分离的智能 AI 服务平台。支持多数据源、分布式事务、微服务注册与配置、消息队列、缓存、全文检索等企业级能力。
 
-This platform acts as a central hub for AI processing requests, providing the following core functionality:
+---
 
-- **AI Model Integration**: Seamlessly connects to DeepSeek and other LLMs
-- **Gateway & Load Balancing**: Routes requests to appropriate AI services
-- **Distributed Transactions**: Uses Seata for reliable distributed transaction management
-- **Reactive Programming**: Built with Spring WebFlux for high concurrency
-- **Usage Tracking & Billing**: Monitors and bills for AI resource consumption
-- **Multi-tenant**: Supports multiple users and organizations
+## 目录结构
 
-## Technology Stack
+```
+bgai/
+├── src/
+│   ├── main/
+│   │   ├── java/com/bgpay/bgai/    # 后端主代码（controller, service, entity, config, ...）
+│   │   └── resources/              # 配置文件、SQL、Saga、Mapper等
+│   └── test/                       # 后端测试代码
+├── frontend/                       # 前端 Vue3 + Vite + Pinia 项目
+├── Dockerfile*                     # 多种 Docker 构建方案
+├── docker-compose.yml              # 一键启动后端及依赖服务
+├── README.md                       # 项目说明
+└── ...                             # 其他脚本、文档、工具
+```
 
-- **Java 21**: Core programming language
-- **Spring Boot 3.0**: Application framework
-- **Spring WebFlux**: Reactive web framework
-- **Spring Cloud**: Microservices infrastructure
-- **Seata**: Distributed transaction management
-- **RocketMQ**: Message queue for asynchronous processing
-- **MyBatis-Plus**: ORM and data access
-- **Redis**: Caching and rate limiting
-- **Nacos**: Service discovery and configuration
-- **Docker**: Containerization
+---
 
-## Features
+## 技术栈
 
-### AI Integration
-- Connection to DeepSeek LLM API with failover capabilities
-- Support for multi-turn conversations
-- File processing and content extraction
+### 后端
 
-### Transaction Management
-- Distributed transaction logging
-- Branch transaction tracking
-- Transaction compensation with SAGA pattern
-- Automatic rollback on failure
+- **Spring Boot 3.2.5**
+- **Spring Cloud 2023.0.1** + **Spring Cloud Alibaba 2022.0.0.0**
+- **Seata 1.7.0**（分布式事务，自动代理数据源）
+- **MyBatis-Plus 3.5.5**（高效 ORM）
+- **Druid 1.2.8**（多数据源、SQL监控）
+- **RocketMQ 4.9.4/2.2.3**（消息队列）
+- **Elasticsearch 8.12.2**（全文检索）
+- **Redis/Redisson 3.24.3**（缓存/分布式锁）
+- **Caffeine**（本地缓存）
+- **Nacos**（注册中心/配置中心）
+- **多种分布式中间件集成**
 
-### Security
-- Token-based authentication
-- API key management
-- Rate limiting
-- IP filtering
+### 前端
 
-### Scalability
-- Reactive request handling
-- Asynchronous processing
-- Circuit breaking for fault tolerance
-- Dynamic route configuration
+- **Vue 3.3.8**
+- **Vite 5**
+- **Pinia 2.1.7**（状态管理）
+- **Vue Router 4.2.5**
+- **Axios**（HTTP请求）
+- **ESLint**（代码规范）
 
-## Setup Instructions
+---
 
-### Prerequisites
+## 快速启动
+
+### 1. 环境准备
+
 - JDK 21
 - Maven 3.8+
-- RocketMQ 5.1+
-- Redis 6.0+
-- MySQL 8.0+
-- Seata 1.7.0
-- Nacos 2.2.0+ (for service discovery)
+- Node.js 18+
+- Docker & Docker Compose（推荐一键启动依赖服务）
 
-### Configuration
-
-1. **Database Setup**
-
-```sql
--- Run the schema scripts
-source src/main/resources/sql/user_schema.sql
-```
-
-2. **Environment Variables**
-
-```
-NACOS_HOST=<nacos-host>
-NACOS_PORT=<nacos-port>
-NACOS_NAMESPACE=<nacos-namespace>
-NACOS_GROUP=<nacos-group>
-SPRING_PROFILES_ACTIVE=<dev|test|prod>
-```
-
-3. **Build and Run**
+### 2. 启动依赖服务（推荐）
 
 ```bash
-mvn clean package
+docker-compose up -d
+```
+> 包含 MySQL、Redis、Nacos、RocketMQ、Elasticsearch、Seata-Server 等
+
+### 3. 启动后端
+
+```bash
+# 编译
+./mvnw clean package -DskipTests
+
+# 启动
 java -jar target/bgai-0.0.1-SNAPSHOT.jar
+# 或
+./start.sh
 ```
 
-4. **Docker Deployment**
+#### 本地开发（热部署）
 
 ```bash
-docker build -t bgai:latest .
-docker run -p 8080:8080 bgai:latest
+./mvnw spring-boot:run
 ```
 
-## API Documentation
+### 4. 启动前端
 
-### Chat API
-
-#### Request
+```bash
+cd frontend
+npm install
+npm run dev
 ```
-POST /Api/chat
-Content-Type: multipart/form-data
+访问：http://localhost:5173
 
-Parameters:
-- file: (optional) File to be processed
-- question: (required) User question/prompt
-- apiUrl: (optional) Custom API URL
-- apiKey: (optional) Custom API key
-- modelName: (optional) Model name to use (default: deepseek-chat)
-- multiTurn: (optional) Whether to maintain conversation history (default: false)
-```
+---
 
-#### Response
-```json
-{
-  "content": "AI response content",
-  "usage": {
-    "chatCompletionId": "unique-id",
-    "promptTokens": 100,
-    "totalTokens": 150,
-    "completionTokens": 50,
-    "modelType": "deepseek-chat"
-  }
-}
-```
+## 主要功能
 
-### Transaction Testing API
+- **多数据源动态路由**（Druid + 自定义 DynamicDataSource）
+- **分布式事务**（Seata 自动代理，无需手动注册）
+- **微服务注册/配置**（Nacos）
+- **消息队列**（RocketMQ）
+- **缓存/分布式锁**（Redis/Redisson/Caffeine）
+- **全文检索**（Elasticsearch）
+- **Saga 状态机**（支持复杂业务编排）
+- **前后端分离**（Vue3 + Vite + Pinia）
+- **丰富的脚本和 Docker 支持**
 
-```
-GET /Api/test-transaction?userId=<user-id>
-```
+---
 
-## Architecture
+## 重要约定与最佳实践
 
-```
-┌───────────────────────────┐
-│       Client Apps          │
-└─────────────┬─────────────┘
-              │
-┌─────────────▼─────────────┐
-│     API Gateway Layer      │
-│   (Load Balancing/Routing) │
-└─────────────┬─────────────┘
-              │
-┌─────────────▼─────────────┐
-│    Authentication &        │
-│    Authorization Layer     │
-└─────────────┬─────────────┘
-              │
-┌─────────────▼─────────────┐
-│     Service Layer          │
-│  (Controllers/WebFlux)     │
-└─────────────┬─────────────┘
-              │
-    ┌─────────▼─────────┐
-┌───┴───┐        ┌──────▼───┐
-│ Seata │        │  Service │
-│  TM   │        │  Logic   │
-└───┬───┘        └──────┬───┘
-    │                   │
-    │     ┌─────────────▼───────────┐
-    │     │     Message Queue       │
-    │     │      (RocketMQ)         │
-    │     └─────────────┬───────────┘
-    │                   │
-┌───▼───────────────────▼───────────┐
-│        Database Layer              │
-│      (Master/Slave DBs)            │
-└───────────────────────────────────┘
-```
+- **数据源代理**：所有物理数据源（master/slave）由 Seata 自动代理，dynamicDataSource 只做路由。
+- **分布式事务**：只需在业务方法上加 `@GlobalTransactional`，无需手动注册 ResourceManager。
+- **配置管理**：所有环境变量、数据库连接、MQ等均可通过 Nacos 配置中心集中管理。
+- **前端开发**：推荐使用 VSCode + Volar 插件，支持 TypeScript/JSX/Vue3 语法高亮和类型检查。
 
-## Development Guide
+---
 
-### Project Structure
+## 常见问题
 
-- `/src/main/java/com/bgpay/bgai/` - Core application code
-  - `/config/` - Configuration classes
-  - `/controller/` - REST API controllers
-  - `/service/` - Business logic services
-  - `/entity/` - Data models
-  - `/mapper/` - Database access
-  - `/interceptor/` - AOP and request interceptors
-  - `/exception/` - Exception handling
+### 1. 分布式事务不生效/报 DataSourceProxy 错
 
-### Adding a New AI Model Integration
+- 不要自定义 Seata ResourceManager，全部交由 Seata 官方自动注册。
+- master/slave 只返回 DruidDataSource，dynamicDataSource 只做路由。
+- application.yml 必须有 `seata.enable-auto-data-source-proxy: true`。
 
-1. Create a new service interface extending `ChatCompletionsService`
-2. Implement the service with model-specific logic
-3. Add appropriate configuration in `application.yml`
-4. Register the new service implementation in the service layer
+### 2. Nacos/Seata/Redis/ES 启动失败
 
-### Transaction Management
+- 检查端口冲突、内存限制、配置文件路径。
+- 可用 `docker-compose logs` 查看详细日志。
 
-The project uses Seata for distributed transactions. Key components:
+### 3. 前端无法访问后端接口
 
-1. `SeataTransactionInterceptor`: AOP interceptor for transaction logging
-2. `TransactionLogService`: Service for recording transaction events
-3. `TransactionLog`: Entity for transaction data
+- 检查后端端口、CORS 配置、Nginx 代理设置。
 
-### Extending the Platform
+---
 
-- **New Authentication Provider**: Implement custom filters in `/filter/` directory
-- **Custom LLM Integrations**: Add new services in `/service/` directory
-- **API Extensions**: Add new controllers in `/controller/` directory
+## 目录与脚本说明
 
-## Troubleshooting
+- `start.sh`/`start.bat`：一键启动后端
+- `build-docker-fixed.sh`：构建生产镜像
+- `docker-compose.yml`：一键启动所有依赖服务
+- `frontend/`：前端源码，支持热更新
+- `src/main/resources/application.yml`：主配置文件
+- `README-build-troubleshooting.md`：常见构建/部署问题解决
 
-### Common Issues
+---
 
-1. **Seata Transaction Logs Not Recording**
-   - Check `application.yml` for proper Seata configuration
-   - Verify `@GlobalTransactional` annotations are correctly placed
-   - Ensure transaction interceptors are catching all required methods
+## 贡献与协作
 
-2. **WebFlux Context Issues**
-   - Use `ReactiveRequestContextHolder` to maintain context across asynchronous boundaries
-   - Verify WebFilter is correctly registered
+1. Fork 本仓库，创建 feature 分支
+2. 提交 PR，描述变更内容
+3. 代码需通过 CI 检查和单元测试
 
-3. **Missing User Information**
-   - Check token parsing in authentication filters
-   - Verify HTTP headers are correctly processed
+---
 
-## License
+## 联系与支持
 
-Copyright © 2024 BGPAY 
+- 技术支持：请提 Issue 或联系项目维护者
+- 文档完善、Bug 反馈、Feature 需求欢迎随时提交
+
+---
+
+**Enjoy BGAI！让智能服务更简单！**

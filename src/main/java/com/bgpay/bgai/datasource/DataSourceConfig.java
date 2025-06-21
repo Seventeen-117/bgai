@@ -1,5 +1,6 @@
 package com.bgpay.bgai.datasource;
 
+import io.seata.rm.datasource.DataSourceProxy;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -35,19 +36,21 @@ public class DataSourceConfig {
     @Bean(name = "masterDataSource")
     public DataSource masterDataSource() {
         validateDriver(masterDataSourceProperties());
-        return masterDataSourceProperties()
+        DataSource druid = masterDataSourceProperties()
                 .initializeDataSourceBuilder()
                 .type(com.alibaba.druid.pool.DruidDataSource.class)
                 .build();
+        return new DataSourceProxy(druid);
     }
 
     @Bean(name = "slaveDataSource")
     public DataSource slaveDataSource() {
         validateDriver(slaveDataSourceProperties());
-        return slaveDataSourceProperties()
+        DataSource druid = slaveDataSourceProperties()
                 .initializeDataSourceBuilder()
                 .type(com.alibaba.druid.pool.DruidDataSource.class)
                 .build();
+        return new DataSourceProxy(druid);
     }
 
     @Primary
@@ -57,18 +60,20 @@ public class DataSourceConfig {
             @Qualifier("slaveDataSource") DataSource slaveDataSource) {
         DynamicDataSource dynamicDataSource = new DynamicDataSource();
         Map<Object, Object> targetDataSources = new HashMap<>();
-        targetDataSources.put("master", masterDataSource);
-        targetDataSources.put("slave", slaveDataSource);
+        targetDataSources.put(DataSourceType.MASTER.getValue(), masterDataSource);
+        targetDataSources.put(DataSourceType.SLAVE.getValue(), slaveDataSource);
         dynamicDataSource.setTargetDataSources(targetDataSources);
         dynamicDataSource.setDefaultTargetDataSource(masterDataSource);
+        dynamicDataSource.afterPropertiesSet();
         return dynamicDataSource;
     }
 
     private void validateDriver(DataSourceProperties properties) {
         try {
+            Class.forName(properties.getDriverClassName());
             DriverManager.getDriver(properties.getUrl());
-        } catch (SQLException e) {
-            throw new IllegalStateException("无法加载JDBC驱动: " + properties.getDriverClassName(), e);
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new RuntimeException("Failed to validate JDBC driver", e);
         }
     }
 }

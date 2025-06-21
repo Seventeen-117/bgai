@@ -46,7 +46,5 @@ spring:
           - data-id: common-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
             group: ${spring.cloud.nacos.discovery.group}
             refresh: true
-            # 标记为可选配置，缺少时不报错
-            required: false
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:dev}
