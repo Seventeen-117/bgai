@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * <p>
@@ -57,6 +58,7 @@ public class UsageRecord {
 
     @ApiModelProperty("计算时间")
     @TableField("calculated_at")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime calculatedAt;
 
     @ApiModelProperty("消息ID")
@@ -81,5 +83,6 @@ public class UsageRecord {
 
     @ApiModelProperty("更新时间")
     @TableField("updated_at")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime updatedAt;
 }

@@ -219,7 +219,7 @@ public class DeepSeekServiceImp implements DeepSeekService {
 
             JsonNode usageNode = root.path("usage");
             if (!usageNode.isEmpty()) {
-                UsageInfo usage = extractUsageInfo(usageNode, root);
+                UsageInfo usage = extractUsageInfo(usageNode, root, userId);
                 chatResponse.setUsage(usage);
                 UsageCalculationDTO calculationDTO = convertToDTO(usage);
                 rocketMQProducer.sendBillingMessage(calculationDTO, userId);
@@ -445,7 +445,7 @@ public class DeepSeekServiceImp implements DeepSeekService {
             }
             JsonNode usageNode = root.path("usage");
             if (!usageNode.isEmpty()) {
-                UsageInfo usage = extractUsageInfo(usageNode, root);
+                UsageInfo usage = extractUsageInfo(usageNode, root, "");
                 chatResponse.setUsage(usage);
             }
             return chatResponse;
@@ -874,7 +874,7 @@ public class DeepSeekServiceImp implements DeepSeekService {
      * @param root      The root JsonNode of the response
      * @return A UsageInfo object containing the extracted data
      */
-    private UsageInfo extractUsageInfo(JsonNode usageNode, JsonNode root) {
+    private UsageInfo extractUsageInfo(JsonNode usageNode, JsonNode root, String userId) {
         JsonNode promptDetails = usageNode.path("prompt_tokens_details");
         JsonNode completionDetails = usageNode.path("completion_tokens_details");
         UsageInfo usage = new UsageInfo();
@@ -890,10 +890,12 @@ public class DeepSeekServiceImp implements DeepSeekService {
         usage.setCompletionTokens(usageNode.path("completion_tokens").asInt());
         usage.setPromptTokensCached(promptDetails.path("cached_tokens").asInt());
         usage.setCompletionReasoningTokens(completionDetails.path("reasoning_tokens").asInt());
-        usage.setPromptCacheHitTokens(usageNode.path(" prompt_cache_hit_tokens").asInt());
+        usage.setPromptCacheHitTokens(usageNode.path("prompt_cache_hit_tokens").asInt());
         usage.setPromptCacheMissTokens(usageNode.path("prompt_cache_miss_tokens").asInt());
         usage.setCreatedAt(LocalDateTime.now());
+        usage.setUpdatedAt(LocalDateTime.now());
         usage.setModelType(root.path("model").asText());
+        usage.setUserId(userId);
         return usage;
     }
 

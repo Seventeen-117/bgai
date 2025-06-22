@@ -28,6 +28,9 @@ public class UsageCalculationDTO implements Serializable {
     @NotBlank
     private String chatCompletionId;
 
+    // 新增
+    private String userId;
+
     @Pattern(regexp = "chat|reasoner")
     private String modelType;
 
@@ -50,19 +53,22 @@ public class UsageCalculationDTO implements Serializable {
     private Integer completionTokens;
 
     @PastOrPresent
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime createdAt;
 
-    // 新增
-    private Long updatedAt;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime updatedAt;
 
     @Min(0)
     private BigDecimal inputCost;
 
     @Min(0)
     private BigDecimal outputCost;
+
+    // 新增
+    private String messageId;
 
     public BigDecimal getInputCost() {
         if (inputCost == null) {
@@ -82,10 +88,24 @@ public class UsageCalculationDTO implements Serializable {
         return outputCost;
     }
 
-    public Long getUpdatedAt() {
+    public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
-    public void setUpdatedAt(Long updatedAt) {
+    public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getMessageId() {
+        return messageId;
+    }
+    public void setMessageId(String messageId) {
+        this.messageId = messageId;
     }
 }

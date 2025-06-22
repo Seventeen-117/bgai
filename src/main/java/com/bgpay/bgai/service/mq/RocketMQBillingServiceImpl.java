@@ -114,6 +114,7 @@ public class RocketMQBillingServiceImpl implements BillingService {
         try {
             userId = Optional.ofNullable(messageExt.getUserProperty("USER_ID"))
                     .orElseThrow(() -> new BillingException("缺失USER_ID"));
+            String messageId = messageExt.getMsgId();
             
             // 解析消息体 - 处理Base64编码
             String base64Body = new String(messageExt.getBody(), StandardCharsets.UTF_8);
@@ -131,25 +132,25 @@ public class RocketMQBillingServiceImpl implements BillingService {
             // 解析JSON
             UsageCalculationDTO dto = JSON.parseObject(jsonStr, UsageCalculationDTO.class);
             completionId = dto.getChatCompletionId();
-            Long currentUpdatedAt = dto.getUpdatedAt();
+            // 补全 userId
+            dto.setUserId(userId);
+            // 补全 messageId
+            dto.setMessageId(messageId);
+            // 补全 updatedAt
+            if (dto.getUpdatedAt() == null) {
+                dto.setUpdatedAt(java.time.LocalDateTime.now());
+            }
             
+            String redisKey = PROCESSED_KEY_PREFIX + completionId + ":" + messageId;
             String businessKey = userId + ":" + completionId;
             
-            // 检查是否已经完全处理过（所有步骤都已完成）
-            String redisKey = PROCESSED_KEY_PREFIX + completionId;
+            // 幂等判断：只要该消息已处理过且为COMPLETED就跳过
             if (Boolean.TRUE.equals(redisTemplate.hasKey(redisKey))) {
-                // 检查数据库中的状态
-                List<UsageRecord> records = usageRecordService.findAllByCompletionId(completionId);
-                for (UsageRecord record : records) {
-                    if (record.getUpdatedAt() != null && record.getUpdatedAt().equals(currentUpdatedAt)) {
-                        if (!"COMPLETED".equals(record.getStatus())) {
-                            log.info("当前时间戳下UsageRecord未完成，跳过处理, businessKey: {}", businessKey);
-                            return;
-                        }
-                    }
+                UsageRecord record = usageRecordService.findByCompletionIdAndMessageId(completionId, messageId);
+                if (record != null && "COMPLETED".equals(record.getStatus())) {
+                    log.info("消息已完全处理，跳过处理, businessKey: {}, messageId: {}", businessKey, messageId);
+                    return;
                 }
-                log.info("当前时间戳下UsageRecord全部完成，跳过处理, businessKey: {}", businessKey);
-                return;
             }
             
             // 保存计费数据到缓存，供后续步骤使用

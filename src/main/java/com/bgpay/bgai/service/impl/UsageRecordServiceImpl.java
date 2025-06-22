@@ -211,4 +211,14 @@ public class UsageRecordServiceImpl extends ServiceImpl<UsageRecordMapper, Usage
         wrapper.eq(UsageRecord::getChatCompletionId, completionId);
         return list(wrapper);
     }
+
+    // 新增
+    @Override
+    public UsageRecord findByCompletionIdAndMessageId(String completionId, String messageId) {
+        LambdaQueryWrapper<UsageRecord> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(UsageRecord::getChatCompletionId, completionId)
+               .eq(UsageRecord::getMessageId, messageId)
+               .last("LIMIT 1");
+        return getOne(wrapper);
+    }
 }

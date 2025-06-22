@@ -156,6 +156,7 @@ public class BGAIServiceImpl implements BGAIService {
             record.setOutputTokens(dto.getCompletionTokens());
             record.setStatus("PENDING");
             record.setPriceVersion(getPriceVersion(dto, timePeriod));
+            record.setMessageId(dto.getMessageId());
 
             // 更新或插入使用记录
             usageRecordService.updateOrInsertUsageRecord(record);
