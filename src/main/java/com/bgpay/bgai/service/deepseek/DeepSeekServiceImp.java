@@ -15,9 +15,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.micrometer.core.instrument.MeterRegistry;
-import io.netty.channel.ChannelOption;
-import io.netty.handler.timeout.ReadTimeoutHandler;
-import io.seata.spring.annotation.GlobalTransactional;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.config.RequestConfig;
@@ -31,8 +28,6 @@ import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
-import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import com.bgpay.bgai.entity.ChatCompletions;
@@ -42,7 +37,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
-import reactor.netty.http.client.HttpClient;
 import reactor.util.retry.Retry;
 import java.io.IOException;
 import java.net.ConnectException;
@@ -55,7 +49,6 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.bgpay.bgai.service.impl.FallbackService;
 import com.bgpay.bgai.transaction.TransactionCoordinator;
 import com.bgpay.bgai.service.impl.BGAIServiceImpl;
 
@@ -450,32 +443,6 @@ public class DeepSeekServiceImp implements DeepSeekService {
             }
             return chatResponse;
         });
-    }
-
-
-    /**
-     * Create an error response ChatResponse object with a default error message and empty usage information.
-     *
-     * @return A ChatResponse object representing an error response.
-     */
-    private ChatResponse createErrorResponse() {
-        ChatResponse response = new ChatResponse();
-        response.setContent("服务暂时不可用，请稍后重试");
-        response.setUsage(new UsageInfo());
-        return response;
-    }
-    
-    /**
-     * Create an error response ChatResponse object with a custom error message and empty usage information.
-     *
-     * @param errorMessage The custom error message to include
-     * @return A ChatResponse object representing an error response.
-     */
-    private ChatResponse createErrorResponse(String errorMessage) {
-        ChatResponse response = new ChatResponse();
-        response.setContent("服务暂时不可用，请稍后重试: " + errorMessage);
-        response.setUsage(new UsageInfo());
-        return response;
     }
     /**
      * Build the request JSON map for the API request, including adding historical messages if it's a multi-turn conversation

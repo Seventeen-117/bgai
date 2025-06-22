@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Propagation;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -53,32 +54,19 @@ public class UsageRecordServiceImpl extends ServiceImpl<UsageRecordMapper, Usage
     @Transactional(propagation = Propagation.REQUIRED)
     public void updateOrInsertUsageRecord(UsageRecord newRecord) {
         String completionId = newRecord.getChatCompletionId();
-        UsageRecord existingRecord = findByCompletionId(completionId);
-        
+        String messageId = newRecord.getMessageId();
+        UsageRecord existingRecord = findByCompletionIdAndMessageId(completionId, messageId);
         if (existingRecord != null) {
-            // 更新现有记录，累加相关数据
-            BigDecimal newInputCost = existingRecord.getInputCost().add(newRecord.getInputCost());
-            BigDecimal newOutputCost = existingRecord.getOutputCost().add(newRecord.getOutputCost());
-            int newInputTokens = existingRecord.getInputTokens() + newRecord.getInputTokens();
-            int newOutputTokens = existingRecord.getOutputTokens() + newRecord.getOutputTokens();
-            
-            LambdaUpdateWrapper<UsageRecord> updateWrapper = new LambdaUpdateWrapper<>();
-            updateWrapper.eq(UsageRecord::getChatCompletionId, completionId)
-                    .set(UsageRecord::getInputCost, newInputCost)
-                    .set(UsageRecord::getOutputCost, newOutputCost)
-                    .set(UsageRecord::getInputTokens, newInputTokens)
-                    .set(UsageRecord::getOutputTokens, newOutputTokens)
-                    .set(UsageRecord::getUpdatedAt, LocalDateTime.now());
-            
-            update(updateWrapper);
-            log.info("Updated existing usage record for completionId: {}, new input cost: {}, new output cost: {}", 
-                    completionId, newInputCost, newOutputCost);
-        } else {
-            // 插入新记录
-            newRecord.setCreatedAt(LocalDateTime.now());
-            newRecord.setUpdatedAt(LocalDateTime.now());
+            log.info("Usage record already exists for completionId: {}, messageId: {}, skip insert (幂等)", completionId, messageId);
+            return;
+        }
+        newRecord.setCreatedAt(LocalDateTime.now());
+        newRecord.setUpdatedAt(LocalDateTime.now());
+        try {
             save(newRecord);
-            log.info("Inserted new usage record for completionId: {}", completionId);
+            log.info("Inserted new usage record for completionId: {}, messageId: {}", completionId, messageId);
+        } catch (Exception e) {
+            log.info("Duplicate usage record for completionId: {}, messageId: {}, skip insert (幂等)", completionId, messageId);
         }
     }
 
