@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.annotation.PostConstruct;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -75,7 +76,7 @@ public class AuthController {
             response.put("userId", userToken.getUserId());
             response.put("username", userToken.getUsername());
             response.put("accessToken", userToken.getAccessToken());
-            response.put("expiresAt", userToken.getTokenExpireTime());
+            response.put("expiresAt", userToken.getTokenExpireTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
             
             return ResponseEntity.ok(response);
         } catch (Exception e) {
@@ -102,7 +103,7 @@ public class AuthController {
             Map<String, Object> response = new HashMap<>();
             response.put("userId", userToken.getUserId());
             response.put("accessToken", userToken.getAccessToken());
-            response.put("expiresAt", userToken.getTokenExpireTime());
+            response.put("expiresAt", userToken.getTokenExpireTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
             
             return ResponseEntity.ok(response);
         } catch (Exception e) {
@@ -194,7 +195,7 @@ public class AuthController {
             if (userToken != null) {
                 response.put("valid", true);
                 response.put("userId", userToken.getUserId());
-                response.put("expiresAt", userToken.getTokenExpireTime());
+                response.put("expiresAt", userToken.getTokenExpireTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
                 return ResponseEntity.ok(response);
             } else {
                 response.put("valid", false);
