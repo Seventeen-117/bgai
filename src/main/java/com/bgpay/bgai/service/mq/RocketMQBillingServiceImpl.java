@@ -111,10 +111,11 @@ public class RocketMQBillingServiceImpl implements BillingService {
     public void processMessage(MessageExt messageExt) {
         String completionId = null;
         String userId = null;
+        String messageId = null;
         try {
             userId = Optional.ofNullable(messageExt.getUserProperty("USER_ID"))
                     .orElseThrow(() -> new BillingException("缺失USER_ID"));
-            String messageId = messageExt.getMsgId();
+            messageId = messageExt.getMsgId();
             
             // 解析消息体 - 处理Base64编码
             String base64Body = new String(messageExt.getBody(), StandardCharsets.UTF_8);
@@ -174,10 +175,10 @@ public class RocketMQBillingServiceImpl implements BillingService {
             }
             
             // 执行第三步：更新账单状态
-            boolean thirdStepResult = bgaiService.executeThirdStep(businessKey, secondStepResult);
+            boolean thirdStepResult = bgaiService.executeThirdStep(businessKey, secondStepResult, messageId);
             if (!thirdStepResult) {
                 log.error("第三步执行失败，开始补偿, businessKey: {}", businessKey);
-                bgaiService.compensateThirdStep(businessKey);
+                bgaiService.compensateThirdStep(businessKey, messageId);
                 bgaiService.compensateSecondStep(businessKey);
                 bgaiService.compensateFirstStep(businessKey);
                 throw new BillingException("第三步执行失败");
@@ -191,7 +192,7 @@ public class RocketMQBillingServiceImpl implements BillingService {
             if (completionId != null && userId != null) {
                 String businessKey = userId + ":" + completionId;
                 // 发生异常时执行完整的补偿链
-                bgaiService.compensateThirdStep(businessKey);
+                bgaiService.compensateThirdStep(businessKey, messageId);
                 bgaiService.compensateSecondStep(businessKey);
                 bgaiService.compensateFirstStep(businessKey);
             }

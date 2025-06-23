@@ -151,11 +151,11 @@ public class ReactiveChatController {
     )
     public Mono<ResponseEntity<ChatResponse>> handleChatRequest(
             @RequestPart(value = "file", required = false) FilePart file,
-            @RequestParam(value = "question", required = false) String questionParam,
-            @RequestParam(value = "apiUrl", required = false) String apiUrlParam,
-            @RequestParam(value = "apiKey", required = false) String apiKeyParam,
-            @RequestParam(value = "modelName", required = false) String modelNameParam,
-            @RequestParam(value = "multiTurn", required = false) String multiTurnStr,
+            @RequestPart(value = "question", required = false) String questionParam,
+            @RequestPart(value = "apiUrl", required = false) String apiUrlParam,
+            @RequestPart(value = "apiKey", required = false) String apiKeyParam,
+            @RequestPart(value = "modelName", required = false) String modelNameParam,
+            @RequestPart(value = "multiTurn", required = false) String multiTurnStr,
             ServerWebExchange exchange) {
 
         log.info("接收到请求: /api/chatGatWay-internal, 文件={}, 问题参数={}, 模型参数={}", 

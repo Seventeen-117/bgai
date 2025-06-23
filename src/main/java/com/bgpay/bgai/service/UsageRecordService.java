@@ -23,7 +23,7 @@ public interface UsageRecordService extends IService<UsageRecord> {
     public boolean saveOrUpdate(UsageRecord entity);
     public void updateUsageRecord(UsageRecord entity,String userId);
 
-    public UsageRecord findByCompletionId(String completionId);
+    UsageRecord findByCompletionId(String completionId);
 
     public boolean existsByCompletionId(@NotBlank String chatCompletionId);
 
@@ -40,19 +40,19 @@ public interface UsageRecordService extends IService<UsageRecord> {
      * 标记记录为已补偿状态
      * @param completionId 完成ID
      */
-    void markAsCompensated(String completionId);
+    void markAsCompensated(String completionId, String messageId);
 
     /**
      * 标记记录为已完成状态
      * @param completionId 完成ID
      */
-    void markAsCompleted(String completionId);
+    void markAsCompleted(String completionId, String messageId);
 
     /**
      * 根据完成ID删除记录
      * @param completionId 完成ID
      */
-    void deleteByCompletionId(String completionId);
+    void deleteByCompletionId(String completionId, String messageId);
 
     void cacheCalculationDTO(String completionId, UsageCalculationDTO dto);
 

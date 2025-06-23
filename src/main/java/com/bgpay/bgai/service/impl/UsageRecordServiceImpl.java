@@ -121,10 +121,11 @@ public class UsageRecordServiceImpl extends ServiceImpl<UsageRecordMapper, Usage
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    @CacheEvict(value = {"usageRecords", "usageCalculations"}, key = "#completionId")
-    public void markAsCompensated(String completionId) {
+    @CacheEvict(value = {"usageRecords", "usageCalculations"}, key = "#completionId + ':' + #messageId")
+    public void markAsCompensated(String completionId, String messageId) {
         LambdaUpdateWrapper<UsageRecord> wrapper = new LambdaUpdateWrapper<>();
         wrapper.eq(UsageRecord::getChatCompletionId, completionId)
+                .eq(UsageRecord::getMessageId, messageId)
                 .set(UsageRecord::getStatus, "COMPENSATED")
                 .set(UsageRecord::getUpdatedAt, LocalDateTime.now());
         update(wrapper);
@@ -132,10 +133,11 @@ public class UsageRecordServiceImpl extends ServiceImpl<UsageRecordMapper, Usage
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    @CacheEvict(value = {"usageRecords", "usageCalculations"}, key = "#completionId")
-    public void markAsCompleted(String completionId) {
+    @CacheEvict(value = {"usageRecords", "usageCalculations"}, key = "#completionId + ':' + #messageId")
+    public void markAsCompleted(String completionId, String messageId) {
         LambdaUpdateWrapper<UsageRecord> wrapper = new LambdaUpdateWrapper<>();
         wrapper.eq(UsageRecord::getChatCompletionId, completionId)
+                .eq(UsageRecord::getMessageId, messageId)
                 .set(UsageRecord::getStatus, "COMPLETED")
                 .set(UsageRecord::getUpdatedAt, LocalDateTime.now());
         update(wrapper);
@@ -143,10 +145,11 @@ public class UsageRecordServiceImpl extends ServiceImpl<UsageRecordMapper, Usage
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    @CacheEvict(value = {"usageRecords", "usageCalculations"}, key = "#completionId")
-    public void deleteByCompletionId(String completionId) {
+    @CacheEvict(value = {"usageRecords", "usageCalculations"}, key = "#completionId + ':' + #messageId")
+    public void deleteByCompletionId(String completionId, String messageId) {
         LambdaQueryWrapper<UsageRecord> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(UsageRecord::getChatCompletionId, completionId);
+        wrapper.eq(UsageRecord::getChatCompletionId, completionId)
+               .eq(UsageRecord::getMessageId, messageId);
         remove(wrapper);
     }
 

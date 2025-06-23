@@ -36,11 +36,11 @@ public class SimpleChatController {
     )
     public Mono<ResponseEntity<SimpleChatResponse>> handleSimpleChatRequest(
             @RequestPart(value = "file", required = false) FilePart file,
-            @RequestParam(value = "question", defaultValue = "") String question,
-            @RequestParam(value = "apiUrl", required = false) String apiUrl,
-            @RequestParam(value = "apiKey", required = false) String apiKey,
-            @RequestParam(value = "modelName", required = false) String modelName,
-            @RequestParam(value = "multiTurn", defaultValue = "false") boolean multiTurn,
+            @RequestPart(value = "question", required =  false) String question,
+            @RequestPart(value = "apiUrl", required = false) String apiUrl,
+            @RequestPart(value = "apiKey", required = false) String apiKey,
+            @RequestPart(value = "modelName", required = false) String modelName,
+            @RequestPart(value = "multiTurn", required =  false) boolean multiTurn,
             ServerWebExchange exchange) {
         
         log.info("Received chatGatWay request: question length = {}, file = {}, modelName = {}", 

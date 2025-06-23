@@ -108,7 +108,7 @@ public class BGAIServiceImpl implements BGAIService {
             redisTemplate.delete(redisKey + ":processing");
             
             // 标记消息为已补偿状态
-            usageRecordService.markAsCompensated(completionId);
+            usageRecordService.markAsCompensated(completionId, null);
             return true;
         } catch (Exception e) {
             logger.error("补偿账单消息失败, businessKey: {}", businessKey, e);
@@ -176,7 +176,7 @@ public class BGAIServiceImpl implements BGAIService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean executeThirdStep(String businessKey, boolean secondStepResult) {
+    public boolean executeThirdStep(String businessKey, boolean secondStepResult, String messageId) {
         if (!secondStepResult) {
             log.error("Second step failed, skipping third step. businessKey: {}", businessKey);
             return false;
@@ -190,15 +190,15 @@ public class BGAIServiceImpl implements BGAIService {
             String completionId = parts[1];
 
             // 获取使用记录
-            UsageRecord record = usageRecordService.findByCompletionId(completionId);
+            UsageRecord record = usageRecordService.findByCompletionIdAndMessageId(completionId, messageId);
             if (record == null) {
-                log.error("Usage record not found for completionId: {}", completionId);
+                log.error("Usage record not found for completionId: {}, messageId: {}", completionId, messageId);
                 return false;
             }
 
             // 检查记录状态
             if ("COMPLETED".equals(record.getStatus())) {
-                log.info("Record already marked as completed: {}", completionId);
+                log.info("Record already marked as completed: {}, messageId={}, status={}", completionId, messageId, record.getStatus());
                 return true;
             }
 
@@ -218,7 +218,7 @@ public class BGAIServiceImpl implements BGAIService {
                 }
 
                 // 标记记录为已完成
-                usageRecordService.markAsCompleted(completionId);
+                usageRecordService.markAsCompleted(completionId, messageId);
                 
                 // 清理缓存的计费数据
                 String cacheKey = CALCULATION_DTO_KEY_PREFIX + completionId;
@@ -260,7 +260,7 @@ public class BGAIServiceImpl implements BGAIService {
             }
             
             // 删除使用记录
-            usageRecordService.deleteByCompletionId(completionId);
+            usageRecordService.deleteByCompletionId(completionId, null);
             
             // 清除处理状态
             String redisKey = PROCESSED_KEY_PREFIX + completionId;
@@ -278,15 +278,15 @@ public class BGAIServiceImpl implements BGAIService {
      * 补偿第三步操作：回滚账单状态
      */
     @Transactional
-    public boolean compensateThirdStep(String businessKey) {
+    public boolean compensateThirdStep(String businessKey, String messageId) {
         try {
             logger.info("补偿第三步操作 - 回滚账单状态, businessKey: {}", businessKey);
             String[] parts = businessKey.split(":");
             String completionId = parts[1];
             
             // 检查记录是否存在
-            if (!usageRecordService.existsByCompletionId(completionId)) {
-                logger.info("记录不存在，无需补偿, completionId: {}", completionId);
+            if (usageRecordService.findByCompletionIdAndMessageId(completionId, messageId) == null) {
+                logger.info("记录不存在，无需补偿, completionId: {}, messageId: {}", completionId, messageId);
                 // 清除所有状态
                 String redisKey = PROCESSED_KEY_PREFIX + completionId;
                 redisTemplate.delete(redisKey);
@@ -296,7 +296,7 @@ public class BGAIServiceImpl implements BGAIService {
             }
             
             // 标记账单为已补偿状态
-            usageRecordService.markAsCompensated(completionId);
+            usageRecordService.markAsCompensated(completionId, messageId);
             
             // 清除所有状态
             String redisKey = PROCESSED_KEY_PREFIX + completionId;
