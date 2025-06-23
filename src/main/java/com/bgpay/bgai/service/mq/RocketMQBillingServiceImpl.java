@@ -50,19 +50,13 @@ public class RocketMQBillingServiceImpl implements BillingService {
     private static final String BILLING_TOPIC = "BILLING_TOPIC";
     private static final String BILLING_TAG = "USER_BILLING";
     private static final String PROCESSED_KEY_PREFIX = "PROCESSED:";
-    private static final int REDIS_CACHE_EXPIRE_HOURS = 24;
-    private static final ZoneId BEIJING_ZONE = ZoneId.of("Asia/Shanghai");
-    private static final LocalTime DISCOUNT_START = LocalTime.of(0, 30);
-    private static final LocalTime DISCOUNT_END = LocalTime.of(8, 30);
     @Value("${rocketmq.consumer.group:billing-consumer-group}")
     private String consumerGroup;
 
     @Value("${rocketmq.name-server:}")
     private String nameServer;
     private final RedisTemplate<String, String> redisTemplate;
-    private final PriceCacheService priceCache;
     private final UsageRecordService usageRecordService;
-    private final UsageInfoService usageInfoService;
     private final RocketMQProducerService mqProducer;
     private final MQConsumerService mqConsumerService;
     private final BGAIServiceImpl bgaiService;
@@ -119,7 +113,6 @@ public class RocketMQBillingServiceImpl implements BillingService {
             
             // 解析消息体 - 处理Base64编码
             String base64Body = new String(messageExt.getBody(), StandardCharsets.UTF_8);
-            // 移除可能存在的引号
             if (base64Body.startsWith("\"") && base64Body.endsWith("\"")) {
                 base64Body = base64Body.substring(1, base64Body.length() - 1);
             }

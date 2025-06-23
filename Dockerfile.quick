@@ -98,7 +98,7 @@ RUN mkdir -p /app/data /app/logs && \
 USER bgai
 
 # 暴露端口
-EXPOSE 8080
+EXPOSE 8688
 
 # 环境变量
 ENV SPRING_PROFILES_ACTIVE=prod \

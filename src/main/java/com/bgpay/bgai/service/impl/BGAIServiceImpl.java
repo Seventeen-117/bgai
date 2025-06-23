@@ -42,13 +42,10 @@ public class BGAIServiceImpl implements BGAIService {
     private static final Logger logger = LoggerFactory.getLogger(BGAIServiceImpl.class);
     private static final String PROCESSED_KEY_PREFIX = "BILLING:PROCESSED:";
     private static final String CALCULATION_DTO_KEY_PREFIX = "CALCULATION_DTO:";
-    private static final ZoneId BEIJING_ZONE = ZoneId.of("Asia/Shanghai");
     private static final String INPUT_TYPE = "input";
     private static final String OUTPUT_TYPE = "output";
     private static final BigDecimal ONE_MILLION = new BigDecimal("1000000");
-    
-    @Autowired
-    private RocketMQProducerService rocketMQProducer;
+
     
     @Autowired
     private UsageRecordService usageRecordService;

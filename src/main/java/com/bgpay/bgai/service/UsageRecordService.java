@@ -59,8 +59,5 @@ public interface UsageRecordService extends IService<UsageRecord> {
     void updateOrInsertUsageRecord(UsageRecord record);
 
     // 新增
-    List<UsageRecord> findAllByCompletionId(String completionId);
-
-    // 新增
     UsageRecord findByCompletionIdAndMessageId(String completionId, String messageId);
 }
