@@ -1,28 +1,111 @@
 package com.bgpay.bgai.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
+import lombok.extern.slf4j.Slf4j;
+import java.util.Collections;
+
 /**
- * RestTemplate配置类，用于SSO请求
+ * RestTemplate配置类，支持服务发现和动态路由
  */
+@Slf4j
 @Configuration
 public class RestTemplateConfig {
     
+    @Autowired
+    private LoadBalancerClient loadBalancerClient;
+    
+    /**
+     * 默认的RestTemplate，用于普通HTTP请求
+     */
     @Bean
+    @Primary
     public RestTemplate restTemplate() {
-        RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory());
+        RestTemplate restTemplate = new RestTemplate(createRequestFactory());
+        // 添加日志拦截器
+        restTemplate.setInterceptors(
+            Collections.singletonList(loggingInterceptor())
+        );
         return restTemplate;
     }
     
-    private ClientHttpRequestFactory clientHttpRequestFactory() {
+    /**
+     * 支持服务发现和负载均衡的RestTemplate
+     * 通过添加@LoadBalanced注解，Spring Cloud会自动增强RestTemplate以支持"服务名"为host的请求
+     * 例如：http://service-name/api/resource
+     */
+    @Bean(name = "loadBalancedRestTemplate")
+    @LoadBalanced
+    public RestTemplate loadBalancedRestTemplate() {
+        RestTemplate restTemplate = new RestTemplate(createRequestFactory());
+        // 添加日志拦截器
+        restTemplate.setInterceptors(
+            Collections.singletonList(loggingInterceptor())
+        );
+        return restTemplate;
+    }
+    
+    /**
+     * 创建ClientHttpRequestFactory
+     * 使用BufferingClientHttpRequestFactory包装，允许请求/响应体被多次读取(用于日志记录等)
+     */
+    private ClientHttpRequestFactory createRequestFactory() {
         SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
         factory.setConnectTimeout(10000);
         factory.setReadTimeout(30000);
         factory.setBufferRequestBody(false);
-        return factory;
+        return new BufferingClientHttpRequestFactory(factory);
+    }
+    
+    /**
+     * 创建日志拦截器，记录请求和响应内容
+     */
+    private ClientHttpRequestInterceptor loggingInterceptor() {
+        return (request, body, execution) -> {
+            log.debug("RestTemplate Request: {} {}", request.getMethod(), request.getURI());
+            return execution.execute(request, body);
+        };
+    }
+    
+    /**
+     * 创建服务URL解析器，根据服务ID解析出实际URL
+     * 用于手动实现服务发现时使用
+     */
+    @Bean
+    public ServiceUrlResolver serviceUrlResolver() {
+        return new ServiceUrlResolver(loadBalancerClient);
+    }
+    
+    /**
+     * 服务URL解析器，根据服务ID解析出实际URL
+     */
+    public static class ServiceUrlResolver {
+        private final LoadBalancerClient loadBalancerClient;
+        
+        public ServiceUrlResolver(LoadBalancerClient loadBalancerClient) {
+            this.loadBalancerClient = loadBalancerClient;
+        }
+        
+        /**
+         * 根据服务ID和路径构建完整URL
+         * @param serviceId 服务ID
+         * @param path 请求路径
+         * @return 完整URL
+         */
+        public String buildUrl(String serviceId, String path) {
+            return loadBalancerClient.choose(serviceId)
+                    .getUri()
+                    .toString() + path;
+        }
     }
 } 

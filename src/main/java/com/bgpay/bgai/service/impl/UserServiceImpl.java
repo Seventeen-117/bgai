@@ -9,6 +9,9 @@ import com.bgpay.bgai.mapper.UserMapper;
 import com.bgpay.bgai.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.context.WebServerApplicationContext;
+import org.springframework.boot.web.context.WebServerInitializedEvent;
+import org.springframework.context.ApplicationListener;
 import org.springframework.core.env.Environment;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpEntity;
@@ -39,7 +42,7 @@ import java.util.Set;
  */
 @Slf4j
 @Service
-public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService, ApplicationListener<WebServerInitializedEvent> {
 
     private static final String TOKEN_KEY_PREFIX = "USER:TOKEN:";
     private static final String USER_INFO_KEY_PREFIX = "USER:INFO:";
@@ -58,6 +61,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Autowired
     private Environment environment;
     
+    @Autowired
+    private WebServerApplicationContext webServerAppCtx;
+    
     // SSO配置属性
     private String clientId;
     private String clientSecret;
@@ -65,21 +71,57 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private String tokenUrl;
     private String userInfoUrl;
     private String logoutUrl;
+    private int serverPort;
+    private boolean serverInitialized = false;
+    
+    /**
+     * 当应用服务器完全初始化后，会触发此事件
+     * 用于获取实际运行的服务器端口
+     */
+    @Override
+    public void onApplicationEvent(WebServerInitializedEvent event) {
+        this.serverPort = event.getWebServer().getPort();
+        this.serverInitialized = true;
+        log.info("服务器已初始化，实际运行端口: {}", serverPort);
+        
+        // 更新URL配置
+        updateUrlConfigurations();
+    }
     
     @PostConstruct
     public void init() {
         // 从环境中加载SSO配置
         clientId = environment.getProperty("sso.client-id", "bgai-client-id");
         clientSecret = environment.getProperty("sso.client-secret", "bgai-client-secret");
-        redirectUri = environment.getProperty("sso.redirect-uri", "http://localhost:8080/api/auth/callback");
-        tokenUrl = environment.getProperty("sso.token-url", "http://localhost:8080/auth/token");
-        userInfoUrl = environment.getProperty("sso.user-info-url", "https://localhost:8080/oauth2/userinfo");
-        logoutUrl = environment.getProperty("sso.logout-url", "https://localhost:8080/oauth2/logout");
         
-        log.info("初始化SSO配置: clientId={}, redirectUri={}", clientId, redirectUri);
+        // 暂时使用配置中的端口值，稍后在服务器初始化事件中更新为实际端口
+        int configPort = Integer.parseInt(environment.getProperty("server.port", "8080"));
+        this.serverPort = configPort;
+        
+        log.info("初始化SSO配置: clientId={}, 配置的端口={}", clientId, configPort);
+        
+        // 初始化URL，但实际端口可能会在服务器初始化事件中更新
+        updateUrlConfigurations();
         
         // 清理旧的Redis数据
         cleanupOldRedisData();
+    }
+    
+    /**
+     * 基于当前的serverPort更新所有URL配置
+     */
+    private void updateUrlConfigurations() {
+        // 使用动态端口构建URL
+        redirectUri = environment.getProperty("sso.redirect-uri", 
+                "http://localhost:" + serverPort + "/api/auth/callback");
+        tokenUrl = environment.getProperty("sso.token-url", 
+                "http://localhost:" + serverPort + "/auth/token");
+        userInfoUrl = environment.getProperty("sso.user-info-url", 
+                "https://localhost:" + serverPort + "/oauth2/userinfo");
+        logoutUrl = environment.getProperty("sso.logout-url", 
+                "https://localhost:" + serverPort + "/oauth2/logout");
+        
+        log.info("更新SSO URL配置: redirectUri={}, 实际端口={}", redirectUri, serverPort);
     }
     
     private void cleanupOldRedisData() {

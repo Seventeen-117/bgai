@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>服务发现功能测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+        input[type=text] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .service-card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            background-color: #f9f9f9;
+        }
+        .service-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 16px;
+        }
+        .instance-list {
+            margin-top: 10px;
+        }
+        .instance-item {
+            margin-bottom: 8px;
+            padding: 8px;
+            background-color: #fff;
+            border-radius: 4px;
+            border-left: 3px solid #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <h1>BGAI 服务发现功能测试</h1>
+    
+    <div class="container">
+        <h2>已注册服务列表</h2>
+        <div>
+            <button class="btn" onclick="listServices()">刷新服务列表</button>
+        </div>
+        <div id="serviceGrid" class="service-grid">
+            <div class="service-card">
+                <div class="service-title">加载中...</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h2>调用服务接口 (响应式)</h2>
+        <div>
+            <label for="serviceId">服务ID:</label>
+            <input type="text" id="serviceId" value="bgtech-ai" />
+        </div>
+        <div>
+            <label for="servicePath">接口路径:</label>
+            <input type="text" id="servicePath" value="/api/health" />
+        </div>
+        <div style="margin-top: 10px;">
+            <button class="btn" onclick="callService()">调用服务</button>
+        </div>
+        <h3>响应结果:</h3>
+        <pre id="serviceResult">等待响应...</pre>
+    </div>
+    
+    <div class="container">
+        <h2>调用服务接口 (同步)</h2>
+        <div>
+            <label for="syncServiceId">服务ID:</label>
+            <input type="text" id="syncServiceId" value="bgtech-ai" />
+        </div>
+        <div>
+            <label for="syncServicePath">接口路径:</label>
+            <input type="text" id="syncServicePath" value="/api/health" />
+        </div>
+        <div style="margin-top: 10px;">
+            <button class="btn" onclick="callServiceSync()">同步调用服务</button>
+        </div>
+        <h3>响应结果:</h3>
+        <pre id="syncServiceResult">等待响应...</pre>
+    </div>
+    
+    <div class="container">
+        <h2>获取服务URL</h2>
+        <div>
+            <label for="urlServiceId">服务ID:</label>
+            <input type="text" id="urlServiceId" value="bgtech-ai" />
+        </div>
+        <div style="margin-top: 10px;">
+            <button class="btn" onclick="getServiceUrl()">获取URL</button>
+        </div>
+        <h3>响应结果:</h3>
+        <pre id="urlResult">等待响应...</pre>
+    </div>
+    
+    <script>
+        // 获取服务列表
+        function listServices() {
+            const gridElement = document.getElementById('serviceGrid');
+            gridElement.innerHTML = '<div class="service-card"><div class="service-title">加载中...</div></div>';
+            
+            fetch('/api/service-discovery/services')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'error') {
+                        gridElement.innerHTML = `<div class="service-card"><div class="service-title">错误</div><div>${data.message}</div></div>`;
+                        return;
+                    }
+                    
+                    const services = data.services;
+                    if (Object.keys(services).length === 0) {
+                        gridElement.innerHTML = `<div class="service-card"><div class="service-title">没有发现服务</div></div>`;
+                        return;
+                    }
+                    
+                    let cardsHtml = '';
+                    for (const [serviceId, instances] of Object.entries(services)) {
+                        let instancesHtml = '';
+                        
+                        if (instances.length === 0) {
+                            instancesHtml = '<div>无可用实例</div>';
+                        } else {
+                            instancesHtml = '<div class="instance-list">';
+                            instances.forEach(instance => {
+                                instancesHtml += `
+                                    <div class="instance-item">
+                                        <div>Host: ${instance.host}</div>
+                                        <div>Port: ${instance.port}</div>
+                                        <div>URI: ${instance.uri}</div>
+                                    </div>
+                                `;
+                            });
+                            instancesHtml += '</div>';
+                        }
+                        
+                        cardsHtml += `
+                            <div class="service-card">
+                                <div class="service-title">${serviceId}</div>
+                                <div>实例数: ${instances.length}</div>
+                                ${instancesHtml}
+                            </div>
+                        `;
+                    }
+                    
+                    gridElement.innerHTML = cardsHtml;
+                })
+                .catch(error => {
+                    gridElement.innerHTML = `<div class="service-card"><div class="service-title">错误</div><div>${error.message}</div></div>`;
+                });
+        }
+        
+        // 调用服务 (响应式)
+        function callService() {
+            const serviceId = document.getElementById('serviceId').value;
+            const path = document.getElementById('servicePath').value;
+            const resultElement = document.getElementById('serviceResult');
+            
+            resultElement.textContent = '请求中...';
+            
+            fetch(`/api/service-discovery/call-service/${encodeURIComponent(serviceId)}?path=${encodeURIComponent(path)}`)
+                .then(response => response.json())
+                .then(data => {
+                    resultElement.textContent = JSON.stringify(data, null, 2);
+                })
+                .catch(error => {
+                    resultElement.textContent = `错误: ${error.message}`;
+                });
+        }
+        
+        // 调用服务 (同步)
+        function callServiceSync() {
+            const serviceId = document.getElementById('syncServiceId').value;
+            const path = document.getElementById('syncServicePath').value;
+            const resultElement = document.getElementById('syncServiceResult');
+            
+            resultElement.textContent = '请求中...';
+            
+            fetch(`/api/service-discovery/call-service-sync/${encodeURIComponent(serviceId)}?path=${encodeURIComponent(path)}`)
+                .then(response => response.json())
+                .then(data => {
+                    resultElement.textContent = JSON.stringify(data, null, 2);
+                })
+                .catch(error => {
+                    resultElement.textContent = `错误: ${error.message}`;
+                });
+        }
+        
+        // 获取服务URL
+        function getServiceUrl() {
+            const serviceId = document.getElementById('urlServiceId').value;
+            const resultElement = document.getElementById('urlResult');
+            
+            resultElement.textContent = '请求中...';
+            
+            fetch(`/api/service-discovery/service-url/${encodeURIComponent(serviceId)}`)
+                .then(response => response.json())
+                .then(data => {
+                    resultElement.textContent = JSON.stringify(data, null, 2);
+                })
+                .catch(error => {
+                    resultElement.textContent = `错误: ${error.message}`;
+                });
+        }
+        
+        // 页面加载时获取服务列表
+        document.addEventListener('DOMContentLoaded', function() {
+            listServices();
+        });
+    </script>
+</body>
+</html> 

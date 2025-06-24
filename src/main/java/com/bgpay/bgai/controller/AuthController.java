@@ -5,6 +5,8 @@ import com.bgpay.bgai.entity.UserToken;
 import com.bgpay.bgai.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.context.WebServerInitializedEvent;
+import org.springframework.context.ApplicationListener;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +23,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/auth")
 @Slf4j
-public class AuthController {
+public class AuthController implements ApplicationListener<WebServerInitializedEvent> {
 
     @Autowired
     private UserService userService;
@@ -32,14 +34,48 @@ public class AuthController {
     private String clientId;
     private String authorizeUrl;
     private String redirectUri;
+    private int serverPort;
+    private boolean serverInitialized = false;
+    
+    /**
+     * 当应用服务器完全初始化后，会触发此事件
+     * 用于获取实际运行的服务器端口
+     */
+    @Override
+    public void onApplicationEvent(WebServerInitializedEvent event) {
+        this.serverPort = event.getWebServer().getPort();
+        this.serverInitialized = true;
+        log.info("服务器已初始化，实际运行端口: {}", serverPort);
+        
+        // 更新URL配置
+        updateUrlConfigurations();
+    }
     
     @PostConstruct
     public void init() {
+        // 从环境中加载SSO配置
         clientId = environment.getProperty("sso.client-id", "bgai-client-id");
         authorizeUrl = environment.getProperty("sso.authorize-url", "https://sso.bgpay.com/oauth2/authorize");
-        redirectUri = environment.getProperty("sso.redirect-uri", "http://localhost:8080/api/auth/callback");
         
-        log.info("初始化认证控制器: clientId={}, redirectUri={}", clientId, redirectUri);
+        // 暂时使用配置中的端口值，稍后在服务器初始化事件中更新为实际端口
+        int configPort = Integer.parseInt(environment.getProperty("server.port", "8080"));
+        this.serverPort = configPort;
+        
+        log.info("初始化认证控制器: clientId={}, 配置的端口={}", clientId, configPort);
+        
+        // 初始化URL，但实际端口可能会在服务器初始化事件中更新
+        updateUrlConfigurations();
+    }
+    
+    /**
+     * 基于当前的serverPort更新所有URL配置
+     */
+    private void updateUrlConfigurations() {
+        // 使用动态端口构建URL
+        redirectUri = environment.getProperty("sso.redirect-uri", 
+                "http://localhost:" + serverPort + "/api/auth/callback");
+        
+        log.info("更新认证控制器URL配置: redirectUri={}, 实际端口={}", redirectUri, serverPort);
     }
 
     /**

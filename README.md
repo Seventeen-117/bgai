@@ -32,6 +32,9 @@ flowchart TD
   subgraph 日志追踪
     LOG["LogTracing<br/>(MDC-based)"]
   end
+  subgraph 服务发现
+    SD["服务发现和动态路由<br/>(Nacos + LoadBalancer)"]
+  end
   FE-->|HTTP|GW
   GW-->|调用|SVC
   SVC-->|ORM|DB
@@ -48,6 +51,8 @@ flowchart TD
   ES-->|检索|SVC
   GW-->|跟踪|LOG
   SVC-->|跟踪|LOG
+  SVC-->|服务发现|SD
+  SD-->|服务查询|NACOS
 ```
 
 ---
@@ -67,6 +72,7 @@ flowchart TD
 - **Caffeine**（本地缓存）
 - **Nacos**（注册中心/配置中心）
 - **Log Tracing**（基于 MDC 的分布式日志追踪）
+- **动态路由**（基于 Nacos 的服务发现和负载均衡）
 
 ### 前端
 
@@ -144,6 +150,7 @@ npm run dev
 - Saga 状态机
 - 前后端分离
 - 分布式日志追踪（基于 MDC 的 traceId 和 userId 追踪）
+- 动态服务发现和路由（基于 Nacos 的服务发现和负载均衡）
 - 丰富的脚本和 Docker 支持
 
 ---
@@ -155,6 +162,7 @@ npm run dev
 - 配置管理：所有环境变量、数据库连接、MQ等均可通过 Nacos 配置中心集中管理。
 - 前端开发：推荐使用 VSCode + Volar 插件。
 - 日志追踪：所有请求会自动分配 traceId，可通过日志追踪完整调用链路。
+- 服务调用：使用动态路由工具类进行微服务间通信，支持同步和响应式调用方式。
 
 ---
 
@@ -177,6 +185,66 @@ String userId = LogUtils.getUserId();
 
 // 记录业务日志时会自动包含追踪信息
 logger.info("业务操作完成");
+```
+
+---
+
+## 服务发现和动态路由
+
+系统集成了基于 Nacos 的服务发现和动态路由功能：
+
+- 支持服务自动注册到 Nacos 注册中心
+- 支持基于服务名的负载均衡调用（无需硬编码 IP/端口）
+- 同时支持响应式（WebClient）和传统（RestTemplate）两种调用方式
+- 提供统一的 ServiceDiscoveryUtils 工具类简化服务调用
+
+### 使用示例：
+
+#### 响应式调用（WebClient）
+
+```java
+// 注入工具类
+@Autowired
+private ServiceDiscoveryUtils serviceDiscoveryUtils;
+
+// 调用远程服务（使用服务名）
+Mono<UserDto> userMono = serviceDiscoveryUtils.callService(
+    "user-service",          // 服务名
+    "/api/users/123",        // 接口路径
+    HttpMethod.GET,          // HTTP方法
+    null,                    // 请求体（GET请求为null）
+    UserDto.class            // 响应类型
+);
+```
+
+#### 同步调用（RestTemplate）
+
+```java
+// 注入工具类
+@Autowired
+private ServiceDiscoveryUtils serviceDiscoveryUtils;
+
+// 同步调用远程服务
+UserDto user = serviceDiscoveryUtils.callServiceSync(
+    "user-service",          // 服务名
+    "/api/users/123",        // 接口路径
+    HttpMethod.GET,          // HTTP方法
+    null,                    // 请求体（GET请求为null）
+    UserDto.class            // 响应类型
+);
+```
+
+#### 获取服务信息
+
+```java
+// 获取指定服务的所有实例
+List<ServiceInstance> instances = serviceDiscoveryUtils.getServiceInstances("user-service");
+
+// 获取指定服务的一个实例（负载均衡）
+Optional<ServiceInstance> instance = serviceDiscoveryUtils.getServiceInstance("user-service");
+
+// 构建完整的服务URL
+String serviceUrl = serviceDiscoveryUtils.buildServiceUrl("user-service", "/api/endpoint");
 ```
 
 ---
