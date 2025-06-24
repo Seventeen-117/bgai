@@ -1,106 +1,107 @@
 package com.bgpay.bgai.service.impl;
 
-import com.bgpay.bgai.config.ApiKeyConfig;
-import com.bgpay.bgai.entity.ApiKeyInfo;
+import com.bgpay.bgai.entity.ApiClient;
+import com.bgpay.bgai.entity.ApiKey;
+import com.bgpay.bgai.mapper.ApiClientMapper;
+import com.bgpay.bgai.mapper.ApiKeyMapper;
 import com.bgpay.bgai.service.ApiKeyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class ApiKeyServiceImpl implements ApiKeyService {
-
-    private final ApiKeyConfig apiKeyConfig;
-    private final Map<String, ApiKeyInfo> apiKeyStore = new ConcurrentHashMap<>();
+    private final ApiClientMapper apiClientMapper;
+    private final ApiKeyMapper apiKeyMapper;
 
     @Override
-    public ApiKeyInfo generateApiKey(String clientId, String clientName, String description) {
-        // 生成API Key (使用UUID并移除连字符)
-        String apiKey = UUID.randomUUID().toString().replace("-", "");
-        
-        // 创建API Key信息
-        ApiKeyInfo apiKeyInfo = ApiKeyInfo.builder()
-                .apiKey(apiKey)
-                .clientId(clientId)
-                .clientName(clientName)
-                .description(description)
-                .createdAt(LocalDateTime.now())
-                .expiresAt(LocalDateTime.now().plusYears(1)) // 默认一年有效期
-                .active(true)
-                .build();
-
-        // 存储API Key信息
-        apiKeyStore.put(apiKey, apiKeyInfo);
-        
-        // 更新配置
-        updateApiKeyConfig();
-
+    @Transactional
+    public ApiKey generateApiKey(String clientId, String clientName, String description) {
+        // 校验 clientId 是否存在且启用
+        ApiClient client = apiClientMapper.selectOne(
+            new com.baomidou.mybatisplus.core.conditions.query.QueryWrapper<ApiClient>()
+                .eq("client_id", clientId)
+                .eq("status", 1)
+        );
+        if (client == null) {
+            throw new IllegalArgumentException("无效或未启用的 clientId");
+        }
+        // 生成API Key
+        String apiKeyStr = UUID.randomUUID().toString().replace("-", "");
+        ApiKey apiKey = new ApiKey();
+        apiKey.setApiKey(apiKeyStr);
+        apiKey.setClientId(clientId);
+        apiKey.setClientName(client.getClientName());
+        apiKey.setDescription(description);
+        apiKey.setCreatedAt(LocalDateTime.now());
+        apiKey.setExpiresAt(LocalDateTime.now().plusYears(1));
+        apiKey.setActive(1);
+        apiKeyMapper.insert(apiKey);
         log.info("Generated new API Key for client: {}", clientId);
-        return apiKeyInfo;
+        return apiKey;
     }
 
     @Override
     public void revokeApiKey(String apiKey) {
-        ApiKeyInfo apiKeyInfo = apiKeyStore.get(apiKey);
-        if (apiKeyInfo != null) {
-            apiKeyInfo.setActive(false);
-            updateApiKeyConfig();
-            log.info("Revoked API Key for client: {}", apiKeyInfo.getClientId());
+        ApiKey key = apiKeyMapper.selectOne(
+            new com.baomidou.mybatisplus.core.conditions.query.QueryWrapper<ApiKey>()
+                .eq("api_key", apiKey)
+                .eq("active", 1)
+        );
+        if (key != null) {
+            key.setActive(0);
+            apiKeyMapper.updateById(key);
+            log.info("Revoked API Key: {}", apiKey);
         }
     }
 
     @Override
-    public boolean validateApiKey(String apiKey) {
-        ApiKeyInfo apiKeyInfo = apiKeyStore.get(apiKey);
-        return apiKeyInfo != null && 
-               apiKeyInfo.isActive() && 
-               LocalDateTime.now().isBefore(apiKeyInfo.getExpiresAt());
+    public ApiKeyValidationResult validateApiKeyStatus(String apiKey) {
+        ApiKey key = apiKeyMapper.selectOne(
+            new com.baomidou.mybatisplus.core.conditions.query.QueryWrapper<ApiKey>()
+                .eq("api_key", apiKey)
+        );
+        if (key == null) {
+            return new ApiKeyValidationResult(ApiKeyStatus.NOT_FOUND, null, "API Key not found", null);
+        }
+        if (key.getActive() == null || key.getActive() == 0) {
+            return new ApiKeyValidationResult(ApiKeyStatus.DISABLED, key.getExpiresAt(), "API Key disabled", key.getClientId());
+        }
+        if (key.getExpiresAt() == null || key.getExpiresAt().isBefore(java.time.LocalDateTime.now())) {
+            return new ApiKeyValidationResult(ApiKeyStatus.EXPIRED, key.getExpiresAt(), "API Key expired", key.getClientId());
+        }
+        return new ApiKeyValidationResult(ApiKeyStatus.VALID, key.getExpiresAt(), null, key.getClientId());
     }
 
     @Override
-    public List<ApiKeyInfo> getAllApiKeys() {
-        return new ArrayList<>(apiKeyStore.values());
+    public java.util.List<ApiKey> getAllApiKeys() {
+        return apiKeyMapper.selectList(null);
     }
 
     @Override
-    public ApiKeyInfo getApiKeyInfo(String apiKey) {
-        return apiKeyStore.get(apiKey);
+    public ApiKey getApiKeyInfo(String apiKey) {
+        return apiKeyMapper.selectOne(
+            new com.baomidou.mybatisplus.core.conditions.query.QueryWrapper<ApiKey>()
+                .eq("api_key", apiKey)
+        );
     }
 
     @Override
     public void updateApiKeyStatus(String apiKey, boolean active) {
-        ApiKeyInfo apiKeyInfo = apiKeyStore.get(apiKey);
-        if (apiKeyInfo != null) {
-            apiKeyInfo.setActive(active);
-            updateApiKeyConfig();
-            log.info("Updated API Key status for client: {}", apiKeyInfo.getClientId());
-        }
-    }
-
-    private void updateApiKeyConfig() {
-        // 更新ApiKeyConfig中的apiKeys映射
-        Map<String, String> newApiKeys = apiKeyStore.entrySet().stream()
-                .filter(entry -> entry.getValue().isActive() && 
-                        LocalDateTime.now().isBefore(entry.getValue().getExpiresAt()))
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        entry -> entry.getValue().getClientId()
-                ));
-        
-        // 使用反射更新配置
-        try {
-            java.lang.reflect.Field field = ApiKeyConfig.class.getDeclaredField("apiKeys");
-            field.setAccessible(true);
-            field.set(apiKeyConfig, newApiKeys);
-        } catch (Exception e) {
-            log.error("Failed to update API Key configuration", e);
+        ApiKey key = apiKeyMapper.selectOne(
+            new com.baomidou.mybatisplus.core.conditions.query.QueryWrapper<ApiKey>()
+                .eq("api_key", apiKey)
+        );
+        if (key != null) {
+            key.setActive(active ? 1 : 0);
+            apiKeyMapper.updateById(key);
+            log.info("Updated API Key status: {} -> {}", apiKey, active);
         }
     }
 } 

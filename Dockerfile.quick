@@ -7,8 +7,10 @@ WORKDIR /app
 # 设置Maven配置以加速依赖下载
 ENV MAVEN_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1"
 
-# 创建Maven配置目录
-RUN mkdir -p /root/.m2
+# 支持本地 Maven 仓库缓存（可选，构建时可用 --build-arg 挂载）
+ARG MAVEN_REPO=/root/.m2/repository
+RUN mkdir -p /root/.m2 && mkdir -p ${MAVEN_REPO}
+VOLUME ["${MAVEN_REPO}:/root/.m2/repository"]
 
 # 创建Maven settings.xml以使用国内镜像源
 RUN echo '<?xml version="1.0" encoding="UTF-8"?>\
@@ -70,12 +72,18 @@ COPY mvnw .
 COPY .mvn .mvn
 RUN chmod +x ./mvnw
 
-# 预下载依赖但跳过测试和构建，修改为更简单的方式以避免依赖问题
-RUN ./mvnw dependency:resolve -DskipTests -Dmaven.wagon.http.retryHandler.count=5 -Dmaven.wagon.http.connectTimeout=60000 -Dmaven.wagon.http.readTimeout=60000
+# 预下载依赖但跳过测试和构建，增加并行编译参数 -T 1C
+RUN ./mvnw dependency:resolve -DskipTests -Dmaven.wagon.http.retryHandler.count=5 -Dmaven.wagon.http.connectTimeout=60000 -Dmaven.wagon.http.readTimeout=60000 -T 1C
 
 # 然后复制源代码并构建
 COPY src src
-RUN ./mvnw package -DskipTests -Dmaven.test.skip=true -Dmaven.wagon.http.retryHandler.count=5 -Dmaven.wagon.http.connectTimeout=60000 -Dmaven.wagon.http.readTimeout=60000
+RUN ./mvnw package -DskipTests -Dmaven.test.skip=true -Dmaven.wagon.http.retryHandler.count=5 -Dmaven.wagon.http.connectTimeout=60000 -Dmaven.wagon.http.readTimeout=60000 -T 1C
+
+# 复制 seata 配置文件到镜像，确保分布式事务可用
+COPY src/main/resources/registry.conf /app/registry.conf
+COPY src/main/resources/file.conf /app/file.conf
+# 如需自定义配置，可用 -v 挂载主机配置覆盖
+# docker run ... -v /your/host/registry.conf:/app/registry.conf -v /your/host/file.conf:/app/file.conf ...
 
 # 运行阶段使用最小镜像
 FROM eclipse-temurin:21-jre-jammy
@@ -111,3 +119,6 @@ HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
 
 # 启动命令
 ENTRYPOINT ["java", "-jar", "app.jar"] 
+
+# 构建加速提示：
+# docker build -f Dockerfile.quick -t jiangyang-ai:latest .

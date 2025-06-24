@@ -423,10 +423,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             }
         }
 
-        // 3. 对于SimpleAuthController生成的测试令牌，直接返回一个临时令牌
-        // 此代码仅用于开发环境，生产环境应该移除
-        if (accessToken.length() == 36) { // UUID长度通常为36字符
-            log.info("为测试令牌创建临时用户: {}", accessToken);
+        // 3. 对于SimpleAuthController生成的测试令牌，仅开发环境允许
+        String[] activeProfiles = environment.getActiveProfiles();
+        boolean isDev = java.util.Arrays.asList(activeProfiles).contains("dev");
+        if (isDev && accessToken.length() == 36) { // UUID长度通常为36字符
+            log.info("为测试令牌创建临时用户: {} (仅dev环境)", accessToken);
             UserToken testToken = UserToken.builder()
                     .userId("test-user-" + accessToken.substring(0, 8))
                     .username("测试用户")
@@ -436,9 +437,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                     .loginTime(LocalDateTime.now())
                     .valid(true)
                     .build();
-            
-            // 缓存测试令牌
-            userTokenRedisTemplate.opsForValue().set(tokenKey, testToken, TOKEN_CACHE_DAYS, TimeUnit.DAYS);
+            userTokenRedisTemplate.opsForValue().set(TOKEN_KEY_PREFIX + accessToken, testToken, TOKEN_CACHE_DAYS, TimeUnit.DAYS);
             return testToken;
         }
 
