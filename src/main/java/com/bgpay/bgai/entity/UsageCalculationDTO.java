@@ -70,24 +70,6 @@ public class UsageCalculationDTO implements Serializable {
     // 新增
     private String messageId;
 
-    public BigDecimal getInputCost() {
-        if (inputCost == null) {
-            // 默认计算逻辑，可以根据实际需求调整
-            return BigDecimal.valueOf(promptCacheHitTokens + promptCacheMissTokens)
-                    .multiply(BigDecimal.valueOf(0.001)); // 示例：每1000个token收费1元
-        }
-        return inputCost;
-    }
-
-    public BigDecimal getOutputCost() {
-        if (outputCost == null) {
-            // 默认计算逻辑，可以根据实际需求调整
-            return BigDecimal.valueOf(completionTokens)
-                    .multiply(BigDecimal.valueOf(0.002)); // 示例：每1000个token收费2元
-        }
-        return outputCost;
-    }
-
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
