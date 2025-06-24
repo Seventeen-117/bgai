@@ -420,29 +420,42 @@ public class DeepSeekServiceImp implements DeepSeekService {
      * @return A Mono that emits a ChatResponse object containing the parsed information.
      */
     private Mono<ChatResponse> parseResponse(String responseBody) {
-        return Mono.fromCallable(() -> {
+        try {
+            ChatResponse response = new ChatResponse();
+            
             JsonNode root = mapper.readTree(responseBody);
-            ChatResponse chatResponse = new ChatResponse();
-
-            // 解析 content
-            JsonNode choices = root.path("choices");
-            if (!choices.isEmpty() && choices.get(0).has("message")) {
-                chatResponse.setContent(choices.get(0).path("message").path("content").asText());
-                JsonNode message = choices.get(0).path("message");
-                if (!message.isEmpty()) {
-                    String responseContent = message.path("content").asText();
-                    chatResponse.setContent(responseContent);
-
-                    fileWriterService.writeContentAsync(responseContent);
+            JsonNode choicesNode = root.path("choices");
+            
+            if (choicesNode.isArray() && choicesNode.size() > 0) {
+                JsonNode messageNode = choicesNode.get(0).path("message");
+                if (messageNode.has("content")) {
+                    response.setContent(messageNode.path("content").asText());
                 }
             }
+            
+            // 获取响应中的用户ID（如果存在）
+            String userId = null;
             JsonNode usageNode = root.path("usage");
-            if (!usageNode.isEmpty()) {
-                UsageInfo usage = extractUsageInfo(usageNode, root, "");
-                chatResponse.setUsage(usage);
+            
+            if (usageNode.has("userId") && !usageNode.path("userId").isNull() && 
+                !usageNode.path("userId").asText().isEmpty()) {
+                userId = usageNode.path("userId").asText();
             }
-            return chatResponse;
-        });
+            
+            // 从响应中提取使用信息
+            UsageInfo usage = extractUsageInfo(usageNode, root, userId);
+            
+            // 确保UsageInfo中的userId被正确设置，即使从响应中没有找到
+            if (usage.getUserId() == null || usage.getUserId().isEmpty()) {
+                log.warn("UsageInfo中的userId为空，这可能会导致问题。确保在调用时传递正确的userId");
+            }
+            
+            response.setUsage(usage);
+            return Mono.just(response);
+        } catch (Exception e) {
+            log.error("Error parsing response: {}", e.getMessage(), e);
+            return Mono.error(e);
+        }
     }
     /**
      * Build the request JSON map for the API request, including adding historical messages if it's a multi-turn conversation
@@ -844,12 +857,14 @@ public class DeepSeekServiceImp implements DeepSeekService {
     private UsageInfo extractUsageInfo(JsonNode usageNode, JsonNode root, String userId) {
         JsonNode promptDetails = usageNode.path("prompt_tokens_details");
         JsonNode completionDetails = usageNode.path("completion_tokens_details");
+        
         UsageInfo usage = new UsageInfo();
         UUID uuid = UUID.randomUUID();
         long mostSignificantBits = uuid.getMostSignificantBits();
         long leastSignificantBits = uuid.getLeastSignificantBits();
         long combined = (mostSignificantBits << 32) | (leastSignificantBits & 0xFFFFFFFFL);
         int thirtyBitInt = (int) (combined & 0x3FFFFFFFL);
+        
         usage.setId((long) thirtyBitInt);
         usage.setChatCompletionId(root.path("id").asText());
         usage.setPromptTokens(usageNode.path("prompt_tokens").asInt());
@@ -862,7 +877,16 @@ public class DeepSeekServiceImp implements DeepSeekService {
         usage.setCreatedAt(LocalDateTime.now());
         usage.setUpdatedAt(LocalDateTime.now());
         usage.setModelType(root.path("model").asText());
-        usage.setUserId(userId);
+        
+        // 确保设置userId，使用提供的userId或者默认值
+        if (userId != null && !userId.trim().isEmpty()) {
+            usage.setUserId(userId);
+        } else {
+            // 如果没有提供userId，使用一个默认值而不是null
+            usage.setUserId("default");
+            log.warn("在extractUsageInfo中使用默认userId：'default'，而不是null或空字符串");
+        }
+        
         return usage;
     }
 

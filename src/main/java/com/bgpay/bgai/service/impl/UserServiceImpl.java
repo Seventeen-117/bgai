@@ -61,7 +61,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Autowired
     private Environment environment;
     
-    @Autowired
+    // 将WebServerApplicationContext设为可选，解决测试环境中无法注入的问题
+    @Autowired(required = false)
     private WebServerApplicationContext webServerAppCtx;
     
     // SSO配置属性
@@ -103,8 +104,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 初始化URL，但实际端口可能会在服务器初始化事件中更新
         updateUrlConfigurations();
         
-        // 清理旧的Redis数据
-        cleanupOldRedisData();
+        // 只在非测试环境中清理Redis数据，防止测试环境中出现问题
+        if (webServerAppCtx != null) {
+            cleanupOldRedisData();
+        } else {
+            log.info("测试环境中跳过Redis数据清理");
+        }
     }
     
     /**

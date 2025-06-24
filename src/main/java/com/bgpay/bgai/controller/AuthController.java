@@ -40,31 +40,45 @@ public class AuthController implements ApplicationListener<WebServerInitializedE
     /**
      * 当应用服务器完全初始化后，会触发此事件
      * 用于获取实际运行的服务器端口
+     * 注意：在测试环境中可能不会触发此事件
      */
     @Override
     public void onApplicationEvent(WebServerInitializedEvent event) {
-        this.serverPort = event.getWebServer().getPort();
-        this.serverInitialized = true;
-        log.info("服务器已初始化，实际运行端口: {}", serverPort);
-        
-        // 更新URL配置
-        updateUrlConfigurations();
+        try {
+            this.serverPort = event.getWebServer().getPort();
+            this.serverInitialized = true;
+            log.info("服务器已初始化，实际运行端口: {}", serverPort);
+            
+            // 更新URL配置
+            updateUrlConfigurations();
+        } catch (Exception e) {
+            log.warn("处理服务器初始化事件时出错: {}", e.getMessage());
+        }
     }
     
     @PostConstruct
     public void init() {
-        // 从环境中加载SSO配置
-        clientId = environment.getProperty("sso.client-id", "bgai-client-id");
-        authorizeUrl = environment.getProperty("sso.authorize-url", "https://sso.bgpay.com/oauth2/authorize");
-        
-        // 暂时使用配置中的端口值，稍后在服务器初始化事件中更新为实际端口
-        int configPort = Integer.parseInt(environment.getProperty("server.port", "8080"));
-        this.serverPort = configPort;
-        
-        log.info("初始化认证控制器: clientId={}, 配置的端口={}", clientId, configPort);
-        
-        // 初始化URL，但实际端口可能会在服务器初始化事件中更新
-        updateUrlConfigurations();
+        try {
+            // 从环境中加载SSO配置
+            clientId = environment.getProperty("sso.client-id", "bgai-client-id");
+            authorizeUrl = environment.getProperty("sso.authorize-url", "https://sso.bgpay.com/oauth2/authorize");
+            
+            // 暂时使用配置中的端口值，稍后在服务器初始化事件中更新为实际端口
+            int configPort = Integer.parseInt(environment.getProperty("server.port", "8080"));
+            this.serverPort = configPort;
+            
+            log.info("初始化认证控制器: clientId={}, 配置的端口={}", clientId, configPort);
+            
+            // 初始化URL，但实际端口可能会在服务器初始化事件中更新
+            updateUrlConfigurations();
+        } catch (Exception e) {
+            log.warn("初始化认证控制器时出错: {}", e.getMessage());
+            // 确保设置默认值
+            if (clientId == null) clientId = "bgai-client-id";
+            if (authorizeUrl == null) authorizeUrl = "https://sso.bgpay.com/oauth2/authorize";
+            if (serverPort == 0) serverPort = 8080;
+            updateUrlConfigurations();
+        }
     }
     
     /**

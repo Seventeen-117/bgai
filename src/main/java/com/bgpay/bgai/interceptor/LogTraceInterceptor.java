@@ -5,12 +5,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 日志追踪拦截器，用于记录请求的追踪信息
  */
+@Component
 public class LogTraceInterceptor implements HandlerInterceptor {
     private static final Logger logger = LoggerFactory.getLogger(LogTraceInterceptor.class);
 

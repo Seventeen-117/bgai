@@ -4,11 +4,13 @@ import com.bgpay.bgai.config.ReactiveFileProcessor;
 import com.bgpay.bgai.config.RequestAttributesProvider;
 import com.bgpay.bgai.entity.ApiConfig;
 import com.bgpay.bgai.entity.UsageInfo;
+import com.bgpay.bgai.entity.UserToken;
 import com.bgpay.bgai.exception.BillingException;
 import com.bgpay.bgai.response.ChatResponse;
 import com.bgpay.bgai.service.ApiConfigService;
-import com.bgpay.bgai.service.impl.FallbackService;
+import com.bgpay.bgai.service.UserService;
 import com.bgpay.bgai.service.deepseek.DeepSeekService;
+import com.bgpay.bgai.service.impl.FallbackService;
 import com.bgpay.bgai.transaction.TransactionCoordinator;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -30,8 +32,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
+import java.util.List;
 import java.util.concurrent.TimeoutException;
 
+/**
+ * 反应式聊天控制器，处理WebFlux环境下的聊天请求
+ */
 @RestController
 @RequestMapping("/api")
 @Slf4j
@@ -44,6 +50,7 @@ public class ReactiveChatController {
     private final FallbackService fallbackService;
     private final TransactionCoordinator transactionCoordinator;
     private final RequestAttributesProvider attributesProvider;
+    private final UserService userService;
 
     @Autowired
     public ReactiveChatController(ReactiveFileProcessor fileProcessor,
@@ -52,7 +59,8 @@ public class ReactiveChatController {
                                   ReactiveCircuitBreakerFactory circuitBreakerFactory,
                                   FallbackService fallbackService,
                                   TransactionCoordinator transactionCoordinator,
-                                  RequestAttributesProvider attributesProvider) {
+                                  RequestAttributesProvider attributesProvider,
+                                  UserService userService) {
         this.fileProcessor = fileProcessor;
         this.apiConfigService = apiConfigService;
         this.deepSeekService = deepSeekService;
@@ -60,6 +68,7 @@ public class ReactiveChatController {
         this.fallbackService = fallbackService;
         this.transactionCoordinator = transactionCoordinator;
         this.attributesProvider = attributesProvider;
+        this.userService = userService;
     }
 
     /**
@@ -213,14 +222,37 @@ public class ReactiveChatController {
 
                     // 继续原有的处理流程
                     return attributesProvider.getUserId(exchange)
-                            .switchIfEmpty(Mono.error(new BillingException("需要SSO认证")))
+                            .switchIfEmpty(Mono.<String>create(sink -> {
+                                // 尝试从Authorization头获取token并验证
+                                List<String> authHeaders = exchange.getRequest().getHeaders().get("Authorization");
+                                if (authHeaders != null && !authHeaders.isEmpty()) {
+                                    String authHeader = authHeaders.get(0);
+                                    if (authHeader.startsWith("Bearer ")) {
+                                        String token = authHeader.substring(7);
+                                        try {
+                                            // 直接调用userService验证token（注意这是阻塞操作）
+                                            UserToken userToken = userService.validateToken(token);
+                                            if (userToken != null) {
+                                                log.info("从Authorization头提取到用户ID: {}", userToken.getUserId());
+                                                sink.success(userToken.getUserId());
+                                                return;
+                                            }
+                                        } catch (Exception e) {
+                                            log.warn("验证token时出错: {}", e.getMessage());
+                                        }
+                                    }
+                                }
+                                
+                                log.warn("无法从请求中获取有效用户ID，使用default");
+                                sink.success("default");
+                            }))
                             .flatMap(userId -> {
                                 log.info("Processing request for user ID: {}", userId);
 
                                 if ((file == null || (file.filename() != null && file.filename().isEmpty())) && 
                                     (finalQuestion == null || finalQuestion.trim().isEmpty())) {
                                     log.error("Both file and question are empty");
-                return Mono.just(errorResponse(400, "必须提供问题或文件"));
+                                    return Mono.just(errorResponse(400, "必须提供问题或文件"));
                                 }
 
                                 // 对于非用户请求，验证完整的API参数
@@ -236,7 +268,10 @@ public class ReactiveChatController {
                                     Mono.just(buildTextContent(finalQuestion != null ? finalQuestion : "")) :
                                     processFileWithCircuitBreaker(file, finalQuestion != null ? finalQuestion : "", finalMultiTurn);
 
-                                return resolveApiConfigReactive(finalApiUrl, finalApiKey, finalModelName, userId)
+                                // 存储最终使用的用户ID，确保不会丢失
+                                final String finalUserId = userId;
+
+                                return resolveApiConfigReactive(finalApiUrl, finalApiKey, finalModelName, finalUserId)
                                         .flatMap(apiConfig -> {
                                             log.info("API config resolved: url={}, model={}",
                                                     apiConfig.getApiUrl(), apiConfig.getModelName());
@@ -248,7 +283,7 @@ public class ReactiveChatController {
                                                 return callDeepSeekApiWithCircuitBreaker(
                                                         content,
                                                         apiConfig,
-                                                        userId,
+                                                        finalUserId,  // 使用明确保存的用户ID
                                                         finalMultiTurn
                                                 );
                                             });

@@ -3,7 +3,6 @@ package com.bgpay.bgai.seata;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import lombok.Data;
 
 /**
  * Seata安全认证配置
@@ -13,7 +12,6 @@ import lombok.Data;
 @Configuration
 @ConfigurationProperties(prefix = "seata")
 @EnableConfigurationProperties
-@Data
 public class SeataAuthConfig {
     
     /**
@@ -31,10 +29,59 @@ public class SeataAuthConfig {
      */
     private Security security = new Security();
     
-    @Data
+    // 明确提供getter和setter方法以解决警告
+    public String getAccesskey() {
+        return accesskey;
+    }
+    
+    public void setAccesskey(String accesskey) {
+        this.accesskey = accesskey;
+    }
+    
+    public String getSecretkey() {
+        return secretkey;
+    }
+    
+    public void setSecretkey(String secretkey) {
+        this.secretkey = secretkey;
+    }
+    
+    public Security getSecurity() {
+        return security;
+    }
+    
+    public void setSecurity(Security security) {
+        this.security = security;
+    }
+    
     public static class Security {
         private String accessKey = "";
         private String secretKey = "";
         private boolean authEnabled = false;
+        
+        // 明确提供getter和setter方法
+        public String getAccessKey() {
+            return accessKey;
+        }
+        
+        public void setAccessKey(String accessKey) {
+            this.accessKey = accessKey;
+        }
+        
+        public String getSecretKey() {
+            return secretKey;
+        }
+        
+        public void setSecretKey(String secretKey) {
+            this.secretKey = secretKey;
+        }
+        
+        public boolean isAuthEnabled() {
+            return authEnabled;
+        }
+        
+        public void setAuthEnabled(boolean authEnabled) {
+            this.authEnabled = authEnabled;
+        }
     }
 } 
