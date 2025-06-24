@@ -29,6 +29,9 @@ flowchart TD
     NACOS["Nacos<br/>（注册/配置中心）"]
     SEATA["Seata Server"]
   end
+  subgraph 日志追踪
+    LOG["LogTracing<br/>(MDC-based)"]
+  end
   FE-->|HTTP|GW
   GW-->|调用|SVC
   SVC-->|ORM|DB
@@ -43,6 +46,8 @@ flowchart TD
   DB-->|数据|SVC
   REDIS-->|缓存|SVC
   ES-->|检索|SVC
+  GW-->|跟踪|LOG
+  SVC-->|跟踪|LOG
 ```
 
 ---
@@ -61,6 +66,7 @@ flowchart TD
 - **Redis/Redisson**（缓存/分布式锁）
 - **Caffeine**（本地缓存）
 - **Nacos**（注册中心/配置中心）
+- **Log Tracing**（基于 MDC 的分布式日志追踪）
 
 ### 前端
 
@@ -137,6 +143,7 @@ npm run dev
 - 全文检索（Elasticsearch）
 - Saga 状态机
 - 前后端分离
+- 分布式日志追踪（基于 MDC 的 traceId 和 userId 追踪）
 - 丰富的脚本和 Docker 支持
 
 ---
@@ -147,6 +154,30 @@ npm run dev
 - 分布式事务：只需在业务方法上加 `@GlobalTransactional`。
 - 配置管理：所有环境变量、数据库连接、MQ等均可通过 Nacos 配置中心集中管理。
 - 前端开发：推荐使用 VSCode + Volar 插件。
+- 日志追踪：所有请求会自动分配 traceId，可通过日志追踪完整调用链路。
+
+---
+
+## 日志追踪系统
+
+系统集成了基于 MDC 的分布式日志追踪功能：
+
+- 每个请求自动分配唯一 traceId
+- 自动关联用户 userId（如果已认证）
+- 支持 WebMvc 和 WebFlux 两种 Web 框架
+- 日志格式包含 traceId 和 userId，便于问题排查
+- 与 Logstash 集成，支持集中式日志分析
+
+使用示例：
+```java
+// 不需要手动设置 traceId，拦截器会自动处理
+// 但如有需要，可以手动获取当前 trace 信息
+String traceId = LogUtils.getTraceId();
+String userId = LogUtils.getUserId();
+
+// 记录业务日志时会自动包含追踪信息
+logger.info("业务操作完成");
+```
 
 ---
 

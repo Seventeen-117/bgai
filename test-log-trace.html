@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日志追踪功能测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+        input[type=text] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>BGAI 日志追踪功能测试</h1>
+    
+    <div class="container">
+        <h2>同步请求测试</h2>
+        <div>
+            <label for="syncMessage">测试消息:</label>
+            <input type="text" id="syncMessage" value="这是一个测试消息" />
+        </div>
+        <div style="margin-top: 10px;">
+            <button class="btn" onclick="testSyncLogTrace()">发送同步请求</button>
+        </div>
+        <h3>响应结果:</h3>
+        <pre id="syncResult">等待响应...</pre>
+    </div>
+    
+    <div class="container">
+        <h2>反应式请求测试</h2>
+        <div>
+            <label for="reactiveMessage">测试消息:</label>
+            <input type="text" id="reactiveMessage" value="这是一个反应式测试消息" />
+        </div>
+        <div style="margin-top: 10px;">
+            <button class="btn" onclick="testReactiveLogTrace()">发送反应式请求</button>
+        </div>
+        <h3>响应结果:</h3>
+        <pre id="reactiveResult">等待响应...</pre>
+    </div>
+    
+    <script>
+        // 同步请求测试
+        function testSyncLogTrace() {
+            const message = document.getElementById('syncMessage').value;
+            const resultElement = document.getElementById('syncResult');
+            
+            resultElement.textContent = '请求中...';
+            
+            fetch(`/api/log-trace/example?message=${encodeURIComponent(message)}`)
+                .then(response => response.json())
+                .then(data => {
+                    resultElement.textContent = JSON.stringify(data, null, 2);
+                })
+                .catch(error => {
+                    resultElement.textContent = `错误: ${error.message}`;
+                });
+        }
+        
+        // 反应式请求测试
+        function testReactiveLogTrace() {
+            const message = document.getElementById('reactiveMessage').value;
+            const resultElement = document.getElementById('reactiveResult');
+            
+            resultElement.textContent = '请求中...';
+            
+            fetch(`/api/reactive-log-trace/example?message=${encodeURIComponent(message)}`)
+                .then(response => response.json())
+                .then(data => {
+                    resultElement.textContent = JSON.stringify(data, null, 2);
+                })
+                .catch(error => {
+                    resultElement.textContent = `错误: ${error.message}`;
+                });
+        }
+    </script>
+</body>
+</html> 

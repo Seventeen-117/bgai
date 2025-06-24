@@ -38,9 +38,6 @@ public class SagaStateMachineConfig implements ApplicationRunner {
     private DataSource dataSource;
     
     @Autowired
-    private ApplicationContext applicationContext;
-    
-    @Autowired
     private CustomSagaJsonParser customSagaJsonParser;
     
     @Value("${spring.application.name:bgai-application}")
