@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.bgpay.bgai.utils.Sha256Util;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -32,10 +33,12 @@ public class ApiKeyServiceImpl implements ApiKeyService {
         if (client == null) {
             throw new IllegalArgumentException("无效或未启用的 clientId");
         }
-        // 生成API Key
-        String apiKeyStr = UUID.randomUUID().toString().replace("-", "");
+        // 生成明文API Key
+        String plainApiKey = UUID.randomUUID().toString().replace("-", "");
+        // 用SHA-256哈希后存库
+        String hashedApiKey = Sha256Util.hash(plainApiKey);
         ApiKey apiKey = new ApiKey();
-        apiKey.setApiKey(apiKeyStr);
+        apiKey.setApiKey(hashedApiKey);
         apiKey.setClientId(clientId);
         apiKey.setClientName(client.getClientName());
         apiKey.setDescription(description);
@@ -43,8 +46,16 @@ public class ApiKeyServiceImpl implements ApiKeyService {
         apiKey.setExpiresAt(LocalDateTime.now().plusYears(1));
         apiKey.setActive(1);
         apiKeyMapper.insert(apiKey);
-        log.info("Generated new API Key for client: {}", clientId);
-        return apiKey;
+        log.info("Generated new API Key for client: {} (SHA-256哈希存储)", clientId);
+        ApiKey result = new ApiKey();
+        result.setApiKey(plainApiKey);
+        result.setClientId(clientId);
+        result.setClientName(client.getClientName());
+        result.setDescription(description);
+        result.setCreatedAt(apiKey.getCreatedAt());
+        result.setExpiresAt(apiKey.getExpiresAt());
+        result.setActive(1);
+        return result;
     }
 
     @Override
@@ -63,9 +74,10 @@ public class ApiKeyServiceImpl implements ApiKeyService {
 
     @Override
     public ApiKeyValidationResult validateApiKeyStatus(String apiKey) {
+        String hashedApiKey = Sha256Util.hash(apiKey);
         ApiKey key = apiKeyMapper.selectOne(
             new com.baomidou.mybatisplus.core.conditions.query.QueryWrapper<ApiKey>()
-                .eq("api_key", apiKey)
+                .eq("api_key", hashedApiKey)
         );
         if (key == null) {
             return new ApiKeyValidationResult(ApiKeyStatus.NOT_FOUND, null, "API Key not found", null);
@@ -81,14 +93,16 @@ public class ApiKeyServiceImpl implements ApiKeyService {
 
     @Override
     public java.util.List<ApiKey> getAllApiKeys() {
+        // 不返回明文apiKey，apiKey字段为hash
         return apiKeyMapper.selectList(null);
     }
 
     @Override
     public ApiKey getApiKeyInfo(String apiKey) {
+        String hashedApiKey = Sha256Util.hash(apiKey);
         return apiKeyMapper.selectOne(
             new com.baomidou.mybatisplus.core.conditions.query.QueryWrapper<ApiKey>()
-                .eq("api_key", apiKey)
+                .eq("api_key", hashedApiKey)
         );
     }
 
