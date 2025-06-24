@@ -35,7 +35,7 @@ COPY --from=build /app/target/*.jar app.jar
 
 USER bgai
 
-EXPOSE 8080
+EXPOSE 8688
 
 ENV SPRING_PROFILES_ACTIVE=prod \
     TZ=Asia/Shanghai \
