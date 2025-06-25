@@ -1,10 +1,9 @@
-package com.bgpay.bgai.config;
+package com.bgpay.bgai.web;
 
 import com.bgpay.bgai.interceptor.LogTraceInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.context.WebServerApplicationContext;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
-import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

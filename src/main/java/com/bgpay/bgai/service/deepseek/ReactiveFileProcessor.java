@@ -1,20 +1,14 @@
-package com.bgpay.bgai.config;
+package com.bgpay.bgai.service.deepseek;
 
-import com.bgpay.bgai.service.deepseek.FileProcessor;
-import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
-import org.springframework.core.io.buffer.DataBufferUtils;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.UUID;
 
 @Service
 @Slf4j

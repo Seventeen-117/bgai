@@ -265,379 +265,407 @@ String serviceUrl = serviceDiscoveryUtils.buildServiceUrl("user-service", "/api/
 
 ---
 
-## Docker 部署指南
+## Docker 构建指南
 
-### 系统要求
+本项目提供两个优化的 Dockerfile 选项，满足不同的构建和部署需求：
 
-- Docker 20.10.0 或更高版本
-- Docker Compose 2.0.0 或更高版本
-- 至少 4GB 内存
-- 至少 10GB 磁盘空间
+### 1. 标准构建 (Dockerfile)
 
-### 技术说明
+标准构建版本提供了一个功能完备、注释清晰的构建过程，适合大多数场景使用。
 
-- 本 Docker 镜像基于 OpenJDK 17 (Eclipse Temurin)
-- 应用程序在构建时自动配置为 Java 17 兼容模式
-- 适用于 Spring Boot 3.0.x 项目
+#### 特点：
+- 多阶段构建，减小最终镜像大小
+- 非 root 用户运行，提高安全性
+- 适当的内存和 GC 配置
+- 包含健康检查
+- 包含 Seata 分布式事务配置
 
-### 解决 Java 版本问题
-
-如果您在构建时遇到 `invalid target release: 21` 错误，表明您的项目配置为使用 Java 21，但服务器上只有 Java 17。解决此问题有以下几种方式：
-
-#### 方法1：使用独立的 Dockerfile
-
-使用项目根目录下的 `Dockerfile.standalone` 文件进行构建：
-
+#### 使用方法：
 ```bash
-docker build -f Dockerfile.standalone -t bgai:latest .
+# 标准构建
+docker build -t bgai:latest .
+
+# 在开发环境中运行
+docker run -p 8688:8688 -e SPRING_PROFILES_ACTIVE=dev bgai:latest
+
+# 挂载配置文件
+docker run -v /path/to/config:/app/nacos/config bgai:latest
 ```
 
-#### 方法2：使用修复脚本
-
-1. 使脚本可执行：
-   ```bash
-   chmod +x fix-java-version.sh
-   ```
-
-2. 运行脚本修复 pom.xml 中的 Java 版本：
-   ```bash
-   ./fix-java-version.sh
-   ```
-
-3. 构建 Docker 镜像：
-   ```bash
-   docker build -t bgai:latest .
-   ```
-
-#### 方法3：手动修改 pom.xml
-
-1. 编辑 pom.xml 文件：
-   ```bash
-   cp pom.xml pom.xml.original
-   sed -i 's/<java.version>21<\/java.version>/<java.version>17<\/java.version>/g' pom.xml
-   sed -i 's/<source>21<\/source>/<source>17<\/source>/g' pom.xml
-   sed -i 's/<target>21<\/target>/<target>17<\/target>/g' pom.xml
-   ```
-
-2. 构建 Docker 镜像：
-   ```bash
-   docker build -t bgai:latest .
-   ```
-
-### 使用 Docker Compose 快速启动
-
+#### 离线预构建选项：
 ```bash
-docker-compose up -d
+# 1. 先在本地构建 JAR 包
+mvn clean package -DskipTests
+
+# 2. 使用预构建的 JAR 创建镜像
+docker build --target runtime -t bgai:offline .
 ```
 
-这将启动以下服务:
-- BGAI 应用 (端口 8080)
-- Redis (端口 6379)
-- Nacos (端口 8848, 9848)
+### 2. 快速构建 (Dockerfile.quick)
 
-### 自定义配置
+针对中国网络环境优化的快速构建版本，特别适合在网络环境不佳的情况下使用。
 
-您可以在 `docker-compose.yml` 文件中修改以下环境变量:
+#### 特点：
+- 使用多个国内 Maven 镜像源（阿里云、华为云）
+- 优化依赖下载策略，增加重试次数和超时时间
+- 支持挂载本地 Maven 仓库缓存
+- 并行构建优化
+- 分阶段优化的构建流程
 
-- `SPRING_PROFILES_ACTIVE`: 应用程序运行的环境 (默认: prod)
-- `REDIS_HOST`: Redis 服务器地址
-- `REDIS_PORT`: Redis 服务器端口
-- `NACOS_HOST`: Nacos 服务器地址
-- `NACOS_PORT`: Nacos 服务器端口
-- `NACOS_NAMESPACE`: Nacos 命名空间
-- `NACOS_GROUP`: Nacos 分组
+#### 使用方法：
+```bash
+# 快速构建
+docker build -f Dockerfile.quick -t bgai:latest .
 
-### API 测试
+# 挂载本地 Maven 仓库加速构建
+docker build -f Dockerfile.quick --build-arg MAVEN_REPO=/path/to/m2/repository -t bgai:latest .
+```
 
-部署完成后，您可以使用以下方式测试 API:
+### 构建选择指南
 
-1. 使用 Postman 导入项目根目录中的 `api-chat-postman-collection.json` 文件
-2. 使用项目根目录中的 `test-form-data.html` 或 `test-text-only.html` 文件
+| 场景 | 推荐选项 |
+| --- | --- |
+| 正常网络环境 | Dockerfile |
+| 首次构建时间长 | Dockerfile.quick |  
+| 网络环境不稳定 | Dockerfile.quick |
+| 中国大陆网络 | Dockerfile.quick |
+| CI/CD 环境 | Dockerfile |
+| 本地快速迭代开发 | Dockerfile.quick + 挂载本地 Maven 仓库 |
 
-API 端点:
-- 聊天 API: `http://localhost:8080/Api/chat`
-- 表单调试 API: `http://localhost:8080/Api/chat-form-data`
+### Dockerfile 变更说明
+
+我们对项目中的 Dockerfile 进行了整合，将多个特定目的的 Dockerfile 合并为两个主要文件：
+
+1. `Dockerfile` - 合并了原先的 `Dockerfile`、`Dockerfile.standalone`、`Dockerfile.minimal`、`Dockerfile.slim` 的主要功能
+2. `Dockerfile.quick` - 专注于中国网络环境优化和构建速度
+
+这种整合简化了项目结构，同时保留了所有必要的构建选项和功能。
+
+### 调整定制项
+
+#### 添加 OCR 和视频处理支持
+
+若需要 OCR、图像或视频处理功能，可在 Dockerfile 中取消相关注释：
+
+```dockerfile
+# 安装基础工具和运行时依赖
+RUN apt-get update && apt-get install -y \
+    wget \
+    # 可选: 如需OCR和图像处理，取消下面的注释
+    tesseract-ocr \
+    tesseract-ocr-chi-sim \
+    tesseract-ocr-eng \
+    ffmpeg \
+    && rm -rf /var/lib/apt/lists/*
+```
+
+#### 调整 Java 版本
+
+若需要使用 Java 17 而非 Java 21：
+
+1. 修改 FROM 指令中的 base 镜像版本
+2. 可能需要调整 pom.xml 中的 Java 版本配置
 
 ---
 
-## Docker 构建故障排除指南
+## OpenFeign集成说明
 
-如果您的 Docker 构建过程非常缓慢或卡住，请按照以下步骤操作：
+本项目集成了Spring Cloud OpenFeign，用于简化服务间调用。OpenFeign通过声明式REST客户端，提供了HTTP API的接口绑定机制，使微服务间调用更加便捷。
 
-### 解决方案 1: 使用优化的 Dockerfile 构建
+### 功能特性
 
-我们提供了一个针对网络和性能问题优化的 Dockerfile：
+1. **声明式服务调用**：使用Java接口定义API调用，无需手动编写HTTP客户端代码
+2. **服务发现集成**：与Nacos服务发现无缝集成
+3. **负载均衡支持**：使用Spring Cloud LoadBalancer实现负载均衡
+4. **熔断降级处理**：集成Resilience4j提供熔断、限流和降级能力
+5. **请求压缩**：支持请求和响应的自动压缩
+6. **请求重试**：自动重试配置
 
-```bash
-# 1. 停止正在运行的构建（如果有）
-docker ps -a | grep "build" | awk '{print $1}' | xargs -r docker stop
-docker builder prune -f
+### 配置说明
 
-# 2. 使用优化版本构建
-docker build -f Dockerfile.quick -t jiangyang-ai:latest .
+#### 1. 主要依赖
+
+项目使用以下Spring Cloud组件：
+```xml
+<!-- OpenFeign -->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-openfeign</artifactId>
+</dependency>
+
+<!-- Resilience4j 熔断器 -->
+<dependency>
+    <groupId>io.github.resilience4j</groupId>
+    <artifactId>resilience4j-spring-boot3</artifactId>
+</dependency>
+<dependency>
+    <groupId>io.github.resilience4j</groupId>
+    <artifactId>resilience4j-circuitbreaker</artifactId>
+</dependency>
 ```
 
-这个版本做了以下优化：
-- 提高了 Maven 构建速度
-- 优化了依赖下载
-- 减少了不必要的步骤
+#### 2. 启用OpenFeign
 
-### 解决方案 2: 离线构建方式
+在应用主类添加`@EnableFeignClients`注解：
 
-如果您的网络环境非常差，可以使用离线构建方式：
-
-```bash
-# 1. 在本地环境构建 JAR 包
-./mvnw clean package -DskipTests
-
-# 2. 使用离线 Dockerfile 构建镜像
-docker build -f Dockerfile.offline -t jiangyang-ai:latest .
-```
-
-### 解决方案 3: 调整 Docker 资源配置
-
-Docker Desktop 资源限制可能导致构建缓慢：
-
-1. 打开 Docker Desktop
-2. 点击 "Settings" -> "Resources"
-3. 增加 CPU 核心数（最少 4 核）和内存（最少 8GB）
-4. 点击 "Apply & Restart"
-
-### 解决方案 4: 使用镜像加速器
-
-配置 Docker 使用国内镜像：
-
-```bash
-# 编辑或创建 daemon.json
-sudo mkdir -p /etc/docker
-sudo tee /etc/docker/daemon.json <<-'EOF'
-{
-  "registry-mirrors": [
-    "https://registry.cn-hangzhou.aliyuncs.com",
-    "https://docker.mirrors.ustc.edu.cn",
-    "https://hub-mirror.c.163.com"
-  ]
+```java
+@SpringBootApplication
+@EnableDiscoveryClient
+@EnableFeignClients
+public class BgaiApplication {
+    // ...
 }
-EOF
-
-# 重启 Docker
-sudo systemctl daemon-reload
-sudo systemctl restart docker
 ```
 
-### 常见问题排查
+#### 3. 全局Feign配置
 
-#### Maven 下载依赖失败
+`application.yml`中配置Feign和负载均衡：
 
-如果主要是 Maven 依赖下载问题，可以尝试：
+```yaml
+spring:
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+      cache:
+        enabled: true
+    openfeign:
+      client:
+        config:
+          default:
+            connectTimeout: 5000
+            readTimeout: 10000
+      circuitbreaker:
+        enabled: true
 
-```bash
-# 在本地预先下载依赖
-./mvnw dependency:go-offline
-
-# 使用本地 Maven 仓库构建
-docker build -f Dockerfile.quick -t jiangyang-ai:latest \
-  --build-arg MAVEN_OPTS="-Dmaven.repo.local=./.m2/repository" .
+# Resilience4j配置
+resilience4j:
+  circuitbreaker:
+    instances:
+      feignClientDefault:
+        registerHealthIndicator: true
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 10
+        failureRateThreshold: 50
 ```
 
-#### Docker 构建缓存问题
+#### 4. 自定义Feign配置类
 
-有时 Docker 构建缓存可能会导致问题：
+`FeignConfig.java`定义了全局Feign客户端行为：
 
-```bash
-# 完全不使用缓存进行构建
-docker build -f Dockerfile.quick -t jiangyang-ai:latest --no-cache .
+- 日志级别配置
+- 集成Resilience4j断路器
+- 自定义名称解析器
+
+### 使用方法
+
+#### 1. 定义Feign客户端接口
+
+```java
+@FeignClient(
+    name = "service-name", 
+    fallbackFactory = ServiceFallbackFactory.class
+)
+public interface ServiceClient {
+
+    @GetMapping("/api/resource")
+    List<Resource> getResources();
+    
+    @PostMapping("/api/resource")
+    Resource createResource(@RequestBody Resource resource);
+}
 ```
 
-#### 网络连接问题
+#### 2. 创建回退工厂
 
-如果是网络连接问题，可尝试：
+```java
+@Component
+public class ServiceFallbackFactory implements FallbackFactory<ServiceClient> {
 
-```bash
-# 使用宿主机网络构建
-docker build -f Dockerfile.quick -t jiangyang-ai:latest --network=host .
+    @Override
+    public ServiceClient create(Throwable cause) {
+        return new ServiceClient() {
+            // 实现接口方法，提供降级处理逻辑
+        };
+    }
+}
 ```
+
+#### 3. 在控制器或服务中注入使用
+
+```java
+@Service
+public class BusinessService {
+
+    @Autowired
+    private ServiceClient serviceClient;
+    
+    public void businessMethod() {
+        // 直接调用Feign客户端方法
+        List<Resource> resources = serviceClient.getResources();
+    }
+}
+```
+
+### 熔断降级策略
+
+系统集成了Resilience4j作为熔断器实现，支持：
+
+1. **熔断器模式**：使用计数滑动窗口监控失败率
+2. **超时控制**：为请求设置最大超时时间
+3. **重试机制**：配置特定异常的重试策略
+4. **降级处理**：
+   - **服务级降级**：通过FallbackFactory为整个Feign客户端提供降级
+   - **方法级降级**：通过@CircuitBreaker注解为特定方法提供降级
+
+### 负载均衡
+
+系统使用Spring Cloud LoadBalancer作为负载均衡实现：
+
+1. 与Nacos服务发现集成
+2. 支持轮询、随机等负载均衡策略
+3. 缓存服务实例信息以提升性能
+
+### 最佳实践
+
+1. 为每个微服务创建独立的Feign客户端接口
+2. 总是提供合理的降级实现
+3. 调整超时和熔断参数以匹配业务场景
+4. 使用请求/响应压缩以减少网络负担
+5. 为复杂场景提供自定义配置类
 
 ---
 
-## 使用远程 Nacos 服务部署指南
+## Feign接口测试指南
 
-### 配置文件说明
+本章节介绍如何测试项目中集成的OpenFeign客户端功能，包括不同的测试场景和预期结果。
 
-本项目包含以下与远程 Nacos 部署相关的文件：
+### 准备工作
 
-1. **nacos-env.properties** - Nacos 服务器配置文件
-2. **docker-compose-remote-nacos.yml** - 简化版 Docker Compose 配置
-3. **run-with-remote-nacos.bat/sh** - 快速启动脚本
-
-### 部署步骤
-
-#### 1. 确认远程 Nacos 配置
-
-编辑 `nacos-env.properties` 文件，确保以下配置正确：
-
-```properties
-# Nacos 服务器地址
-NACOS_HOST=8.133.246.113
-NACOS_PORT=8848
-NACOS_NAMESPACE=d750d92e-152f-4055-a641-3bc9dda85a29
-NACOS_GROUP=DEFAULT_GROUP
-
-# 应用配置
-SPRING_PROFILES_ACTIVE=prod
-```
-
-#### 2. 使用脚本启动应用
-
-**Windows 环境：**
-
-```bash
-run-with-remote-nacos.bat
-```
-
-**Linux/Unix 环境：**
-
-```bash
-chmod +x run-with-remote-nacos.sh
-./run-with-remote-nacos.sh
-```
-
-#### 3. 验证部署
-
-应用启动后，可以通过以下方式验证：
-
-1. 检查容器运行状态：
+1. 启动应用程序：
    ```bash
-   docker ps
+   # Windows
+   ./start.bat
+   
+   # Linux/Mac
+   ./start.sh
    ```
 
-2. 查看应用日志：
-   ```bash
-   docker logs bgai-app
-   ```
+2. 应用启动后，通过以下方式访问测试页面：
+   - 在浏览器中打开： `http://localhost:8688/test-feign.html`
 
-3. 访问应用接口：
-   ```
-   http://localhost:8080/actuator/health
-   ```
+### 测试场景
 
-4. 登录 Nacos 控制台，确认服务已注册：
-   ```
-   http://8.133.246.113:8848/nacos/
-   ```
+#### 1. 基本功能测试
 
----
+##### 健康检查
+验证Feign测试控制器是否正常工作：
+- 点击"检查健康状态"按钮
+- 预期响应：显示状态为"UP"的JSON响应
 
-## API安全和令牌管理
+##### 检查Feign状态
+验证Feign客户端配置是否正常：
+- 点击"检查Feign状态"按钮
+- 预期响应：显示Feign客户端的连接状态
 
-### 令牌过期验证
+#### 2. 降级功能测试
 
-#### 问题描述
+我们模拟了几个测试场景，可以通过不同的用户ID测试不同的情况：
 
-当通过 `/api/auth/refresh-by-userid?userId=<ID>` API 刷新用户的 token 后，使用该用户的旧 token 仍然可以成功调用 `/api/chatGatWay-internal` API，这导致了潜在的安全风险。
+##### 正常调用
+- 输入用户ID：`1` 或 `2`（已预置的用户）
+- 点击"测试降级"按钮
+- 预期响应：返回正常的用户信息，`fallbackTriggered` 为 `false`
 
-具体来说：
-1. 当通过 `/api/auth/refresh-by-userid?userId=689258T` 刷新用户 token 后
-2. 旧 token 应该被视为无效
-3. 但使用旧 token 调用 `/api/chatGatWay-internal` API 仍然成功（服务未重启时）
-4. 服务重启后，使用旧 token 调用 `/api/chatGatWay-internal` 会正确报错："Authorization token的用户ID与X-User-Id不匹配"
+##### 用户不存在
+- 输入一个不存在的用户ID（如 `100`）
+- 点击"测试降级"按钮
+- 预期响应：返回降级的用户信息，状态码为 404，`fallbackTriggered` 为 `true`
 
-#### 解决方案
+##### 服务超时
+- 输入用户ID：`999`（模拟5秒延迟的用户）
+- 点击"测试降级"按钮
+- 预期响应：由于超时触发降级，返回降级的用户信息，`fallbackTriggered` 为 `true`
 
-我们对以下几个关键部分进行了修改：
+##### 服务错误
+- 输入用户ID：`0`（模拟服务器内部错误）
+- 点击"测试降级"按钮
+- 预期响应：由于服务器错误触发降级，返回降级的用户信息，`fallbackTriggered` 为 `true`
 
-1. `UserServiceImpl.refreshTokenByUserId` 方法：确保删除旧令牌的所有缓存
-2. `UserServiceImpl.refreshToken` 方法：增强令牌刷新过程中的缓存清理
-3. `UserMapper.findByRefreshToken` 方法：支持通过刷新令牌直接查询用户
+#### 3. 创建用户测试
 
-### X-User-Id 头部安全增强
+验证Feign客户端POST请求功能：
+- 输入用户名和邮箱
+- 点击"创建用户"按钮
+- 预期响应：返回新创建的用户信息，包含自动生成的ID
 
-#### 问题描述
+#### 4. 熔断测试
 
-在使用 `/api/chatGatWay-internal` API 时，仅靠 `X-User-Id` 头部不够安全，需要确保令牌验证的完整性。
+要测试熔断器的工作情况，可以执行以下步骤：
 
-#### 安全更新
+1. 连续发送10个请求到用户ID为 `0` 的端点（触发服务错误）
+   - 这将使失败率超过阈值，触发熔断器打开
+2. 在熔断器打开状态下，向正常用户ID发送请求
+   - 观察是否直接返回降级响应（不再尝试调用原始服务）
+3. 等待10秒（熔断器半开等待时间）
+4. 再次发送请求，观察熔断器是否恢复
 
-为了提高系统安全性，我们对 `/api/chatGatWay-internal` 接口的 `X-User-Id` 处理逻辑进行了以下改进：
+### 使用命令行测试
 
-1. 使用 `X-User-Id` 头部时，**必须同时提供有效的 Authorization 令牌**
-2. Authorization 令牌必须是有效的（未过期）
-3. 令牌对应的用户ID必须与 `X-User-Id` 值完全匹配
-4. 如果不满足上述任何条件，请求将被拒绝（返回 401 或 403 错误）
-
-#### 测试方法
-
-可以使用提供的 `test-x-user-id.html` 测试页面验证安全增强的效果，或使用以下 cURL 命令进行测试：
+除了使用测试页面外，还可以使用curl命令测试API：
 
 ```bash
-curl -X POST http://localhost:8688/api/chatGatWay-internal \
-     -H "X-User-Id: 689258T" \
-     -H "Authorization: Bearer YOUR_VALID_ACCESS_TOKEN" \
-     -F "question=请分析Java中的乐观锁实现方法"
+# 健康检查
+curl -X GET http://localhost:8688/api/feign-test/health
+
+# 测试降级功能（使用ID 1）
+curl -X GET http://localhost:8688/api/feign-test/test-fallback/1
+
+# 测试降级功能（使用不存在的ID）
+curl -X GET http://localhost:8688/api/feign-test/test-fallback/100
+
+# 测试降级功能（超时）
+curl -X GET http://localhost:8688/api/feign-test/test-fallback/999
+
+# 测试降级功能（服务错误）
+curl -X GET http://localhost:8688/api/feign-test/test-fallback/0
+
+# 创建用户
+curl -X POST http://localhost:8688/api/feign-test/test-create \
+  -H "Content-Type: application/json" \
+  -d '{"username":"newuser","email":"newuser@example.com"}'
 ```
 
----
+### 查看日志
 
-## OpenAPI 3.0 规范集成
+启动应用后，观察控制台日志可以看到：
+- Feign客户端的请求和响应日志
+- 熔断器状态变化日志
+- 降级服务的触发记录
 
-### 升级内容
+关键日志关键字：
+- `FeignClientName`：Feign客户端名称
+- `CircuitBreaker`：熔断器状态变化
+- `Fallback`：降级逻辑被调用
 
-本项目已将API文档规范从Swagger 2.0升级到OpenAPI 3.0，主要完成了以下工作：
+### 测试结果解读
 
-1. 依赖更新
-   - 从`springfox-swagger2`和`swagger-bootstrap-ui`切换到`springdoc-openapi-starter-webmvc-ui`和`springdoc-openapi-starter-webflux-ui`
-   - 升级到最新版本2.3.0，支持Spring Boot 3.x
+1. 检查响应对象中的 `fallbackTriggered` 字段：
+   - `true`：表示降级逻辑已被触发
+   - `false`：表示正常调用，未触发降级
 
-2. 配置更新
-   - 创建了专门的`OpenApiConfig`配置类，统一管理API文档信息
-   - 在`application.yml`中添加了`springdoc`相关配置
-   - 配置了API分组，按功能模块组织接口
+2. 熔断触发条件：
+   - 连续失败请求数达到配置阈值时，断路器状态从CLOSED变为OPEN
+   - 在OPEN状态时，请求不会发送到实际服务，而是直接触发降级
 
-3. 注解更新
-   - 从Swagger 2.0注解迁移到OpenAPI 3.0注解
-
-### 访问方式
-
-API文档现在可以通过以下方式访问：
-
-- **Swagger UI**：http://localhost:8688/swagger-ui.html
-- **OpenAPI JSON**：http://localhost:8688/v3/api-docs
-- **按分组访问**：http://localhost:8688/swagger-ui.html?urls.primaryName=chat
-
-### Swagger到OpenAPI注解迁移对照表
-
-#### 类级别注解
-
-| Swagger 2.0 | OpenAPI 3.0 | 说明 |
-|-------------|-------------|------|
-| `@Api(tags = "标签")` | `@Tag(name = "标签", description = "描述")` | 控制器类上的标签注解 |
-| `@ApiModel(value = "名称", description = "描述")` | `@Schema(name = "名称", description = "描述")` | 模型类上的注解 |
-
-#### 方法级别注解
-
-| Swagger 2.0 | OpenAPI 3.0 | 说明 |
-|-------------|-------------|------|
-| `@ApiOperation(value = "操作", notes = "详细说明")` | `@Operation(summary = "操作", description = "详细说明")` | 接口操作描述 |
-| `@ApiImplicitParam` | `@Parameter` | 参数描述 |
-| `@ApiImplicitParams` | 多个`@Parameter` | 多个参数描述 |
-| `@ApiResponses` | `@ApiResponses` | 响应描述容器 |
-| `@ApiResponse` | `@ApiResponse` | 响应描述 |
-
-#### 参数级别注解
-
-| Swagger 2.0 | OpenAPI 3.0 | 说明 |
-|-------------|-------------|------|
-| `@ApiParam(value = "描述", required = true)` | `@Parameter(description = "描述", required = true)` | 参数描述 |
-| `@ApiModelProperty(value = "属性描述", required = true)` | `@Schema(description = "属性描述", required = true)` | 模型属性描述 |
-
-### 安全设置
-
-系统配置了两种安全认证方式：
-
-1. **Bearer Token认证**：用于用户登录后的认证
-2. **API Key认证**：用于系统间调用的认证
-
-开发者在调用API时需根据接口要求提供相应的认证信息。
+3. 降级响应格式：
+   ```json
+   {
+     "success": false,
+     "fallbackTriggered": true,
+     "error": "错误详情"
+   }
+   ```
 
 ---
 

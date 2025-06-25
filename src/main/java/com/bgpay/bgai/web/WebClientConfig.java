@@ -1,4 +1,4 @@
-package com.bgpay.bgai.config;
+package com.bgpay.bgai.web;
 
 import org.apache.http.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;

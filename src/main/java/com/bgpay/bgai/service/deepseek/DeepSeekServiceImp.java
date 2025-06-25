@@ -464,8 +464,7 @@ public class DeepSeekServiceImp implements DeepSeekService {
             }
             
             // 获取响应中的用户ID（如果存在）
-            String
-                    userId = null;
+            String userId = null;
             JsonNode usageNode = root.path("usage");
             
             if (usageNode.has("userId") && !usageNode.path("userId").isNull() && 

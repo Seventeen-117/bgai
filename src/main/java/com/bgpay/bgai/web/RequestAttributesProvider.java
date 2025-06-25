@@ -1,4 +1,4 @@
-package com.bgpay.bgai.config;
+package com.bgpay.bgai.web;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;

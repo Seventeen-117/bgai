@@ -1,4 +1,4 @@
-package com.bgpay.bgai.config;
+package com.bgpay.bgai.web;
 
 import com.bgpay.bgai.context.ReactiveRequestContextHolder;
 import com.bgpay.bgai.filter.LogTraceWebFilter;
@@ -12,7 +12,6 @@ import org.springframework.web.reactive.config.WebFluxConfigurer;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
-import reactor.core.publisher.Mono;
 
 /**
  * WebFlux配置，添加请求上下文过滤器

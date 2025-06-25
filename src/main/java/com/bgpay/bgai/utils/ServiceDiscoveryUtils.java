@@ -50,6 +50,20 @@ public class ServiceDiscoveryUtils {
     
     @Autowired(required = false)
     private ServiceUrlResolver serviceUrlResolver;
+    
+    /**
+     * 检查服务发现组件是否可用
+     */
+    public boolean isDiscoveryAvailable() {
+        return discoveryClient != null;
+    }
+    
+    /**
+     * 检查负载均衡组件是否可用
+     */
+    public boolean isLoadBalancerAvailable() {
+        return loadBalancerClient != null;
+    }
 
     /**
      * 获取服务实例列表，支持缓存
@@ -106,6 +120,11 @@ public class ServiceDiscoveryUtils {
      * @return 完整URL
      */
     public String buildServiceUrl(String serviceId, String path) {
+        // 如果是本地服务，直接返回本地URL
+        if ("user-service".equals(serviceId)) {
+            return "http://localhost:8688" + (path.startsWith("/") ? path : "/" + path);
+        }
+        
         return getServiceInstance(serviceId)
                 .map(instance -> UriComponentsBuilder.fromUri(instance.getUri())
                         .path(path.startsWith("/") ? path : "/" + path)
@@ -134,7 +153,13 @@ public class ServiceDiscoveryUtils {
             return Mono.error(new IllegalStateException("LoadBalancedWebClient not available"));
         }
         
-        String url = "lb://" + serviceId + (path.startsWith("/") ? path : "/" + path);
+        // 对于本地测试服务，使用直接URL
+        String url;
+        if ("user-service".equals(serviceId)) {
+            url = "http://localhost:8688" + (path.startsWith("/") ? path : "/" + path);
+        } else {
+            url = "lb://" + serviceId + (path.startsWith("/") ? path : "/" + path);
+        }
         
         WebClient.RequestBodySpec requestSpec = loadBalancedWebClient.method(method)
                 .uri(url);
@@ -170,7 +195,13 @@ public class ServiceDiscoveryUtils {
             throw new IllegalStateException("LoadBalancedRestTemplate not available");
         }
         
-        String url = "http://" + serviceId + (path.startsWith("/") ? path : "/" + path);
+        // 对于本地测试服务，使用直接URL
+        String url;
+        if ("user-service".equals(serviceId)) {
+            url = "http://localhost:8688" + (path.startsWith("/") ? path : "/" + path);
+        } else {
+            url = "http://" + serviceId + (path.startsWith("/") ? path : "/" + path);
+        }
         
         try {
             if (HttpMethod.GET.equals(method)) {
@@ -210,12 +241,17 @@ public class ServiceDiscoveryUtils {
             throw new IllegalStateException("LoadBalancedRestTemplate not available");
         }
         
-        if (serviceUrlResolver == null) {
-            log.error("ServiceUrlResolver is not available for direct service call: {} {}", serviceId, path);
-            throw new IllegalStateException("ServiceUrlResolver not available");
-        }
+        String url;
         
-        String url = serviceUrlResolver.buildUrl(serviceId, path);
+        // 对于本地测试服务，使用直接URL
+        if ("user-service".equals(serviceId)) {
+            url = "http://localhost:8688" + (path.startsWith("/") ? path : "/" + path);
+        } else if (serviceUrlResolver != null) {
+            url = serviceUrlResolver.buildUrl(serviceId, path);
+        } else {
+            url = "http://" + serviceId + (path.startsWith("/") ? path : "/" + path);
+            log.warn("ServiceUrlResolver is not available, using fallback URL: {}", url);
+        }
         
         try {
             if (HttpMethod.GET.equals(method)) {

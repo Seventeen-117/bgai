@@ -1,111 +1,144 @@
 package com.bgpay.bgai.filter;
 
-import com.bgpay.bgai.config.ApiKeyConfig;
-import com.bgpay.bgai.entity.ApiKey;
-import com.bgpay.bgai.exception.ApiKeyAuthenticationException;
-import com.bgpay.bgai.service.ApiKeyService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
-import org.springframework.web.server.ServerWebExchange;
-import org.springframework.web.server.WebFilter;
-import org.springframework.web.server.WebFilterChain;
-import reactor.core.publisher.Mono;
-
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.bgpay.bgai.service.ApiKeyService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * API密钥认证过滤器
+ */
 @Slf4j
 @Component
-public class ApiKeyAuthenticationFilter implements WebFilter {
+@Order(Ordered.HIGHEST_PRECEDENCE + 1) // 在CORS过滤器之后执行
+public class ApiKeyAuthenticationFilter extends OncePerRequestFilter {
 
-    private final ApiKeyService apiKeyService;
-    private final List<String> excludedPaths;
+    @Autowired
+    private ApiKeyService apiKeyService;
 
-    public ApiKeyAuthenticationFilter(ApiKeyService apiKeyService) {
-        this.apiKeyService = apiKeyService;
-        // 配置不需要API Key验证的路径
-        this.excludedPaths = List.of(
-            // 认证相关接口 - 所有认证相关的路径
-            "/api/auth/callback",    // 认证回调接口
-            "/api/auth/login-url",   // 登录URL接口
-            "/api/auth/refresh",     // 刷新令牌接口
-            "/auth/",               // 基础认证路径下的所有接口
-            "/api/auth/",           // API认证路径下的所有接口
-            "/api/simple-auth/",    // 简单认证路径下的所有接口
-            // API Key管理接口 - 所有API Key相关的路径
-            "/api/keys/",           // API Key基础路径下的所有接口
-            // Swagger UI和API文档 - 完整路径列表
-            "/swagger-ui.html",
-            "/swagger-ui/",
-            "/v3/api-docs",
-            "/v3/api-docs/",
-            "/v3/api-docs/swagger-config",
-            "/swagger-resources",
-            "/swagger-resources/",
-            "/webjars/swagger-ui",
-            "/favicon.ico",         // 浏览器自动请求的图标
-            // 监控端点
-            "/actuator/",
-            // 健康检查
-            "/health",
-            // 其他不需要验证的路径
-            "/error"
-        );
-    }
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Value("${bgai.api-key.enabled:true}")
+    private boolean apiKeyEnabled;
+
+    @Value("${bgai.api-key.header-name:X-API-Key}")
+    private String apiKeyHeader;
+    
+    @Value("${bgai.api-key.test-key:test-api-key-123}")
+    private String testApiKey;
+
+    // 不需要API Key的路径
+    private static final List<String> EXCLUDED_PATHS = List.of(
+            "/api/auth/", 
+            "/docs", 
+            "/swagger", 
+            "/v3/api-docs", 
+            "/health", 
+            "/actuator",
+            "/test-",
+            "/api/session/",
+            "/api/feign/local",
+            "/api/mock",
+            "/favicon.ico");
 
     @Override
-    public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
-        String path = exchange.getRequest().getPath().value();
-        
-        // 检查是否是排除的路径
-        if (isExcludedPath(path)) {
-            log.debug("Skipping API Key validation for excluded path: {}", path);
-            return chain.filter(exchange);
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+
+        // 预检OPTIONS请求直接通过
+        if (request.getMethod().equals(HttpMethod.OPTIONS.name())) {
+            filterChain.doFilter(request, response);
+            return;
         }
 
-        String apiKey = exchange.getRequest().getHeaders().getFirst("X-API-Key");
-        
+        String path = request.getRequestURI();
+
+        // 检查是否为排除的路径
+        if (isExcludedPath(path)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        // 如果API Key校验被禁用，直接通过
+        if (!apiKeyEnabled) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        // 获取API Key
+        String apiKey = request.getHeader(apiKeyHeader);
+
+        // API Key不存在
         if (apiKey == null || apiKey.isEmpty()) {
             log.warn("API Key is missing for path: {}", path);
-            return handleError(exchange, "API Key is required");
+            handleUnauthorized(response, "API Key is required");
+            return;
         }
-
-        ApiKeyService.ApiKeyValidationResult result = apiKeyService.validateApiKeyStatus(apiKey);
-        if (result.status == ApiKeyService.ApiKeyStatus.VALID) {
-            if (result.clientId != null) {
-                exchange.getAttributes().put("clientId", result.clientId);
-            }
-            return chain.filter(exchange);
-        } else {
-            log.warn("API Key check failed for path: {}, reason: {}", path, result.reason);
-            // 返回详细结构体
-            return exchange.getResponse().writeWith(
-                reactor.core.publisher.Mono.just(
-                    exchange.getResponse().bufferFactory().wrap(
-                        ("{" +
-                            "\"status\":\"" + result.status + "\"," +
-                            (result.expiresAt != null ? "\"expiresAt\":\"" + result.expiresAt + "\"," : "") +
-                            (result.reason != null ? "\"reason\":\"" + result.reason + "\"" : "") +
-                        "}").getBytes(java.nio.charset.StandardCharsets.UTF_8)
-                    )
-                )
-            );
-        }
-    }
-
-    private boolean isExcludedPath(String path) {
-        return excludedPaths.stream().anyMatch(excludedPath -> 
-            path.equals(excludedPath) || path.startsWith(excludedPath));
-    }
-
-    private Mono<Void> handleError(ServerWebExchange exchange, String message) {
-        exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-        exchange.getResponse().getHeaders().add("Content-Type", "application/json");
         
-        String responseBody = String.format("{\"error\":\"%s\"}", message);
-        return exchange.getResponse()
-                .writeWith(Mono.just(exchange.getResponse()
-                        .bufferFactory()
-                        .wrap(responseBody.getBytes())));
+        // 如果是测试API Key且请求来源是内部服务，则通过验证
+        if (testApiKey.equals(apiKey) && 
+            ("bgtech-ai".equals(request.getHeader("X-Request-From")) || 
+             request.getRequestURI().startsWith("/api/users"))) {
+            log.debug("Test API key accepted for internal service call: {}", path);
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        // 验证API Key
+        try {
+            ApiKeyService.ApiKeyValidationResult result = apiKeyService.validateApiKeyStatus(apiKey);
+            if (result.status != ApiKeyService.ApiKeyStatus.VALID) {
+                log.warn("Invalid API Key provided for path: {}, reason: {}", path, result.reason);
+                handleUnauthorized(response, result.reason != null ? result.reason : "Invalid API Key");
+                return;
+            }
+        } catch (Exception e) {
+            log.error("Error validating API key: {}", e.getMessage());
+            handleUnauthorized(response, "API Key validation error");
+            return;
+        }
+
+        // API Key有效，继续处理请求
+        filterChain.doFilter(request, response);
+    }
+
+    /**
+     * 检查是否为排除的路径
+     */
+    private boolean isExcludedPath(String path) {
+        return EXCLUDED_PATHS.stream().anyMatch(path::startsWith) || 
+               path.contains("/public/") || 
+               HttpMethod.OPTIONS.name().equals(path);
+    }
+
+    /**
+     * 处理未授权请求
+     */
+    private void handleUnauthorized(HttpServletResponse response, String message) throws IOException {
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        response.setContentType("application/json");
+        response.getWriter().write(objectMapper.writeValueAsString(
+                new java.util.HashMap<String, String>() {{
+                    put("error", message);
+                }}
+        ));
     }
 } 

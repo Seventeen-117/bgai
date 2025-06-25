@@ -1,0 +1,71 @@
+package com.bgpay.bgai.feign;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.*;
+
+import com.bgpay.bgai.entity.User;
+import com.bgpay.bgai.feign.fallback.UserServiceFallbackFactory;
+
+/**
+ * 本地用户服务Feign客户端
+ * 用于调用本地模拟的用户服务
+ */
+@FeignClient(
+    name = "local-user-service", 
+    url = "http://localhost:${server.port:8688}",
+    fallbackFactory = UserServiceFallbackFactory.class,
+    configuration = UserServiceFeignConfig.class
+)
+public interface LocalUserServiceClient {
+
+    /**
+     * 获取所有用户
+     */
+    @GetMapping("/api/users")
+    List<Map<String, Object>> listUsers();
+
+    /**
+     * 根据ID获取用户
+     */
+    @GetMapping("/api/users/{id}")
+    Map<String, Object> getUserById(@PathVariable("id") String id);
+
+    /**
+     * 创建用户
+     */
+    @PostMapping("/api/users")
+    Map<String, Object> createUser(@RequestBody Map<String, Object> userData);
+
+    /**
+     * 更新用户
+     */
+    @PutMapping("/api/users/{id}")
+    Map<String, Object> updateUser(@PathVariable("id") String id, @RequestBody Map<String, Object> userData);
+
+    /**
+     * 删除用户
+     */
+    @DeleteMapping("/api/users/{id}")
+    Map<String, Object> deleteUser(@PathVariable("id") String id);
+    
+    /**
+     * 健康检查
+     */
+    @GetMapping("/api/users/health")
+    Map<String, Object> health();
+    
+    /**
+     * 测试错误场景
+     */
+    @GetMapping("/api/users/error")
+    Map<String, Object> testError();
+    
+    /**
+     * 测试超时场景
+     */
+    @GetMapping("/api/users/timeout")
+    Map<String, Object> testTimeout();
+} 
