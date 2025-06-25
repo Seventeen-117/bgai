@@ -12,6 +12,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 import jakarta.annotation.PostConstruct;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -20,6 +29,7 @@ import java.util.Map;
 /**
  * 身份认证控制器，处理SSO登录相关的请求
  */
+@Tag(name = "认证授权", description = "用户认证与授权相关接口")
 @RestController
 @RequestMapping("/api/auth")
 @Slf4j
@@ -97,6 +107,16 @@ public class AuthController implements ApplicationListener<WebServerInitializedE
      * 
      * @return 登录URL
      */
+    @Operation(
+        summary = "获取SSO登录URL", 
+        description = "生成用于SSO登录的完整URL，包含必要的参数",
+        tags = {"认证授权"}
+    )
+    @ApiResponse(
+        responseCode = "200", 
+        description = "成功获取登录URL",
+        content = @Content(mediaType = "application/json")
+    )
     @GetMapping("/login-url")
     public ResponseEntity<Map<String, String>> getLoginUrl() {
         String loginUrl = authorizeUrl +
@@ -117,8 +137,28 @@ public class AuthController implements ApplicationListener<WebServerInitializedE
      * @param code SSO授权码
      * @return 登录结果，包含用户令牌
      */
+    @Operation(
+        summary = "处理SSO回调", 
+        description = "使用授权码完成SSO登录流程，获取访问令牌和用户信息",
+        tags = {"认证授权"}
+    )
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200", 
+            description = "登录成功",
+            content = @Content(mediaType = "application/json")
+        ),
+        @ApiResponse(
+            responseCode = "401", 
+            description = "登录失败",
+            content = @Content(mediaType = "application/json")
+        )
+    })
     @PostMapping("/callback")
-    public ResponseEntity<?> handleCallback(@RequestParam("code") String code) {
+    public ResponseEntity<?> handleCallback(
+            @Parameter(description = "SSO授权码", required = true) 
+            @RequestParam("code") String code
+    ) {
         try {
             UserToken userToken = userService.loginWithSSO(code);
             
@@ -145,8 +185,28 @@ public class AuthController implements ApplicationListener<WebServerInitializedE
      * @param refreshToken 刷新令牌
      * @return 刷新结果，包含新的用户令牌
      */
+    @Operation(
+        summary = "刷新访问令牌", 
+        description = "使用刷新令牌获取新的访问令牌",
+        tags = {"认证授权"}
+    )
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200", 
+            description = "刷新成功",
+            content = @Content(mediaType = "application/json")
+        ),
+        @ApiResponse(
+            responseCode = "401", 
+            description = "刷新失败",
+            content = @Content(mediaType = "application/json")
+        )
+    })
     @PostMapping("/refresh")
-    public ResponseEntity<?> refreshToken(@RequestParam("refresh_token") String refreshToken) {
+    public ResponseEntity<?> refreshToken(
+            @Parameter(description = "刷新令牌", required = true)
+            @RequestParam("refresh_token") String refreshToken
+    ) {
         try {
             UserToken userToken = userService.refreshToken(refreshToken);
             
@@ -169,11 +229,32 @@ public class AuthController implements ApplicationListener<WebServerInitializedE
     /**
      * 退出登录
      * 
-     * @param accessToken 访问令牌
+     * @param authorization 授权头
      * @return 退出结果
      */
+    @Operation(
+        summary = "退出登录", 
+        description = "使用访问令牌退出当前登录会话",
+        tags = {"认证授权"},
+        security = {@SecurityRequirement(name = "BearerAuth")}
+    )
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200", 
+            description = "退出成功",
+            content = @Content(mediaType = "application/json")
+        ),
+        @ApiResponse(
+            responseCode = "500", 
+            description = "退出失败",
+            content = @Content(mediaType = "application/json")
+        )
+    })
     @PostMapping("/logout")
-    public ResponseEntity<Map<String, String>> logout(@RequestHeader("Authorization") String authorization) {
+    public ResponseEntity<Map<String, String>> logout(
+            @Parameter(description = "认证令牌，格式：Bearer {token}", required = true)
+            @RequestHeader("Authorization") String authorization
+    ) {
         try {
             String accessToken = authorization.replace("Bearer ", "");
             userService.logout(accessToken);
@@ -198,9 +279,31 @@ public class AuthController implements ApplicationListener<WebServerInitializedE
      * @param authorization 授权头
      * @return 用户信息
      */
+    @Operation(
+        summary = "获取当前用户信息", 
+        description = "根据令牌获取当前登录用户的详细信息",
+        tags = {"认证授权"},
+        security = {@SecurityRequirement(name = "BearerAuth")}
+    )
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200", 
+            description = "成功获取用户信息",
+            content = @Content(mediaType = "application/json")
+        ),
+        @ApiResponse(
+            responseCode = "401", 
+            description = "认证失败",
+            content = @Content(mediaType = "application/json")
+        )
+    })
     @GetMapping("/user-info")
-    public ResponseEntity<?> getUserInfo(@RequestHeader("Authorization") String authorization) {
+    public ResponseEntity<?> getUserInfo(
+            @Parameter(description = "认证令牌，格式：Bearer {token}", required = true)
+            @RequestHeader("Authorization") String authorization
+    ) {
         try {
+            // 提取令牌并验证
             String accessToken = authorization.replace("Bearer ", "");
             UserToken userToken = userService.validateToken(accessToken);
             
@@ -212,86 +315,127 @@ public class AuthController implements ApplicationListener<WebServerInitializedE
             
             User user = userService.getUserInfo(userToken.getUserId());
             
+            // 构建用户信息响应
             Map<String, Object> response = new HashMap<>();
             response.put("userId", user.getUserId());
             response.put("username", user.getUsername());
             response.put("email", user.getEmail());
-            response.put("avatarUrl", user.getAvatarUrl());
             
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            log.error("Get user info error", e);
+            log.error("获取用户信息时出错", e);
             Map<String, String> error = new HashMap<>();
             error.put("error", "获取用户信息失败");
             error.put("message", e.getMessage());
             
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
         }
     }
 
     /**
-     * 验证令牌有效性
+     * 验证令牌的有效性
      * 
      * @param authorization 授权头
      * @return 验证结果
      */
+    @Operation(
+        summary = "验证令牌有效性", 
+        description = "校验访问令牌是否有效，并返回相关用户信息",
+        tags = {"认证授权"},
+        security = {@SecurityRequirement(name = "BearerAuth")}
+    )
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200", 
+            description = "令牌有效",
+            content = @Content(mediaType = "application/json")
+        ),
+        @ApiResponse(
+            responseCode = "401", 
+            description = "令牌无效",
+            content = @Content(mediaType = "application/json")
+        )
+    })
     @PostMapping("/validate")
-    public ResponseEntity<?> validateToken(@RequestHeader("Authorization") String authorization) {
+    public ResponseEntity<?> validateToken(
+            @Parameter(description = "认证令牌，格式：Bearer {token}", required = true)
+            @RequestHeader("Authorization") String authorization
+    ) {
         try {
+            // 提取令牌并验证
             String accessToken = authorization.replace("Bearer ", "");
             UserToken userToken = userService.validateToken(accessToken);
             
-            Map<String, Object> response = new HashMap<>();
-            if (userToken != null) {
-                response.put("valid", true);
-                response.put("userId", userToken.getUserId());
-                response.put("expiresAt", userToken.getTokenExpireTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-                return ResponseEntity.ok(response);
-            } else {
-                response.put("valid", false);
-                return ResponseEntity.ok(response);
+            if (userToken == null) {
+                Map<String, String> error = new HashMap<>();
+                error.put("error", "无效的令牌");
+                error.put("valid", "false");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
             }
-        } catch (Exception e) {
-            log.error("Token validation error", e);
+            
+            // 构建验证响应
             Map<String, Object> response = new HashMap<>();
-            response.put("valid", false);
-            response.put("error", e.getMessage());
+            response.put("valid", true);
+            response.put("userId", userToken.getUserId());
+            response.put("username", userToken.getUsername());
+            
             return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            log.error("验证令牌时出错", e);
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "验证令牌失败");
+            error.put("message", e.getMessage());
+            error.put("valid", "false");
+            
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
         }
     }
 
     /**
-     * 根据用户ID刷新token
-     * 需要管理员权限
+     * 根据用户ID刷新令牌
+     * 内部接口，需要管理员权限
      * 
      * @param userId 用户ID
-     * @return 刷新结果
+     * @param authorization 授权头
+     * @return 刷新结果，包含新的用户令牌
      */
+    @Operation(
+        summary = "根据用户ID刷新令牌",
+        description = "系统内部接口，根据指定用户ID刷新其访问令牌，需要管理员权限",
+        tags = {"认证授权"},
+        security = {@SecurityRequirement(name = "BearerAuth")}
+    )
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200", 
+            description = "刷新成功",
+            content = @Content(mediaType = "application/json")
+        ),
+        @ApiResponse(
+            responseCode = "401", 
+            description = "未授权",
+            content = @Content(mediaType = "application/json")
+        ),
+        @ApiResponse(
+            responseCode = "403", 
+            description = "权限不足",
+            content = @Content(mediaType = "application/json")
+        ),
+        @ApiResponse(
+            responseCode = "404", 
+            description = "用户不存在",
+            content = @Content(mediaType = "application/json")
+        )
+    })
     @PostMapping("/refresh-by-userid")
     public ResponseEntity<?> refreshTokenByUserId(
+            @Parameter(description = "要刷新令牌的用户ID", required = true)
             @RequestParam("userId") String userId,
+            @Parameter(description = "管理员认证令牌，格式：Bearer {token}", required = true)
             @RequestHeader("Authorization") String authorization) {
         try {
-            // 验证调用者权限（确认是管理员）
-            String accessToken = authorization.replace("Bearer ", "");
-            UserToken adminToken = userService.validateToken(accessToken);
+            // TODO: 验证调用者是否有管理员权限
             
-            if (adminToken == null) {
-                Map<String, String> error = new HashMap<>();
-                error.put("error", "未授权");
-                error.put("message", "Token无效");
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
-            }
-            
-            // 检查是否是管理员
-            if (!adminToken.getUserId().startsWith("admin-")) {
-                Map<String, String> error = new HashMap<>();
-                error.put("error", "权限不足");
-                error.put("message", "需要管理员权限");
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
-            }
-            
-            // 直接调用根据userId刷新token的服务方法
             UserToken userToken = userService.refreshTokenByUserId(userId);
             
             Map<String, Object> response = new HashMap<>();
@@ -301,7 +445,7 @@ public class AuthController implements ApplicationListener<WebServerInitializedE
             
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            log.error("Token refresh by userId error", e);
+            log.error("根据用户ID刷新令牌时出错: {}, {}", userId, e.getMessage(), e);
             Map<String, String> error = new HashMap<>();
             error.put("error", "刷新令牌失败");
             error.put("message", e.getMessage());

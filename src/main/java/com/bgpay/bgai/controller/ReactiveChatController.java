@@ -12,7 +12,8 @@ import com.bgpay.bgai.service.UserService;
 import com.bgpay.bgai.service.deepseek.DeepSeekService;
 import com.bgpay.bgai.service.impl.FallbackService;
 import com.bgpay.bgai.transaction.TransactionCoordinator;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.circuitbreaker.ReactiveCircuitBreaker;
@@ -38,6 +39,7 @@ import java.util.concurrent.TimeoutException;
 /**
  * 反应式聊天控制器，处理WebFlux环境下的聊天请求
  */
+@Tag(name = "聊天服务", description = "反应式聊天接口，处理WebFlux环境下的聊天请求")
 @RestController
 @RequestMapping("/api")
 @Slf4j
@@ -81,6 +83,11 @@ public class ReactiveChatController {
      * @param multiTurn 是否多轮对话
      * @return 聊天响应
      */
+    @Operation(
+        summary = "处理文本聊天请求", 
+        description = "接收用户文本内容并处理聊天请求，支持多轮对话",
+        tags = {"聊天服务"}
+    )
     @PostMapping("/chat")
     public Mono<ResponseEntity<ChatResponse>> processChat(
             @RequestParam String content,
@@ -151,7 +158,7 @@ public class ReactiveChatController {
      * @deprecated 使用SimpleChatController提供的新接口
      */
     @Deprecated
-    @ApiOperation(value = "处理文件聊天请求", hidden = true)
+    @Operation(summary = "处理文件聊天请求", hidden = true)
     @PostMapping(
             value = "/chatGatWay-internal",
             consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_FORM_URLENCODED_VALUE, 

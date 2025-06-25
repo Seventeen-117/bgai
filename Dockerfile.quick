@@ -1,5 +1,12 @@
-# 快速构建版Dockerfile - 优化网络和依赖问题
-# 使用与当前系统匹配的JDK版本，避免下载新版本
+# 快速构建版Dockerfile - 针对中国网络环境优化
+# 此版本使用国内镜像源并采用多种加速技术，适用于:
+# 1. 网络环境不稳定的情况
+# 2. 需要快速构建的环境
+# 3. 使用阿里云/华为云等中国云服务的场景
+
+#######################
+# Build stage - 优化构建阶段
+#######################
 FROM eclipse-temurin:21-jdk-jammy AS build
 
 WORKDIR /app
@@ -7,100 +14,116 @@ WORKDIR /app
 # 设置Maven配置以加速依赖下载
 ENV MAVEN_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1"
 
-# 支持本地 Maven 仓库缓存（可选，构建时可用 --build-arg 挂载）
+# 支持本地Maven仓库缓存
 ARG MAVEN_REPO=/root/.m2/repository
 RUN mkdir -p /root/.m2 && mkdir -p ${MAVEN_REPO}
 VOLUME ["${MAVEN_REPO}:/root/.m2/repository"]
 
-# 创建Maven settings.xml以使用国内镜像源
-RUN echo '<?xml version="1.0" encoding="UTF-8"?>\
-<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" \
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" \
-          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">\
-  <mirrors>\
-    <mirror>\
-      <id>aliyun</id>\
-      <mirrorOf>central</mirrorOf>\
-      <name>Aliyun Maven Central</name>\
-      <url>https://maven.aliyun.com/repository/central</url>\
-    </mirror>\
-    <mirror>\
-      <id>aliyun-spring</id>\
-      <mirrorOf>spring</mirrorOf>\
-      <name>Aliyun Spring</name>\
-      <url>https://maven.aliyun.com/repository/spring</url>\
-    </mirror>\
-    <mirror>\
-      <id>aliyun-spring-plugin</id>\
-      <mirrorOf>spring-plugin</mirrorOf>\
-      <name>Aliyun Spring-plugin</name>\
-      <url>https://maven.aliyun.com/repository/spring-plugin</url>\
-    </mirror>\
-    <mirror>\
-      <id>huaweicloud</id>\
-      <mirrorOf>*,!aliyun,!aliyun-spring,!aliyun-spring-plugin</mirrorOf>\
-      <name>Huawei Cloud</name>\
-      <url>https://mirrors.huaweicloud.com/repository/maven/</url>\
-    </mirror>\
-  </mirrors>\
-  <profiles>\
-    <profile>\
-      <id>defaultProfile</id>\
-      <activation>\
-        <activeByDefault>true</activeByDefault>\
-      </activation>\
-      <repositories>\
-        <repository>\
-          <id>aliyun</id>\
-          <url>https://maven.aliyun.com/repository/public</url>\
-          <releases>\
-            <enabled>true</enabled>\
-          </releases>\
-          <snapshots>\
-            <enabled>true</enabled>\
-            <updatePolicy>always</updatePolicy>\
-          </snapshots>\
-        </repository>\
-      </repositories>\
-    </profile>\
-  </profiles>\
-</settings>' > /root/.m2/settings.xml
+# 创建settings.xml使用多个国内镜像源
+COPY <<-'EOT' /root/.m2/settings.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" 
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <mirrors>
+    <mirror>
+      <id>aliyun</id>
+      <mirrorOf>central</mirrorOf>
+      <name>Aliyun Maven Central</name>
+      <url>https://maven.aliyun.com/repository/central</url>
+    </mirror>
+    <mirror>
+      <id>aliyun-spring</id>
+      <mirrorOf>spring</mirrorOf>
+      <name>Aliyun Spring</name>
+      <url>https://maven.aliyun.com/repository/spring</url>
+    </mirror>
+    <mirror>
+      <id>aliyun-spring-plugin</id>
+      <mirrorOf>spring-plugin</mirrorOf>
+      <name>Aliyun Spring-plugin</name>
+      <url>https://maven.aliyun.com/repository/spring-plugin</url>
+    </mirror>
+    <mirror>
+      <id>huaweicloud</id>
+      <mirrorOf>*,!aliyun,!aliyun-spring,!aliyun-spring-plugin</mirrorOf>
+      <name>Huawei Cloud</name>
+      <url>https://mirrors.huaweicloud.com/repository/maven/</url>
+    </mirror>
+  </mirrors>
+  <profiles>
+    <profile>
+      <id>defaultProfile</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <repositories>
+        <repository>
+          <id>aliyun</id>
+          <url>https://maven.aliyun.com/repository/public</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>always</updatePolicy>
+          </snapshots>
+        </repository>
+      </repositories>
+    </profile>
+  </profiles>
+</settings>
+EOT
 
-# 复制pom.xml单独处理依赖，利用Docker缓存机制
+# 优化步骤1：仅复制必要文件用于依赖解析
 COPY pom.xml .
 COPY mvnw .
 COPY .mvn .mvn
 RUN chmod +x ./mvnw
 
-# 预下载依赖但跳过测试和构建，增加并行编译参数 -T 1C
-RUN ./mvnw dependency:resolve -DskipTests -Dmaven.wagon.http.retryHandler.count=5 -Dmaven.wagon.http.connectTimeout=60000 -Dmaven.wagon.http.readTimeout=60000 -T 1C
+# 优化步骤2：预下载依赖但不构建，使用更高的容错性参数
+RUN ./mvnw dependency:resolve -DskipTests \
+    -Dmaven.wagon.http.retryHandler.count=10 \
+    -Dmaven.wagon.http.connectTimeout=120000 \
+    -Dmaven.wagon.http.readTimeout=120000 \
+    -T 1C
 
-# 然后复制源代码并构建
+# 优化步骤3：复制源代码后进行构建
 COPY src src
-RUN ./mvnw package -DskipTests -Dmaven.test.skip=true -Dmaven.wagon.http.retryHandler.count=5 -Dmaven.wagon.http.connectTimeout=60000 -Dmaven.wagon.http.readTimeout=60000 -T 1C
 
-# 复制 seata 配置文件到镜像，确保分布式事务可用
+# 优化步骤4：使用并行构建并增加超时和重试
+RUN ./mvnw package -DskipTests -Dmaven.test.skip=true \
+    -Dmaven.wagon.http.retryHandler.count=10 \
+    -Dmaven.wagon.http.connectTimeout=120000 \
+    -Dmaven.wagon.http.readTimeout=120000 \
+    -T 1C
+
+# 复制分布式事务配置文件
 COPY src/main/resources/registry.conf /app/registry.conf
 COPY src/main/resources/file.conf /app/file.conf
-# 如需自定义配置，可用 -v 挂载主机配置覆盖
-# docker run ... -v /your/host/registry.conf:/app/registry.conf -v /your/host/file.conf:/app/file.conf ...
 
-# 运行阶段使用最小镜像
+#######################
+# Runtime stage - 优化运行阶段
+#######################
 FROM eclipse-temurin:21-jre-jammy
 
 WORKDIR /app
 
-# 安装wget用于健康检查
+# 安装必要工具
 RUN apt-get update && apt-get install -y wget && rm -rf /var/lib/apt/lists/*
 
 # 复制JAR包
 COPY --from=build /app/target/*.jar app.jar
 
-# 创建非root用户
-RUN groupadd -r bgai && useradd -r -g bgai bgai
-RUN mkdir -p /app/data /app/logs && \
+# 创建非root用户并设置目录权限
+RUN groupadd -r bgai && useradd -r -g bgai bgai && \
+    mkdir -p /app/data /app/logs && \
     mkdir -p /app/nacos/config && \
     chown -R bgai:bgai /app
+
+# 复制配置文件
+COPY --from=build /app/registry.conf /app/registry.conf
+COPY --from=build /app/file.conf /app/file.conf
 
 # 使用非root用户运行
 USER bgai
@@ -111,14 +134,16 @@ EXPOSE 8688
 # 环境变量
 ENV SPRING_PROFILES_ACTIVE=prod \
     TZ=Asia/Shanghai \
-    JAVA_OPTS="-Xms512m -Xmx1g"
+    JAVA_OPTS="-Xms512m -Xmx1g -XX:+UseG1GC -XX:+UseContainerSupport -XX:MaxRAMPercentage=80"
 
 # 健康检查
 HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
   CMD wget -q --spider http://localhost:8080/actuator/health || exit 1
 
-# 启动命令
-ENTRYPOINT ["java", "-jar", "app.jar"] 
+# 启动命令 - 直接使用数组形式避免shell解析
+ENTRYPOINT ["java", "-jar", "app.jar"]
 
-# 构建加速提示：
-# docker build -f Dockerfile.quick -t jiangyang-ai:latest .
+# 使用说明:
+# 快速构建命令: docker build -f Dockerfile.quick -t bgai:latest .
+# 挂载本地Maven仓库: docker build -f Dockerfile.quick --build-arg MAVEN_REPO=/path/to/m2/repository -t bgai:latest .
+# 开发环境运行: docker run -p 8688:8688 -e SPRING_PROFILES_ACTIVE=dev bgai:latest

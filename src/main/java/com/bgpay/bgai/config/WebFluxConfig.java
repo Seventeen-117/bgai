@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.web.reactive.config.ResourceHandlerRegistry;
+import org.springframework.web.reactive.config.WebFluxConfigurer;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
@@ -17,7 +19,7 @@ import reactor.core.publisher.Mono;
  */
 @Configuration
 @ConditionalOnClass({WebFilter.class, ServerWebExchange.class})
-public class WebFluxConfig {
+public class WebFluxConfig implements WebFluxConfigurer {
     
     /**
      * 存储ServerWebExchange到ReactiveRequestContextHolder的过滤器
@@ -39,5 +41,22 @@ public class WebFluxConfig {
     @Bean
     public LogTraceWebFilter logTraceWebFilter() {
         return new LogTraceWebFilter();
+    }
+    
+    /**
+     * 配置静态资源处理器
+     * 特别是为了让Swagger UI能够正常工作
+     */
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // Swagger UI资源
+        registry.addResourceHandler("/swagger-ui.html")
+                .addResourceLocations("classpath:/META-INF/resources/");
+        
+        registry.addResourceHandler("/swagger-ui/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/swagger-ui/");
+                
+        registry.addResourceHandler("/webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 } 

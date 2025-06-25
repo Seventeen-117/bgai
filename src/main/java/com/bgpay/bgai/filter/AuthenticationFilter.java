@@ -41,6 +41,7 @@ public class AuthenticationFilter implements WebFilter {
             "/webjars/**",
             "/favicon.ico",
             "/error",
+            "/swagger-ui.html",
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/v3/api-docs/**"
@@ -52,17 +53,26 @@ public class AuthenticationFilter implements WebFilter {
         
         // 检查是否是白名单路径
         if (isWhiteListPath(path)) {
+            log.debug("Path in whitelist, skipping authentication: {}", path);
+            return chain.filter(exchange);
+        }
+        
+        // 检查请求属性中是否标记为Swagger UI请求
+        if (Boolean.TRUE.equals(exchange.getAttribute("isSwaggerUIRequest"))) {
+            log.debug("Swagger UI request detected, skipping authentication: {}", path);
             return chain.filter(exchange);
         }
         
         // 获取Authorization头
         List<String> authHeaders = exchange.getRequest().getHeaders().get("Authorization");
         if (authHeaders == null || authHeaders.isEmpty()) {
+            log.debug("Missing authorization header for path: {}", path);
             return unauthorizedResponse(exchange, "Missing authorization header");
         }
         
         String authHeader = authHeaders.get(0);
         if (!authHeader.startsWith("Bearer ")) {
+            log.debug("Invalid authorization header format for path: {}", path);
             return unauthorizedResponse(exchange, "Invalid authorization header format");
         }
         
@@ -70,6 +80,7 @@ public class AuthenticationFilter implements WebFilter {
         UserToken userToken = userService.validateToken(token);
         
         if (userToken == null) {
+            log.debug("Invalid or expired token for path: {}", path);
             return unauthorizedResponse(exchange, "Invalid or expired token");
         }
         

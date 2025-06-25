@@ -73,7 +73,7 @@
 		<velocity-engine-core.version>2.3</velocity-engine-core.version>
 		<dynamic-datasource.version>3.6.1</dynamic-datasource.version>
 		<mybatis-spring.version>3.0.3</mybatis-spring.version>
-		<springfox-swagger2.version>2.8.0</springfox-swagger2.version>
+		<springdoc-openapi.version>2.3.0</springdoc-openapi.version>
 		<swagger-bootstrap-ui.version>1.9.6</swagger-bootstrap-ui.version>
 		<commons-io.version>2.14.0</commons-io.version>
 		<commons-lang3.version>3.12.0</commons-lang3.version>
@@ -704,38 +704,27 @@
 			<artifactId>mybatis-spring</artifactId>
 			<version>${mybatis-spring.version}</version>
 		</dependency>
+		<!-- 替换旧的Swagger依赖为SpringDoc OpenAPI -->
 		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger2</artifactId>
-			<version>${springfox-swagger2.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-simple</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.fasterxml.jackson.core</groupId>
-					<artifactId>jackson-annotations</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.fasterxml.jackson.core</groupId>
-					<artifactId>jackson-databind</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.json</groupId>
-					<artifactId>json</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.vaadin.external.google</groupId>
-					<artifactId>android-json</artifactId>
-				</exclusion>
-			</exclusions>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>${springdoc-openapi.version}</version>
 		</dependency>
+		
+		<!-- 适配WebFlux应用的OpenAPI -->
 		<dependency>
-			<groupId>com.github.xiaoymin</groupId>
-			<artifactId>swagger-bootstrap-ui</artifactId>
-			<version>${swagger-bootstrap-ui.version}</version>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+			<version>${springdoc-openapi.version}</version>
 		</dependency>
+		
+		<!-- 为了兼容旧版Swagger注解 -->
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-annotations</artifactId>
+			<version>1.6.12</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.kafka</groupId>
 			<artifactId>spring-kafka-test</artifactId>

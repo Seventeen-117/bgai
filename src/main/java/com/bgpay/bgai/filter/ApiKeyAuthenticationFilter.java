@@ -34,9 +34,16 @@ public class ApiKeyAuthenticationFilter implements WebFilter {
             "/api/simple-auth/",    // 简单认证路径下的所有接口
             // API Key管理接口 - 所有API Key相关的路径
             "/api/keys/",           // API Key基础路径下的所有接口
-            // Swagger UI和API文档
+            // Swagger UI和API文档 - 完整路径列表
+            "/swagger-ui.html",
             "/swagger-ui/",
             "/v3/api-docs",
+            "/v3/api-docs/",
+            "/v3/api-docs/swagger-config",
+            "/swagger-resources",
+            "/swagger-resources/",
+            "/webjars/swagger-ui",
+            "/favicon.ico",         // 浏览器自动请求的图标
             // 监控端点
             "/actuator/",
             // 健康检查
