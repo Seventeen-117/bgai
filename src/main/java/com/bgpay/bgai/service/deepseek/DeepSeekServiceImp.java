@@ -317,12 +317,28 @@ public class DeepSeekServiceImp implements DeepSeekService {
                             });
                 })
                 .doOnSuccess(response -> {
+                    // 构建请求信息Map，用于聊天记录
+                    Map<String, Object> requestInfoMap = new HashMap<>();
+                    requestInfoMap.put("content", content);
+                    requestInfoMap.put("apiUrl", apiUrl);
+                    requestInfoMap.put("modelName", modelName);
+                    requestInfoMap.put("multiTurn", multiTurn);
+                    requestInfoMap.put("timestamp", System.currentTimeMillis());
+                    
                     // 发送账单消息
                     if (response.getUsage() != null) {
+                        // 1. 发送账单消息
                         sendBillingMessage(response, userId)
                                 .subscribe(
                                         unused -> log.info("Billing message sent successfully"),
                                         error -> log.error("Failed to send billing message: {}", error.getMessage(), error)
+                                );
+                        
+                        // 2. 发送聊天日志消息
+                        sendChatLogAsync(response, userId, requestInfoMap)
+                                .subscribe(
+                                        unused -> log.info("Chat log message sent successfully"),
+                                        error -> log.error("Failed to send chat log message: {}", error.getMessage(), error)
                                 );
                     }
                 })
@@ -447,7 +463,8 @@ public class DeepSeekServiceImp implements DeepSeekService {
             
             // 确保UsageInfo中的userId被正确设置，即使从响应中没有找到
             if (usage.getUserId() == null || usage.getUserId().isEmpty()) {
-                log.warn("UsageInfo中的userId为空，这可能会导致问题。确保在调用时传递正确的userId");
+                log.warn("UsageInfo中的userId为空，设置为default防止数据库问题");
+                usage.setUserId("default");
             }
             
             response.setUsage(usage);

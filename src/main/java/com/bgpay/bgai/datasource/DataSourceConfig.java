@@ -70,10 +70,20 @@ public class DataSourceConfig {
 
     private void validateDriver(DataSourceProperties properties) {
         try {
+            if (properties.getDriverClassName() == null) {
+                throw new RuntimeException("数据源驱动类名为空，请检查Nacos配置是否已正确加载");
+            }
+            
+            if (properties.getUrl() == null) {
+                throw new RuntimeException("数据库URL为空，请检查Nacos配置是否已正确加载");
+            }
+            
             Class.forName(properties.getDriverClassName());
             DriverManager.getDriver(properties.getUrl());
-        } catch (ClassNotFoundException | SQLException e) {
-            throw new RuntimeException("Failed to validate JDBC driver", e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("找不到数据库驱动类: " + properties.getDriverClassName(), e);
+        } catch (SQLException e) {
+            throw new RuntimeException("数据库URL无效: " + properties.getUrl(), e);
         }
     }
 }

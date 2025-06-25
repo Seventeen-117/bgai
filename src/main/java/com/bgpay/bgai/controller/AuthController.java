@@ -259,4 +259,54 @@ public class AuthController implements ApplicationListener<WebServerInitializedE
             return ResponseEntity.ok(response);
         }
     }
+
+    /**
+     * 根据用户ID刷新token
+     * 需要管理员权限
+     * 
+     * @param userId 用户ID
+     * @return 刷新结果
+     */
+    @PostMapping("/refresh-by-userid")
+    public ResponseEntity<?> refreshTokenByUserId(
+            @RequestParam("userId") String userId,
+            @RequestHeader("Authorization") String authorization) {
+        try {
+            // 验证调用者权限（确认是管理员）
+            String accessToken = authorization.replace("Bearer ", "");
+            UserToken adminToken = userService.validateToken(accessToken);
+            
+            if (adminToken == null) {
+                Map<String, String> error = new HashMap<>();
+                error.put("error", "未授权");
+                error.put("message", "Token无效");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+            }
+            
+            // 检查是否是管理员
+            if (!adminToken.getUserId().startsWith("admin-")) {
+                Map<String, String> error = new HashMap<>();
+                error.put("error", "权限不足");
+                error.put("message", "需要管理员权限");
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+            }
+            
+            // 直接调用根据userId刷新token的服务方法
+            UserToken userToken = userService.refreshTokenByUserId(userId);
+            
+            Map<String, Object> response = new HashMap<>();
+            response.put("userId", userToken.getUserId());
+            response.put("accessToken", userToken.getAccessToken());
+            response.put("expiresAt", userToken.getTokenExpireTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            log.error("Token refresh by userId error", e);
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "刷新令牌失败");
+            error.put("message", e.getMessage());
+            
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+        }
+    }
 } 

@@ -41,6 +41,14 @@ public interface UserService {
     UserToken refreshToken(String refreshToken);
     
     /**
+     * 根据用户ID刷新token
+     * 
+     * @param userId 用户ID
+     * @return 新的用户令牌
+     */
+    UserToken refreshTokenByUserId(String userId);
+    
+    /**
      * 登出
      * 
      * @param accessToken 访问令牌

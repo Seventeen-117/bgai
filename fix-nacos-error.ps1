@@ -1,105 +1,143 @@
-Write-Host "==== BGAI Nacos 配置错误修复助手 ===="
-Write-Host "修复 Docker 部署中 Nacos 配置目录相关的问题"
+#!/usr/bin/env pwsh
+
+Write-Host "==== BGAI Docker Nacos 配置修复助手 ===="
+Write-Host "修复 Docker 部署中 Nacos 配置和数据源问题"
 Write-Host ""
 
-# 修复 bootstrap.yml 文件
-Write-Host "修改 bootstrap.yml 配置..."
-$bootstrapPath = "src/main/resources/bootstrap.yml"
+# 1. 创建一个新的application-docker.yml文件，用于Docker环境
+Write-Host "1. 创建Docker专用配置文件..."
 
-if (Test-Path $bootstrapPath) {
-    $bootstrapContent = Get-Content -Path $bootstrapPath -Raw
-    
-    # 检查是否已经配置了 local-cache-dir
-    if (-not ($bootstrapContent -match "local-cache-dir")) {
-        # 添加 Nacos 本地缓存目录配置
-        $updatedContent = $bootstrapContent -replace "file-extension: yaml", "file-extension: yaml`n        # 配置Nacos本地缓存目录`n        local-cache-dir: /app/nacos/config"
-        
-        # 保存更新后的配置
-        $updatedContent | Out-File -FilePath $bootstrapPath -Encoding utf8
-        Write-Host "  - bootstrap.yml 更新完成：添加了 Nacos 本地缓存目录配置"
-    } else {
-        Write-Host "  - bootstrap.yml 已包含 Nacos 缓存目录配置，无需修改"
-    }
-} else {
-    Write-Host "  - 警告：未找到 bootstrap.yml 文件"
-}
+$dockerConfig = @"
+server:
+  port: 8688
+spring:
+  datasource:
+    dynamic:
+      datasource:
+        master:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://mysql:3306/bgai?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8&allowPublicKeyRetrieval=true
+          username: root
+          password: bgai_pass
+          type: com.alibaba.druid.pool.DruidDataSource
+        slave:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://mysql:3306/bgai?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8&allowPublicKeyRetrieval=true
+          username: root
+          password: bgai_pass
+          type: com.alibaba.druid.pool.DruidDataSource
+  cloud:
+    nacos:
+      discovery:
+        enabled: false
+      config:
+        enabled: false
+"@
 
-# 处理所有 Dockerfile 文件
-Write-Host "更新所有 Dockerfile 文件..."
-Get-ChildItem -Path . -Filter "Dockerfile*" | ForEach-Object {
-    $file = $_.FullName
-    $fileName = $_.Name
-    Write-Host "  处理文件: $fileName"
-    
-    $content = Get-Content -Path $file -Raw
-    
-    # 检查是否已经包含 nacos/config 目录
-    if (-not ($content -match "/app/nacos/config")) {
-        # 添加创建 Nacos 配置目录的命令
-        $updatedContent = $content -replace "mkdir -p /app/data /app/logs", "mkdir -p /app/data /app/logs && mkdir -p /app/nacos/config"
-        $updatedContent = $updatedContent -replace "chown -R bgai:bgai /app", "chown -R bgai:bgai /app"
-        
-        # 保存更新后的文件
-        $updatedContent | Out-File -FilePath $file -Encoding utf8
-        Write-Host "    - 已添加 Nacos 缓存目录"
-    } else {
-        Write-Host "    - 文件已包含 Nacos 缓存目录，无需修改"
-    }
-}
+# 将配置写入文件
+$dockerConfig | Out-File -FilePath "src/main/resources/application-docker.yml" -Encoding utf8
 
-# 创建修复镜像构建脚本
-Write-Host "创建修复后的构建脚本..."
-@"
+Write-Host "2. 更新Dockerfile.quick，添加Docker特定配置..."
+
+$dockerFile = Get-Content -Path "Dockerfile.quick" -Raw
+
+# 更新启动命令，使用Docker特定配置文件
+$updatedDockerFile = $dockerFile -replace "ENTRYPOINT \[""java"", ""-jar"", ""app.jar""\]", @"
+# 创建数据源配置目录
+RUN mkdir -p /app/nacos/config
+
+# 设置环境变量以禁用Nacos
+ENV SPRING_PROFILES_ACTIVE=docker \
+    NACOS_ENABLED=false \
+    NACOS_CONFIG_ENABLED=false
+
+ENTRYPOINT ["java", "-jar", "app.jar", "--spring.profiles.active=docker", "--spring.cloud.nacos.discovery.enabled=false", "--spring.cloud.nacos.config.enabled=false"]
+"@
+
+# 保存更新后的Dockerfile
+$updatedDockerFile | Out-File -FilePath "Dockerfile.quick" -Encoding utf8
+
+Write-Host "3. 创建docker-compose-mysql.yml文件，包含MySQL服务..."
+
+$dockerCompose = @"
+version: '3'
+services:
+  bgai:
+    build:
+      context: .
+      dockerfile: Dockerfile.quick
+    ports:
+      - "8688:8688"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - mysql
+    networks:
+      - bgai-network
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: bgai_pass
+      MYSQL_DATABASE: bgai
+    volumes:
+      - ./src/main/resources/sql:/docker-entrypoint-initdb.d
+      - mysql-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - bgai-network
+
+networks:
+  bgai-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
+"@
+
+# 将docker-compose写入文件
+$dockerCompose | Out-File -FilePath "docker-compose-mysql.yml" -Encoding utf8
+
+Write-Host "4. 创建启动脚本 run-docker-mysql.sh..."
+
+$startScript = @"
 #!/bin/bash
+echo "启动 BGAI 与 MySQL 服务..."
+docker-compose -f docker-compose-mysql.yml up -d
 
-echo "==== BGAI Docker 构建 (含 Nacos 修复) ===="
-echo "构建修复了 Nacos 配置目录问题的 Docker 镜像"
-echo ""
+echo "等待MySQL服务准备就绪..."
+sleep 10
 
-# 清理 Docker 缓存
-echo "清理 Docker 构建缓存..."
-docker builder prune -f
+echo "服务已启动，访问: http://localhost:8688"
+"@
 
-# 构建 Docker 镜像
-echo "开始构建 Docker 镜像..."
-docker build --network=host -f Dockerfile.fixed -t jiangyang-ai:latest .
+# 将启动脚本写入文件
+$startScript | Out-File -FilePath "run-docker-mysql.sh" -Encoding utf8
 
-echo ""
-echo "构建完成！现在可以使用以下命令运行容器："
-echo "  docker run -p 8080:8080 jiangyang-ai:latest"
-echo ""
-"@ | Out-File -FilePath "build-docker-fixed.sh" -Encoding utf8
+Write-Host "5. 创建Windows批处理文件 run-docker-mysql.bat..."
 
-# 创建 Windows 批处理文件版本
-@"
+$winBatchFile = @"
 @echo off
-echo ==== BGAI Docker 构建 (含 Nacos 修复) ====
-echo 构建修复了 Nacos 配置目录问题的 Docker 镜像
-echo.
+echo 启动 BGAI 与 MySQL 服务...
+docker-compose -f docker-compose-mysql.yml up -d
 
-rem 清理 Docker 缓存
-echo 清理 Docker 构建缓存...
-docker builder prune -f
+echo 等待MySQL服务准备就绪...
+timeout /t 10
 
-rem 构建 Docker 镜像
-echo 开始构建 Docker 镜像...
-docker build --network=host -f Dockerfile.fixed -t jiangyang-ai:latest .
+echo 服务已启动，访问: http://localhost:8688
+"@
 
-echo.
-echo 构建完成！现在可以使用以下命令运行容器：
-echo   docker run -p 8080:8080 jiangyang-ai:latest
-echo.
-"@ | Out-File -FilePath "build-docker-fixed.bat" -Encoding utf8
+# 将Windows批处理写入文件
+$winBatchFile | Out-File -FilePath "run-docker-mysql.bat" -Encoding utf8
 
 Write-Host ""
-Write-Host "修复完成！已进行以下更改："
-Write-Host "1. 修改 bootstrap.yml 设置 Nacos 本地缓存目录为 /app/nacos/config"
-Write-Host "2. 更新所有 Dockerfile，添加创建 /app/nacos/config 目录的命令"
-Write-Host "3. 创建了修复后的构建脚本 (build-docker-fixed.sh 和 build-docker-fixed.bat)"
+Write-Host "修复完成！Docker环境配置已更新，现在您可以使用以下命令构建和运行:"
 Write-Host ""
-Write-Host "你可以使用以下命令重新构建 Docker 镜像:"
-Write-Host "  docker build -f Dockerfile.fixed -t jiangyang-ai:latest ."
-Write-Host "或者运行创建的脚本:"
-Write-Host "  ./build-docker-fixed.sh (Linux/macOS)"
-Write-Host "  build-docker-fixed.bat (Windows)"
+Write-Host "在Linux/Mac上:"
+Write-Host "  chmod +x run-docker-mysql.sh"
+Write-Host "  ./run-docker-mysql.sh"
+Write-Host ""
+Write-Host "在Windows上:"
+Write-Host "  run-docker-mysql.bat"
 Write-Host "" 

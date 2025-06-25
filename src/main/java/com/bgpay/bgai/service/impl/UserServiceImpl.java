@@ -81,12 +81,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public void onApplicationEvent(WebServerInitializedEvent event) {
-        this.serverPort = event.getWebServer().getPort();
+        // 只有当服务器端口和当前端口不同时才更新
+        int actualPort = event.getWebServer().getPort();
+        if (this.serverPort != actualPort) {
+            log.info("更新服务器端口: 从 {} 更新为 {}", this.serverPort, actualPort);
+            this.serverPort = actualPort;
+            // 更新URL配置
+            updateUrlConfigurations();
+        }
         this.serverInitialized = true;
-        log.info("服务器已初始化，实际运行端口: {}", serverPort);
-        
-        // 更新URL配置
-        updateUrlConfigurations();
+        log.info("服务器已完全初始化，确认运行端口: {}", serverPort);
     }
     
     @PostConstruct
@@ -95,11 +99,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         clientId = environment.getProperty("sso.client-id", "bgai-client-id");
         clientSecret = environment.getProperty("sso.client-secret", "bgai-client-secret");
         
-        // 暂时使用配置中的端口值，稍后在服务器初始化事件中更新为实际端口
-        int configPort = Integer.parseInt(environment.getProperty("server.port", "8080"));
-        this.serverPort = configPort;
+        // 通过ServerApplicationContext获取端口，而不是直接从配置中读取
+        if (webServerAppCtx != null) {
+            this.serverPort = webServerAppCtx.getWebServer().getPort();
+            log.info("从WebServerApplicationContext获取实际端口: {}", this.serverPort);
+        } else {
+            // 仅在无法获取实际端口时使用配置中的端口作为备选
+            this.serverPort = Integer.parseInt(environment.getProperty("server.port", "8688"));
+            log.info("WebServerApplicationContext不可用，使用配置端口: {}", this.serverPort);
+        }
         
-        log.info("初始化SSO配置: clientId={}, 配置的端口={}", clientId, configPort);
+        log.info("初始化SSO配置: clientId={}, 使用端口={}", clientId, this.serverPort);
         
         // 初始化URL，但实际端口可能会在服务器初始化事件中更新
         updateUrlConfigurations();
@@ -116,15 +126,29 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * 基于当前的serverPort更新所有URL配置
      */
     private void updateUrlConfigurations() {
-        // 使用动态端口构建URL
-        redirectUri = environment.getProperty("sso.redirect-uri", 
-                "http://localhost:" + serverPort + "/api/auth/callback");
-        tokenUrl = environment.getProperty("sso.token-url", 
-                "http://localhost:" + serverPort + "/auth/token");
-        userInfoUrl = environment.getProperty("sso.user-info-url", 
-                "https://localhost:" + serverPort + "/oauth2/userinfo");
-        logoutUrl = environment.getProperty("sso.logout-url", 
-                "https://localhost:" + serverPort + "/oauth2/logout");
+        String hostname = environment.getProperty("sso.hostname", "localhost");
+        String protocol = environment.getProperty("sso.protocol", "http");
+
+        // 使用动态端口构建URL，先检查是否在环境变量中已有完整配置
+        redirectUri = environment.getProperty("sso.redirect-uri");
+        if (redirectUri == null || redirectUri.contains("${")) {
+            redirectUri = protocol + "://" + hostname + ":" + serverPort + "/api/auth/callback";
+        }
+        
+        tokenUrl = environment.getProperty("sso.token-url");
+        if (tokenUrl == null || tokenUrl.contains("${")) {
+            tokenUrl = protocol + "://" + hostname + ":" + serverPort + "/auth/token";
+        }
+        
+        userInfoUrl = environment.getProperty("sso.user-info-url");
+        if (userInfoUrl == null || userInfoUrl.contains("${")) {
+            userInfoUrl = protocol + "://" + hostname + ":" + serverPort + "/oauth2/userinfo";
+        }
+        
+        logoutUrl = environment.getProperty("sso.logout-url");
+        if (logoutUrl == null || logoutUrl.contains("${")) {
+            logoutUrl = protocol + "://" + hostname + ":" + serverPort + "/oauth2/logout";
+        }
         
         log.info("更新SSO URL配置: redirectUri={}, 实际端口={}", redirectUri, serverPort);
     }
@@ -661,6 +685,82 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         } catch (Exception e) {
             log.error("Failed to logout", e);
             // 登出异常不需要抛出，只需记录日志
+        }
+    }
+
+    /**
+     * 根据用户ID刷新token
+     * 
+     * @param userId 用户ID
+     * @return 新的用户令牌
+     */
+    @Override
+    @Transactional
+    @DS("master")
+    public UserToken refreshTokenByUserId(String userId) {
+        log.info("根据用户ID刷新token: {}", userId);
+        
+        // 1. 查询用户信息
+        User user = userMapper.findByUserId(userId);
+        if (user == null) {
+            log.error("用户不存在: {}", userId);
+            throw new BillingException("用户不存在");
+        }
+        
+        // 2. 获取刷新令牌
+        String refreshToken = user.getRefreshToken();
+        if (refreshToken == null || refreshToken.isEmpty()) {
+            log.error("用户没有可用的刷新令牌: {}", userId);
+            throw new BillingException("用户没有可用的刷新令牌");
+        }
+        
+        try {
+            // 3. 调用刷新令牌的方法
+            return refreshToken(refreshToken);
+        } catch (Exception e) {
+            log.error("刷新令牌失败: {}", e.getMessage(), e);
+            
+            // 4. 如果刷新失败，尝试直接生成新的令牌（仅在开发环境）
+            String[] activeProfiles = environment.getActiveProfiles();
+            boolean isDev = java.util.Arrays.asList(activeProfiles).contains("dev");
+            
+            if (isDev) {
+                log.warn("在开发环境中，尝试直接生成新的令牌: {}", userId);
+                
+                // 生成新的令牌
+                String newAccessToken = java.util.UUID.randomUUID().toString();
+                LocalDateTime tokenExpireTime = LocalDateTime.now().plusDays(1);
+                
+                // 更新用户信息
+                user.setAccessToken(newAccessToken);
+                user.setTokenExpireTime(tokenExpireTime);
+                user.setUpdateTime(LocalDateTime.now());
+                userMapper.updateById(user);
+                
+                // 创建用户令牌
+                UserToken userToken = UserToken.builder()
+                        .userId(userId)
+                        .username(user.getUsername())
+                        .email(user.getEmail())
+                        .accessToken(newAccessToken)
+                        .tokenExpireTime(tokenExpireTime)
+                        .loginTime(LocalDateTime.now())
+                        .valid(true)
+                        .build();
+                
+                // 缓存令牌
+                String tokenKey = TOKEN_KEY_PREFIX + newAccessToken;
+                userTokenRedisTemplate.opsForValue().set(tokenKey, userToken, TOKEN_CACHE_DAYS, TimeUnit.DAYS);
+                
+                // 更新用户信息缓存
+                String userInfoKey = USER_INFO_KEY_PREFIX + userId;
+                userTokenRedisTemplate.opsForValue().set(userInfoKey, userToken, USER_CACHE_DAYS, TimeUnit.DAYS);
+                
+                return userToken;
+            }
+            
+            // 非开发环境抛出异常
+            throw new BillingException("刷新令牌失败: " + e.getMessage());
         }
     }
 } 

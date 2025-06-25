@@ -243,24 +243,31 @@ public class ReactiveChatController {
                                     }
                                 }
                                 
-                                log.warn("无法从请求中获取有效用户ID，使用default");
-                                sink.success("default");
+                                log.warn("无法从请求中获取用户ID，设置为null，稍后在深度处理时会使用default值");
+                                sink.success(null); // 使用null表示未找到用户，而不是直接使用default
                             }))
                             .flatMap(userId -> {
-                                log.info("Processing request for user ID: {}", userId);
+                                // 如果userId为null，则为匿名用户，记录警告并检查API参数
+                                String effectiveUserId = userId;
+                                boolean isAnonymous = (userId == null);
+                                
+                                if (isAnonymous) {
+                                    log.warn("处理匿名用户请求");
+                                    // 对于匿名用户请求，验证完整的API参数
+                                    if (!StringUtils.hasText(finalApiKey) || !StringUtils.hasText(finalApiUrl)) {
+                                        log.error("匿名用户必须提供完整的API参数");
+                                        return Mono.just(errorResponse(400, "未提供用户ID时，必须提供完整的API参数(apiUrl和apiKey)"));
+                                    }
+                                    // 为匿名用户设置默认ID
+                                    effectiveUserId = "default";
+                                }
+                                
+                                log.info("Processing request for user ID: {} (original: {})", effectiveUserId, userId);
 
                                 if ((file == null || (file.filename() != null && file.filename().isEmpty())) && 
                                     (finalQuestion == null || finalQuestion.trim().isEmpty())) {
                                     log.error("Both file and question are empty");
                                     return Mono.just(errorResponse(400, "必须提供问题或文件"));
-                                }
-
-                                // 对于非用户请求，验证完整的API参数
-                                if ("default".equals(userId)) {
-                                    if (!StringUtils.hasText(finalApiKey) || !StringUtils.hasText(finalApiUrl)) {
-                                        log.error("Must provide complete API parameters when no user ID is available");
-                                        return Mono.just(errorResponse(400, "未提供用户ID时，必须提供完整的API参数(apiUrl和apiKey)"));
-                                    }
                                 }
 
                                 // 2. 处理文件 - 使用熔断器
@@ -269,7 +276,7 @@ public class ReactiveChatController {
                                     processFileWithCircuitBreaker(file, finalQuestion != null ? finalQuestion : "", finalMultiTurn);
 
                                 // 存储最终使用的用户ID，确保不会丢失
-                                final String finalUserId = userId;
+                                final String finalUserId = effectiveUserId;
 
                                 return resolveApiConfigReactive(finalApiUrl, finalApiKey, finalModelName, finalUserId)
                                         .flatMap(apiConfig -> {
