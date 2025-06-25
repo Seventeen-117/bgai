@@ -42,4 +42,13 @@ public interface UserMapper extends BaseMapper<User> {
     @Select("SELECT * FROM t_user WHERE access_token = #{accessToken} AND " +
             "token_expire_time > NOW()")
     User findByAccessToken(@Param("accessToken") String accessToken);
+    
+    /**
+     * 根据刷新令牌查询用户
+     * 
+     * @param refreshToken 刷新令牌
+     * @return 用户实体
+     */
+    @Select("SELECT * FROM t_user WHERE refresh_token = #{refreshToken}")
+    User findByRefreshToken(@Param("refreshToken") String refreshToken);
 } 

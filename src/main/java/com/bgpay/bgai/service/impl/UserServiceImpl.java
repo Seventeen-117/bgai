@@ -552,6 +552,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @DS("master")
     public UserToken refreshToken(String refreshToken) {
         try {
+            // 查找拥有此刷新令牌的用户
+            User userWithRefreshToken = userMapper.findByRefreshToken(refreshToken);
+            String oldAccessToken = null;
+            String userId = null;
+            
+            if (userWithRefreshToken != null) {
+                // 保存旧令牌和用户ID，以便稍后清理缓存
+                oldAccessToken = userWithRefreshToken.getAccessToken();
+                userId = userWithRefreshToken.getUserId();
+                log.info("找到拥有刷新令牌的用户: {}，原访问令牌: {}", userId, oldAccessToken);
+            }
+            
             // 1. 发送刷新令牌请求
             MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
             params.add("grant_type", "refresh_token");
@@ -599,7 +611,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 throw new BillingException("获取用户信息失败");
             }
 
-            String userId = (String) userInfo.get("user_id");
+            userId = (String) userInfo.get("user_id");
             String username = (String) userInfo.get("name");
             String email = (String) userInfo.get("email");
 
@@ -609,6 +621,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 throw new BillingException("用户不存在");
             }
 
+            // 如果之前没有确定旧令牌，现在从数据库中获取
+            if (oldAccessToken == null) {
+                oldAccessToken = user.getAccessToken();
+                log.info("从数据库获取用户[{}]的旧令牌: {}", userId, oldAccessToken);
+            }
+            
             user.setAccessToken(newAccessToken);
             user.setRefreshToken(newRefreshToken);
             user.setTokenExpireTime(tokenExpireTime);
@@ -617,8 +635,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
             // 4. 更新缓存
             // 删除旧令牌
-            String oldTokenKey = TOKEN_KEY_PREFIX + user.getAccessToken();
-            userTokenRedisTemplate.delete(oldTokenKey);
+            if (oldAccessToken != null && !oldAccessToken.isEmpty()) {
+                String oldTokenKey = TOKEN_KEY_PREFIX + oldAccessToken;
+                log.info("删除旧令牌的Redis缓存: {}", oldTokenKey);
+                userTokenRedisTemplate.delete(oldTokenKey);
+            }
 
             // 创建新的用户令牌
             UserToken userToken = UserToken.builder()
@@ -638,6 +659,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             // 更新用户信息缓存
             String userInfoKey = USER_INFO_KEY_PREFIX + userId;
             userTokenRedisTemplate.opsForValue().set(userInfoKey, userToken, USER_CACHE_DAYS, TimeUnit.DAYS);
+            
+            log.info("成功刷新用户[{}]的令牌，旧令牌：{}，新令牌：{}", userId, oldAccessToken, newAccessToken);
 
             return userToken;
         } catch (Exception e) {
@@ -707,6 +730,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw new BillingException("用户不存在");
         }
         
+        // 保存旧令牌，确保稍后可以删除其缓存
+        String oldAccessToken = user.getAccessToken();
+        log.info("用户[{}]的旧令牌: {}", userId, oldAccessToken);
+        
         // 2. 获取刷新令牌
         String refreshToken = user.getRefreshToken();
         if (refreshToken == null || refreshToken.isEmpty()) {
@@ -716,16 +743,32 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         
         try {
             // 3. 调用刷新令牌的方法
-            return refreshToken(refreshToken);
+            UserToken newToken = refreshToken(refreshToken);
+            
+            // 4. 确保删除了旧令牌的所有缓存
+            if (oldAccessToken != null && !oldAccessToken.isEmpty()) {
+                String oldTokenKey = TOKEN_KEY_PREFIX + oldAccessToken;
+                log.info("显式删除旧令牌的Redis缓存: {}", oldTokenKey);
+                userTokenRedisTemplate.delete(oldTokenKey);
+            }
+            
+            return newToken;
         } catch (Exception e) {
             log.error("刷新令牌失败: {}", e.getMessage(), e);
             
-            // 4. 如果刷新失败，尝试直接生成新的令牌（仅在开发环境）
+            // 5. 如果刷新失败，尝试直接生成新的令牌（仅在开发环境）
             String[] activeProfiles = environment.getActiveProfiles();
             boolean isDev = java.util.Arrays.asList(activeProfiles).contains("dev");
             
             if (isDev) {
                 log.warn("在开发环境中，尝试直接生成新的令牌: {}", userId);
+                
+                // 5.1 删除旧令牌的缓存
+                if (oldAccessToken != null && !oldAccessToken.isEmpty()) {
+                    String oldTokenKey = TOKEN_KEY_PREFIX + oldAccessToken;
+                    log.info("显式删除旧令牌的Redis缓存(失败后): {}", oldTokenKey);
+                    userTokenRedisTemplate.delete(oldTokenKey);
+                }
                 
                 // 生成新的令牌
                 String newAccessToken = java.util.UUID.randomUUID().toString();
