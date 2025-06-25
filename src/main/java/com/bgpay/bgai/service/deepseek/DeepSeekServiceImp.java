@@ -325,7 +325,7 @@ public class DeepSeekServiceImp implements DeepSeekService {
                     requestInfoMap.put("multiTurn", multiTurn);
                     requestInfoMap.put("timestamp", System.currentTimeMillis());
                     
-                    // 发送账单消息
+                    // 发送账单消息和聊天日志
                     if (response.getUsage() != null) {
                         // 1. 发送账单消息
                         sendBillingMessage(response, userId)
@@ -334,11 +334,25 @@ public class DeepSeekServiceImp implements DeepSeekService {
                                         error -> log.error("Failed to send billing message: {}", error.getMessage(), error)
                                 );
                         
-                        // 2. 发送聊天日志消息
+                        // 2. 发送聊天日志消息，即使账单消息失败也要发送
                         sendChatLogAsync(response, userId, requestInfoMap)
                                 .subscribe(
                                         unused -> log.info("Chat log message sent successfully"),
                                         error -> log.error("Failed to send chat log message: {}", error.getMessage(), error)
+                                );
+                    } else {
+                        // 即使没有usage信息，也要尝试发送聊天日志，防止丢失记录
+                        log.warn("Response没有usage信息，但仍将发送聊天日志");
+                        UsageInfo defaultUsage = new UsageInfo();
+                        defaultUsage.setUserId(userId);
+                        defaultUsage.setChatCompletionId("error-" + UUID.randomUUID().toString());
+                        defaultUsage.setCreatedAt(LocalDateTime.now());
+                        response.setUsage(defaultUsage);
+                        
+                        sendChatLogAsync(response, userId, requestInfoMap)
+                                .subscribe(
+                                        unused -> log.info("Default chat log message sent successfully"),
+                                        error -> log.error("Failed to send default chat log message: {}", error.getMessage(), error)
                                 );
                     }
                 })
@@ -450,12 +464,14 @@ public class DeepSeekServiceImp implements DeepSeekService {
             }
             
             // 获取响应中的用户ID（如果存在）
-            String userId = null;
+            String
+                    userId = null;
             JsonNode usageNode = root.path("usage");
             
             if (usageNode.has("userId") && !usageNode.path("userId").isNull() && 
                 !usageNode.path("userId").asText().isEmpty()) {
                 userId = usageNode.path("userId").asText();
+                log.info("从API响应获取到用户ID: {}", userId);
             }
             
             // 从响应中提取使用信息
@@ -463,11 +479,12 @@ public class DeepSeekServiceImp implements DeepSeekService {
             
             // 确保UsageInfo中的userId被正确设置，即使从响应中没有找到
             if (usage.getUserId() == null || usage.getUserId().isEmpty()) {
-                log.warn("UsageInfo中的userId为空，设置为default防止数据库问题");
+                log.warn("UsageInfo中的userId为空，设置为default防止数据库问题，请检查头部或身份验证过程是否正确设置了用户ID");
                 usage.setUserId("default");
             }
             
             response.setUsage(usage);
+            log.info("解析完成的响应，使用用户ID: {}, 聊天完成ID: {}", usage.getUserId(), usage.getChatCompletionId());
             return Mono.just(response);
         } catch (Exception e) {
             log.error("Error parsing response: {}", e.getMessage(), e);

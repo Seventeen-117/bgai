@@ -25,16 +25,31 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/service-discovery")
 public class ServiceDiscoveryExampleController {
 
+    private final ServiceDiscoveryUtils serviceDiscoveryUtils;
+    private final WebClient loadBalancedWebClient;
+    private final RestTemplate loadBalancedRestTemplate;
+
+    /**
+     * 构造函数注入，所有依赖都是可选的
+     */
     @Autowired
-    private ServiceDiscoveryUtils serviceDiscoveryUtils;
-    
-    @Autowired
-    @Qualifier("loadBalancedWebClient")
-    private WebClient loadBalancedWebClient;
-    
-    @Autowired
-    @Qualifier("loadBalancedRestTemplate")
-    private RestTemplate loadBalancedRestTemplate;
+    public ServiceDiscoveryExampleController(
+            ServiceDiscoveryUtils serviceDiscoveryUtils,
+            @Qualifier("loadBalancedWebClient") @Autowired(required = false) WebClient loadBalancedWebClient,
+            @Qualifier("loadBalancedRestTemplate") @Autowired(required = false) RestTemplate loadBalancedRestTemplate) {
+        this.serviceDiscoveryUtils = serviceDiscoveryUtils;
+        this.loadBalancedWebClient = loadBalancedWebClient;
+        this.loadBalancedRestTemplate = loadBalancedRestTemplate;
+        
+        // 记录组件可用性
+        log.info("ServiceDiscoveryExampleController initialized with: " +
+                "serviceDiscoveryUtils={}, " +
+                "loadBalancedWebClient={}, " +
+                "loadBalancedRestTemplate={}",
+                serviceDiscoveryUtils != null ? "available" : "not available",
+                loadBalancedWebClient != null ? "available" : "not available",
+                loadBalancedRestTemplate != null ? "available" : "not available");
+    }
 
     /**
      * 列出已注册的服务
@@ -42,6 +57,13 @@ public class ServiceDiscoveryExampleController {
     @GetMapping("/services")
     public Map<String, Object> listServices() {
         Map<String, Object> result = new HashMap<>();
+        
+        if (serviceDiscoveryUtils == null) {
+            result.put("status", "error");
+            result.put("message", "ServiceDiscoveryUtils not available");
+            return result;
+        }
+        
         try {
             // 这里仅使用示例服务ID，实际应用中应该从DiscoveryClient获取
             List<String> sampleServiceIds = List.of("bgtech-ai", "bgtech-gateway", "bgtech-auth");
@@ -88,6 +110,17 @@ public class ServiceDiscoveryExampleController {
         
         log.info("Calling service {} at path {}", serviceId, path);
         
+        if (serviceDiscoveryUtils == null || loadBalancedWebClient == null) {
+            log.warn("Required components not available: serviceDiscoveryUtils={}, loadBalancedWebClient={}",
+                    serviceDiscoveryUtils != null, loadBalancedWebClient != null);
+            
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Required components not available in current environment");
+            errorResponse.put("serviceId", serviceId);
+            errorResponse.put("path", path);
+            return Mono.just(ResponseEntity.status(500).body(errorResponse));
+        }
+        
         return serviceDiscoveryUtils.callService(serviceId, path, HttpMethod.GET, null, Map.class)
                 .map(response -> {
                     Map<String, Object> result = new HashMap<>(response);
@@ -114,6 +147,17 @@ public class ServiceDiscoveryExampleController {
         
         log.info("Synchronously calling service {} at path {}", serviceId, path);
         
+        if (serviceDiscoveryUtils == null || loadBalancedRestTemplate == null) {
+            log.warn("Required components not available: serviceDiscoveryUtils={}, loadBalancedRestTemplate={}",
+                    serviceDiscoveryUtils != null, loadBalancedRestTemplate != null);
+            
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Required components not available in test environment");
+            errorResponse.put("serviceId", serviceId);
+            errorResponse.put("path", path);
+            return ResponseEntity.status(500).body(errorResponse);
+        }
+        
         try {
             Map<String, Object> response = serviceDiscoveryUtils.callServiceSync(
                     serviceId, path, HttpMethod.GET, null, Map.class);
@@ -137,6 +181,12 @@ public class ServiceDiscoveryExampleController {
     @GetMapping("/service-url/{serviceId}")
     public Map<String, Object> getServiceUrl(@PathVariable String serviceId) {
         Map<String, Object> result = new HashMap<>();
+        
+        if (serviceDiscoveryUtils == null) {
+            result.put("status", "error");
+            result.put("message", "ServiceDiscoveryUtils not available");
+            return result;
+        }
         
         try {
             String url = serviceDiscoveryUtils.buildServiceUrl(serviceId, "/");

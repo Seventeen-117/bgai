@@ -13,6 +13,7 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import lombok.extern.slf4j.Slf4j;
+import java.net.URI;
 import java.util.Collections;
 
 /**
@@ -22,7 +23,7 @@ import java.util.Collections;
 @Configuration
 public class RestTemplateConfig {
     
-    @Autowired
+    @Autowired(required = false)
     private LoadBalancerClient loadBalancerClient;
     
     /**
@@ -103,9 +104,18 @@ public class RestTemplateConfig {
          * @return 完整URL
          */
         public String buildUrl(String serviceId, String path) {
-            return loadBalancerClient.choose(serviceId)
-                    .getUri()
-                    .toString() + path;
+            if (loadBalancerClient == null) {
+                log.warn("LoadBalancerClient is not available, returning fallback URL for service: {}", serviceId);
+                return "http://" + serviceId + path;
+            }
+            
+            try {
+                URI uri = loadBalancerClient.choose(serviceId).getUri();
+                return uri.toString() + path;
+            } catch (Exception e) {
+                log.warn("Error resolving service URL for {}, using fallback URL. Error: {}", serviceId, e.getMessage());
+                return "http://" + serviceId + path;
+            }
         }
     }
 } 

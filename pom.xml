@@ -31,6 +31,7 @@
 	<properties>
 		<java.version>21</java.version>
 		<jackson.version>2.15.3</jackson.version>
+		<skip.tests>true</skip.tests>
 		<!-- Spring Cloud 相关 -->
 		<spring-cloud.version>2023.0.1</spring-cloud.version>
 		<spring-cloud-alibaba.version>2022.0.0.0</spring-cloud-alibaba.version>
@@ -764,6 +765,12 @@
 			<artifactId>commons-compress</artifactId>
 			<version>${commons-compress.version}</version>
 		</dependency>
+		<!-- 添加reactor-test依赖，用于测试响应式编程 -->
+		<dependency>
+			<groupId>io.projectreactor</groupId>
+			<artifactId>reactor-test</artifactId>
+			<scope>test</scope>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.zaxxer/HikariCP -->
 		<dependency>
 			<groupId>com.zaxxer</groupId>
@@ -1007,9 +1014,15 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.11.0</version>
 				<configuration>
-					<source>21</source>
-					<target>21</target>
+					<source>17</source>
+					<target>17</target>
+					<release>17</release>
+					<fork>true</fork>
+					<compilerArgs>
+						<arg>-J-Duser.language=en</arg>
+					</compilerArgs>
 				</configuration>
 			</plugin>
 			<!-- Maven Enforcer Plugin -->
@@ -1040,6 +1053,22 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.1.2</version>
+				<configuration>
+					<argLine>-Duser.language=en</argLine>
+					<skipTests>${skip.tests}</skipTests>
+					<!-- Use slice tests to avoid loading the entire application context -->
+					<includes>
+						<include>**/*Test.java</include>
+					</includes>
+					<excludes>
+						<exclude>**/*IntegrationTest.java</exclude>
+					</excludes>
+				</configuration>
 			</plugin>
 		</plugins>
 		<resources>

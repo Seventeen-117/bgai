@@ -34,21 +34,21 @@ public class ServiceDiscoveryUtils {
     private final Map<String, List<ServiceInstance>> serviceInstancesCache = new ConcurrentHashMap<>();
     private static final long CACHE_TTL_MS = 30_000; // 30秒缓存有效期
 
-    @Autowired
+    @Autowired(required = false)
     private DiscoveryClient discoveryClient;
 
-    @Autowired
+    @Autowired(required = false)
     private LoadBalancerClient loadBalancerClient;
 
-    @Autowired
+    @Autowired(required = false)
     @Qualifier("loadBalancedWebClient")
     private WebClient loadBalancedWebClient;
 
-    @Autowired
+    @Autowired(required = false)
     @Qualifier("loadBalancedRestTemplate")
     private RestTemplate loadBalancedRestTemplate;
     
-    @Autowired
+    @Autowired(required = false)
     private ServiceUrlResolver serviceUrlResolver;
 
     /**
@@ -58,6 +58,11 @@ public class ServiceDiscoveryUtils {
      * @return 服务实例列表
      */
     public List<ServiceInstance> getServiceInstances(String serviceId) {
+        if (discoveryClient == null) {
+            log.warn("DiscoveryClient is not available, returning empty instance list for service: {}", serviceId);
+            return List.of();
+        }
+        
         long now = System.currentTimeMillis();
         Long lastRefresh = serviceLastRefreshTime.getOrDefault(serviceId, 0L);
 
@@ -79,6 +84,11 @@ public class ServiceDiscoveryUtils {
      * @return 服务实例Optional
      */
     public Optional<ServiceInstance> getServiceInstance(String serviceId) {
+        if (loadBalancerClient == null) {
+            log.warn("LoadBalancerClient is not available for service: {}", serviceId);
+            return Optional.empty();
+        }
+        
         try {
             ServiceInstance instance = loadBalancerClient.choose(serviceId);
             return Optional.ofNullable(instance);
@@ -101,7 +111,10 @@ public class ServiceDiscoveryUtils {
                         .path(path.startsWith("/") ? path : "/" + path)
                         .build()
                         .toUriString())
-                .orElseThrow(() -> new IllegalStateException("No instances available for service: " + serviceId));
+                .orElseGet(() -> {
+                    log.warn("No instances available for service: {}, using fallback URL", serviceId);
+                    return "http://" + serviceId + (path.startsWith("/") ? path : "/" + path);
+                });
     }
 
     /**
@@ -116,6 +129,11 @@ public class ServiceDiscoveryUtils {
      */
     public <T, R> Mono<R> callService(String serviceId, String path, HttpMethod method, 
                                      T requestBody, Class<R> responseType) {
+        if (loadBalancedWebClient == null) {
+            log.error("LoadBalancedWebClient is not available for service call: {} {}", serviceId, path);
+            return Mono.error(new IllegalStateException("LoadBalancedWebClient not available"));
+        }
+        
         String url = "lb://" + serviceId + (path.startsWith("/") ? path : "/" + path);
         
         WebClient.RequestBodySpec requestSpec = loadBalancedWebClient.method(method)
@@ -147,6 +165,11 @@ public class ServiceDiscoveryUtils {
      */
     public <T, R> R callServiceSync(String serviceId, String path, HttpMethod method, 
                                   T requestBody, Class<R> responseType) {
+        if (loadBalancedRestTemplate == null) {
+            log.error("LoadBalancedRestTemplate is not available for service call: {} {}", serviceId, path);
+            throw new IllegalStateException("LoadBalancedRestTemplate not available");
+        }
+        
         String url = "http://" + serviceId + (path.startsWith("/") ? path : "/" + path);
         
         try {
@@ -182,6 +205,16 @@ public class ServiceDiscoveryUtils {
      */
     public <T, R> R callServiceDirectSync(String serviceId, String path, HttpMethod method, 
                                         T requestBody, Class<R> responseType) {
+        if (loadBalancedRestTemplate == null) {
+            log.error("LoadBalancedRestTemplate is not available for direct service call: {} {}", serviceId, path);
+            throw new IllegalStateException("LoadBalancedRestTemplate not available");
+        }
+        
+        if (serviceUrlResolver == null) {
+            log.error("ServiceUrlResolver is not available for direct service call: {} {}", serviceId, path);
+            throw new IllegalStateException("ServiceUrlResolver not available");
+        }
+        
         String url = serviceUrlResolver.buildUrl(serviceId, path);
         
         try {

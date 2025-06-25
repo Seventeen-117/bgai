@@ -100,13 +100,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         clientSecret = environment.getProperty("sso.client-secret", "bgai-client-secret");
         
         // 通过ServerApplicationContext获取端口，而不是直接从配置中读取
-        if (webServerAppCtx != null) {
+        if (webServerAppCtx != null && webServerAppCtx.getWebServer() != null) {
             this.serverPort = webServerAppCtx.getWebServer().getPort();
             log.info("从WebServerApplicationContext获取实际端口: {}", this.serverPort);
         } else {
             // 仅在无法获取实际端口时使用配置中的端口作为备选
             this.serverPort = Integer.parseInt(environment.getProperty("server.port", "8688"));
-            log.info("WebServerApplicationContext不可用，使用配置端口: {}", this.serverPort);
+            log.info("WebServerApplicationContext不可用或WebServer为null，使用配置端口: {}", this.serverPort);
         }
         
         log.info("初始化SSO配置: clientId={}, 使用端口={}", clientId, this.serverPort);
@@ -115,7 +115,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         updateUrlConfigurations();
         
         // 只在非测试环境中清理Redis数据，防止测试环境中出现问题
-        if (webServerAppCtx != null) {
+        if (webServerAppCtx != null && webServerAppCtx.getWebServer() != null) {
             cleanupOldRedisData();
         } else {
             log.info("测试环境中跳过Redis数据清理");

@@ -220,6 +220,46 @@ public class ReactiveChatController {
                     final String finalModelName = modelName;
                     final boolean finalMultiTurn = multiTurn;
 
+                    // 首先检查是否有X-User-Id头部
+                    String headerUserId = exchange.getRequest().getHeaders().getFirst("X-User-Id");
+                    if (StringUtils.hasText(headerUserId)) {
+                        log.info("从X-User-Id头部获取到用户ID: {}", headerUserId);
+                        
+                        // 添加验证逻辑：必须提供有效的Authorization头
+                        List<String> authHeaders = exchange.getRequest().getHeaders().get("Authorization");
+                        if (authHeaders == null || authHeaders.isEmpty()) {
+                            log.error("使用X-User-Id({})处理请求，但未提供Authorization头", headerUserId);
+                            return Mono.just(errorResponse(401, "缺少访问令牌"));
+                        }
+                        
+                        String authHeader = authHeaders.get(0);
+                        if (!authHeader.startsWith("Bearer ")) {
+                            log.error("使用X-User-Id({})处理请求，但Authorization头格式不正确", headerUserId);
+                            return Mono.just(errorResponse(401, "无效的授权头格式"));
+                        }
+                            
+                        String token = authHeader.substring(7);
+                        UserToken userToken = userService.validateToken(token);
+                                
+                        // 如果token无效，拒绝请求
+                        if (userToken == null) {
+                            log.error("使用X-User-Id({})处理请求，但Authorization token无效", headerUserId);
+                            return Mono.just(errorResponse(401, "无效的访问令牌"));
+                        }
+                                
+                        // 如果token的userId与X-User-Id不匹配，拒绝请求
+                        if (!userToken.getUserId().equals(headerUserId)) {
+                            log.error("Authorization token的用户ID({})与X-User-Id({})不匹配", 
+                                     userToken.getUserId(), headerUserId);
+                            return Mono.just(errorResponse(403, "令牌用户ID与请求用户ID不匹配"));
+                        }
+                                
+                        log.info("已验证Authorization token与X-User-Id({})匹配", headerUserId);
+                        
+                        return processRequestWithUserId(headerUserId, finalQuestion, finalApiUrl, finalApiKey, 
+                                                        finalModelName, finalMultiTurn, file, exchange);
+                    }
+
                     // 继续原有的处理流程
                     return attributesProvider.getUserId(exchange)
                             .switchIfEmpty(Mono.<String>create(sink -> {
@@ -263,57 +303,9 @@ public class ReactiveChatController {
                                 }
                                 
                                 log.info("Processing request for user ID: {} (original: {})", effectiveUserId, userId);
-
-                                if ((file == null || (file.filename() != null && file.filename().isEmpty())) && 
-                                    (finalQuestion == null || finalQuestion.trim().isEmpty())) {
-                                    log.error("Both file and question are empty");
-                                    return Mono.just(errorResponse(400, "必须提供问题或文件"));
-                                }
-
-                                // 2. 处理文件 - 使用熔断器
-                                Mono<String> contentMono = file == null ?
-                                    Mono.just(buildTextContent(finalQuestion != null ? finalQuestion : "")) :
-                                    processFileWithCircuitBreaker(file, finalQuestion != null ? finalQuestion : "", finalMultiTurn);
-
-                                // 存储最终使用的用户ID，确保不会丢失
-                                final String finalUserId = effectiveUserId;
-
-                                return resolveApiConfigReactive(finalApiUrl, finalApiKey, finalModelName, finalUserId)
-                                        .flatMap(apiConfig -> {
-                                            log.info("API config resolved: url={}, model={}",
-                                                    apiConfig.getApiUrl(), apiConfig.getModelName());
-
-                                            return contentMono.flatMap(content -> {
-                                                log.info("Content processed, length: {}", content.length());
-
-                                                // 3. API调用 - 添加超时熔断器
-                                                return callDeepSeekApiWithCircuitBreaker(
-                                                        content,
-                                                        apiConfig,
-                                                        finalUserId,  // 使用明确保存的用户ID
-                                                        finalMultiTurn
-                                                );
-                                            });
-                                        })
-                                        .onErrorResume(e -> {
-                                            if (e instanceof IllegalArgumentException) {
-                                                log.error("API configuration error: {}", e.getMessage());
-                                                return Mono.just(errorResponse(400, e.getMessage()));
-                                            }
-                                            if (e instanceof RedisSystemException) {
-                                                log.error("Redis error: {}", e.getMessage());
-                                                return Mono.just(errorResponse(503, "系统暂时不可用，请稍后重试"));
-                                            }
-                                            log.error("Request processing failed: {}", e.getMessage(), e);
-
-                                            // 创建通用错误熔断器
-                                            ReactiveCircuitBreaker generalErrorBreaker = createCircuitBreaker("generalErrorBreaker");
-
-                                            return generalErrorBreaker.run(
-                                                fallbackService.handleGeneralFallback(e),
-                                                throwable -> fallbackService.handleGeneralFallback(e)
-                                            );
-                                        });
+                                
+                                return processRequestWithUserId(effectiveUserId, finalQuestion, finalApiUrl, finalApiKey, 
+                                                            finalModelName, finalMultiTurn, file, exchange);
                             })
                             .onErrorResume(e -> {
                                 log.error("Authentication error: {}", e.getMessage());
@@ -324,6 +316,61 @@ public class ReactiveChatController {
                             });
                 });
         });
+    }
+
+    /**
+     * 使用确定的用户ID处理请求
+     */
+    private Mono<ResponseEntity<ChatResponse>> processRequestWithUserId(String userId, String question, String apiUrl, 
+                                                        String apiKey, String modelName, boolean multiTurn, 
+                                                        FilePart file, ServerWebExchange exchange) {
+        if ((file == null || (file.filename() != null && file.filename().isEmpty())) && 
+            (question == null || question.trim().isEmpty())) {
+            log.error("Both file and question are empty");
+            return Mono.just(errorResponse(400, "必须提供问题或文件"));
+        }
+
+        // 2. 处理文件 - 使用熔断器
+        Mono<String> contentMono = file == null ?
+            Mono.just(buildTextContent(question != null ? question : "")) :
+            processFileWithCircuitBreaker(file, question != null ? question : "", multiTurn);
+
+        return resolveApiConfigReactive(apiUrl, apiKey, modelName, userId)
+                .flatMap(apiConfig -> {
+                    log.info("API config resolved: url={}, model={}",
+                            apiConfig.getApiUrl(), apiConfig.getModelName());
+
+                    return contentMono.flatMap(content -> {
+                        log.info("Content processed, length: {}", content.length());
+
+                        // 3. API调用 - 添加超时熔断器
+                        return callDeepSeekApiWithCircuitBreaker(
+                                content,
+                                apiConfig,
+                                userId,  // 使用明确保存的用户ID
+                                multiTurn
+                        );
+                    });
+                })
+                .onErrorResume(e -> {
+                    if (e instanceof IllegalArgumentException) {
+                        log.error("API configuration error: {}", e.getMessage());
+                        return Mono.just(errorResponse(400, e.getMessage()));
+                    }
+                    if (e instanceof RedisSystemException) {
+                        log.error("Redis error: {}", e.getMessage());
+                        return Mono.just(errorResponse(503, "系统暂时不可用，请稍后重试"));
+                    }
+                    log.error("Request processing failed: {}", e.getMessage(), e);
+
+                    // 创建通用错误熔断器
+                    ReactiveCircuitBreaker generalErrorBreaker = createCircuitBreaker("generalErrorBreaker");
+
+                    return generalErrorBreaker.run(
+                        fallbackService.handleGeneralFallback(e),
+                        throwable -> fallbackService.handleGeneralFallback(e)
+                    );
+                });
     }
 
     /**
