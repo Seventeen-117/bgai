@@ -1,38 +1,67 @@
-#server:
-#  port: 8688 # 本地开发端口
-#
-#spring:
-#  datasource:
-#    dynamic:
-#      datasource:
-#        master:
-#          driver-class-name: com.mysql.cj.jdbc.Driver
-#          url: jdbc:mysql://8.133.246.113:3306/deepseek?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=Asia/Shanghai
-#          username: bgtech
-#          password: Zly689258..
-#        slave:
-#          driver-class-name: com.mysql.cj.jdbc.Driver
-#          url: jdbc:mysql://8.133.246.113:3306/deepseek?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=Asia/Shanghai
-#          username: bgtech
-#          password: Zly689258..
-#
-#  # Redis配置
-#  data:
-#    redis:
-#      host: 8.133.246.113
-#      port: 6379
-#      password: 5z25u2sk
-#      database: 0
-#      timeout: 10000
-#      lettuce:
-#        pool:
-#          max-active: 8
-#          max-wait: -1ms
-#          max-idle: 8
-#          min-idle: 0
-#
-## 日志配置
-#logging:
-#  level:
-#    root: INFO
-#    com.bgpay.bgai: DEBUG  # 开发环境使用DEBUG级别
+spring:
+  webflux:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+      max-in-memory-size: 512KB
+  main:
+    web-application-type: reactive
+    allow-circular-references: true # 允许循环依赖，因为项目是三层架构，无法避免这个情况。
+    allow-bean-definition-overriding: true # 允许 Bean 覆盖，例如说 Feign 等会存在重复定义的服务
+  application:
+    name: bgtech-ai
+  config:
+    import:
+      - optional:classpath:deepseek-config.properties
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_HOST:8.133.246.113}:${NACOS_PORT:8848}
+        namespace: ${NACOS_NAMESPACE:d750d92e-152f-4055-a641-3bc9dda85a29}
+        group: ${NACOS_GROUP:DEFAULT_GROUP}
+        # 使配置失败时更友好的处理，不会导致应用启动失败
+        fail-fast: false
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        namespace: ${spring.cloud.nacos.discovery.namespace}
+        group: ${spring.cloud.nacos.discovery.group}
+        file-extension: yaml
+        # 警告处理配置
+        handle-warnings: true
+        # 使配置失败时更友好的处理，不会导致应用启动失败
+        fail-fast: false
+        # 设置超时时间，防止长时间等待
+        timeout: 5000
+        refresh-enabled: true
+        # 使用默认缓存目录，确保容器能正确访问
+        shared-configs:
+          - data-id: common-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+            group: ${spring.cloud.nacos.discovery.group}
+            refresh: true
+    # LoadBalancer 配置
+    loadbalancer:
+      ribbon:
+        enabled: false # 禁用Ribbon，使用Spring Cloud LoadBalancer
+      cache:
+        enabled: true
+        caffeine:
+          spec: expireAfterWrite=5s
+      service-discovery:
+        timeout: 5000
+        fail-fast: false
+    openfeign:
+      client:
+        config:
+          default:
+            connectTimeout: 5000
+            readTimeout: 10000
+            loggerLevel: full
+          user-service:  # 为user-service服务指定配置
+            url: http://localhost:8688  # 直接指定URL，不通过服务发现
+      compression:
+        request:
+          enabled: true
+        response:
+          enabled: true
+      circuitbreaker:
+        enabled: true
