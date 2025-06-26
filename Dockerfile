@@ -55,7 +55,8 @@ RUN mkdir -p /app/data /app/logs /app/config \
     && chown -R bgai:bgai /app
 
 # 复制配置文件
-COPY src/main/resources/application-prod.yml /app/config/
+COPY src/main/resources/application-dev.yml /app/config/
+COPY src/main/resources/application.yml /app/config/
 COPY src/main/resources/bootstrap.yml /app/config/
 
 # 复制Seata配置文件(如果需要分布式事务)
