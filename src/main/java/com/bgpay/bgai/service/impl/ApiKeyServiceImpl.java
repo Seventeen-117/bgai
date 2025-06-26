@@ -2,6 +2,7 @@ package com.bgpay.bgai.service.impl;
 
 import com.bgpay.bgai.entity.ApiClient;
 import com.bgpay.bgai.entity.ApiKey;
+import com.bgpay.bgai.entity.ApiKeyInfo;
 import com.bgpay.bgai.mapper.ApiClientMapper;
 import com.bgpay.bgai.mapper.ApiKeyMapper;
 import com.bgpay.bgai.service.ApiKeyService;
@@ -23,7 +24,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
 
     @Override
     @Transactional
-    public ApiKey generateApiKey(String clientId, String clientName, String description) {
+    public ApiKeyInfo generateApiKey(String clientId, String clientName, String description) {
         // 校验 clientId 是否存在且启用
         ApiClient client = apiClientMapper.selectOne(
             new com.baomidou.mybatisplus.core.conditions.query.QueryWrapper<ApiClient>()
@@ -47,14 +48,18 @@ public class ApiKeyServiceImpl implements ApiKeyService {
         apiKey.setActive(1);
         apiKeyMapper.insert(apiKey);
         log.info("Generated new API Key for client: {} (SHA-256哈希存储)", clientId);
-        ApiKey result = new ApiKey();
-        result.setApiKey(plainApiKey);
-        result.setClientId(clientId);
-        result.setClientName(client.getClientName());
-        result.setDescription(description);
-        result.setCreatedAt(apiKey.getCreatedAt());
-        result.setExpiresAt(apiKey.getExpiresAt());
-        result.setActive(1);
+        
+        // 使用 ApiKeyInfo 代替 ApiKey 作为返回值，避免返回 id 字段
+        ApiKeyInfo result = ApiKeyInfo.builder()
+            .apiKey(plainApiKey)
+            .clientId(clientId)
+            .clientName(client.getClientName())
+            .description(description)
+            .createdAt(apiKey.getCreatedAt())
+            .expiresAt(apiKey.getExpiresAt())
+            .active(apiKey.getActive() == 1)
+            .build();
+        
         return result;
     }
 

@@ -1,0 +1,45 @@
+server:
+  port: 8080 # Docker暴露的端口
+  
+spring:
+  datasource:
+    dynamic:
+      datasource:
+        master:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://${MYSQL_HOST:8.133.246.113}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:bgtech_ai}?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=Asia/Shanghai
+          username: ${MYSQL_USERNAME:bgtech}
+          password: ${MYSQL_PASSWORD:Zly689258..}
+        slave:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://${MYSQL_HOST:8.133.246.113}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:bgtech_ai}?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=Asia/Shanghai
+          username: ${MYSQL_USERNAME:bgtech}
+          password: ${MYSQL_PASSWORD:Zly689258..}
+  
+  # Redis配置
+  data:
+    redis:
+      host: ${REDIS_HOST:8.133.246.113}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      database: 0
+      timeout: 10000
+      lettuce:
+        pool:
+          max-active: 8
+          max-wait: -1ms
+          max-idle: 8
+          min-idle: 0
+
+# 日志配置
+logging:
+  level:
+    root: INFO
+    com.bgpay.bgai: INFO
+
+# Nacos配置重试机制
+nacos:
+  config:
+    retry:
+      times: 3
+      interval: 5000 

@@ -50,9 +50,13 @@ RUN apt-get update && apt-get install -y \
 RUN groupadd -r bgai && useradd -r -g bgai bgai
 
 # 创建必要目录并设置权限
-RUN mkdir -p /app/data /app/logs \
+RUN mkdir -p /app/data /app/logs /app/config \
     && mkdir -p /app/nacos/config \
     && chown -R bgai:bgai /app
+
+# 复制配置文件
+COPY src/main/resources/application-prod.yml /app/config/
+COPY src/main/resources/bootstrap.yml /app/config/
 
 # 复制Seata配置文件(如果需要分布式事务)
 COPY src/main/resources/registry.conf /app/registry.conf
@@ -74,10 +78,10 @@ ENV SPRING_PROFILES_ACTIVE=prod \
 
 # 健康检查
 HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
-  CMD wget -q --spider http://localhost:8080/actuator/health || exit 1
+  CMD wget -q --spider http://localhost:8688/actuator/health || exit 1
 
 # 启动命令
-ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -Dspring.config.additional-location=file:/app/config/ -jar app.jar"]
 
 # 使用说明:
 # 1. 标准构建: docker build -t bgai:latest .

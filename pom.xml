@@ -82,6 +82,7 @@
 		<HikariCP.version>4.0.3</HikariCP.version>
 		<mybatis-generator-core.version>1.4.1</mybatis-generator-core.version>
 		<mybatis.version>3.5.14</mybatis.version>
+		<!-- 修复：使用druid 1.2.8代替有问题的druid 1.2.6 -->
 		<druid.version>1.2.8</druid.version>
 		<druid-spring-boot-starter.version>1.2.15</druid-spring-boot-starter.version>
 		<hutool-all.version>5.8.24</hutool-all.version>
@@ -260,11 +261,17 @@
 			<artifactId>spring-cloud-starter-bootstrap</artifactId>
 		</dependency>
 
-		<!-- 修复druid依赖 -->
+		<!-- 直接使用druid依赖，避开有问题的spring-boot-starter -->
 		<dependency>
 			<groupId>com.alibaba</groupId>
-			<artifactId>druid-spring-boot-starter</artifactId>
-			<version>${druid-spring-boot-starter.version}</version>
+			<artifactId>druid</artifactId>
+			<version>${druid.version}</version>
+		</dependency>
+
+		<!-- Druid Spring Boot Configuration -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-autoconfigure</artifactId>
 		</dependency>
 
 		<dependency>
@@ -778,18 +785,6 @@
 			<artifactId>mybatis</artifactId>
 			<version>${mybatis.version}</version>
 		</dependency>
-		<!-- 选项2：使用Druid（需排除Hikari） -->
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>druid-spring-boot-starter</artifactId>
-			<version>${druid-spring-boot-starter.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>com.zaxxer</groupId>
-					<artifactId>HikariCP</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
 		<!-- 排除hutool中的slf4j-simple -->
 		<dependency>
 			<groupId>cn.hutool</groupId>
@@ -909,12 +904,6 @@
 					<artifactId>slf4j-simple</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
-		<!-- Logstash 依赖 -->
-		<dependency>
-			<groupId>net.logstash.logback</groupId>
-			<artifactId>logstash-logback-encoder</artifactId>
-			<version>${logstash-logback-encoder.version}</version>
 		</dependency>
 		<!-- MDC 支持 -->
 		<dependency>

@@ -37,7 +37,7 @@ public class ApiKeyController {
         String clientId = request.get("clientId");
         String clientName = request.get("clientName");
         String description = request.get("description");
-        ApiKey apiKey = apiKeyService.generateApiKey(clientId, clientName, description);
+        ApiKeyInfo apiKey = apiKeyService.generateApiKey(clientId, clientName, description);
         return ResponseEntity.ok(apiKey);
     }
 

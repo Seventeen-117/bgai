@@ -1,6 +1,7 @@
 package com.bgpay.bgai.service;
 
 import com.bgpay.bgai.entity.ApiKey;
+import com.bgpay.bgai.entity.ApiKeyInfo;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public interface ApiKeyService {
             this.clientId = clientId;
         }
     }
-    ApiKey generateApiKey(String clientId, String clientName, String description);
+    ApiKeyInfo generateApiKey(String clientId, String clientName, String description);
     void revokeApiKey(String apiKey);
     ApiKeyValidationResult validateApiKeyStatus(String apiKey);
     List<ApiKey> getAllApiKeys();

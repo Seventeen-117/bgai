@@ -1,0 +1,38 @@
+#server:
+#  port: 8688 # 本地开发端口
+#
+#spring:
+#  datasource:
+#    dynamic:
+#      datasource:
+#        master:
+#          driver-class-name: com.mysql.cj.jdbc.Driver
+#          url: jdbc:mysql://8.133.246.113:3306/deepseek?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=Asia/Shanghai
+#          username: bgtech
+#          password: Zly689258..
+#        slave:
+#          driver-class-name: com.mysql.cj.jdbc.Driver
+#          url: jdbc:mysql://8.133.246.113:3306/deepseek?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=Asia/Shanghai
+#          username: bgtech
+#          password: Zly689258..
+#
+#  # Redis配置
+#  data:
+#    redis:
+#      host: 8.133.246.113
+#      port: 6379
+#      password: 5z25u2sk
+#      database: 0
+#      timeout: 10000
+#      lettuce:
+#        pool:
+#          max-active: 8
+#          max-wait: -1ms
+#          max-idle: 8
+#          min-idle: 0
+#
+## 日志配置
+#logging:
+#  level:
+#    root: INFO
+#    com.bgpay.bgai: DEBUG  # 开发环境使用DEBUG级别

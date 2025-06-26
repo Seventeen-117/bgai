@@ -7,6 +7,7 @@ import io.seata.saga.engine.impl.ProcessCtrlStateMachineEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -33,9 +34,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Configuration
 public class SagaStateMachineConfig implements ApplicationRunner {
     private static final Logger logger = LoggerFactory.getLogger(SagaStateMachineConfig.class);
-
-    @Autowired(required = false)
-    private DataSource dataSource;
     
     @Autowired
     private CustomSagaJsonParser customSagaJsonParser;
@@ -60,7 +58,7 @@ public class SagaStateMachineConfig implements ApplicationRunner {
     }
 
     @Bean
-    public StateMachineEngine stateMachineEngine() {
+    public StateMachineEngine stateMachineEngine(@Qualifier("dynamicDataSource") DataSource dataSource) {
         if (dataSource == null) {
             logger.warn("未配置数据源，Saga状态机将不会启用");
             return null;
