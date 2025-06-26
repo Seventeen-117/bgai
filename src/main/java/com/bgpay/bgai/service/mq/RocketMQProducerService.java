@@ -173,6 +173,50 @@ public class RocketMQProducerService {
             throw new RuntimeException("消息发送失败", e);
         }
     }
+    
+    // 新增重载方法，支持lambda表达式直接回调
+    public void sendChatLogAsync(String messageId,
+                                 String requestBody,
+                                 ChatResponse response,
+                                 String userId,
+                                 java.util.function.Consumer<String> onSuccess,
+                                 java.util.function.BiConsumer<String, Throwable> onFailure) {
+        if (idempotentCache.getIfPresent(messageId) != null) {
+            log.warn("Message {} already sent, skip duplicate", messageId);
+            return;
+        }
+
+        try {
+            String logData = buildLogMessage(requestBody, response, userId);
+            Message msg = new Message(
+                    chatLogTopic,
+                    "chatLog",
+                    messageId,
+                    logData.getBytes(StandardCharsets.UTF_8)
+            );
+
+            producer.send(msg, new SendCallback() {
+                @Override
+                public void onSuccess(SendResult sendResult) {
+                    idempotentCache.put(messageId, true);
+                    if (onSuccess != null) {
+                        onSuccess.accept(messageId);
+                    }
+                }
+
+                @Override
+                public void onException(Throwable e) {
+                    idempotentCache.invalidate(messageId);
+                    if (onFailure != null) {
+                        onFailure.accept(messageId, e);
+                    }
+                }
+            });
+        } catch (Exception e) {
+            idempotentCache.invalidate(messageId);
+            throw new RuntimeException("消息发送失败", e);
+        }
+    }
 
     private String buildLogMessage(String requestBody, ChatResponse response, String userId) {
         return String.format("""

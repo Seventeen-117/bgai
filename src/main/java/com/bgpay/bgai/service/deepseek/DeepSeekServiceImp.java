@@ -374,16 +374,11 @@ public class DeepSeekServiceImp implements DeepSeekService {
                     map.toString(),
                     response,
                     userId,
-                    new MQCallback() {
-                        @Override
-                        public void onSuccess(String msgId) {
-                            meterRegistry.counter("mq.message.success").increment();
-                        }
-
-                        @Override
-                        public void onFailure(String msgId, Throwable e) {
-                            meterRegistry.counter("mq.message.failure").increment();
-                        }
+                    msgId -> {
+                        meterRegistry.counter("mq.message.success").increment();
+                    },
+                    (msgId, e) -> {
+                        meterRegistry.counter("mq.message.failure").increment();
                     }
             );
         }).subscribeOn(Schedulers.boundedElastic()).then();
