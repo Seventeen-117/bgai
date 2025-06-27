@@ -121,6 +121,67 @@ docker-compose up -d
 ```
 > 包含 MySQL、Redis、Nacos、RocketMQ、Elasticsearch、Seata-Server 等
 
+## 优化版 Docker Compose 环境
+
+我们提供了一个经过优化的 `docker-compose.yml` 文件，包含了完整的本地开发和测试环境：
+
+### 包含的服务
+
+- **bgai-app**: 主应用服务
+- **mysql**: MySQL 8.0 数据库
+- **redis**: Redis 7.0 带密码
+- **elasticsearch**: Elasticsearch 8.9.2 单节点
+- **nacos**: Nacos 2.2.0 服务注册与配置中心
+- **seata**: Seata 1.7.0 分布式事务协调器
+- **rocketmq**: RocketMQ 4.9.4 消息队列（包含 namesrv 和 broker）
+- **prometheus**: Prometheus 2.44.0 监控数据收集（可选）
+- **grafana**: Grafana 9.5.2 监控数据可视化（可选）
+
+### 关键特性
+
+- **服务健康检查**: 使用 `healthcheck` 确保依赖服务在正确的顺序启动
+- **持久化数据**: 所有服务的数据都使用命名卷持久化保存
+- **环境变量**: 主应用的所有配置都通过环境变量注入
+- **自动初始化**: 数据库自动导入初始化脚本
+- **监控**: 集成 Prometheus 和 Grafana 监控系统
+
+### 使用方式
+
+**启动所有必要服务:**
+```bash
+docker-compose up -d
+```
+
+**只启动必需服务（不包括监控系统）:**
+```bash
+docker-compose up -d bgai-app mysql redis elasticsearch nacos seata rocketmq-namesrv rocketmq-broker
+```
+
+**查看服务日志:**
+```bash
+# 查看所有服务日志
+docker-compose logs -f
+
+# 查看特定服务日志
+docker-compose logs -f bgai-app
+```
+
+**访问各服务:**
+- 主应用: http://localhost:8688
+- Nacos控制台: http://localhost:8848/nacos (用户名/密码: nacos/nacos)
+- Prometheus: http://localhost:9090
+- Grafana: http://localhost:3000 (用户名/密码: admin/admin)
+
+**关闭所有服务:**
+```bash
+docker-compose down
+```
+
+**关闭服务并删除所有数据:**
+```bash
+docker-compose down -v
+```
+
 ### 3. 启动后端
 
 ```bash

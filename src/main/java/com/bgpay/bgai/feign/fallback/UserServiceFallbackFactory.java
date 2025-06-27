@@ -105,6 +105,8 @@ public class UserServiceFallbackFactory implements FallbackFactory<UserServiceCl
                 fallbackResult.put("status", "error_fallback");
                 fallbackResult.put("error", cause.getMessage());
                 fallbackResult.put("_fallback", true);
+                fallbackResult.put("timestamp", System.currentTimeMillis());
+                fallbackResult.put("message", "这是一个错误测试的降级响应");
                 return fallbackResult;
             }
             
@@ -115,6 +117,18 @@ public class UserServiceFallbackFactory implements FallbackFactory<UserServiceCl
                 fallbackResult.put("status", "timeout_fallback");
                 fallbackResult.put("error", cause.getMessage());
                 fallbackResult.put("_fallback", true);
+                return fallbackResult;
+            }
+            
+            @Override
+            public Map<String, Object> testTimeoutWithParam(Long duration) {
+                log.error("带参数的超时测试失败，回退处理。参数: {}, 原因: {}", duration, cause);
+                Map<String, Object> fallbackResult = new HashMap<>();
+                fallbackResult.put("status", "timeout_with_param_fallback");
+                fallbackResult.put("requestedDuration", duration);
+                fallbackResult.put("error", cause.getMessage());
+                fallbackResult.put("_fallback", true);
+                fallbackResult.put("timestamp", System.currentTimeMillis());
                 return fallbackResult;
             }
         };

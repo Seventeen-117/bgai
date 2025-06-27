@@ -25,6 +25,9 @@ public class MockUserServiceController {
     
     @Value("${bgai.api-key.header-name:X-API-Key}")
     private String apiKeyHeader;
+    
+    @Value("${bgai.mock-service.timeout-duration:15000}")
+    private long timeoutDuration;
 
     // 模拟用户数据存储
     private final Map<String, Map<String, Object>> users = new ConcurrentHashMap<>();
@@ -218,11 +221,23 @@ public class MockUserServiceController {
     
     /**
      * 模拟服务超时
+     * 可通过请求参数或配置属性控制超时时间
      */
     @GetMapping("/timeout")
-    public ResponseEntity<Map<String, Object>> timeout() throws InterruptedException {
-        log.info("Simulating timeout...");
-        Thread.sleep(15000); // 15秒超时
-        return ResponseEntity.ok(Collections.singletonMap("message", "This message should never be returned"));
+    public ResponseEntity<Map<String, Object>> timeout(
+            @RequestParam(required = false) Long duration) throws InterruptedException {
+        // 使用请求参数或配置的超时时间
+        long sleepTime = duration != null ? duration : timeoutDuration;
+        log.info("Simulating timeout for {} ms...", sleepTime);
+        
+        // 添加一些随机性，避免总是相同的超时时间
+        long actualSleep = sleepTime + (long)(Math.random() * 500);
+        Thread.sleep(actualSleep);
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "This message should never be returned normally");
+        response.put("sleptFor", actualSleep);
+        response.put("timestamp", new Date());
+        return ResponseEntity.ok(response);
     }
 } 

@@ -68,4 +68,10 @@ public interface UserServiceClient {
      */
     @GetMapping("/api/users/timeout")
     Map<String, Object> testTimeout();
+    
+    /**
+     * 测试超时场景 - 可配置超时时间
+     */
+    @GetMapping("/api/users/timeout")
+    Map<String, Object> testTimeoutWithParam(@RequestParam("duration") Long duration);
 } 

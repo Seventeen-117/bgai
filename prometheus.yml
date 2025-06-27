@@ -1,0 +1,24 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'bgai-app'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['bgai-app:8688']
+
+  - job_name: 'nacos'
+    metrics_path: '/nacos/actuator/prometheus'
+    static_configs:
+      - targets: ['8.133.246.113:8848']
+
+  - job_name: 'remote-services'
+    static_configs:
+      - targets: ['8.133.246.113:9091']  # Seata metrics if available
+        labels:
+          service: 'seata' 

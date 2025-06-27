@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 /**
  * UserServiceClient的特定配置
@@ -31,10 +32,21 @@ public class UserServiceFeignConfig {
     /**
      * 请求超时配置
      */
+    @Primary
     @Bean
     Request.Options requestOptions() {
         // 连接超时(ms)，读取超时(ms)
         return new Request.Options(5000, 10000);
+    }
+    
+    /**
+     * 较长的超时配置，用于测试超时场景
+     * 连接超时20秒，读取超时20秒
+     */
+    @Bean(name = "longTimeoutOptions")
+    Request.Options longTimeoutOptions() {
+        // 连接超时(ms)，读取超时(ms)
+        return new Request.Options(20000, 20000);
     }
 
     /**

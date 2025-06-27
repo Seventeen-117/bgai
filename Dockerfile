@@ -85,10 +85,10 @@ HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -Dspring.config.additional-location=file:/app/config/ -jar app.jar"]
 
 # 使用说明:
-# 1. 标准构建: docker build -t bgai:latest .
+# 1. 标准构建: docker build -t jiangyang-ai:latest .
 # 2. 离线预构建: 
 #    a) mvn clean package -DskipTests
 #    b) docker build --target runtime -t bgai:offline .
-# 3. 开发环境: docker run -p 8688:8688 -e SPRING_PROFILES_ACTIVE=dev bgai:latest
-# 4. 配置文件挂载: docker run -v /path/to/config:/app/nacos/config bgai:latest
+# 3. 开发环境: docker run -p 8688:8688 -e SPRING_PROFILES_ACTIVE=dev jiangyang-ai:latest
+# 4. 配置文件挂载: docker run -v /path/to/config:/app/nacos/config jiangyang-ai:latest
 
