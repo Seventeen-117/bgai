@@ -13,7 +13,7 @@ public class MimeTypeConfig {
     private String mimeType;
     private String extensions;
     private String magicNumbers;
-    private Boolean enabled;
+    private Boolean isActive;
 
     public byte[] getMagicBytes() {
         if (magicNumbers == null || magicNumbers.isEmpty()) {

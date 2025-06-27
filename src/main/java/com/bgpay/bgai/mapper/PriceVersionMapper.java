@@ -1,19 +1,45 @@
 package com.bgpay.bgai.mapper;
 
-import com.bgpay.bgai.entity.PriceVersion;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.bgpay.bgai.entity.PriceVersion;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
- *  Mapper 接口
+ *  价格版本Mapper接口
  * </p>
  *
  * @author zly
- * @since 2025-03-10 15:32:02
+ * @since 2025-03-08 23:09:50
  */
 @Mapper
 public interface PriceVersionMapper extends BaseMapper<PriceVersion> {
+    
+    /**
+     * 获取当前价格版本号
+     * @return 当前价格版本号
+     */
+    default Integer getCurrentVersion() {
+        LambdaQueryWrapper<PriceVersion> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(PriceVersion::getIsCurrent, true)
+                   .orderByDesc(PriceVersion::getCreatedAt)
+                   .last("LIMIT 1");
+        PriceVersion priceVersion = this.selectOne(queryWrapper);
+        return priceVersion != null ? priceVersion.getVersion() : null;
+    }
+    
+    /**
+     * 获取指定版本的价格版本
+     * @param version 版本号
+     * @return 价格版本
+     */
+    default PriceVersion getByVersion(Integer version) {
+        LambdaQueryWrapper<PriceVersion> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(PriceVersion::getVersion, version);
+        return this.selectOne(queryWrapper);
+    }
+
     /**
      * 将指定模型的当前价格版本置为无效
      * @param modelId 模型 ID

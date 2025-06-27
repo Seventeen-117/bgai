@@ -61,4 +61,12 @@ public class PriceConfig {
     @TableField("effective_time")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime effectiveTime;
+
+    @TableField("update_time")
+    private LocalDateTime updateTime;
+
+    public PriceConfig setUpdateTime(LocalDateTime updateTime) {
+        this.updateTime = updateTime;
+        return this;
+    }
 }

@@ -11,5 +11,6 @@ public class AllowedFileType {
     @TableId(type = IdType.AUTO)
     private Long id;
     private String mimeType;
-    private Boolean enabled;
+    private String description;
+    private Boolean isAllowed;
 }

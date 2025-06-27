@@ -74,15 +74,18 @@ public class UserServiceFeignConfig {
             log.error(message);
             
             // 根据错误状态码返回不同异常
+            RuntimeException exception;
             if (status >= 500) {
-                return new RuntimeException("用户服务暂时不可用: " + status);
+                exception = new RuntimeException("用户服务暂时不可用: " + status);
             } else if (status == 404) {
-                return new RuntimeException("用户服务资源不存在");
+                exception = new RuntimeException("用户服务资源不存在");
             } else if (status == 401 || status == 403) {
-                return new RuntimeException("用户服务认证失败");
+                exception = new RuntimeException("用户服务认证失败");
             } else {
-                return new RuntimeException("用户服务调用失败: " + response.reason());
+                exception = new RuntimeException("用户服务调用失败: " + response.reason());
             }
+            
+            return exception;
         };
     }
 } 

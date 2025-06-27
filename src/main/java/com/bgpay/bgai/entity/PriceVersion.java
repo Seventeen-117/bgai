@@ -48,4 +48,9 @@ public class PriceVersion {
 
     @TableField("created_at")
     private LocalDateTime createdAt;
+    
+    public PriceVersion setCreateTime(LocalDateTime createTime) {
+        this.createdAt = createTime;
+        return this;
+    }
 }

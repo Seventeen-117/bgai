@@ -206,7 +206,7 @@ public class DeepSeekServiceImp implements DeepSeekService {
                 if (!message.isEmpty()) {
                     String responseContent = message.path("content").asText();
                     chatResponse.setContent(responseContent);
-                    fileWriterService.writeContentAsync(responseContent);
+                    fileWriterService.writeContentToFile(responseContent, "response_" + System.currentTimeMillis() + ".txt");
                 }
             }
 

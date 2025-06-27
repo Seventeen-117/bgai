@@ -6,7 +6,9 @@ import com.bgpay.bgai.entity.UsageRecord;
 import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.validation.constraints.NotBlank;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -60,4 +62,56 @@ public interface UsageRecordService extends IService<UsageRecord> {
 
     // 新增
     UsageRecord findByCompletionIdAndMessageId(String completionId, String messageId);
+    
+    /**
+     * 查询用户的用量记录
+     * @param userId 用户ID
+     * @param modelType 模型类型（可选）
+     * @param startDateTime 开始时间（可选）
+     * @param endDateTime 结束时间（可选）
+     * @return 用量记录列表
+     */
+    List<UsageRecord> findUserUsageRecords(String userId, String modelType, 
+                                          LocalDateTime startDateTime, LocalDateTime endDateTime);
+    
+    /**
+     * 获取用户的用量汇总信息
+     * @param userId 用户ID
+     * @param startDateTime 开始时间（可选）
+     * @param endDateTime 结束时间（可选）
+     * @return 汇总信息
+     */
+    Map<String, Object> getUserUsageSummary(String userId, LocalDateTime startDateTime, LocalDateTime endDateTime);
+    
+    /**
+     * 获取用户按模型分组的用量统计
+     * @param userId 用户ID
+     * @param startDateTime 开始时间（可选）
+     * @param endDateTime 结束时间（可选）
+     * @return 按模型分组的统计
+     */
+    List<Map<String, Object>> getUserUsageByModel(String userId, LocalDateTime startDateTime, LocalDateTime endDateTime);
+    
+    /**
+     * 获取用户的每日用量趋势
+     * @param userId 用户ID
+     * @param startDateTime 开始时间（可选）
+     * @param endDateTime 结束时间（可选）
+     * @return 每日用量趋势
+     */
+    List<Map<String, Object>> getUserDailyUsageTrend(String userId, LocalDateTime startDateTime, LocalDateTime endDateTime);
+    
+    /**
+     * 获取当前价格配置
+     * @return 价格配置信息
+     */
+    Map<String, Object> getCurrentPriceConfig();
+    
+    /**
+     * 获取系统用量统计
+     * @param startDateTime 开始时间（可选）
+     * @param endDateTime 结束时间（可选）
+     * @return 系统用量统计
+     */
+    Map<String, Object> getSystemUsageStats(LocalDateTime startDateTime, LocalDateTime endDateTime);
 }

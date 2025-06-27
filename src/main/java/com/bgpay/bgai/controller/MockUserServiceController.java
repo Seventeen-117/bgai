@@ -214,9 +214,15 @@ public class MockUserServiceController {
      */
     @GetMapping("/error")
     public ResponseEntity<Map<String, Object>> error() {
+        Map<String, Object> errorResponse = new HashMap<>();
+        errorResponse.put("error", "Simulated server error");
+        errorResponse.put("code", "INTERNAL_SERVER_ERROR");
+        errorResponse.put("message", "这是一个模拟的服务器错误，用于测试降级逻辑");
+        errorResponse.put("timestamp", System.currentTimeMillis());
+        
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(Collections.singletonMap("error", "Simulated server error"));
+                .body(errorResponse);
     }
     
     /**

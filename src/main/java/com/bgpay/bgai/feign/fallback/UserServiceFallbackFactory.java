@@ -23,12 +23,15 @@ public class UserServiceFallbackFactory implements FallbackFactory<UserServiceCl
 
     @Override
     public UserServiceClient create(Throwable cause) {
-        log.error("用户服务调用失败，回退处理。原因: {}", cause.getMessage());
+        // 提取根本异常以得到更准确的错误信息
+        Throwable rootCause = extractRootCause(cause);
+        String errorMessage = rootCause.getMessage();
+        log.warn("用户服务调用失败，回退处理。原因: {}", errorMessage);
         
         return new UserServiceClient() {
             @Override
             public List<Map<String, Object>> listUsers() {
-                log.error("获取用户列表失败，回退处理。原因: {}", cause);
+                log.debug("获取用户列表失败，回退处理");
                 List<Map<String, Object>> fallbackList = new ArrayList<>();
                 Map<String, Object> fallbackUser = new HashMap<>();
                 fallbackUser.put("id", "-1");
@@ -36,74 +39,74 @@ public class UserServiceFallbackFactory implements FallbackFactory<UserServiceCl
                 fallbackUser.put("name", "Fallback User");
                 fallbackUser.put("email", "fallback@example.com");
                 fallbackUser.put("_fallback", true);
-                fallbackUser.put("_error", cause.getMessage());
+                fallbackUser.put("_error", errorMessage);
                 fallbackList.add(fallbackUser);
                 return fallbackList;
             }
 
             @Override
             public Map<String, Object> getUserById(String id) {
-                log.error("获取用户详情失败，回退处理。ID: {}, 原因: {}", id, cause);
+                log.debug("获取用户详情失败，回退处理。ID: {}", id);
                 Map<String, Object> fallbackUser = new HashMap<>();
                 fallbackUser.put("id", id);
                 fallbackUser.put("username", "fallback-user-" + id);
                 fallbackUser.put("name", "Fallback User " + id);
                 fallbackUser.put("email", "fallback-" + id + "@example.com");
                 fallbackUser.put("_fallback", true);
-                fallbackUser.put("_error", cause.getMessage());
+                fallbackUser.put("_error", errorMessage);
                 return fallbackUser;
             }
 
             @Override
             public Map<String, Object> createUser(Map<String, Object> userData) {
-                log.error("创建用户失败，回退处理。用户数据: {}, 原因: {}", userData, cause);
+                log.debug("创建用户失败，回退处理");
                 Map<String, Object> fallbackResult = new HashMap<>(userData);
                 fallbackResult.put("id", "-1");
                 fallbackResult.put("_fallback", true);
-                fallbackResult.put("_error", cause.getMessage());
+                fallbackResult.put("_error", errorMessage);
                 fallbackResult.put("message", "用户创建请求已接收，但服务暂时不可用");
                 return fallbackResult;
             }
 
             @Override
             public Map<String, Object> updateUser(String id, Map<String, Object> userData) {
-                log.error("更新用户失败，回退处理。ID: {}, 用户数据: {}, 原因: {}", id, userData, cause);
+                log.debug("更新用户失败，回退处理。ID: {}", id);
                 Map<String, Object> fallbackResult = new HashMap<>(userData);
                 fallbackResult.put("id", id);
                 fallbackResult.put("_fallback", true);
-                fallbackResult.put("_error", cause.getMessage());
+                fallbackResult.put("_error", errorMessage);
                 fallbackResult.put("message", "用户更新请求已接收，但服务暂时不可用");
                 return fallbackResult;
             }
 
             @Override
             public Map<String, Object> deleteUser(String id) {
-                log.error("删除用户失败，回退处理。ID: {}, 原因: {}", id, cause);
+                log.debug("删除用户失败，回退处理。ID: {}", id);
                 Map<String, Object> fallbackResult = new HashMap<>();
                 fallbackResult.put("id", id);
                 fallbackResult.put("_fallback", true);
-                fallbackResult.put("_error", cause.getMessage());
+                fallbackResult.put("_error", errorMessage);
                 fallbackResult.put("message", "用户删除请求已接收，但服务暂时不可用");
                 return fallbackResult;
             }
             
             @Override
             public Map<String, Object> health() {
-                log.error("健康检查失败，回退处理。原因: {}", cause);
+                log.debug("健康检查失败，回退处理");
                 Map<String, Object> fallbackHealth = new HashMap<>();
                 fallbackHealth.put("status", "DOWN");
                 fallbackHealth.put("service", "user-service-fallback");
-                fallbackHealth.put("error", cause.getMessage());
+                fallbackHealth.put("error", errorMessage);
                 fallbackHealth.put("_fallback", true);
                 return fallbackHealth;
             }
             
             @Override
             public Map<String, Object> testError() {
-                log.error("错误测试失败，回退处理。原因: {}", cause);
+                log.debug("错误测试成功触发降级逻辑");
                 Map<String, Object> fallbackResult = new HashMap<>();
                 fallbackResult.put("status", "error_fallback");
-                fallbackResult.put("error", cause.getMessage());
+                fallbackResult.put("error", errorMessage);
                 fallbackResult.put("_fallback", true);
                 fallbackResult.put("timestamp", System.currentTimeMillis());
                 fallbackResult.put("message", "这是一个错误测试的降级响应");
@@ -112,25 +115,41 @@ public class UserServiceFallbackFactory implements FallbackFactory<UserServiceCl
             
             @Override
             public Map<String, Object> testTimeout() {
-                log.error("超时测试失败，回退处理。原因: {}", cause);
+                log.debug("超时测试失败，回退处理");
                 Map<String, Object> fallbackResult = new HashMap<>();
                 fallbackResult.put("status", "timeout_fallback");
-                fallbackResult.put("error", cause.getMessage());
+                fallbackResult.put("error", errorMessage);
                 fallbackResult.put("_fallback", true);
+                fallbackResult.put("timestamp", System.currentTimeMillis());
+                fallbackResult.put("message", "这是一个超时测试的降级响应");
                 return fallbackResult;
             }
             
             @Override
             public Map<String, Object> testTimeoutWithParam(Long duration) {
-                log.error("带参数的超时测试失败，回退处理。参数: {}, 原因: {}", duration, cause);
+                log.debug("带参数的超时测试失败，回退处理。参数: {} ms", duration);
                 Map<String, Object> fallbackResult = new HashMap<>();
-                fallbackResult.put("status", "timeout_with_param_fallback");
-                fallbackResult.put("requestedDuration", duration);
-                fallbackResult.put("error", cause.getMessage());
+                fallbackResult.put("status", "timeout_param_fallback");
+                fallbackResult.put("error", errorMessage);
+                fallbackResult.put("duration", duration);
                 fallbackResult.put("_fallback", true);
                 fallbackResult.put("timestamp", System.currentTimeMillis());
+                fallbackResult.put("message", "这是一个带参数的超时测试降级响应");
                 return fallbackResult;
             }
         };
+    }
+    
+    /**
+     * 提取异常链中最原始的异常
+     * @param throwable 异常
+     * @return 根本原因异常
+     */
+    private Throwable extractRootCause(Throwable throwable) {
+        Throwable cause = throwable;
+        while (cause.getCause() != null) {
+            cause = cause.getCause();
+        }
+        return cause;
     }
 } 

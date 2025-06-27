@@ -4,11 +4,18 @@ import com.bgpay.bgai.entity.ApiConfig;
 import com.bgpay.bgai.mapper.ApiConfigMapper;
 import com.bgpay.bgai.service.ApiConfigService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>
@@ -22,6 +29,9 @@ import org.slf4j.LoggerFactory;
 public class ApiConfigServiceImpl extends ServiceImpl<ApiConfigMapper, ApiConfig> implements ApiConfigService {
 
     private static final Logger log = LoggerFactory.getLogger(ApiConfigServiceImpl.class);
+
+    @Autowired
+    private ApiConfigMapper apiConfigMapper;
 
     @Override
     public ApiConfig getLatestConfig(String userId) {
@@ -76,18 +86,84 @@ public class ApiConfigServiceImpl extends ServiceImpl<ApiConfigMapper, ApiConfig
 
     @Override
     public ApiConfig findAlternativeConfig(String userId, String currentModelName) {
-        LambdaQueryWrapper<ApiConfig> queryWrapper = new LambdaQueryWrapper<>();
-        
-        // 查找同一用户的其他模型配置（即排除当前模型名称）
-        queryWrapper.eq(ApiConfig::getUserId, userId);
-        if (StringUtils.hasText(currentModelName)) {
-            queryWrapper.ne(ApiConfig::getModelName, currentModelName);
+        // 实现查找替代配置的逻辑
+        LambdaQueryWrapper<ApiConfig> wrapper = new LambdaQueryWrapper<>();
+        wrapper.ne(ApiConfig::getModelName, currentModelName);
+        wrapper.eq(ApiConfig::getEnabled, true);
+        wrapper.orderByDesc(ApiConfig::getPriority);
+        return getOne(wrapper);
+    }
+
+    @Override
+    public List<ApiConfig> getAllApiConfigs() {
+        return list();
+    }
+
+    @Override
+    public ApiConfig getApiConfigById(Long id) {
+        return getById(id);
+    }
+
+    @Override
+    @Transactional
+    public ApiConfig createApiConfig(ApiConfig apiConfig) {
+        apiConfig.setCreateTime(LocalDateTime.now());
+        apiConfig.setUpdateTime(LocalDateTime.now());
+        save(apiConfig);
+        return apiConfig;
+    }
+
+    @Override
+    @Transactional
+    public ApiConfig updateApiConfig(ApiConfig apiConfig) {
+        ApiConfig existing = getById(apiConfig.getId());
+        if (existing == null) {
+            return null;
         }
         
-        // 按ID降序排列，获取最新的配置
-        queryWrapper.orderByDesc(ApiConfig::getId);
-        queryWrapper.last("LIMIT 1");
+        apiConfig.setUpdateTime(LocalDateTime.now());
+        updateById(apiConfig);
+        return apiConfig;
+    }
+
+    @Override
+    @Transactional
+    public boolean deleteApiConfig(Long id) {
+        return removeById(id);
+    }
+
+    @Override
+    public ApiConfig getApiConfigByModelType(String modelType) {
+        LambdaQueryWrapper<ApiConfig> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(ApiConfig::getModelType, modelType);
+        wrapper.eq(ApiConfig::getEnabled, true);
+        return getOne(wrapper);
+    }
+
+    @Override
+    public ApiConfig getDefaultApiConfig() {
+        LambdaQueryWrapper<ApiConfig> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(ApiConfig::getIsDefault, true);
+        wrapper.eq(ApiConfig::getEnabled, true);
+        return getOne(wrapper);
+    }
+
+    @Override
+    @Transactional
+    public boolean setDefaultApiConfig(Long id) {
+        // 先将所有配置设为非默认
+        LambdaUpdateWrapper<ApiConfig> clearDefaultWrapper = new LambdaUpdateWrapper<>();
+        clearDefaultWrapper.set(ApiConfig::getIsDefault, false);
+        update(clearDefaultWrapper);
         
-        return this.getOne(queryWrapper, false);
+        // 将指定ID的配置设为默认
+        ApiConfig config = getById(id);
+        if (config == null) {
+            return false;
+        }
+        
+        config.setIsDefault(true);
+        config.setUpdateTime(LocalDateTime.now());
+        return updateById(config);
     }
 }

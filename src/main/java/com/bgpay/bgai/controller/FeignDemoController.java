@@ -190,30 +190,29 @@ public class FeignDemoController {
      * 测试错误处理 - 改用对象返回
      */
     @GetMapping("/error-test")
-    public Object testError() {
+    public ResponseEntity<?> testError() {
         log.info("Testing error scenario with non-reactive approach");
         
         try {
-            // 这个调用应该会返回错误
+            // 这个调用应该会返回错误或降级响应
             Map<String, Object> result = userServiceClient.testError();
             
             // 检查结果中是否包含降级标记
             if (result != null && result.containsKey("_fallback")) {
                 log.info("成功触发降级逻辑: {}", result);
-                Map<String, Object> response = new HashMap<>();
-                response.put("status", "fallback_handled");
-                response.put("fallbackResponse", result);
-                response.put("message", "错误测试成功: 触发了降级逻辑");
-                return ResponseEntity.ok(response);
+                return ResponseEntity.ok(result);
             }
             
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             log.error("Error test triggered exception: {}", e.getMessage(), e);
+            
             Map<String, Object> response = new HashMap<>();
             response.put("status", "error_handled");
-            response.put("message", e.getMessage());
+            response.put("message", "处理过程中发生异常: " + e.getMessage());
             response.put("errorType", e.getClass().getName());
+            response.put("timestamp", System.currentTimeMillis());
+            
             return ResponseEntity.ok(response);
         }
     }
