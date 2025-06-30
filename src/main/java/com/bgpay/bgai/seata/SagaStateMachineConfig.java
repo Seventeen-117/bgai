@@ -112,6 +112,9 @@ public class SagaStateMachineConfig implements ApplicationRunner {
             
             stateMachineConfig.setEnableAsync(true);
             
+            // 注意：状态机自动注册已在file.conf中禁用，避免重复注册导致的唯一键冲突
+            // saga.state-machine.auto-register = false
+            
             // 创建状态机引擎
             ProcessCtrlStateMachineEngine stateMachineEngine = new ProcessCtrlStateMachineEngine();
             stateMachineEngine.setStateMachineConfig(stateMachineConfig);
@@ -141,6 +144,7 @@ public class SagaStateMachineConfig implements ApplicationRunner {
         
         logger.info("Saga解析器状态: {}", customSagaJsonParser.getJsonParserType());
         logger.info(customSagaJsonParser.getParsingResultSummary());
+        logger.info("状态机自动注册已禁用(saga.state-machine.auto-register=false)，避免重复注册错误");
         logger.info("=============================================================");
     }
 } 

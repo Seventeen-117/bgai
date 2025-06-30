@@ -27,8 +27,23 @@ public class UsageController {
     private final UsageRecordMapper recordMapper;
 
     @PostMapping("/batch")
-    public ResponseEntity<Void> processBatch(@Valid @RequestBody BatchRequest request,String userId) {
-        billingService.processBatch(request.getRecords(),userId);
+    public ResponseEntity<Void> processBatch(
+            @Valid @RequestBody BatchRequest request,
+            @RequestParam(required = false) String userId,
+            @RequestHeader(value = "X-User-Id", required = false) String headerUserId) {
+        
+        // 如果请求参数中没有提供userId，则尝试从请求头中获取
+        String effectiveUserId = userId;
+        if (effectiveUserId == null || effectiveUserId.isEmpty()) {
+            effectiveUserId = headerUserId;
+        }
+        
+        // 如果两者都为空，使用默认值
+        if (effectiveUserId == null || effectiveUserId.isEmpty()) {
+            effectiveUserId = "anonymous";
+        }
+        
+        billingService.processBatch(request.getRecords(), effectiveUserId);
         return ResponseEntity.accepted().build();
     }
 

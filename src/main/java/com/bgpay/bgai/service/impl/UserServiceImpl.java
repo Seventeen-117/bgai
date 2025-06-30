@@ -36,6 +36,10 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.Set;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
+import org.springframework.data.redis.RedisConnectionFailureException;
+import org.springframework.dao.QueryTimeoutException;
 
 /**
  * 用户服务实现类
@@ -132,7 +136,22 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 使用动态端口构建URL，先检查是否在环境变量中已有完整配置
         redirectUri = environment.getProperty("sso.redirect-uri");
         if (redirectUri == null || redirectUri.contains("${")) {
+            // 创建新的redirectUri，确保使用当前实际端口
             redirectUri = protocol + "://" + hostname + ":" + serverPort + "/api/auth/callback";
+            log.info("根据实际端口生成redirectUri: {}", redirectUri);
+        } else if (redirectUri.contains("localhost:") && !redirectUri.contains(":" + serverPort)) {
+            // 如果redirectUri中包含了端口，但不是当前实际端口，则进行替换
+            String[] parts = redirectUri.split(":");
+            if (parts.length >= 3) {
+                String portPart = parts[2];
+                int slashIndex = portPart.indexOf("/");
+                if (slashIndex > 0) {
+                    String oldPort = portPart.substring(0, slashIndex);
+                    String newRedirectUri = redirectUri.replace(":" + oldPort, ":" + serverPort);
+                    log.info("更新redirectUri端口: {} → {}", redirectUri, newRedirectUri);
+                    redirectUri = newRedirectUri;
+                }
+            }
         }
         
         tokenUrl = environment.getProperty("sso.token-url");
@@ -150,7 +169,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             logoutUrl = protocol + "://" + hostname + ":" + serverPort + "/oauth2/logout";
         }
         
-        log.info("更新SSO URL配置: redirectUri={}, 实际端口={}", redirectUri, serverPort);
+        log.info("SSO URL配置已更新: redirectUri={}, 系统实际运行端口={}", redirectUri, serverPort);
     }
     
     private void cleanupOldRedisData() {
@@ -464,12 +483,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     /**
-     * 验证令牌有效性
+     * 验证访问令牌
      *
      * @param accessToken 访问令牌
-     * @return 用户令牌，如果无效返回null
+     * @return 用户令牌对象，如果令牌无效则返回null
      */
     @Override
+    @Retryable(
+        value = {QueryTimeoutException.class, RedisConnectionFailureException.class},
+        maxAttemptsExpression = "${spring.retry.max-attempts:3}",
+        backoff = @Backoff(
+            delayExpression = "${spring.retry.initial-interval:1000}",
+            multiplierExpression = "${spring.retry.multiplier:2.0}",
+            maxDelayExpression = "${spring.retry.max-interval:10000}"
+        )
+    )
     public UserToken validateToken(String accessToken) {
         if (accessToken == null || accessToken.isEmpty()) {
             log.warn("传入的accessToken为空");
@@ -484,59 +512,70 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             return null;
         }
 
-        // 1. 首先检查缓存中是否存在令牌
-        String tokenKey = TOKEN_KEY_PREFIX + accessToken;
-        UserToken cachedToken = userTokenRedisTemplate.opsForValue().get(tokenKey);
-
-        if (cachedToken != null) {
-            // 检查令牌是否过期
-            if (cachedToken.getTokenExpireTime().isAfter(LocalDateTime.now())) {
-                return cachedToken;
-            } else {
-                // 令牌已过期，从缓存中删除
-                userTokenRedisTemplate.delete(tokenKey);
-                return null;
+        try {
+            // 1. 首先检查缓存中是否存在令牌
+            String tokenKey = TOKEN_KEY_PREFIX + accessToken;
+            UserToken cachedToken = userTokenRedisTemplate.opsForValue().get(tokenKey);
+    
+            if (cachedToken != null) {
+                // 检查令牌是否过期
+                if (cachedToken.getTokenExpireTime().isAfter(LocalDateTime.now())) {
+                    return cachedToken;
+                } else {
+                    // 令牌已过期，从缓存中删除
+                    userTokenRedisTemplate.delete(tokenKey);
+                    return null;
+                }
             }
-        }
-
-        // 2. 缓存中不存在，从数据库中查询
-        User user = userMapper.findByAccessToken(accessToken);
-        if (user != null) {
-            // 检查令牌是否过期
-            if (user.getTokenExpireTime().isAfter(LocalDateTime.now())) {
-                // 创建令牌对象
-                UserToken userToken = UserToken.builder()
-                        .userId(user.getUserId())
-                        .username(user.getUsername())
-                        .email(user.getEmail())
+    
+            // 2. 缓存中不存在，从数据库中查询
+            User user = userMapper.findByAccessToken(accessToken);
+            if (user != null) {
+                // 检查令牌是否过期
+                if (user.getTokenExpireTime().isAfter(LocalDateTime.now())) {
+                    // 创建令牌对象
+                    UserToken userToken = UserToken.builder()
+                            .userId(user.getUserId())
+                            .username(user.getUsername())
+                            .email(user.getEmail())
+                            .accessToken(accessToken)
+                            .tokenExpireTime(user.getTokenExpireTime())
+                            .loginTime(user.getLastLoginTime())
+                            .valid(true)
+                            .build();
+    
+                    // 缓存令牌
+                    userTokenRedisTemplate.opsForValue().set(tokenKey, userToken, TOKEN_CACHE_DAYS, TimeUnit.DAYS);
+                    return userToken;
+                }
+            }
+    
+            // 3. 对于SimpleAuthController生成的测试令牌，仅开发环境允许
+            String[] activeProfiles = environment.getActiveProfiles();
+            boolean isDev = java.util.Arrays.asList(activeProfiles).contains("dev");
+            if (isDev && accessToken.length() == 36) { // UUID长度通常为36字符
+                log.info("为测试令牌创建临时用户: {} (仅dev环境)", accessToken);
+                UserToken testToken = UserToken.builder()
+                        .userId("test-user-" + accessToken.substring(0, 8))
+                        .username("测试用户")
+                        .email("test@example.com")
                         .accessToken(accessToken)
-                        .tokenExpireTime(user.getTokenExpireTime())
-                        .loginTime(user.getLastLoginTime())
+                        .tokenExpireTime(LocalDateTime.now().plusDays(1))
+                        .loginTime(LocalDateTime.now())
                         .valid(true)
                         .build();
-
-                // 缓存令牌
-                userTokenRedisTemplate.opsForValue().set(tokenKey, userToken, TOKEN_CACHE_DAYS, TimeUnit.DAYS);
-                return userToken;
+                userTokenRedisTemplate.opsForValue().set(TOKEN_KEY_PREFIX + accessToken, testToken, TOKEN_CACHE_DAYS, TimeUnit.DAYS);
+                return testToken;
             }
-        }
-
-        // 3. 对于SimpleAuthController生成的测试令牌，仅开发环境允许
-        String[] activeProfiles = environment.getActiveProfiles();
-        boolean isDev = java.util.Arrays.asList(activeProfiles).contains("dev");
-        if (isDev && accessToken.length() == 36) { // UUID长度通常为36字符
-            log.info("为测试令牌创建临时用户: {} (仅dev环境)", accessToken);
-            UserToken testToken = UserToken.builder()
-                    .userId("test-user-" + accessToken.substring(0, 8))
-                    .username("测试用户")
-                    .email("test@example.com")
-                    .accessToken(accessToken)
-                    .tokenExpireTime(LocalDateTime.now().plusDays(1))
-                    .loginTime(LocalDateTime.now())
-                    .valid(true)
-                    .build();
-            userTokenRedisTemplate.opsForValue().set(TOKEN_KEY_PREFIX + accessToken, testToken, TOKEN_CACHE_DAYS, TimeUnit.DAYS);
-            return testToken;
+        } catch (QueryTimeoutException e) {
+            log.warn("Redis查询超时，尝试重试: {}", e.getMessage());
+            throw e;  // 重抛异常以触发重试
+        } catch (RedisConnectionFailureException e) {
+            log.warn("Redis连接失败，尝试重试: {}", e.getMessage());
+            throw e;  // 重抛异常以触发重试
+        } catch (Exception e) {
+            log.error("验证令牌时发生未预期的错误: {}", e.getMessage(), e);
+            // 其他异常不重试
         }
 
         return null;

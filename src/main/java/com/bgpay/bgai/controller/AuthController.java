@@ -74,7 +74,7 @@ public class AuthController implements ApplicationListener<WebServerInitializedE
             authorizeUrl = environment.getProperty("sso.authorize-url", "https://sso.bgpay.com/oauth2/authorize");
             
             // 暂时使用配置中的端口值，稍后在服务器初始化事件中更新为实际端口
-            int configPort = Integer.parseInt(environment.getProperty("server.port", "8080"));
+            int configPort = Integer.parseInt(environment.getProperty("server.port", "8688"));
             this.serverPort = configPort;
             
             log.info("初始化认证控制器: clientId={}, 配置的端口={}", clientId, configPort);
@@ -86,7 +86,7 @@ public class AuthController implements ApplicationListener<WebServerInitializedE
             // 确保设置默认值
             if (clientId == null) clientId = "bgai-client-id";
             if (authorizeUrl == null) authorizeUrl = "https://sso.bgpay.com/oauth2/authorize";
-            if (serverPort == 0) serverPort = 8080;
+            if (serverPort == 0) serverPort = 8688;
             updateUrlConfigurations();
         }
     }
@@ -95,11 +95,32 @@ public class AuthController implements ApplicationListener<WebServerInitializedE
      * 基于当前的serverPort更新所有URL配置
      */
     private void updateUrlConfigurations() {
-        // 使用动态端口构建URL
-        redirectUri = environment.getProperty("sso.redirect-uri", 
-                "http://localhost:" + serverPort + "/api/auth/callback");
+        String hostname = environment.getProperty("sso.hostname", "localhost");
+        String protocol = environment.getProperty("sso.protocol", "http");
+
+        // 获取配置的redirectUri
+        redirectUri = environment.getProperty("sso.redirect-uri");
         
-        log.info("更新认证控制器URL配置: redirectUri={}, 实际端口={}", redirectUri, serverPort);
+        if (redirectUri == null || redirectUri.contains("${")) {
+            // 如果没有配置或包含占位符，则使用实际端口构建
+            redirectUri = protocol + "://" + hostname + ":" + serverPort + "/api/auth/callback";
+            log.info("根据实际端口生成redirectUri: {}", redirectUri);
+        } else if (redirectUri.contains("localhost:") && !redirectUri.contains(":" + serverPort)) {
+            // 如果redirectUri中包含了端口，但不是当前实际端口，则进行替换
+            String[] parts = redirectUri.split(":");
+            if (parts.length >= 3) {
+                String portPart = parts[2];
+                int slashIndex = portPart.indexOf("/");
+                if (slashIndex > 0) {
+                    String oldPort = portPart.substring(0, slashIndex);
+                    String newRedirectUri = redirectUri.replace(":" + oldPort, ":" + serverPort);
+                    log.info("更新认证控制器redirectUri端口: {} → {}", redirectUri, newRedirectUri);
+                    redirectUri = newRedirectUri;
+                }
+            }
+        }
+        
+        log.info("认证控制器URL配置已更新: redirectUri={}, 系统实际运行端口={}", redirectUri, serverPort);
     }
 
     /**

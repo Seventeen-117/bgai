@@ -9,15 +9,112 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import io.lettuce.core.ClientOptions;
+import io.lettuce.core.SocketOptions;
+import io.lettuce.core.TimeoutOptions;
+import io.lettuce.core.resource.ClientResources;
+import io.lettuce.core.resource.DefaultClientResources;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.data.redis.LettuceClientConfigurationBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+import org.springframework.data.redis.connection.lettuce.LettucePoolingClientConfiguration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
+import org.springframework.retry.support.RetryTemplate;
+
+import java.time.Duration;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Configuration
+@Slf4j
 public class RedisConfig {
+    
+    @Value("${spring.data.redis.host}")
+    private String redisHost;
+    
+    @Value("${spring.data.redis.port}")
+    private int redisPort;
+    
+    @Value("${spring.data.redis.password}")
+    private String redisPassword;
+    
+    @Value("${spring.data.redis.database}")
+    private int redisDatabase;
+    
+    @Value("${spring.data.redis.timeout}")
+    private long redisTimeout;
+    
+    @Value("${spring.data.redis.connect-timeout}")
+    private long connectTimeout;
+
+    /**
+     * 自定义Lettuce客户端资源
+     */
+    @Bean(destroyMethod = "shutdown")
+    public ClientResources clientResources() {
+        return DefaultClientResources.builder()
+                .ioThreadPoolSize(4)
+                .computationThreadPoolSize(4)
+                .build();
+    }
+
+    /**
+     * 自定义LettuceConnectionFactory，增加错误处理和重试机制
+     */
+    @Bean
+    public LettuceConnectionFactory lettuceConnectionFactory(ClientResources clientResources) {
+        RedisStandaloneConfiguration redisConfig = new RedisStandaloneConfiguration();
+        redisConfig.setHostName(redisHost);
+        redisConfig.setPort(redisPort);
+        redisConfig.setDatabase(redisDatabase);
+        
+        if (redisPassword != null && !redisPassword.isEmpty()) {
+            redisConfig.setPassword(redisPassword);
+        }
+        
+        SocketOptions socketOptions = SocketOptions.builder()
+                .connectTimeout(Duration.ofMillis(connectTimeout))
+                .build();
+        
+        ClientOptions clientOptions = ClientOptions.builder()
+                .socketOptions(socketOptions)
+                .timeoutOptions(TimeoutOptions.enabled(Duration.ofMillis(redisTimeout)))
+                .disconnectedBehavior(ClientOptions.DisconnectedBehavior.REJECT_COMMANDS)
+                .autoReconnect(true)
+                .build();
+        
+        LettuceClientConfiguration clientConfig = LettucePoolingClientConfiguration.builder()
+                .clientOptions(clientOptions)
+                .clientResources(clientResources)
+                .commandTimeout(Duration.ofMillis(redisTimeout))
+                .shutdownTimeout(Duration.ofMillis(5000))
+                .build();
+        
+        return new LettuceConnectionFactory(redisConfig, clientConfig);
+    }
+    
+    /**
+     * 重试模板配置
+     */
+    @Bean
+    public RetryTemplate redisRetryTemplate() {
+        RetryTemplate retryTemplate = RetryTemplate.builder()
+                .maxAttempts(3)
+                .fixedBackoff(1000)
+                .retryOn(org.springframework.data.redis.RedisConnectionFailureException.class)
+                .retryOn(org.springframework.dao.QueryTimeoutException.class)
+                .build();
+        return retryTemplate;
+    }
 
     @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {

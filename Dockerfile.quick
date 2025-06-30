@@ -102,6 +102,10 @@ RUN ./mvnw package -DskipTests -Dmaven.test.skip=true \
 COPY src/main/resources/registry.conf /app/registry.conf
 COPY src/main/resources/file.conf /app/file.conf
 
+# 复制启动脚本
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
 #######################
 # Runtime stage - 优化运行阶段
 #######################
@@ -126,6 +130,7 @@ RUN groupadd -r bgai && useradd -r -g bgai bgai && \
 # 复制配置文件
 COPY --from=build /app/registry.conf /app/registry.conf
 COPY --from=build /app/file.conf /app/file.conf
+COPY --from=build /app/entrypoint.sh /app/entrypoint.sh
 
 # 使用非root用户运行
 USER bgai
@@ -138,14 +143,19 @@ ENV SPRING_PROFILES_ACTIVE=prod \
     TZ=Asia/Shanghai \
     ROCKETMQ_HOME=/app \
     rocketmq.client.logRoot=/app/logs \
-    JAVA_OPTS="-Xms512m -Xmx1g -XX:+UseG1GC -XX:+UseContainerSupport -XX:MaxRAMPercentage=80"
+    JAVA_OPTS="-Xms512m -Xmx1g -XX:+UseG1GC -XX:+UseContainerSupport -XX:MaxRAMPercentage=80" \
+    SEATA_SAGA_STATE_MACHINE_AUTO_REGISTER=false
+
+# 可选：完全禁用Seata
+# ENV SEATA_ENABLED=false
+# ENV SAGA_ENABLED=false
 
 # 健康检查
 HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
-  CMD wget -q --spider http://localhost:8080/actuator/health || exit 1
+  CMD wget -q --spider http://localhost:8688/actuator/health || exit 1
 
-# 启动命令 - 直接使用数组形式避免shell解析
-ENTRYPOINT ["java", "-Drocketmq.client.logRoot=/app/logs", "-Drocketmq.log.dir=/app/logs", "-jar", "app.jar"]
+# 启动命令 - 使用自定义启动脚本
+ENTRYPOINT ["/app/entrypoint.sh"]
 
 # 使用说明:
 # 快速构建命令: docker build -f Dockerfile.quick -t bgai:latest .
