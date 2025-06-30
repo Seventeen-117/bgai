@@ -72,7 +72,6 @@ spring:
         enabled: true
       httpclient:
         enabled: false
-
 # SpringDoc配置
 springdoc:
   swagger-ui:

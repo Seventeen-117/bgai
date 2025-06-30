@@ -18,11 +18,59 @@ import java.util.stream.Collectors;
 @Slf4j
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<CustomErrorResponse> handleGenericException(Exception ex) {
+        log.error("未捕获的异常", ex);
+        CustomErrorResponse response = new CustomErrorResponse(
+            HttpStatus.INTERNAL_SERVER_ERROR,
+            "INTERNAL_SERVER_ERROR",
+            ex.getMessage()
+        );
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    
+    @ExceptionHandler(ApiKeyAuthenticationException.class)
+    public ResponseEntity<CustomErrorResponse> handleApiKeyAuthenticationException(ApiKeyAuthenticationException ex) {
+        log.warn("API密钥认证失败: {}", ex.getMessage());
+        CustomErrorResponse response = new CustomErrorResponse(
+            HttpStatus.UNAUTHORIZED,
+            "UNAUTHORIZED",
+            ex.getMessage()
+        );
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
+    
     @ExceptionHandler(BillingException.class)
-    public ResponseEntity<CustomErrorResponse> handleBillingError(BillingException ex) {
-        log.error("Billing error occurred", ex);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new CustomErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "BILLING_ERROR", ex.getMessage()));
+    public ResponseEntity<CustomErrorResponse> handleBillingException(BillingException ex) {
+        log.error("计费错误: {}", ex.getMessage());
+        CustomErrorResponse response = new CustomErrorResponse(
+            HttpStatus.PAYMENT_REQUIRED,
+            "PAYMENT_REQUIRED",
+            ex.getMessage()
+        );
+        return new ResponseEntity<>(response, HttpStatus.PAYMENT_REQUIRED);
+    }
+    
+    @ExceptionHandler(MQException.class)
+    public ResponseEntity<CustomErrorResponse> handleMQException(MQException ex) {
+        log.error("消息队列错误: {}", ex.getMessage(), ex);
+        CustomErrorResponse response = new CustomErrorResponse(
+            HttpStatus.SERVICE_UNAVAILABLE,
+            "SERVICE_UNAVAILABLE",
+            ex.getMessage()
+        );
+        return new ResponseEntity<>(response, HttpStatus.SERVICE_UNAVAILABLE);
+    }
+    
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<CustomErrorResponse> handleIllegalArgumentException(IllegalArgumentException ex) {
+        log.warn("请求参数无效: {}", ex.getMessage());
+        CustomErrorResponse response = new CustomErrorResponse(
+            HttpStatus.BAD_REQUEST,
+            "BAD_REQUEST",
+            ex.getMessage()
+        );
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(AccessDeniedException.class)

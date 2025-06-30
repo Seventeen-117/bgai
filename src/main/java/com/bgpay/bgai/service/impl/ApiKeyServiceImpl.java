@@ -32,8 +32,11 @@ public class ApiKeyServiceImpl implements ApiKeyService {
                 .eq("status", 1)
         );
         if (client == null) {
+            log.error("无效或未启用的 clientId: {}", clientId);
             throw new IllegalArgumentException("无效或未启用的 clientId");
         }
+        log.debug("找到客户端: {}", client.getClientName());
+        
         // 生成明文API Key
         String plainApiKey = UUID.randomUUID().toString().replace("-", "");
         // 用SHA-256哈希后存库
@@ -42,7 +45,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
         apiKey.setApiKey(hashedApiKey);
         apiKey.setClientId(clientId);
         apiKey.setClientName(client.getClientName());
-        apiKey.setDescription(description);
+        apiKey.setDescription(description != null ? description : "");
         apiKey.setCreatedAt(LocalDateTime.now());
         apiKey.setExpiresAt(LocalDateTime.now().plusYears(1));
         apiKey.setActive(1);

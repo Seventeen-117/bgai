@@ -11,10 +11,15 @@ import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.http.client.ClientHttpRequestExecution;
 
 import lombok.extern.slf4j.Slf4j;
 import java.net.URI;
 import java.util.Collections;
+import java.time.Duration;
+import java.io.IOException;
 
 /**
  * RestTemplate配置类，支持服务发现和动态路由
@@ -27,16 +32,23 @@ public class RestTemplateConfig {
     private LoadBalancerClient loadBalancerClient;
     
     /**
-     * 默认的RestTemplate，用于普通HTTP请求
+     * 创建RestTemplate Bean
      */
     @Bean
     @Primary
     public RestTemplate restTemplate() {
-        RestTemplate restTemplate = new RestTemplate(createRequestFactory());
+        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
+        factory.setConnectTimeout(10000); // 10 seconds
+        factory.setReadTimeout(30000);    // 30 seconds
+        
+        RestTemplate restTemplate = new RestTemplate(factory);
+        
         // 添加日志拦截器
         restTemplate.setInterceptors(
             Collections.singletonList(loggingInterceptor())
         );
+        
+        log.info("Creating RestTemplate bean using SimpleClientHttpRequestFactory");
         return restTemplate;
     }
     
@@ -69,12 +81,26 @@ public class RestTemplateConfig {
     }
     
     /**
-     * 创建日志拦截器，记录请求和响应内容
+     * 日志拦截器，用于记录请求和响应
      */
     private ClientHttpRequestInterceptor loggingInterceptor() {
-        return (request, body, execution) -> {
-            log.debug("RestTemplate Request: {} {}", request.getMethod(), request.getURI());
-            return execution.execute(request, body);
+        return new ClientHttpRequestInterceptor() {
+            @Override
+            public ClientHttpResponse intercept(HttpRequest request, byte[] body, 
+                                               ClientHttpRequestExecution execution) throws IOException {
+                // 请求前记录
+                log.debug("发送请求: {} {}", request.getMethod(), request.getURI());
+                
+                long startTime = System.currentTimeMillis();
+                ClientHttpResponse response = execution.execute(request, body);
+                long duration = System.currentTimeMillis() - startTime;
+                
+                // 响应后记录
+                log.debug("收到响应: {} {} - 耗时: {}ms", request.getMethod(), 
+                          request.getURI(), duration);
+                
+                return response;
+            }
         };
     }
     

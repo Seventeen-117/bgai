@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * 分布式事务日志服务实现
- * 使用独立事务记录分布式事务信息
+ * 使用独立事务记录分布式事务信息，与Seata分离
  */
 @Slf4j
 @Service
@@ -33,13 +33,11 @@ public class TransactionLogServiceImpl implements TransactionLogService {
     public Long recordTransactionBegin(String xid, String transactionName, String transactionMode,
                                       String requestPath, String sourceIp, String userId) {
         try {
-            log.info("Transaction begin - XID: {}, Name: {}, Mode: {}, Path: {}, IP: {}, User: {}",
+            log.info("记录操作开始 - ID: {}, 名称: {}, 模式: {}, 路径: {}, IP: {}, 用户: {}",
                     xid, transactionName, transactionMode, requestPath, sourceIp, userId);
             Map<String, Object> extraDataMap = new HashMap<>();
             extraDataMap.put("startTime", System.currentTimeMillis());
             extraDataMap.put("result", "active");
-            extraDataMap.put("branches", new ArrayList<Map<String, Object>>());
-            extraDataMap.put("resourceIds", new HashSet<String>());  // 记录涉及的资源
             
             String extraData = new ObjectMapper().writeValueAsString(extraDataMap);
             
@@ -59,7 +57,7 @@ public class TransactionLogServiceImpl implements TransactionLogService {
             transactionLogMapper.insert(transactionLog);
             return transactionLog.getId();
         } catch (Exception e) {
-            log.error("Failed to record transaction begin: {}", e.getMessage(), e);
+            log.error("记录操作开始失败: {}", e.getMessage(), e);
             return null;
         }
     }
@@ -67,12 +65,12 @@ public class TransactionLogServiceImpl implements TransactionLogService {
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void updateTransactionStatus(String xid, String status, String extraData) {
-        log.debug("更新分布式事务状态: XID={}, 状态={}", xid, status);
+        log.debug("更新操作状态: ID={}, 状态={}", xid, status);
         
         try {
             TransactionLog txLog = findByXid(xid);
             if (txLog == null) {
-                log.warn("未找到事务记录: XID={}", xid);
+                log.warn("未找到操作记录: ID={}", xid);
                 return;
             }
             
@@ -82,34 +80,34 @@ public class TransactionLogServiceImpl implements TransactionLogService {
                 .setUpdateTime(LocalDateTime.now());
             
             transactionLogMapper.updateById(txLog);
-            log.info("更新事务状态成功: XID={}, 状态={}", xid, status);
+            log.info("更新操作状态成功: ID={}, 状态={}", xid, status);
         } catch (Exception e) {
-            log.error("更新事务状态失败: XID={}", xid, e);
+            log.error("更新操作状态失败: ID={}", xid, e);
         }
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void recordTransactionEnd(String xid, String status, String extraData) {
-        log.info("记录分布式事务结束: XID={}, 状态={}", xid, status);
+        log.info("记录操作结束: ID={}, 状态={}", xid, status);
         
         try {
             TransactionLog txLog = findByXid(xid);
             if (txLog == null) {
-                log.warn("未找到事务记录: XID={}", xid);
+                log.warn("未找到操作记录: ID={}", xid);
                 return;
             }
             
-            // 更新事务结束状态
+            // 更新操作结束状态
             txLog.setStatus(status)
                 .setExtraData(extraData)
                 .setEndTime(LocalDateTime.now())
                 .setUpdateTime(LocalDateTime.now());
             
             transactionLogMapper.updateById(txLog);
-            log.info("记录事务结束成功: XID={}, 状态={}", xid, status);
+            log.info("记录操作结束成功: ID={}, 状态={}", xid, status);
         } catch (Exception e) {
-            log.error("记录事务结束失败: XID={}", e.getMessage(), e);
+            log.error("记录操作结束失败: ID={}", e.getMessage(), e);
         }
     }
 

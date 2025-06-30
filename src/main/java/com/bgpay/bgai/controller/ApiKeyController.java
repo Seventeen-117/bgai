@@ -50,6 +50,10 @@ public class ApiKeyController {
             return ResponseEntity.status(401).body(Map.of("error", "Invalid or expired token"));
         }
         String clientId = request.get("clientId");
+        // 默认使用default-client作为clientId如果没有提供
+        if (clientId == null || clientId.isEmpty()) {
+            clientId = "default-client";
+        }
         String clientName = request.get("clientName");
         String description = request.get("description");
         ApiKeyInfo apiKey = apiKeyService.generateApiKey(clientId, clientName, description);

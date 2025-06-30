@@ -1,6 +1,8 @@
 package com.bgpay.bgai.controller;
 
+import com.bgpay.bgai.entity.ApiClient;
 import com.bgpay.bgai.entity.ApiConfig;
+import com.bgpay.bgai.mapper.ApiClientMapper;
 import com.bgpay.bgai.service.ApiConfigService;
 import com.bgpay.bgai.service.DynamicRouteService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,6 +22,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Map;
+import java.time.LocalDateTime;
 
 /**
  * 系统配置控制器
@@ -34,6 +37,7 @@ public class SystemConfigController {
 
     private final ApiConfigService apiConfigService;
     private final DynamicRouteService dynamicRouteService;
+    private final ApiClientMapper apiClientMapper;
 
     /**
      * 获取所有API配置
@@ -188,5 +192,42 @@ public class SystemConfigController {
                 "availableProcessors", Runtime.getRuntime().availableProcessors()
         );
         return ResponseEntity.ok(status);
+    }
+
+    @Operation(summary = "初始化API客户端", description = "在数据库中初始化默认的API客户端")
+    @PostMapping("/init-api-client")
+    public ResponseEntity<?> initApiClient() {
+        try {
+            // 检查是否已存在默认客户端
+            ApiClient existingClient = apiClientMapper.selectOne(
+                new com.baomidou.mybatisplus.core.conditions.query.QueryWrapper<ApiClient>()
+                    .eq("client_id", "default-client")
+            );
+
+            if (existingClient != null) {
+                log.info("默认API客户端已存在，无需初始化");
+                return ResponseEntity.ok(Map.of("message", "默认API客户端已存在", "clientId", existingClient.getClientId()));
+            }
+
+            // 创建默认客户端
+            ApiClient defaultClient = new ApiClient();
+            defaultClient.setClientId("default-client");
+            defaultClient.setClientName("Default Client");
+            defaultClient.setDescription("Default API client for system usage");
+            defaultClient.setStatus(1);
+            defaultClient.setCreateTime(LocalDateTime.now());
+            defaultClient.setUpdateTime(LocalDateTime.now());
+            
+            apiClientMapper.insert(defaultClient);
+            log.info("成功初始化默认API客户端: {}", defaultClient.getClientId());
+            
+            return ResponseEntity.ok(Map.of(
+                "message", "成功初始化默认API客户端", 
+                "clientId", defaultClient.getClientId()
+            ));
+        } catch (Exception e) {
+            log.error("初始化API客户端失败", e);
+            return ResponseEntity.internalServerError().body(Map.of("error", e.getMessage()));
+        }
     }
 } 

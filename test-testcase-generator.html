@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试用例生成工具</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        select, input, textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 4px;
+            overflow: auto;
+        }
+        .response {
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>测试用例生成工具</h1>
+    
+    <div class="form-group">
+        <label for="testType">测试类型</label>
+        <select id="testType">
+            <option value="api">API接口测试</option>
+            <option value="functional">功能测试</option>
+            <option value="performance">性能测试</option>
+            <option value="security">安全测试</option>
+            <option value="compatibility">兼容性测试</option>
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="format">输出格式</label>
+        <select id="format">
+            <option value="markdown">Markdown</option>
+            <option value="excel">Excel</option>
+            <option value="csv">CSV</option>
+            <option value="postman">Postman Collection</option>
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="outputDir">输出目录（可选）</label>
+        <input type="text" id="outputDir" placeholder="默认为 test-cases">
+    </div>
+    
+    <div class="form-group">
+        <label for="parameters">自定义参数（JSON格式，可选）</label>
+        <textarea id="parameters" rows="5" placeholder='{"apiName": "用户登录", "apiUrl": "/api/login"}'></textarea>
+    </div>
+    
+    <button onclick="generateTestCase()">生成测试用例</button>
+    
+    <div class="response" id="response">
+        <h3>响应结果</h3>
+        <pre id="responseContent"></pre>
+    </div>
+    
+    <script>
+        async function generateTestCase() {
+            const testType = document.getElementById('testType').value;
+            const format = document.getElementById('format').value;
+            const outputDir = document.getElementById('outputDir').value;
+            let parameters = {};
+            
+            try {
+                const parametersText = document.getElementById('parameters').value;
+                if (parametersText.trim() !== '') {
+                    parameters = JSON.parse(parametersText);
+                }
+            } catch (e) {
+                alert('自定义参数JSON格式错误: ' + e.message);
+                return;
+            }
+            
+            const requestData = {
+                testType: testType,
+                format: format,
+                outputDir: outputDir || null,
+                parameters: parameters
+            };
+            
+            try {
+                const response = await fetch('/api/chatGatWay-interna', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestData)
+                });
+                
+                const result = await response.json();
+                
+                document.getElementById('responseContent').textContent = JSON.stringify(result, null, 2);
+                document.getElementById('response').style.display = 'block';
+                
+                if (response.ok) {
+                    alert('测试用例生成成功! 文件路径: ' + result.filePath);
+                } else {
+                    alert('生成失败: ' + (result.error || '未知错误'));
+                }
+            } catch (error) {
+                document.getElementById('responseContent').textContent = error.toString();
+                document.getElementById('response').style.display = 'block';
+                alert('请求失败: ' + error.message);
+            }
+        }
+    </script>
+</body>
+</html> 

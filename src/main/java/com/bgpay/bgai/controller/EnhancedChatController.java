@@ -59,58 +59,23 @@ public class EnhancedChatController {
             @RequestParam(value = "modelName", required = false) String modelName,
             @RequestParam(value = "multiTurn", defaultValue = "false") boolean multiTurn,
             ServerWebExchange exchange) {
+        
+        log.info("Received request to /Api/chat - question length={}, modelName='{}', multiTurn={}", 
+                question != null ? question.length() : 0, modelName, multiTurn);
 
-        log.info("Received request to /Api/chat - question length: {}, multiTurn: {}, modelName: '{}', apiUrl: '{}', apiKey: '{}'", 
-                question.length(), multiTurn, modelName, apiUrl, apiKey);
-        
-        // 设置当前请求上下文
-        ReactiveRequestContextHolder.setExchange(exchange);
-        
-        // 记录请求参数和headers以便调试
-        log.info("Request headers: {}", exchange.getRequest().getHeaders());
-        log.info("Request query params: {}", exchange.getRequest().getQueryParams());
-            
-        // 从请求头中获取用户ID
+        // 获取用户ID
         String userId = getUserIdFromExchange(exchange);
-        if (userId == null) {
-            return Mono.just(errorResponse(401, "未提供用户ID"));
+        
+        // 存储当前请求上下文到ThreadLocal
+        ReactiveRequestContextHolder.setExchange(exchange);
+                
+        try {
+            return processRequestWithFormData(
+                    fileMono, question, apiUrl, apiKey, modelName, multiTurn, userId);
+        } finally {
+            // 确保清理ThreadLocal，避免内存泄漏
+            ReactiveRequestContextHolder.clearExchange();
         }
-
-        // 获取表单数据以确保能获取到所有参数
-        return exchange.getFormData()
-            .flatMap(formData -> {
-                // 尝试从表单数据中获取modelName（如果上面的@RequestParam没有成功获取）
-                if (modelName == null && formData.containsKey("modelName")) {
-                    String formModelName = formData.getFirst("modelName");
-                    log.info("Found modelName in form data: '{}'", formModelName);
-                    
-                    // 使用从表单中获取的modelName处理请求
-                    return processRequestWithFormData(
-                        fileMono, 
-                        question, 
-                        formData.getFirst("apiUrl"), 
-                        formData.getFirst("apiKey"), 
-                        formModelName, 
-                        multiTurn, 
-                        userId
-                    );
-                } else {
-                    // 使用通过@RequestParam注解获取的参数处理请求
-                    return processRequestWithFormData(
-                        fileMono, 
-                        question, 
-                        apiUrl, 
-                        apiKey, 
-                        modelName, 
-                        multiTurn, 
-                        userId
-                    );
-                }
-            })
-            .doFinally(signalType -> {
-                // 请求结束时清理上下文
-                ReactiveRequestContextHolder.clearExchange();
-            });
     }
 
     // 提取请求处理逻辑到单独的方法
@@ -123,30 +88,24 @@ public class EnhancedChatController {
             boolean multiTurn, 
             String userId) {
         
-        log.info("Processing request with params: question length={}, modelName='{}', userId='{}'", 
-                question.length(), modelName, userId);
+        String finalUserId = userId != null ? userId : "anonymous";
         
+        // 从ThreadLocal获取当前请求的ServerWebExchange
         ServerWebExchange exchange = ReactiveRequestContextHolder.getExchange();
+        String requestPath = exchange != null ? exchange.getRequest().getURI().getPath() : "/Api/chat";
+        String sourceIp = exchange != null ? getClientIp(exchange) : "127.0.0.1";
         
-        // 确保有有效的userId
-        if (userId == null || userId.isEmpty()) {
-            userId = getUserIdFromExchange(exchange);
-        }
+        log.info("处理请求: 用户={}, 路径={}, IP={}, 模型={}", 
+                finalUserId, requestPath, sourceIp, modelName);
         
-        // 获取请求路径和客户端IP
-        String requestPath = exchange.getRequest().getURI().getPath();
-        String sourceIp = getClientIp(exchange);
-        
-        final String finalUserId = userId; // 用于lambda表达式
-        
-        // 处理文件上传和内容构建
         return fileMono
-                .flatMap(filePart -> processFilePart(filePart))
+                .flatMap(this::processFilePart)
                 .defaultIfEmpty("")
                 .flatMap(fileContent -> {
                     try {
-                        // 验证请求
-                        if (fileContent.isEmpty() && question.isBlank()) {
+                        // 基本参数检查
+                        if ((fileContent == null || fileContent.isEmpty()) && 
+                            (question == null || question.isEmpty())) {
                             return Mono.just(errorResponse(400, "必须提供问题或文件"));
                         }
 
@@ -159,35 +118,25 @@ public class EnhancedChatController {
                         // 构建内容
                         String content = buildContent(fileContent, question, multiTurn);
                         
-                        // 手动开始记录分布式事务 - 生成一个唯一的XID
-                        String xid = "manual-tx-" + UUID.randomUUID().toString();
-                        // 在RootContext中设置XID，使其能被Seata感知
-                        RootContext.bind(xid);
+                        // 使用一个普通的跟踪ID而不是Seata XID
+                        String traceId = "trace-" + UUID.randomUUID().toString();
                         
-                        // 手动生成branch_id (模拟RM行为)
-                        String branchId = "branch-" + UUID.randomUUID().toString().substring(0, 8);
-                        String transactionName = "EnhancedChatController.processRequest";
-                        
-                        // 记录事务开始
-                        log.info("手动记录分布式事务开始: XID={}, 用户={}, 路径={}, IP={}", 
-                               xid, finalUserId, requestPath, sourceIp);
+                        // 记录操作开始
+                        log.info("开始处理请求: TraceID={}, 用户={}, 路径={}, IP={}", 
+                               traceId, finalUserId, requestPath, sourceIp);
                                 
                         Long logId = transactionLogService.recordTransactionBegin(
-                                xid, transactionName, "AT", requestPath, sourceIp, finalUserId);
+                                traceId, "EnhancedChatController.processRequest", "NONE", requestPath, sourceIp, finalUserId);
                         
                         // 在线程本地变量中保存信息，用于后续处理
                         Map<String, Object> txInfo = new HashMap<>();
-                        txInfo.put("xid", xid);
-                        txInfo.put("branchId", branchId);
+                        txInfo.put("traceId", traceId);
                         txInfo.put("logId", logId);
                         txInfo.put("startTime", System.currentTimeMillis());
                         txInfo.put("userId", finalUserId);
                         txInfo.put("requestPath", requestPath);
                         txInfo.put("sourceIp", sourceIp);
                         TX_INFO.set(txInfo);
-                        
-                        // 记录分支注册
-                        transactionLogService.updateTransactionStatus(xid, "BRANCH_REGISTERED", branchId);
 
                         // 处理请求
                         return Mono.fromCallable(() -> {
@@ -201,51 +150,46 @@ public class EnhancedChatController {
                                     multiTurn
                                 );
                                 
-                                // 记录事务成功完成
+                                // 记录操作成功完成
                                 if (TX_INFO.get() != null) {
                                     Map<String, Object> storedTxInfo = TX_INFO.get();
-                                    String storedXid = (String) storedTxInfo.get("xid");
-                                    String storedBranchId = (String) storedTxInfo.get("branchId");
+                                    String storedTraceId = (String) storedTxInfo.get("traceId");
                                     long startTime = (long) storedTxInfo.get("startTime");
                                     long duration = System.currentTimeMillis() - startTime;
 
                                     String extraData = String.format(
-                                        "{\"duration\":%d,\"result\":\"success\",\"branchId\":\"%s\"}",
-                                        duration, storedBranchId);
+                                        "{\"duration\":%d,\"result\":\"success\"}",
+                                        duration);
                                         
-                                    transactionLogService.recordTransactionEnd(storedXid, "COMMITTED", extraData);
+                                    transactionLogService.recordTransactionEnd(storedTraceId, "COMPLETED", extraData);
                                     
-                                    log.info("手动记录分布式事务成功完成: XID={}, branchId={}, 耗时={}ms", 
-                                           storedXid, storedBranchId, duration);
-                                            
+                                    log.info("请求处理成功完成: TraceID={}, 耗时={}ms", 
+                                           storedTraceId, duration);
+                                                
                                     TX_INFO.remove();
                                 }
                                 
                                 return response;
                             } catch (Exception e) {
-                                // 记录事务失败回滚
+                                // 记录操作失败
                                 if (TX_INFO.get() != null) {
                                     Map<String, Object> storedTxInfo = TX_INFO.get();
-                                    String storedXid = (String) storedTxInfo.get("xid");
-                                    String storedBranchId = (String) storedTxInfo.get("branchId");
+                                    String storedTraceId = (String) storedTxInfo.get("traceId");
                                     long startTime = (long) storedTxInfo.get("startTime");
                                     long duration = System.currentTimeMillis() - startTime;
 
                                     String extraData = String.format(
-                                        "{\"duration\":%d,\"result\":\"failure\",\"branchId\":\"%s\",\"error\":\"%s\"}",
-                                        duration, storedBranchId, e.getMessage().replace("\"", "\\\""));
+                                        "{\"duration\":%d,\"result\":\"failure\",\"error\":\"%s\"}",
+                                        duration, e.getMessage().replace("\"", "\\\""));
                                         
-                                    transactionLogService.recordTransactionEnd(storedXid, "ROLLBACKED", extraData);
+                                    transactionLogService.recordTransactionEnd(storedTraceId, "FAILED", extraData);
                                     
-                                    log.warn("手动记录分布式事务回滚: XID={}, branchId={}, 耗时={}ms, 原因={}", 
-                                           storedXid, storedBranchId, duration, e.getMessage());
-                                            
+                                    log.warn("请求处理失败: TraceID={}, 耗时={}ms, 原因={}", 
+                                           storedTraceId, duration, e.getMessage());
+                                                
                                     TX_INFO.remove();
                                 }
                                 throw e;
-                            } finally {
-                                // 清理RootContext
-                                RootContext.unbind();
                             }
                         })
                         .map(ResponseEntity::ok)
