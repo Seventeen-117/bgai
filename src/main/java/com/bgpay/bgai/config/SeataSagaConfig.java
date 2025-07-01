@@ -3,6 +3,7 @@ package com.bgpay.bgai.config;
 import io.seata.saga.engine.config.DbStateMachineConfig;
 import io.seata.spring.boot.autoconfigure.properties.SeataProperties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +31,7 @@ public class SeataSagaConfig {
      */
     @Bean(name = "dbStateMachineConfig")
     @Primary
+    @ConditionalOnMissingBean(name = "dbStateMachineConfig")
     @ConditionalOnProperty(prefix = "saga", name = "enabled", havingValue = "true", matchIfMissing = true)
     public Object customDbStateMachineConfig() {
         // 只是返回一个空对象，用于覆盖原配置

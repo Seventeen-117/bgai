@@ -1,0 +1,28 @@
+{
+  "id": "api-test-route",
+  "predicates": [
+    {
+      "name": "Path",
+      "args": {
+        "pattern": "/api/test/**"
+      }
+    }
+  ],
+  "filters": [
+    {
+      "name": "StripPrefix",
+      "args": {
+        "parts": "1"
+      }
+    },
+    {
+      "name": "AddResponseHeader",
+      "args": {
+        "name": "X-Response-From",
+        "value": "API-Gateway"
+      }
+    }
+  ],
+  "uri": "http://localhost:8688/test",
+  "order": 0
+} 

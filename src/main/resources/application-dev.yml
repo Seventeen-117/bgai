@@ -50,6 +50,10 @@ spring:
         timeout: 5000
         fail-fast: false
     openfeign:
+      okhttp:
+        enabled: true
+      httpclient:
+        enabled: false
       client:
         config:
           default:
@@ -57,7 +61,9 @@ spring:
             readTimeout: 10000
             loggerLevel: full
           user-service:  # 为user-service服务指定配置
-            url: http://localhost:8688  # 直接指定URL，不通过服务发现
+            url: ${bgai.feign.user-service.url}  # 使用配置参数
+          local-user-service:
+            url: ${bgai.feign.local-user-service.url}  # 使用配置参数
       compression:
         request:
           enabled: true
@@ -68,10 +74,30 @@ spring:
         # 确保Feign正确处理降级
         group:
           enabled: true
-      okhttp:
-        enabled: true
+    # Spring Cloud Gateway配置
+    gateway:
       httpclient:
-        enabled: false
+        connect-timeout: 5000
+        response-timeout: 30000
+        pool:
+          max-connections: 200
+      discovery:
+        locator:
+          enabled: true # 开启从注册中心动态创建路由
+          lower-case-service-id: true # 使用小写服务ID
+      # 默认路由超时配置
+      default-filters:
+        - name: RequestRateLimiter
+          args:
+            redis-rate-limiter.replenishRate: 10
+            redis-rate-limiter.burstCapacity: 20
+            key-resolver: "#{@ipKeyResolver}"
+        - name: Retry
+          args:
+            retries: 3
+            statuses: BAD_GATEWAY,SERVICE_UNAVAILABLE
+            methods: GET,POST
+
 # SpringDoc配置
 springdoc:
   swagger-ui:
@@ -87,3 +113,30 @@ springdoc:
   default-produces-media-type: application/json
   paths-to-match:
     - /api/**
+    
+# 自定义配置
+bgai:
+  feign:
+    enabled: false # 禁用所有Feign客户端，避免与网关冲突
+    user-service:
+      url: http://localhost:8688 # Feign客户端调用URL
+    local-user-service:
+      url: http://localhost:8688 # 本地用户服务URL
+    demo:
+      enabled: false # 禁用Feign示例控制器，避免与网关冲突
+    test:
+      enabled: false # 禁用Feign测试控制器，避免与网关冲突
+    config:
+      enabled: true # 启用Feign配置
+  gateway:
+    enabled: true # 启用Gateway功能
+
+# 禁用Actuator Metrics
+management:
+  simple:
+    metrics:
+      export:
+        enabled: false
+  metrics:
+    enable:
+      all: false

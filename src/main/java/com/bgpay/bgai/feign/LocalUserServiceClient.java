@@ -3,10 +3,10 @@ package com.bgpay.bgai.feign;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-import com.bgpay.bgai.entity.User;
 import com.bgpay.bgai.feign.fallback.UserServiceFallbackFactory;
 
 /**
@@ -15,10 +15,12 @@ import com.bgpay.bgai.feign.fallback.UserServiceFallbackFactory;
  */
 @FeignClient(
     name = "local-user-service", 
-    url = "http://localhost:${server.port:8688}",
+    url = "${bgai.feign.local-user-service.url:http://localhost:${server.port:8688}}",
     fallbackFactory = UserServiceFallbackFactory.class,
-    configuration = UserServiceFeignConfig.class
+    configuration = UserServiceFeignConfig.class,
+    primary = false
 )
+@ConditionalOnProperty(name = "bgai.feign.enabled", havingValue = "true", matchIfMissing = false)
 public interface LocalUserServiceClient {
 
     /**

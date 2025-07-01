@@ -19,13 +19,13 @@ import org.springframework.context.event.EventListener;
 public class NacosConfig {
     private static final Logger log = LoggerFactory.getLogger(NacosConfig.class);
     
-    @Value("${spring.cloud.nacos.config.server-addr:localhost:8848}")
+    @Value("${spring.cloud.nacos.config.server-addr}")
     private String serverAddr;
     
-    @Value("${spring.cloud.nacos.config.namespace:}")
+    @Value("${spring.cloud.nacos.config.namespace}")
     private String namespace;
     
-    @Value("${spring.profiles.active:dev}")
+    @Value("${spring.profiles.active}")
     private String activeProfile;
     
     /**

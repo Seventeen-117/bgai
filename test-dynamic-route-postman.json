@@ -1,0 +1,152 @@
+{
+  "info": {
+    "name": "动态路由测试",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "获取所有路由",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:8688/gateway/routes",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8688",
+          "path": ["gateway", "routes"]
+        }
+      }
+    },
+    {
+      "name": "添加单个路由",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8688/gateway/routes",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8688",
+          "path": ["gateway", "routes"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": \"api-test-route\",\n  \"predicates\": [\n    {\n      \"name\": \"Path\",\n      \"args\": {\n        \"pattern\": \"/api/test/**\"\n      }\n    }\n  ],\n  \"filters\": [\n    {\n      \"name\": \"StripPrefix\",\n      \"args\": {\n        \"parts\": \"1\"\n      }\n    },\n    {\n      \"name\": \"AddResponseHeader\",\n      \"args\": {\n        \"name\": \"X-Response-From\",\n        \"value\": \"API-Gateway\"\n      }\n    }\n  ],\n  \"uri\": \"http://localhost:8688/test\",\n  \"order\": 0\n}"
+        }
+      }
+    },
+    {
+      "name": "获取特定路由",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:8688/gateway/routes/api-test-route",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8688",
+          "path": ["gateway", "routes", "api-test-route"]
+        }
+      }
+    },
+    {
+      "name": "批量添加路由",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8688/gateway/routes/batch",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8688",
+          "path": ["gateway", "routes", "batch"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "[\n  {\n    \"id\": \"api-user-route\",\n    \"predicates\": [\n      {\n        \"name\": \"Path\",\n        \"args\": {\n          \"pattern\": \"/api/users/**\"\n        }\n      }\n    ],\n    \"filters\": [\n      {\n        \"name\": \"StripPrefix\",\n        \"args\": {\n          \"parts\": \"1\"\n        }\n      },\n      {\n        \"name\": \"AddResponseHeader\",\n        \"args\": {\n          \"name\": \"X-Response-From\",\n          \"value\": \"API-Gateway-User\"\n        }\n      }\n    ],\n    \"uri\": \"http://localhost:8688/users\",\n    \"order\": 1\n  },\n  {\n    \"id\": \"api-product-route\",\n    \"predicates\": [\n      {\n        \"name\": \"Path\",\n        \"args\": {\n          \"pattern\": \"/api/products/**\"\n        }\n      }\n    ],\n    \"filters\": [\n      {\n        \"name\": \"StripPrefix\",\n        \"args\": {\n          \"parts\": \"1\"\n        }\n      },\n      {\n        \"name\": \"AddResponseHeader\",\n        \"args\": {\n          \"name\": \"X-Response-From\",\n          \"value\": \"API-Gateway-Product\"\n        }\n      }\n    ],\n    \"uri\": \"http://localhost:8688/products\",\n    \"order\": 2\n  }\n]"
+        }
+      }
+    },
+    {
+      "name": "更新路由",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8688/gateway/routes",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8688",
+          "path": ["gateway", "routes"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": \"api-test-route\",\n  \"predicates\": [\n    {\n      \"name\": \"Path\",\n      \"args\": {\n        \"pattern\": \"/api/test-updated/**\"\n      }\n    }\n  ],\n  \"filters\": [\n    {\n      \"name\": \"StripPrefix\",\n      \"args\": {\n        \"parts\": \"1\"\n      }\n    },\n    {\n      \"name\": \"AddResponseHeader\",\n      \"args\": {\n        \"name\": \"X-Response-From\",\n        \"value\": \"API-Gateway-Updated\"\n      }\n    }\n  ],\n  \"uri\": \"http://localhost:8688/test-updated\",\n  \"order\": 0\n}"
+        }
+      }
+    },
+    {
+      "name": "刷新路由",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "http://localhost:8688/gateway/routes/refresh",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8688",
+          "path": ["gateway", "routes", "refresh"]
+        }
+      }
+    },
+    {
+      "name": "删除路由",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "http://localhost:8688/gateway/routes/api-test-route",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8688",
+          "path": ["gateway", "routes", "api-test-route"]
+        }
+      }
+    },
+    {
+      "name": "批量删除路由",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8688/gateway/routes/batch",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8688",
+          "path": ["gateway", "routes", "batch"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "[\"api-user-route\", \"api-product-route\"]"
+        }
+      }
+    }
+  ]
+} 

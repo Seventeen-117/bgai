@@ -144,7 +144,9 @@ ENV SPRING_PROFILES_ACTIVE=prod \
     ROCKETMQ_HOME=/app \
     rocketmq.client.logRoot=/app/logs \
     JAVA_OPTS="-Xms512m -Xmx1g -XX:+UseG1GC -XX:+UseContainerSupport -XX:MaxRAMPercentage=80" \
-    SEATA_SAGA_STATE_MACHINE_AUTO_REGISTER=false
+    SEATA_SAGA_STATE_MACHINE_AUTO_REGISTER=false \
+    MANAGEMENT_SIMPLE_METRICS_EXPORT_ENABLED=false \
+    MANAGEMENT_METRICS_ENABLE_ALL=false
 
 # 可选：完全禁用Seata
 # ENV SEATA_ENABLED=false

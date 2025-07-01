@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -26,10 +28,12 @@ import java.util.concurrent.TimeoutException;
 /**
  * Feign示例控制器
  * 用于演示OpenFeign的使用
+ * 通过配置属性bgai.feign.demo.enabled可以控制是否启用该控制器
  */
 @Slf4j
 @RestController
 @RequestMapping("/api/feign-demo")
+@ConditionalOnProperty(name = "bgai.feign.demo.enabled", havingValue = "true", matchIfMissing = true)
 public class FeignDemoController {
 
     private final UserServiceClient userServiceClient;
@@ -38,7 +42,7 @@ public class FeignDemoController {
     @Value("${bgai.api-key.test-key:test-api-key-123}")
     private String testApiKey;
     
-    @Autowired
+    @Autowired(required = false)
     @Qualifier("longTimeoutOptions")
     private Request.Options longTimeoutOptions;
 

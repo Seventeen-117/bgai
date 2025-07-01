@@ -10,7 +10,6 @@ import org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration
 import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -26,7 +25,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @Configuration
 @EnableDiscoveryClient
-@EnableFeignClients(basePackages = "com.bgpay.bgai.feign")
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableCaching
 @EnableRetry
@@ -45,6 +43,13 @@ public class BgaiApplication {
 			// 如果需要禁用Seata，可以通过系统属性
 			// System.setProperty("seata.enabled", "false");
 			// System.setProperty("saga.enabled", "false");
+			
+			// 禁用Seata Saga状态机自动注册，避免重复注册错误
+			System.setProperty("seata.saga.state-machine.auto-register", "false");
+			
+			// 禁用Micrometer Metrics，避免关闭时的bean创建错误
+			System.setProperty("management.simple.metrics.export.enabled", "false");
+			System.setProperty("management.metrics.enable.all", "false");
 			
 			SpringApplication.run(BgaiApplication.class, args);
 			logger.info("Application started successfully");

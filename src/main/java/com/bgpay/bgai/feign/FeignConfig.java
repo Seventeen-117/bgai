@@ -1,9 +1,10 @@
-package com.bgpay.bgai.config;
+package com.bgpay.bgai.feign;
 
 import feign.Feign;
 import feign.Logger;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import io.github.resilience4j.timelimiter.TimeLimiterConfig;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory;
 import org.springframework.cloud.client.circuitbreaker.Customizer;
 import org.springframework.cloud.openfeign.CircuitBreakerNameResolver;
@@ -12,6 +13,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.openfeign.FeignFormatterRegistrar;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -25,6 +27,7 @@ import java.time.Duration;
  */
 @Configuration
 @EnableFeignClients(basePackages = "com.bgpay.bgai.feign")
+@ConditionalOnProperty(name = "bgai.feign.enabled", havingValue = "true", matchIfMissing = false)
 public class FeignConfig {
 
     /**
@@ -62,6 +65,7 @@ public class FeignConfig {
      * 这里重用了已有的ResilienceConfig配置
      */
     @Bean
+    @Primary
     public Feign.Builder feignBuilder() {
         return FeignCircuitBreaker.builder();
     }
@@ -91,8 +95,17 @@ public class FeignConfig {
      * 这是Feign客户端解码响应所必需的
      */
     @Bean
+    @Primary
     public HttpMessageConverters httpMessageConverters() {
         HttpMessageConverter<?> jacksonConverter = new MappingJackson2HttpMessageConverter();
         return new HttpMessageConverters(jacksonConverter);
+    }
+    
+    /**
+     * 长超时配置
+     */
+    @Bean(name = "longTimeoutOptions")
+    public feign.Request.Options longTimeoutOptions() {
+        return new feign.Request.Options(20000, 20000);
     }
 } 

@@ -1,0 +1,58 @@
+[
+  {
+    "id": "api-user-route",
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "pattern": "/api/users/**"
+        }
+      }
+    ],
+    "filters": [
+      {
+        "name": "StripPrefix",
+        "args": {
+          "parts": "1"
+        }
+      },
+      {
+        "name": "AddResponseHeader",
+        "args": {
+          "name": "X-Response-From",
+          "value": "API-Gateway-User"
+        }
+      }
+    ],
+    "uri": "http://localhost:8688/users",
+    "order": 1
+  },
+  {
+    "id": "api-product-route",
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "pattern": "/api/products/**"
+        }
+      }
+    ],
+    "filters": [
+      {
+        "name": "StripPrefix",
+        "args": {
+          "parts": "1"
+        }
+      },
+      {
+        "name": "AddResponseHeader",
+        "args": {
+          "name": "X-Response-From",
+          "value": "API-Gateway-Product"
+        }
+      }
+    ],
+    "uri": "http://localhost:8688/products",
+    "order": 2
+  }
+] 

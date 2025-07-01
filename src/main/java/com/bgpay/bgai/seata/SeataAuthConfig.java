@@ -1,87 +1,40 @@
 package com.bgpay.bgai.seata;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Seata安全认证配置
- * 解决"The get method not found for the field 'SeataProperties#accesskey'"警告
- * 注意：使用全小写属性名以匹配Seata内部期望
+ * Seata认证配置
+ * 用于处理Seata的安全认证配置
  */
 @Configuration
-@ConfigurationProperties(prefix = "seata")
-@EnableConfigurationProperties
+@ConditionalOnProperty(prefix = "seata", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class SeataAuthConfig {
+    private static final Logger logger = LoggerFactory.getLogger(SeataAuthConfig.class);
     
-    /**
-     * 访问密钥 - 使用全小写以匹配Seata内部期望
-     */
-    private String accesskey = "";
+    @Value("${seata.saga.state-machine.auto-register:false}")
+    private boolean autoRegister;
     
-    /**
-     * 安全密钥 - 使用全小写以匹配Seata内部期望
-     */
-    private String secretkey = "";
-    
-    /**
-     * 安全配置嵌套类
-     */
-    private Security security = new Security();
-    
-    // 明确提供getter和setter方法以解决警告
-    public String getAccesskey() {
-        return accesskey;
-    }
-    
-    public void setAccesskey(String accesskey) {
-        this.accesskey = accesskey;
-    }
-    
-    public String getSecretkey() {
-        return secretkey;
-    }
-    
-    public void setSecretkey(String secretkey) {
-        this.secretkey = secretkey;
-    }
-    
-    public Security getSecurity() {
-        return security;
-    }
-    
-    public void setSecurity(Security security) {
-        this.security = security;
-    }
-    
-    public static class Security {
-        private String accessKey = "";
-        private String secretKey = "";
-        private boolean authEnabled = false;
+    @Bean
+    public Object logSeataConfig() {
+        logger.info("Seata Saga配置加载");
+        logger.info("状态机自动注册设置: {}", autoRegister ? "启用" : "禁用");
         
-        // 明确提供getter和setter方法
-        public String getAccessKey() {
-            return accessKey;
+        // 确保状态机自动注册被禁用
+        if (autoRegister) {
+            logger.warn("检测到状态机自动注册被启用，这可能导致重复注册错误。建议在file.conf中设置saga.state-machine.auto-register=false");
+            // 设置系统属性强制禁用
+            System.setProperty("seata.saga.state-machine.auto-register", "false");
+            logger.info("已强制设置seata.saga.state-machine.auto-register=false");
+        } else {
+            logger.info("状态机自动注册已禁用，这将防止重复注册错误");
         }
         
-        public void setAccessKey(String accessKey) {
-            this.accessKey = accessKey;
-        }
-        
-        public String getSecretKey() {
-            return secretKey;
-        }
-        
-        public void setSecretKey(String secretKey) {
-            this.secretKey = secretKey;
-        }
-        
-        public boolean isAuthEnabled() {
-            return authEnabled;
-        }
-        
-        public void setAuthEnabled(boolean authEnabled) {
-            this.authEnabled = authEnabled;
-        }
+        // 返回一个空对象
+        return new Object();
     }
 } 

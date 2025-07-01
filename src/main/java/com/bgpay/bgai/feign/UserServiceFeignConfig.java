@@ -3,19 +3,21 @@ package com.bgpay.bgai.feign;
 import feign.Logger;
 import feign.Request;
 import feign.RequestInterceptor;
-import feign.Response;
 import feign.codec.ErrorDecoder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
 /**
  * UserServiceClient的特定配置
+ * 通过bgai.feign.config.enabled属性控制是否启用
  */
 @Slf4j
 @Configuration
+@ConditionalOnProperty(name = "bgai.feign.config.enabled", havingValue = "true", matchIfMissing = true)
 public class UserServiceFeignConfig {
 
     @Value("${bgai.api-key.test-key:test-api-key-123}")

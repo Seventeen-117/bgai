@@ -5,6 +5,7 @@ import com.bgpay.bgai.feign.LocalUserServiceClient;
 import com.bgpay.bgai.feign.UserServiceClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("/api/feign-test")
+@ConditionalOnProperty(name = "bgai.feign.test.enabled", havingValue = "true", matchIfMissing = false)
 public class FeignTestController {
 
     @Autowired

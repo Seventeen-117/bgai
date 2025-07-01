@@ -29,4 +29,6 @@ exec java $JAVA_OPTS \
     -Drocketmq.client.logRoot=/app/logs \
     -Drocketmq.log.dir=/app/logs \
     -Dseata.saga.state-machine.auto-register=$SEATA_SAGA_STATE_MACHINE_AUTO_REGISTER \
+    -Dmanagement.simple.metrics.export.enabled=false \
+    -Dmanagement.metrics.enable.all=false \
     -jar app.jar 
