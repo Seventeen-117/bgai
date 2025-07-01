@@ -2,7 +2,7 @@
     "Name": "ChatCompletionSaga",
     "Comment": "Chat completion saga transaction process",
     "StartState": "Start",
-    "Version": "0.0.3",
+    "Version": "0.0.5",
     "States": {
         "Start": {
             "Type": "ServiceTask",

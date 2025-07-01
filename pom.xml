@@ -41,6 +41,8 @@
 		<seata.version>1.7.0</seata.version>
 		<!-- Elasticsearch 版本 -->
 		<elasticsearch.version>8.12.2</elasticsearch.version>
+		<!-- 测试框架 -->
+		<testng.version>7.8.0</testng.version>
 		<!-- 基础依赖 -->
 		<pagehelper.version>5.3.2</pagehelper.version>
 		<httpclient.version>4.5.13</httpclient.version>
@@ -317,10 +319,6 @@
 			<artifactId>logstash-logback-encoder</artifactId>
 			<version>${logstash-logback-encoder.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.retry</groupId>
-			<artifactId>spring-retry</artifactId>
-		</dependency>
 		<!-- 排除Hibernate默认连接池 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -447,6 +445,22 @@
 				<exclusion>
 					<groupId>org.slf4j</groupId>
 					<artifactId>slf4j-simple</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.junit.jupiter</groupId>
+					<artifactId>junit-jupiter</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.junit.platform</groupId>
+					<artifactId>junit-platform-engine</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.junit.platform</groupId>
+					<artifactId>junit-platform-commons</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -941,24 +955,13 @@
 		<dependency>
 			<groupId>jakarta.annotation</groupId>
 			<artifactId>jakarta.annotation-api</artifactId>
-			<version>2.1.1</version>
+			<!-- 使用Spring Boot管理的版本 -->
 		</dependency>
 		<!-- Reflections -->
 		<dependency>
 			<groupId>org.reflections</groupId>
 			<artifactId>reflections</artifactId>
 			<version>0.10.2</version>
-		</dependency>
-		<!-- Apache POI for Excel file generation -->
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi</artifactId>
-			<version>5.2.3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-ooxml</artifactId>
-			<version>5.2.3</version>
 		</dependency>
 		<!-- 重试机制与AOP依赖 -->
 		<dependency>
@@ -972,6 +975,13 @@
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
+		</dependency>
+		<!-- 添加TestNG依赖 -->
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>${testng.version}</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
@@ -987,6 +997,17 @@
 						</goals>
 					</execution>
 				</executions>
+				<version>2.7.18</version>
+				<configuration>
+					<excludes>
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
+					<skip>${maven.test.skip}</skip>
+					<executable>true</executable>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -1063,9 +1084,16 @@
 				<configuration>
 					<argLine>-Duser.language=en</argLine>
 					<skipTests>${skip.tests}</skipTests>
-					<!-- Use slice tests to avoid loading the entire application context -->
+					<!-- 使用TestNG进行测试 -->
+					<testFailureIgnore>true</testFailureIgnore>
+					<suiteXmlFiles>
+						<suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
+					</suiteXmlFiles>
+					<!-- Use TestNG to run tests -->
 					<includes>
 						<include>**/*Test.java</include>
+						<include>**/*Tests.java</include>
+						<include>**/*TestCase.java</include>
 					</includes>
 					<excludes>
 						<exclude>**/*IntegrationTest.java</exclude>

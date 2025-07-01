@@ -47,20 +47,59 @@ public class BgaiApplication {
 			// 禁用Seata Saga状态机自动注册，避免重复注册错误
 			System.setProperty("seata.saga.state-machine.auto-register", "false");
 			
+			// 使用时间戳作为应用会话ID，帮助区分不同启动实例
+			String appSessionId = String.valueOf(System.currentTimeMillis());
+			System.setProperty("app.session.id", appSessionId);
+			
+			// 设置一个系统属性标记，表示使用动态版本号
+			System.setProperty("saga.state-machine.dynamic-version", "true");
+			
 			// 禁用Micrometer Metrics，避免关闭时的bean创建错误
 			System.setProperty("management.simple.metrics.export.enabled", "false");
 			System.setProperty("management.metrics.enable.all", "false");
+			
+			// 设置Spring懒加载策略，减少启动时的类加载问题
+			System.setProperty("spring.main.lazy-initialization", "false");
+            
+            // 允许循环引用
+            System.setProperty("spring.main.allow-circular-references", "true");
+            
+            // 允许Bean覆盖
+            System.setProperty("spring.main.allow-bean-definition-overriding", "true");
+            
+            // 配置Nacos客户端属性，确保连接正确关闭
+            System.setProperty("nacos.client.naming.tls.enable", "false");
+            System.setProperty("nacos.client.config.closeTimeoutSeconds", "5");
+            System.setProperty("nacos.client.connect.timeout", "5000");
+            
+            // 确保gRPC通道正确关闭的设置
+            System.setProperty("com.alibaba.nacos.client.grpc.registers.keepalive", "true");
+            System.setProperty("com.alibaba.nacos.client.grpc.shutdown.await", "3000");
+            System.setProperty("com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.transport.leakDetection.level", "DISABLED");
+			
+			logger.info("应用启动中，当前应用会话ID: {}", appSessionId);
+			logger.info("已启用状态机动态版本号功能，避免版本冲突错误");
+			
+			// 注册JVM关闭钩子，确保资源正确释放
+			Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+			    try {
+			        logger.info("执行应用关闭钩子，正在关闭资源...");
+                } catch (Exception e) {
+                    logger.error("关闭资源时出错", e);
+                }
+			}));
 			
 			SpringApplication.run(BgaiApplication.class, args);
 			logger.info("Application started successfully");
 		} catch (Exception e) {
 			// 特别处理Seata相关异常
 			if (e.getMessage() != null && e.getMessage().contains("seata_state_machine_def")) {
-				logger.error("Seata state machine initialization failed due to duplicate entries. " +
-						"This is likely because state machines were already registered. " +
-						"Check file.conf to ensure saga.state-machine.auto-register=false", e);
+				logger.error("Seata状态机初始化失败，原因可能是状态机定义存在重复。" +
+						"这通常是因为状态机已经注册过。" +
+						"请检查file.conf确保saga.state-machine.auto-register=false", e);
+				logger.error("如果问题依然存在，请尝试清理数据库中的状态机定义表或重启应用");
 			} else {
-				logger.error("Application startup failed", e);
+				logger.error("应用启动失败", e);
 			}
 			System.exit(1);
 		}

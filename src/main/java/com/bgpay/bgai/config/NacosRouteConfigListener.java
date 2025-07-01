@@ -15,7 +15,7 @@ import org.springframework.cloud.gateway.route.RouteDefinition;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Configuration;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.Executor;

@@ -10,9 +10,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.UUID;
 
 /**
  * 自定义Saga状态机JSON解析器
@@ -24,9 +27,10 @@ public class CustomSagaJsonParser {
     
     private final Map<String, Boolean> parsingResults = new ConcurrentHashMap<>();
     private final Map<String, JSONObject> stateMachineDefinitions = new ConcurrentHashMap<>();
+    private final DateTimeFormatter versionFormatter = DateTimeFormatter.ofPattern("yyMMdd.HHmmss");
     
     /**
-     * 解析状态机JSON定义
+     * 解析状态机JSON定义，并动态生成版本号
      * @param json 状态机JSON字符串
      * @return 解析结果
      */
@@ -39,10 +43,29 @@ public class CustomSagaJsonParser {
             // 验证状态机定义的基本结构
             validateStateMachineJson(jsonObj);
             
+            // 检查是否启用动态版本号功能
+            boolean useDynamicVersion = Boolean.parseBoolean(
+                    System.getProperty("saga.state-machine.dynamic-version", "true"));
+            
+            if (useDynamicVersion) {
+                // 动态生成版本号，替换原有的静态版本号
+                String dynamicVersion = generateDynamicVersion();
+                String originalVersion = jsonObj.getString("Version");
+                LOGGER.info("状态机 [{}] 原始版本: {}, 动态生成的新版本: {}", 
+                        stateMachineName, originalVersion, dynamicVersion);
+                
+                // 更新状态机定义中的版本号
+                jsonObj.put("Version", dynamicVersion);
+                LOGGER.info("状态机定义解析成功: {}, 已更新版本号: {}", stateMachineName, dynamicVersion);
+            } else {
+                LOGGER.info("动态版本号功能未启用，使用原始版本号");
+                LOGGER.info("状态机定义解析成功: {}, 使用原版本号: {}", 
+                        stateMachineName, jsonObj.getString("Version"));
+            }
+            
             // 存储解析后的状态机定义
             stateMachineDefinitions.put(stateMachineName, jsonObj);
             
-            LOGGER.info("状态机定义解析成功: {}", stateMachineName);
             parsingResults.put(stateMachineName, true);
             return true;
         } catch (Exception e) {
@@ -60,19 +83,60 @@ public class CustomSagaJsonParser {
     }
     
     /**
+     * 生成动态版本号，基于时间戳和随机部分
+     * 格式: yyMMdd.HHmmss.randomSuffix
+     * @return 动态生成的版本号
+     */
+    private String generateDynamicVersion() {
+        LocalDateTime now = LocalDateTime.now();
+        String timeBasedVersion = now.format(versionFormatter);
+        
+        // 添加一个短的随机后缀，确保唯一性
+        String randomSuffix = UUID.randomUUID().toString().substring(0, 4);
+        
+        return timeBasedVersion + "." + randomSuffix;
+    }
+    
+    /**
+     * 从文件解析状态机定义，并更新文件内容
+     * @param filePath 文件路径
+     * @param updateFile 是否更新文件内容
+     * @return 解析结果
+     */
+    public boolean parseStateMachineFile(String filePath, boolean updateFile) {
+        try {
+            Path path = Paths.get(filePath);
+            String content = new String(Files.readAllBytes(path));
+            boolean success = parseStateMachineJson(content);
+            
+            if (success && updateFile) {
+                // 获取更新后的JSON内容
+                JSONObject jsonObj = JSON.parseObject(content);
+                String stateMachineName = jsonObj.getString("Name");
+                JSONObject updatedJson = stateMachineDefinitions.get(stateMachineName);
+                
+                if (updatedJson != null) {
+                    // 格式化JSON并写回文件
+                    String updatedContent = JSON.toJSONString(updatedJson);
+                    Files.write(path, updatedContent.getBytes());
+                    LOGGER.info("已更新状态机定义文件: {}", filePath);
+                }
+            }
+            
+            return success;
+        } catch (IOException e) {
+            LOGGER.error("读取或更新状态机定义文件失败: {}", filePath, e);
+            return false;
+        }
+    }
+    
+    /**
      * 从文件解析状态机定义
      * @param filePath 文件路径
      * @return 解析结果
      */
     public boolean parseStateMachineFile(String filePath) {
-        try {
-            Path path = Paths.get(filePath);
-            String content = new String(Files.readAllBytes(path));
-            return parseStateMachineJson(content);
-        } catch (IOException e) {
-            LOGGER.error("读取状态机定义文件失败: {}", filePath, e);
-            return false;
-        }
+        return parseStateMachineFile(filePath, false);
     }
     
     /**

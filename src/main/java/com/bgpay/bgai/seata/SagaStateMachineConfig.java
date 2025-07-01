@@ -85,7 +85,7 @@ public class SagaStateMachineConfig implements ApplicationRunner {
                         String resourcePath = resource.getURL().getPath();
                         String content = new String(Files.readAllBytes(Paths.get(resource.getURI())), StandardCharsets.UTF_8);
                         
-                        // 使用自定义解析器解析状态机定义
+                        // 使用自定义解析器解析状态机定义（会动态更新版本号）
                         boolean success = customSagaJsonParser.parseStateMachineJson(content);
                         if (success) {
                             loadedStateMachines.add(resourcePath);
@@ -98,7 +98,7 @@ public class SagaStateMachineConfig implements ApplicationRunner {
                     }
                 }
                 
-                // 转换为资源路径数组
+                // 转换为资源路径数组，使用自定义解析器中更新了版本号的JSON内容
                 String[] resourcePaths = new String[resources.length];
                 for (int i = 0; i < resources.length; i++) {
                     resourcePaths[i] = resources[i].getURL().toString();
@@ -112,8 +112,12 @@ public class SagaStateMachineConfig implements ApplicationRunner {
             
             stateMachineConfig.setEnableAsync(true);
             
-            // 注意：状态机自动注册已在file.conf中禁用，避免重复注册导致的唯一键冲突
-            // saga.state-machine.auto-register = false
+            // 确保状态机自动注册被禁用，避免重复注册错误
+            // 在多个地方设置，确保配置生效
+            System.setProperty("seata.saga.state-machine.auto-register", "false");
+            stateMachineConfig.setAutoRegisterResources(false);
+            
+            logger.info("已设置saga.state-machine.auto-register=false，防止状态机重复注册");
             
             // 创建状态机引擎
             ProcessCtrlStateMachineEngine stateMachineEngine = new ProcessCtrlStateMachineEngine();

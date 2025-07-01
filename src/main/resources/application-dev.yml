@@ -21,6 +21,9 @@ spring:
         group: ${NACOS_GROUP:DEFAULT_GROUP}
         # 使配置失败时更友好的处理，不会导致应用启动失败
         fail-fast: false
+        # 增加关闭连接的配置
+        shutdown-timeout: 5000
+        watch-delay: 10000
       config:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         namespace: ${spring.cloud.nacos.discovery.namespace}
@@ -33,6 +36,12 @@ spring:
         # 设置超时时间，防止长时间等待
         timeout: 5000
         refresh-enabled: true
+        # 增加关闭连接的配置
+        shutdown-timeout: 5000
+        extension-configs:
+          - data-id: client-config.yaml
+            group: ${spring.cloud.nacos.discovery.group}
+            refresh: true
         # 使用默认缓存目录，确保容器能正确访问
         shared-configs:
           - data-id: common-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
@@ -130,6 +139,10 @@ bgai:
       enabled: true # 启用Feign配置
   gateway:
     enabled: true # 启用Gateway功能
+  nacos:
+    shutdown:
+      enabled: true # 启用Nacos连接关闭处理器
+      timeout: 5000 # Nacos客户端关闭超时时间(毫秒)
 
 # 禁用Actuator Metrics
 management:

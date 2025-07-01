@@ -151,8 +151,14 @@ public class BGAIServiceImpl implements BGAIService {
             record.setModelType(dto.getModelType());
             record.setInputCost(inputCost);
             record.setOutputCost(outputCost);
-            record.setInputTokens(dto.getPromptCacheHitTokens() + dto.getPromptCacheMissTokens());
-            record.setOutputTokens(dto.getCompletionTokens());
+            
+            // 防止null值异常
+            int promptCacheHitTokens = dto.getPromptCacheHitTokens() != null ? dto.getPromptCacheHitTokens() : 0;
+            int promptCacheMissTokens = dto.getPromptCacheMissTokens() != null ? dto.getPromptCacheMissTokens() : 0;
+            Integer completionTokens = dto.getCompletionTokens() != null ? dto.getCompletionTokens() : 0;
+            
+            record.setInputTokens(promptCacheHitTokens + promptCacheMissTokens);
+            record.setOutputTokens(completionTokens);
             record.setStatus("PENDING");
             record.setPriceVersion(getPriceVersion(dto, timePeriod));
             record.setMessageId(dto.getMessageId());
@@ -314,13 +320,24 @@ public class BGAIServiceImpl implements BGAIService {
                     dto.getModelType(), timePeriod,
                     dto.getPromptCacheHitTokens(), dto.getPromptCacheMissTokens());
 
+            // 防止modelType为null，使用默认模型
+            String modelType = dto.getModelType();
+            if (modelType == null || modelType.isEmpty()) {
+                modelType = "default";
+                log.warn("Model type is null, using default model for input pricing");
+            }
+
             // 对于输入成本，需要分别处理cache hit和cache miss的情况
             BigDecimal totalCost = BigDecimal.ZERO;
+            
+            // 防止null值异常，设置默认值为0
+            int promptCacheHitTokens = dto.getPromptCacheHitTokens() != null ? dto.getPromptCacheHitTokens() : 0;
+            int promptCacheMissTokens = dto.getPromptCacheMissTokens() != null ? dto.getPromptCacheMissTokens() : 0;
 
             // 处理cache hit的tokens
-            if (dto.getPromptCacheHitTokens() > 0) {
+            if (promptCacheHitTokens > 0) {
                 PriceQuery hitQuery = new PriceQuery(
-                    dto.getModelType(),
+                    modelType,
                     timePeriod,
                     "hit",
                     INPUT_TYPE
@@ -328,34 +345,53 @@ public class BGAIServiceImpl implements BGAIService {
                 PriceConfig hitConfig = priceCache.getPriceConfig(hitQuery);
                 if (hitConfig != null) {
                     totalCost = totalCost.add(
-                        calculateTokenCost(dto.getPromptCacheHitTokens(), hitConfig.getPrice())
+                        calculateTokenCost(promptCacheHitTokens, hitConfig.getPrice())
                     );
                     log.debug("Cache hit cost calculated: tokens={}, price={}, cost={}",
-                            dto.getPromptCacheHitTokens(), hitConfig.getPrice(), totalCost);
+                            promptCacheHitTokens, hitConfig.getPrice(), totalCost);
                 } else {
                     log.warn("No price config found for cache hit, using standard price");
                     // 如果找不到cache hit的配置，尝试使用标准配置
                     PriceQuery standardQuery = new PriceQuery(
-                        dto.getModelType(),
-                        timePeriod,
+                        modelType,
+                        "standard",
                         null,
                         INPUT_TYPE
                     );
                     PriceConfig standardConfig = priceCache.getPriceConfig(standardQuery);
                     if (standardConfig != null) {
                         totalCost = totalCost.add(
-                            calculateTokenCost(dto.getPromptCacheHitTokens(), standardConfig.getPrice())
+                            calculateTokenCost(promptCacheHitTokens, standardConfig.getPrice())
                         );
-                    } else {
-                        throw new BillingException("No price config found for input (cache hit)");
+                    } else if (!"default".equals(modelType)) {
+                        // 尝试使用默认模型的价格配置
+                        PriceQuery defaultQuery = new PriceQuery(
+                            "default",
+                            "standard",
+                            null,
+                            INPUT_TYPE
+                        );
+                        PriceConfig defaultConfig = priceCache.getPriceConfig(defaultQuery);
+                        if (defaultConfig != null) {
+                            totalCost = totalCost.add(
+                                calculateTokenCost(promptCacheHitTokens, defaultConfig.getPrice())
+                            );
+                        } else {
+                            // 使用硬编码的兜底价格
+                            BigDecimal defaultPrice = new BigDecimal("0.001"); // 每百万token 1美分的兜底价格
+                            log.warn("Using hardcoded fallback price for input (hit): {}", defaultPrice);
+                            totalCost = totalCost.add(
+                                calculateTokenCost(promptCacheHitTokens, defaultPrice)
+                            );
+                        }
                     }
                 }
             }
 
             // 处理cache miss的tokens
-            if (dto.getPromptCacheMissTokens() > 0) {
+            if (promptCacheMissTokens > 0) {
                 PriceQuery missQuery = new PriceQuery(
-                    dto.getModelType(),
+                    modelType,
                     timePeriod,
                     "miss",
                     INPUT_TYPE
@@ -363,26 +399,45 @@ public class BGAIServiceImpl implements BGAIService {
                 PriceConfig missConfig = priceCache.getPriceConfig(missQuery);
                 if (missConfig != null) {
                     totalCost = totalCost.add(
-                        calculateTokenCost(dto.getPromptCacheMissTokens(), missConfig.getPrice())
+                        calculateTokenCost(promptCacheMissTokens, missConfig.getPrice())
                     );
                     log.debug("Cache miss cost calculated: tokens={}, price={}, cost={}",
-                            dto.getPromptCacheMissTokens(), missConfig.getPrice(), totalCost);
+                            promptCacheMissTokens, missConfig.getPrice(), totalCost);
                 } else {
                     log.warn("No price config found for cache miss, using standard price");
                     // 如果找不到cache miss的配置，尝试使用标准配置
                     PriceQuery standardQuery = new PriceQuery(
-                        dto.getModelType(),
-                        timePeriod,
+                        modelType,
+                        "standard",
                         null,
                         INPUT_TYPE
                     );
                     PriceConfig standardConfig = priceCache.getPriceConfig(standardQuery);
                     if (standardConfig != null) {
                         totalCost = totalCost.add(
-                            calculateTokenCost(dto.getPromptCacheMissTokens(), standardConfig.getPrice())
+                            calculateTokenCost(promptCacheMissTokens, standardConfig.getPrice())
                         );
-                    } else {
-                        throw new BillingException("No price config found for input (cache miss)");
+                    } else if (!"default".equals(modelType)) {
+                        // 尝试使用默认模型的价格配置
+                        PriceQuery defaultQuery = new PriceQuery(
+                            "default",
+                            "standard",
+                            null,
+                            INPUT_TYPE
+                        );
+                        PriceConfig defaultConfig = priceCache.getPriceConfig(defaultQuery);
+                        if (defaultConfig != null) {
+                            totalCost = totalCost.add(
+                                calculateTokenCost(promptCacheMissTokens, defaultConfig.getPrice())
+                            );
+                        } else {
+                            // 使用硬编码的兜底价格
+                            BigDecimal defaultPrice = new BigDecimal("0.0015"); // 每百万token 1.5美分的兜底价格
+                            log.warn("Using hardcoded fallback price for input (miss): {}", defaultPrice);
+                            totalCost = totalCost.add(
+                                calculateTokenCost(promptCacheMissTokens, defaultPrice)
+                            );
+                        }
                     }
                 }
             }
@@ -402,36 +457,62 @@ public class BGAIServiceImpl implements BGAIService {
             log.info("Calculating output cost for model: {}, timePeriod: {}, tokens: {}",
                     dto.getModelType(), timePeriod, dto.getCompletionTokens());
 
-            // 首先尝试获取标准输出价格配置
+            // 防止null值异常，设置默认值为0
+            int completionTokens = dto.getCompletionTokens() != null ? dto.getCompletionTokens() : 0;
+            
+            // 防止modelType为null，使用默认模型
+            String modelType = dto.getModelType();
+            if (modelType == null || modelType.isEmpty()) {
+                modelType = "default";
+                log.warn("Model type is null, using default model for pricing");
+            }
+            
+            // 尝试获取特定时段的输出价格配置
             PriceQuery query = new PriceQuery(
-                dto.getModelType(),
+                modelType,
                 timePeriod,
                 null,
                 OUTPUT_TYPE
             );
             PriceConfig config = priceCache.getPriceConfig(query);
             
-            if (config == null) {
-                // 如果找不到特定时段的价格，尝试获取默认价格配置
+            // 如果找不到当前时段的价格配置（例如discount时段），尝试获取标准时段的价格
+            if (config == null && !"standard".equals(timePeriod)) {
+                log.warn("No price config found for time period: {}, trying standard time period", timePeriod);
                 query = new PriceQuery(
-                    dto.getModelType(),
+                    modelType,
                     "standard",
                     null,
                     OUTPUT_TYPE
                 );
                 config = priceCache.getPriceConfig(query);
-                
-                if (config == null) {
-                    log.error("No price config found for output: model={}, timePeriod={}",
-                            dto.getModelType(), timePeriod);
-                    throw new BillingException("No price config found for output");
-                }
-                log.warn("Using standard price config for output cost calculation");
+            }
+            
+            // 如果仍找不到，尝试使用默认模型的价格配置
+            if (config == null && !"default".equals(modelType)) {
+                log.warn("No price config found for model: {}, trying default model", modelType);
+                query = new PriceQuery(
+                    "default",
+                    "standard",
+                    null,
+                    OUTPUT_TYPE
+                );
+                config = priceCache.getPriceConfig(query);
+            }
+            
+            // 最后的兜底价格
+            if (config == null) {
+                log.error("No price config found for output: model={}, timePeriod={}",
+                        modelType, timePeriod);
+                // 使用硬编码的兜底价格，确保系统不会因为找不到价格配置而崩溃
+                BigDecimal defaultPrice = new BigDecimal("0.002"); // 每百万token 2美分的兜底价格
+                log.warn("Using hardcoded fallback price: {}", defaultPrice);
+                return calculateTokenCost(completionTokens, defaultPrice);
             }
 
-            BigDecimal cost = calculateTokenCost(dto.getCompletionTokens(), config.getPrice());
+            BigDecimal cost = calculateTokenCost(completionTokens, config.getPrice());
             log.info("Output cost calculated: tokens={}, price={}, cost={}",
-                    dto.getCompletionTokens(), config.getPrice(), cost);
+                    completionTokens, config.getPrice(), cost);
             
             return cost;
         } catch (Exception e) {
@@ -449,15 +530,48 @@ public class BGAIServiceImpl implements BGAIService {
     }
 
     private Integer getPriceVersion(UsageCalculationDTO dto, String timePeriod) {
+        // 防止modelType为null，使用默认模型
+        String modelType = dto.getModelType();
+        if (modelType == null || modelType.isEmpty()) {
+            modelType = "default";
+            log.warn("Model type is null, using default model for price version");
+        }
+        
+        // 首先尝试获取特定时段的价格配置
         PriceQuery query = new PriceQuery(
-            dto.getModelType(),
+            modelType,
             timePeriod,
             null,
             OUTPUT_TYPE
         );
         PriceConfig config = priceCache.getPriceConfig(query);
+        
+        // 如果找不到当前时段的价格配置，尝试获取标准时段的价格
+        if (config == null && !"standard".equals(timePeriod)) {
+            log.debug("No price config found for time period: {}, trying standard time period for version", timePeriod);
+            query = new PriceQuery(
+                modelType,
+                "standard",
+                null,
+                OUTPUT_TYPE
+            );
+            config = priceCache.getPriceConfig(query);
+        }
+        
+        // 如果仍找不到，尝试使用默认模型的价格配置
+        if (config == null && !"default".equals(modelType)) {
+            log.debug("No price config found for model: {}, trying default model for version", modelType);
+            query = new PriceQuery(
+                "default",
+                "standard",
+                null,
+                OUTPUT_TYPE
+            );
+            config = priceCache.getPriceConfig(query);
+        }
+        
         if (config == null) {
-            log.warn("Price config not found, using default version 1");
+            log.warn("Price config not found for version lookup, using default version 1");
             return 1;
         }
         return config.getVersion();

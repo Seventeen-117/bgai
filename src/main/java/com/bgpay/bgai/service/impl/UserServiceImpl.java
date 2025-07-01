@@ -40,6 +40,7 @@ import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.data.redis.RedisConnectionFailureException;
 import org.springframework.dao.QueryTimeoutException;
+import org.springframework.context.annotation.Lazy;
 
 /**
  * 用户服务实现类
@@ -56,6 +57,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Autowired
     private UserMapper userMapper;
 
+    @Lazy
     @Autowired
     private RedisTemplate<String, UserToken> userTokenRedisTemplate;
 

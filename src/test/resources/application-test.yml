@@ -1,0 +1,65 @@
+spring:
+  main:
+    web-application-type: reactive
+    allow-circular-references: true
+    allow-bean-definition-overriding: true
+  application:
+    name: bgtech-ai-test
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_HOST:8.133.246.113}:${NACOS_PORT:8848}
+        namespace: ${NACOS_NAMESPACE:d750d92e-152f-4055-a641-3bc9dda85a29}
+        group: ${NACOS_GROUP:DEFAULT_GROUP}
+        fail-fast: false
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        namespace: ${spring.cloud.nacos.discovery.namespace}
+        group: ${spring.cloud.nacos.discovery.group}
+        file-extension: yaml
+        handle-warnings: true
+        fail-fast: false
+        timeout: 5000
+        refresh-enabled: true
+        shared-configs:
+          - data-id: common-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+            group: ${spring.cloud.nacos.discovery.group}
+            refresh: true
+          - data-id: test-config.${spring.cloud.nacos.config.file-extension}
+            group: ${spring.cloud.nacos.discovery.group}
+            refresh: true
+
+# 测试环境特有配置
+test:
+  config:
+    enabled: true
+    disable-features:
+      - seata
+      - metrics
+      - prometheus
+
+# 禁用Actuator Metrics
+management:
+  metrics:
+    enable:
+      all: false
+  simple:
+    metrics:
+      export:
+        enabled: false
+
+# 自定义配置
+bgai:
+  feign:
+    enabled: false
+    config:
+      enabled: true
+  gateway:
+    enabled: false
+
+# Seata配置
+seata:
+  enabled: false
+  saga:
+    state-machine:
+      auto-register: false 

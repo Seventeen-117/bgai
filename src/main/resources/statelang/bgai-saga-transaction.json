@@ -2,7 +2,7 @@
   "Name": "bgai-saga-transaction",
   "Comment": "BGAI Saga分布式事务状态机定义",
   "StartState": "FirstState",
-  "Version": "0.0.1",
+  "Version": "0.0.5",
   "States": {
     "FirstState": {
       "Type": "ServiceTask",

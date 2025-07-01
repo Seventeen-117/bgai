@@ -730,4 +730,102 @@ curl -X POST http://localhost:8688/api/feign-test/test-create \
 
 ---
 
+## Seata Saga状态机动态版本管理
+
+系统实现了Seata Saga状态机的动态版本管理机制，解决了状态机版本冲突问题。
+
+### 背景问题
+
+在使用Seata Saga进行分布式事务管理时，状态机定义文件中的版本号(`"Version": "0.0.5"`)如果固定不变，当多次部署或重新启动应用时会出现以下错误:
+
+```
+Duplicate entry '000001-SEATA-ChatCompletionSaga-0.0.4' for key 'seata_state_machine_def.uq_tenant_id_app_name_name_ver'
+```
+
+这是因为Seata会尝试向数据库注册状态机定义，而相同应用名、状态机名和版本号的组合必须是唯一的。
+
+### 解决方案
+
+系统实现了动态版本号生成机制：
+
+1. 在启动时自动为每个状态机生成基于时间戳的唯一版本号
+2. 版本号格式为：`yyMMdd.HHmmss.randomSuffix`（年月日.时分秒.随机字符）
+3. 无需手动修改状态机定义文件，系统会在内存中动态更新版本
+
+### 配置方法
+
+动态版本号功能默认已启用，也可以通过以下方式手动配置：
+
+1. 在系统属性中设置（已在应用启动类中配置）：
+   ```java
+   System.setProperty("saga.state-machine.dynamic-version", "true");
+   ```
+
+2. 同时确保状态机自动注册功能已禁用：
+   ```java
+   System.setProperty("seata.saga.state-machine.auto-register", "false");
+   ```
+   
+3. 在`file.conf`中设置：
+   ```
+   saga.state-machine.auto-register = false
+   ```
+
+### 注意事项
+
+1. 无需手动修改状态机定义文件中的版本号
+2. 每次应用重启都会生成新的版本号
+3. 如遇版本冲突问题，可尝试：
+   - 重启应用（会生成新版本号）
+   - 确认`saga.state-machine.auto-register`设置为`false`
+   - 清理数据库中已存在的状态机定义表中的记录
+
 **Enjoy BGAI！让智能服务更简单！**
+
+## Nacos依赖问题解决方案
+
+在项目中使用Nacos配置中心和服务发现功能时，可能会遇到以下错误：
+
+```
+java: 程序包com.alibaba.nacos.api不存在
+java: 程序包com.alibaba.nacos.api.config不存在
+java: 程序包com.alibaba.nacos.api.config.listener不存在
+java: 程序包com.alibaba.nacos.api.exception不存在
+```
+
+### 解决方法
+
+1. 添加Nacos API的直接依赖：
+
+```xml
+<!-- 添加Nacos API依赖 -->
+<dependency>
+    <groupId>com.alibaba.nacos</groupId>
+    <artifactId>nacos-api</artifactId>
+    <version>2.2.0</version>
+</dependency>
+<dependency>
+    <groupId>com.alibaba.nacos</groupId>
+    <artifactId>nacos-client</artifactId>
+    <version>2.2.0</version>
+</dependency>
+```
+
+2. 如果使用的是Spring Boot 3.x，需要将javax包的引用更新为jakarta包：
+
+```java
+// 旧版
+import javax.annotation.PostConstruct;
+
+// 新版
+import jakarta.annotation.PostConstruct;
+```
+
+### 注意事项
+
+- 确保Nacos API版本与Spring Cloud Alibaba版本兼容
+- 当前项目使用的版本组合：
+  - Spring Boot: 3.2.5
+  - Spring Cloud: 2023.0.1
+  - Spring Cloud Alibaba: 2022.0.0.0
+  - Nacos API/Client: 2.2.0

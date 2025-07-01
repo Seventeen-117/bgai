@@ -8,6 +8,7 @@ spring:
     web-application-type: reactive
     allow-circular-references: true # 允许循环依赖，因为项目是三层架构，无法避免这个情况。
     allow-bean-definition-overriding: true # 允许 Bean 覆盖，例如说 Feign 等会存在重复定义的服务
+    lazy-initialization: false # 禁用懒加载，确保实体类等在启动时加载
   application:
     name: bgtech-ai
   config:
@@ -38,6 +39,15 @@ spring:
             group: ${spring.cloud.nacos.discovery.group}
             refresh: true
             # 标记为可选配置，缺少时不报错
-            required: false
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:dev}
+    
+# 禁用Actuator Metrics，避免在应用上下文关闭期间出现bean创建错误
+management:
+  metrics:
+    enable:
+      all: false
+  simple:
+    metrics:
+      export:
+        enabled: false

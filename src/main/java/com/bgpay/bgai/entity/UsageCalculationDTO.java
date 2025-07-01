@@ -47,22 +47,22 @@ public class UsageCalculationDTO implements Serializable {
     private String modelType;
 
     @Min(0)
-    private Integer promptCacheHitTokens;
+    private Integer promptCacheHitTokens = 0;
 
     @Min(0)
-    private Integer promptCacheMissTokens;
+    private Integer promptCacheMissTokens = 0;
 
     @Min(0)
-    private Integer promptTokensCached;
+    private Integer promptTokensCached = 0;
 
     @Min(0)
-    private Integer promptTokens;
+    private Integer promptTokens = 0;
 
     @Min(0)
-    private Integer completionReasoningTokens;
+    private Integer completionReasoningTokens = 0;
 
     @Min(0)
-    private Integer completionTokens;
+    private Integer completionTokens = 0;
 
     @PastOrPresent
     @JsonDeserialize(using = FlexibleDateTimeDeserializer.class)

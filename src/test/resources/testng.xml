@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="BGAI Test Suite">
+    <!-- 在测试套件运行前设置Nacos配置 -->
+    <listeners>
+        <listener class-name="com.bgpay.bgai.config.TestNacosConfigListener" />
+    </listeners>
+    
+    <test name="Unit Tests">
+        <packages>
+            <package name="com.bgpay.bgai.*"/>
+        </packages>
+    </test>
+</suite> 

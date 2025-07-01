@@ -37,22 +37,22 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 @Slf4j
 public class RedisConfig {
-    
+
     @Value("${spring.data.redis.host}")
     private String redisHost;
-    
+
     @Value("${spring.data.redis.port}")
     private int redisPort;
-    
+
     @Value("${spring.data.redis.password}")
     private String redisPassword;
-    
+
     @Value("${spring.data.redis.database}")
     private int redisDatabase;
-    
+
     @Value("${spring.data.redis.timeout}")
     private long redisTimeout;
-    
+
     @Value("${spring.data.redis.connect-timeout}")
     private long connectTimeout;
 
@@ -76,32 +76,32 @@ public class RedisConfig {
         redisConfig.setHostName(redisHost);
         redisConfig.setPort(redisPort);
         redisConfig.setDatabase(redisDatabase);
-        
+
         if (redisPassword != null && !redisPassword.isEmpty()) {
             redisConfig.setPassword(redisPassword);
         }
-        
+
         SocketOptions socketOptions = SocketOptions.builder()
                 .connectTimeout(Duration.ofMillis(connectTimeout))
                 .build();
-        
+
         ClientOptions clientOptions = ClientOptions.builder()
                 .socketOptions(socketOptions)
                 .timeoutOptions(TimeoutOptions.enabled(Duration.ofMillis(redisTimeout)))
                 .disconnectedBehavior(ClientOptions.DisconnectedBehavior.REJECT_COMMANDS)
                 .autoReconnect(true)
                 .build();
-        
+
         LettuceClientConfiguration clientConfig = LettucePoolingClientConfiguration.builder()
                 .clientOptions(clientOptions)
                 .clientResources(clientResources)
                 .commandTimeout(Duration.ofMillis(redisTimeout))
                 .shutdownTimeout(Duration.ofMillis(5000))
                 .build();
-        
+
         return new LettuceConnectionFactory(redisConfig, clientConfig);
     }
-    
+
     /**
      * 重试模板配置
      */
@@ -156,7 +156,7 @@ public class RedisConfig {
         template.setValueSerializer(serializer);
         template.setHashKeySerializer(new StringRedisSerializer());
         template.setHashValueSerializer(serializer);
-        
+
         template.afterPropertiesSet();
         return template;
     }
@@ -188,14 +188,14 @@ public class RedisConfig {
     public RedisTemplate<String, String> stringRedisTemplate(RedisConnectionFactory connectionFactory) {
         RedisTemplate<String, String> template = new RedisTemplate<>();
         template.setConnectionFactory(connectionFactory);
-        
+
         StringRedisSerializer serializer = new StringRedisSerializer();
-        
+
         template.setKeySerializer(serializer);
         template.setValueSerializer(serializer);
         template.setHashKeySerializer(serializer);
         template.setHashValueSerializer(serializer);
-        
+
         template.afterPropertiesSet();
         return template;
     }
@@ -207,14 +207,14 @@ public class RedisConfig {
         RedisTemplate<String, UsageCalculationDTO> template = new RedisTemplate<>();
         template.setConnectionFactory(connectionFactory);
 
-        Jackson2JsonRedisSerializer<UsageCalculationDTO> serializer = 
-            new Jackson2JsonRedisSerializer<>(redisObjectMapper, UsageCalculationDTO.class);
+        Jackson2JsonRedisSerializer<UsageCalculationDTO> serializer =
+                new Jackson2JsonRedisSerializer<>(redisObjectMapper, UsageCalculationDTO.class);
 
         template.setKeySerializer(new StringRedisSerializer());
         template.setValueSerializer(serializer);
         template.setHashKeySerializer(new StringRedisSerializer());
         template.setHashValueSerializer(serializer);
-        
+
         template.afterPropertiesSet();
         return template;
     }

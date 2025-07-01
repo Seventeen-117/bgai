@@ -73,3 +73,67 @@ GET /api/saga/status
 1. 升级到较新版本的Seata，新版本可能解决了部分问题
 2. 考虑使用其他分布式事务解决方案，例如基于补偿的方式
 3. 对于开发环境，可以考虑使用内存模式而非数据库模式来存储状态机定义 
+
+## 问题5：状态机版本冲突问题
+
+### 问题描述
+
+当使用Seata Saga管理分布式事务时，启动应用可能会遇到以下错误：
+
+```
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dbStateMachineConfig' defined in class path resource [io/seata/spring/boot/autoconfigure/SeataSagaAutoConfiguration.class]: Duplicate entry '000001-SEATA-ChatCompletionSaga-0.0.4' for key 'seata_state_machine_def.uq_tenant_id_app_name_name_ver'
+```
+
+这是因为Seata会向数据库注册状态机定义，而如果版本号不变，就会导致唯一键冲突。
+
+### 解决方案
+
+1. **已实现的动态版本号功能**
+
+   系统已经实现了自动生成动态版本号的功能，无需手动修改状态机文件：
+   - 每次启动自动为状态机生成基于时间戳的唯一版本号
+   - 版本号格式：`yyMMdd.HHmmss.randomSuffix`
+
+   该功能默认启用，无需额外配置。
+
+2. **确保禁用自动注册**
+
+   确保以下配置都已正确设置：
+   
+   在`file.conf`中：
+   ```
+   saga.state-machine.auto-register = false
+   ```
+   
+   在应用启动时：
+   ```java
+   System.setProperty("seata.saga.state-machine.auto-register", "false");
+   ```
+   
+   在配置类中：
+   ```java
+   stateMachineConfig.setAutoRegisterResources(false);
+   ```
+
+3. **如果问题依然存在**
+
+   尝试以下方法：
+   - 确认系统属性`saga.state-machine.dynamic-version`设置为`true`
+   - 重启应用（会生成新的版本号）
+   - 清理数据库中的状态机定义表中的冲突记录：
+     ```sql
+     DELETE FROM seata_state_machine_def 
+     WHERE tenant_id='000001' AND app_name='SEATA' 
+     AND name='ChatCompletionSaga' AND version='0.0.4';
+     ```
+   - 查看日志确认新版本号是否正确生成
+
+### 预防措施
+
+为了避免此类问题再次发生：
+
+1. 不要手动修改状态机文件中的版本号
+2. 保留动态版本号功能
+3. 在部署前确认以上配置正确设置
+
+参见 [README.md](README.md) 中的"Seata Saga状态机动态版本管理"部分了解更多信息。 
