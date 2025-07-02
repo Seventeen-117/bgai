@@ -7,7 +7,7 @@
 #######################
 # Build stage - 优化构建阶段
 #######################
-FROM eclipse-temurin:21-jdk-jammy AS build
+FROM eclipse-temurin:17-jdk-jammy AS build
 
 WORKDIR /app
 
@@ -81,6 +81,10 @@ COPY mvnw .
 COPY .mvn .mvn
 RUN chmod +x ./mvnw
 
+# 添加jakarta.annotation-api依赖，解决PostConstruct问题
+RUN echo '<dependency><groupId>jakarta.annotation</groupId><artifactId>jakarta.annotation-api</artifactId><version>2.1.1</version></dependency>' > /tmp/dependency.xml && \
+    sed -i '/<dependencies>/r /tmp/dependency.xml' pom.xml
+
 # 优化步骤2：预下载依赖但不构建，使用更高的容错性参数
 RUN ./mvnw dependency:resolve -DskipTests \
     -Dmaven.wagon.http.retryHandler.count=10 \
@@ -91,12 +95,17 @@ RUN ./mvnw dependency:resolve -DskipTests \
 # 优化步骤3：复制源代码后进行构建
 COPY src src
 
-# 优化步骤4：使用并行构建并增加超时和重试
-RUN ./mvnw package -DskipTests -Dmaven.test.skip=true \
+# 修正Maven构建命令，确保生成可执行JAR
+RUN ./mvnw clean package spring-boot:repackage -DskipTests -Dmaven.test.skip=true \
     -Dmaven.wagon.http.retryHandler.count=10 \
     -Dmaven.wagon.http.connectTimeout=120000 \
     -Dmaven.wagon.http.readTimeout=120000 \
     -T 1C
+
+# 验证JAR文件是否正确生成
+RUN ls -la target/*.jar && \
+    echo "JAR文件大小:" && du -h target/*.jar && \
+    echo "验证JAR文件清单:" && jar -tvf target/*.jar | grep -i main
 
 # 复制分布式事务配置文件
 COPY src/main/resources/registry.conf /app/registry.conf
@@ -109,15 +118,15 @@ RUN chmod +x /app/entrypoint.sh
 #######################
 # Runtime stage - 优化运行阶段
 #######################
-FROM eclipse-temurin:21-jre-jammy
+FROM eclipse-temurin:17-jre-jammy
 
 WORKDIR /app
 
 # 安装必要工具
 RUN apt-get update && apt-get install -y wget && rm -rf /var/lib/apt/lists/*
 
-# 复制JAR包
-COPY --from=build /app/target/*.jar app.jar
+# 复制JAR包 - 使用明确的文件名
+COPY --from=build /app/target/bgai-*.jar /app/app.jar
 
 # 创建非root用户并设置目录权限
 RUN groupadd -r bgai && useradd -r -g bgai bgai && \

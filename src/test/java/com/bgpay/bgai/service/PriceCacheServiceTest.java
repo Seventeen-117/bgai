@@ -29,7 +29,7 @@ public class PriceCacheServiceTest extends AbstractTestNGTest {
     public void testGetPriceConfig() {
         // 准备测试数据
         PriceQuery query = new PriceQuery(
-                "chat",      // 模型类型
+                "deepseek-reasoner",      // 模型类型
                 "standard",  // 时段
                 null,        // 缓存类型
                 INPUT_TYPE   // 输入类型
