@@ -1,6 +1,5 @@
-package com.bgpay.bgai.config;
+package com.bgpay.bgai.seata;
 
-import io.seata.saga.engine.config.DbStateMachineConfig;
 import io.seata.spring.boot.autoconfigure.properties.SeataProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;

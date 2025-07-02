@@ -40,9 +40,6 @@ public class BgaiApplication {
 
 	public static void main(String[] args) {
 		try {
-			// 如果需要禁用Seata，可以通过系统属性
-			// System.setProperty("seata.enabled", "false");
-			// System.setProperty("saga.enabled", "false");
 			
 			// 禁用Seata Saga状态机自动注册，避免重复注册错误
 			System.setProperty("seata.saga.state-machine.auto-register", "false");
@@ -70,7 +67,19 @@ public class BgaiApplication {
             // 配置Nacos客户端属性，确保连接正确关闭
             System.setProperty("nacos.client.naming.tls.enable", "false");
             System.setProperty("nacos.client.config.closeTimeoutSeconds", "5");
-            System.setProperty("nacos.client.connect.timeout", "5000");
+            System.setProperty("nacos.client.connect.timeout", "10000"); // 增加连接超时时间
+            
+            // 增加Nacos客户端重试和故障转移配置
+            System.setProperty("nacos.client.naming.error.tolerance", "3");
+            System.setProperty("nacos.client.naming.max.retry", "5");
+            System.setProperty("nacos.client.naming.failover", "true");
+            
+            // 启用Nacos客户端本地缓存
+            System.setProperty("nacos.client.naming.loadCacheAtStart", "true");
+            
+            // 设置为本地启动模式，不依赖远程Nacos
+            System.setProperty("spring.cloud.nacos.config.import-check.enabled", "false");
+            System.setProperty("spring.cloud.config.fail-fast", "false");
             
             // 确保gRPC通道正确关闭的设置
             System.setProperty("com.alibaba.nacos.client.grpc.registers.keepalive", "true");

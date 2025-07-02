@@ -42,7 +42,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class AuthControllerTest extends NoSpringContextTest {
     
     protected final Logger log = LoggerFactory.getLogger(getClass());
-    
+
     // 手动创建MockMvc，不使用@Autowired
     private MockMvc mockMvc;
 
@@ -61,7 +61,7 @@ public class AuthControllerTest extends NoSpringContextTest {
     private final String API_ENDPOINT = "/api/auth/refresh-by-userid";
     
     private final ObjectMapper objectMapper = new ObjectMapper();
-    
+
     /**
      * 简单测试方法，不依赖Spring上下文
      */

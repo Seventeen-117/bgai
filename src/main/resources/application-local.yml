@@ -1,0 +1,92 @@
+spring:
+  webflux:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+      max-in-memory-size: 512KB
+  main:
+    web-application-type: reactive
+    allow-circular-references: true
+    allow-bean-definition-overriding: true
+  application:
+    name: bgtech-ai
+  config:
+    import:
+      - optional:classpath:deepseek-config.properties
+  cloud:
+    nacos:
+      discovery:
+        enabled: false
+        register-enabled: false
+      config:
+        enabled: false
+    loadbalancer:
+      ribbon:
+        enabled: false
+      cache:
+        enabled: true
+        caffeine:
+          spec: expireAfterWrite=5s
+    gateway:
+      discovery:
+        locator:
+          enabled: false
+      default-filters:
+        - name: Retry
+          args:
+            retries: 3
+            statuses: BAD_GATEWAY,SERVICE_UNAVAILABLE
+            methods: GET,POST
+
+# SpringDoc配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+    display-request-duration: true
+  api-docs:
+    path: /v3/api-docs
+    enabled: true
+  show-actuator: false
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  paths-to-match:
+    - /api/**
+
+# 自定义配置
+bgai:
+  feign:
+    enabled: false
+    user-service:
+      url: http://localhost:8688
+    local-user-service:
+      url: http://localhost:8688
+    demo:
+      enabled: false
+    test:
+      enabled: false
+    config:
+      enabled: false
+  gateway:
+    enabled: true
+  nacos:
+    shutdown:
+      enabled: false
+
+# 禁用Actuator Metrics
+management:
+  simple:
+    metrics:
+      export:
+        enabled: false
+  metrics:
+    enable:
+      all: false
+
+# 服务器配置
+server:
+  port: 8688
+  shutdown: graceful
+  netty:
+    connection-timeout: 30s 
