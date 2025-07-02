@@ -4,10 +4,13 @@ import com.bgpay.bgai.config.TestApplicationContext;
 import com.bgpay.bgai.config.TestNacosConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.reactive.WebFluxAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
@@ -18,8 +21,10 @@ import java.util.Random;
  * TestNG测试基类
  * 所有需要加载Nacos配置和Spring上下文的测试类都应该继承此类
  */
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @ContextConfiguration(classes = {TestApplicationContext.class})
+@EnableAutoConfiguration(exclude = {WebFluxAutoConfiguration.class})
+@WebAppConfiguration // 确保测试上下文创建一个Web应用上下文
 @ActiveProfiles("dev")
 public abstract class AbstractTestNGTest extends AbstractTestNGSpringContextTests {
     
@@ -31,6 +36,11 @@ public abstract class AbstractTestNGTest extends AbstractTestNGSpringContextTest
     @BeforeClass
     public void setUp() {
         log.info("初始化测试类: {}", this.getClass().getSimpleName());
+        
+        // 设置默认为MVC模式，禁用WebFlux
+        System.setProperty("spring.main.web-application-type", "servlet");
+        System.setProperty("springdoc.api-docs.enabled", "false");
+        System.setProperty("springdoc.swagger-ui.enabled", "false");
         
         // 确保配置参数已设置
         ensureConfigParams();

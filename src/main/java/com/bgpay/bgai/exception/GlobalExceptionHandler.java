@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.support.MethodArgumentNotValidException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.ErrorResponse;
+import org.springframework.web.bind.MissingRequestHeaderException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -73,6 +75,34 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * 处理缺少必需的请求参数异常
+     */
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ResponseEntity<CustomErrorResponse> handleMissingParameterException(MissingServletRequestParameterException ex) {
+        log.warn("缺少必需的请求参数: {}", ex.getMessage());
+        CustomErrorResponse response = new CustomErrorResponse(
+            HttpStatus.BAD_REQUEST,
+            "MISSING_PARAMETER",
+            "缺少必需的请求参数: " + ex.getParameterName()
+        );
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+    
+    /**
+     * 处理缺少必需的请求头异常
+     */
+    @ExceptionHandler(MissingRequestHeaderException.class)
+    public ResponseEntity<CustomErrorResponse> handleMissingHeaderException(MissingRequestHeaderException ex) {
+        log.warn("缺少必需的请求头: {}", ex.getMessage());
+        CustomErrorResponse response = new CustomErrorResponse(
+            HttpStatus.BAD_REQUEST,
+            "MISSING_HEADER",
+            "缺少必需的请求头: " + ex.getHeaderName()
+        );
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<CustomErrorResponse> handleAccessDenied() {
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
@@ -88,5 +118,19 @@ public class GlobalExceptionHandler {
                 .collect(Collectors.toList());
         return ResponseEntity.badRequest()
                 .body(new CustomErrorResponse(HttpStatus.BAD_REQUEST, "VALIDATION_ERROR", String.join("; ", errors)));
+    }
+
+    /**
+     * 处理RuntimeException异常
+     */
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<CustomErrorResponse> handleRuntimeException(RuntimeException ex) {
+        log.error("运行时异常", ex);
+        CustomErrorResponse response = new CustomErrorResponse(
+            HttpStatus.INTERNAL_SERVER_ERROR,
+            "RUNTIME_ERROR",
+            "刷新令牌失败: " + ex.getMessage()
+        );
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

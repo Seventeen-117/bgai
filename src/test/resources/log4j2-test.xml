@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+        <File name="TestFile" fileName="target/test-logs/test.log">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </File>
+    </Appenders>
+    <Loggers>
+        <!-- 配置测试类的日志级别 -->
+        <Logger name="com.bgpay.bgai.controller.SimpleAuthControllerTest" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="TestFile"/>
+        </Logger>
+        
+        <!-- 配置控制器类的日志级别，使其在测试中降低错误日志级别 -->
+        <Logger name="com.bgpay.bgai.controller.AuthController" level="info" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="TestFile"/>
+        </Logger>
+
+        <!-- 降低根日志级别，使其不显示过多错误信息 -->
+        <Root level="warn">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="TestFile"/>
+        </Root>
+    </Loggers>
+</Configuration> 

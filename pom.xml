@@ -29,7 +29,7 @@
 
 	<!-- ====================== 统一版本管理 ====================== -->
 	<properties>
-		<java.version>21</java.version>
+		<java.version>17</java.version>
 		<jackson.version>2.15.3</jackson.version>
 		<skip.tests>true</skip.tests>
 		<!-- Spring Cloud 相关 -->
@@ -42,7 +42,7 @@
 		<!-- Elasticsearch 版本 -->
 		<elasticsearch.version>8.12.2</elasticsearch.version>
 		<!-- 测试框架 -->
-		<testng.version>7.8.0</testng.version>
+		<testng.version>7.1.0</testng.version>
 		<!-- 基础依赖 -->
 		<pagehelper.version>5.3.2</pagehelper.version>
 		<httpclient.version>4.5.13</httpclient.version>
@@ -461,6 +461,14 @@
 				<exclusion>
 					<groupId>org.junit.platform</groupId>
 					<artifactId>junit-platform-commons</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>junit</groupId>
+					<artifactId>junit</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.mockito</groupId>
+					<artifactId>mockito-junit-jupiter</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -957,6 +965,12 @@
 			<artifactId>jakarta.annotation-api</artifactId>
 			<!-- 使用Spring Boot管理的版本 -->
 		</dependency>
+		<!-- 添加javax.annotation-api解决PostConstruct问题 -->
+		<dependency>
+			<groupId>javax.annotation</groupId>
+			<artifactId>javax.annotation-api</artifactId>
+			<version>1.3.2</version>
+		</dependency>
 		<!-- Reflections -->
 		<dependency>
 			<groupId>org.reflections</groupId>
@@ -1083,9 +1097,12 @@
 				<version>3.1.2</version>
 				<configuration>
 					<argLine>-Duser.language=en</argLine>
-					<skipTests>${skip.tests}</skipTests>
+					<skipTests>false</skipTests>
 					<!-- 使用TestNG进行测试 -->
 					<testFailureIgnore>true</testFailureIgnore>
+					<useModulePath>false</useModulePath>
+					<!-- 指定TestNG作为测试框架 -->
+					<testNGArtifactName>org.testng:testng</testNGArtifactName>
 					<suiteXmlFiles>
 						<suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
 					</suiteXmlFiles>
@@ -1099,6 +1116,18 @@
 						<exclude>**/*IntegrationTest.java</exclude>
 					</excludes>
 				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.testng</groupId>
+						<artifactId>testng</artifactId>
+						<version>${testng.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.apache.maven.surefire</groupId>
+						<artifactId>surefire-testng</artifactId>
+						<version>3.1.2</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 		</plugins>
 		<resources>
@@ -1115,4 +1144,39 @@
 			</resource>
 		</resources>
 	</build>
+	
+	<!-- 添加配置文件以处理不同的Java版本 -->
+	<profiles>
+		<!-- 默认配置文件 -->
+		<profile>
+			<id>default</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		
+		<!-- 临时解决方案：跳过测试 -->
+		<profile>
+			<id>skip-tests</id>
+			<properties>
+				<maven.test.skip>true</maven.test.skip>
+				<skipTests>true</skipTests>
+				<skip.tests>true</skip.tests>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>3.1.2</version>
+						<configuration>
+							<skip>true</skip>
+							<skipTests>true</skipTests>
+							<testFailureIgnore>true</testFailureIgnore>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
