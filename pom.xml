@@ -1021,6 +1021,7 @@
 					</excludes>
 					<skip>${maven.test.skip}</skip>
 					<executable>true</executable>
+					<mainClass>com.bgpay.bgai.BgaiApplication</mainClass>
 				</configuration>
 			</plugin>
 			<plugin>
