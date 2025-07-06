@@ -1,30 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="BGAI Test Suite" verbose="2">
-    <!-- MVC测试组 -->
-    <test name="MVC Tests">
+    <!-- 控制器测试组 -->
+    <test name="Controller Tests">
         <groups>
             <run>
-                <include name="mvc-tests"/>
-                <exclude name="webflux-tests"/>
+                <include name="controller-tests"/>
             </run>
         </groups>
-        <classes>
-            <class name="com.bgpay.bgai.controller.AuthControllerTest" />
-            <class name="com.bgpay.bgai.controller.SimpleAuthControllerTest" />
-        </classes>
+        <packages>
+            <package name="com.bgpay.bgai.controller.*"/>
+        </packages>
     </test>
     
-    <!-- WebFlux测试组 -->
-    <test name="WebFlux Tests">
+    <!-- 服务层测试组 -->
+    <test name="Service Tests">
         <groups>
             <run>
-                <include name="webflux-tests"/>
-                <exclude name="mvc-tests"/>
+                <include name="service-tests"/>
             </run>
         </groups>
-        <classes>
-            <class name="com.bgpay.bgai.controller.ChatGatWayInternalIdempotenceTest" />
-        </classes>
+        <packages>
+            <package name="com.bgpay.bgai.service.*"/>
+        </packages>
     </test>
+    
+    <!-- 集成测试组 -->
+    <test name="Integration Tests">
+        <groups>
+            <run>
+                <include name="integration-tests"/>
+            </run>
+        </groups>
+        <packages>
+            <package name="com.bgpay.bgai.*"/>
+        </packages>
+    </test>
+    
+    <!-- 单元测试组 -->
+    <test name="Unit Tests">
+        <groups>
+            <run>
+                <include name="unit-tests"/>
+            </run>
+        </groups>
+        <packages>
+            <package name="com.bgpay.bgai.*"/>
+        </packages>
+    </test>
+    
+    <!-- 所有测试（不分组） -->
+    <test name="All Tests">
+        <packages>
+            <package name="com.bgpay.bgai.*"/>
+        </packages>
+    </test>
+    
+    <!-- 监听器配置 -->
+    <listeners>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+    </listeners>
 </suite> 
