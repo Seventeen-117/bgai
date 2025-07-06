@@ -1,0 +1,146 @@
+# 系统配置控制器测试数据
+description: "系统配置控制器API测试用例"
+baseUrl: "/api/system/config"
+testCases:
+  - id: "get-all-api-configs-success"
+    description: "获取所有API配置成功"
+    endpoint: "/api-configs"
+    request:
+      method: "GET"
+      headers:
+        Authorization: "Bearer ${token}"
+    expectedResponse:
+      statusCode: 200
+      bodyContains:
+        - "["
+        - "]"
+        - "id"
+        - "name"
+        - "apiUrl"
+        - "enabled"
+      
+  - id: "get-api-config-by-id-success"
+    description: "根据ID获取API配置成功"
+    endpoint: "/api-configs/{configId}"
+    request:
+      method: "GET"
+      pathVariables:
+        configId: "1"
+      headers:
+        Authorization: "Bearer ${token}"
+    expectedResponse:
+      statusCode: 200
+      bodyContains:
+        - "id"
+        - "name"
+        - "apiUrl"
+        - "enabled"
+        - "createdAt"
+      
+  - id: "get-api-config-by-id-not-found"
+    description: "根据ID获取API配置失败 - 未找到"
+    endpoint: "/api-configs/{configId}"
+    request:
+      method: "GET"
+      pathVariables:
+        configId: "999"
+      headers:
+        Authorization: "Bearer ${token}"
+    expectedResponse:
+      statusCode: 404
+      bodyContains:
+        - "API config not found"
+      bodyEquals:
+        success: false
+        
+  - id: "create-api-config-success"
+    description: "创建API配置成功"
+    endpoint: "/api-configs"
+    request:
+      method: "POST"
+      headers:
+        Content-Type: "application/json"
+        Authorization: "Bearer ${token}"
+      body:
+        name: "测试API配置"
+        apiUrl: "https://api.example.com"
+        apiKey: "test-api-key"
+        modelName: "gpt-3.5-turbo"
+        enabled: true
+    expectedResponse:
+      statusCode: 201
+      bodyContains:
+        - "id"
+        - "name"
+        - "apiUrl"
+        - "enabled"
+      bodyEquals:
+        success: true
+        
+  - id: "update-api-config-success"
+    description: "更新API配置成功"
+    endpoint: "/api-configs/{configId}"
+    request:
+      method: "PUT"
+      pathVariables:
+        configId: "1"
+      headers:
+        Content-Type: "application/json"
+        Authorization: "Bearer ${token}"
+      body:
+        name: "更新的API配置"
+        apiUrl: "https://updated-api.example.com"
+        enabled: false
+    expectedResponse:
+      statusCode: 200
+      bodyContains:
+        - "id"
+        - "name"
+        - "更新的API配置"
+        - "apiUrl"
+        - "updated-api.example.com"
+      bodyEquals:
+        success: true
+        
+  - id: "delete-api-config-success"
+    description: "删除API配置成功"
+    endpoint: "/api-configs/{configId}"
+    request:
+      method: "DELETE"
+      pathVariables:
+        configId: "1"
+      headers:
+        Authorization: "Bearer ${token}"
+    expectedResponse:
+      statusCode: 204
+      
+  - id: "get-system-status-success"
+    description: "获取系统状态成功"
+    endpoint: "/status"
+    request:
+      method: "GET"
+      headers:
+        Authorization: "Bearer ${token}"
+    expectedResponse:
+      statusCode: 200
+      bodyContains:
+        - "status"
+        - "version"
+        - "uptime"
+        - "memory"
+      
+  - id: "get-api-clients-success"
+    description: "获取所有API客户端成功"
+    endpoint: "/api-clients"
+    request:
+      method: "GET"
+      headers:
+        Authorization: "Bearer ${token}"
+    expectedResponse:
+      statusCode: 200
+      bodyContains:
+        - "["
+        - "]"
+        - "id"
+        - "name"
+        - "status" 

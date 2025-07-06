@@ -1,0 +1,128 @@
+# 动态路由控制器测试数据
+description: "动态路由控制器API测试用例"
+baseUrl: "/api/routes"
+testCases:
+  - id: "get-all-routes-success"
+    description: "获取所有路由成功"
+    endpoint: ""
+    request:
+      method: "GET"
+      headers:
+        Authorization: "Bearer ${token}"
+    expectedResponse:
+      statusCode: 200
+      bodyContains:
+        - "["
+        - "]"
+        - "id"
+        - "uri"
+        - "predicates"
+      
+  - id: "get-route-by-id-success"
+    description: "根据ID获取路由成功"
+    endpoint: "/{routeId}"
+    request:
+      method: "GET"
+      pathVariables:
+        routeId: "route-001"
+      headers:
+        Authorization: "Bearer ${token}"
+    expectedResponse:
+      statusCode: 200
+      bodyContains:
+        - "id"
+        - "uri"
+        - "predicates"
+        - "filters"
+      
+  - id: "get-route-by-id-not-found"
+    description: "根据ID获取路由失败 - 未找到"
+    endpoint: "/{routeId}"
+    request:
+      method: "GET"
+      pathVariables:
+        routeId: "non-existent-route"
+      headers:
+        Authorization: "Bearer ${token}"
+    expectedResponse:
+      statusCode: 404
+      bodyContains:
+        - "Route not found"
+      
+  - id: "create-route-success"
+    description: "创建路由成功"
+    endpoint: ""
+    request:
+      method: "POST"
+      headers:
+        Content-Type: "application/json"
+        Authorization: "Bearer ${token}"
+      body:
+        id: "new-test-route"
+        uri: "http://example.com"
+        predicates:
+          - name: "Path"
+            args:
+              pattern: "/test/**"
+        filters:
+          - name: "StripPrefix"
+            args:
+              parts: 1
+    expectedResponse:
+      statusCode: 201
+      bodyContains:
+        - "id"
+        - "new-test-route"
+        - "uri"
+      bodyEquals:
+        success: true
+        
+  - id: "update-route-success"
+    description: "更新路由成功"
+    endpoint: "/{routeId}"
+    request:
+      method: "PUT"
+      pathVariables:
+        routeId: "route-001"
+      headers:
+        Content-Type: "application/json"
+        Authorization: "Bearer ${token}"
+      body:
+        uri: "http://updated-example.com"
+        predicates:
+          - name: "Path"
+            args:
+              pattern: "/updated/**"
+    expectedResponse:
+      statusCode: 200
+      bodyContains:
+        - "id"
+        - "route-001"
+        - "uri"
+        - "updated-example.com"
+      bodyEquals:
+        success: true
+        
+  - id: "delete-route-success"
+    description: "删除路由成功"
+    endpoint: "/{routeId}"
+    request:
+      method: "DELETE"
+      pathVariables:
+        routeId: "route-001"
+      headers:
+        Authorization: "Bearer ${token}"
+    expectedResponse:
+      statusCode: 204
+      
+  - id: "refresh-routes-success"
+    description: "刷新所有路由成功"
+    endpoint: "/refresh"
+    request:
+      method: "POST"
+      headers:
+        Authorization: "Bearer ${token}"
+    expectedResponse:
+      statusCode: 200
+      bodyEquals:
+        success: true 

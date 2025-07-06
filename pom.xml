@@ -1013,6 +1013,12 @@
 			<version>${allure.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- YAML 数据处理 -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-yaml</artifactId>
+			<version>2.15.2</version>
+		</dependency>
 	</dependencies>
 
 	<build>

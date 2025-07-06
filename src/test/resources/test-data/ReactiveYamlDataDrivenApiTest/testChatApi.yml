@@ -1,0 +1,107 @@
+# 聊天API测试数据
+description: "聊天API测试用例"
+baseUrl: "/api/chat"
+endpoint: "/completions"
+testCases:
+  - id: "chat-completion-success"
+    description: "聊天完成请求成功"
+    request:
+      method: "POST"
+      headers:
+        Content-Type: "application/json"
+        Authorization: "Bearer sk-test-token"
+      body:
+        model: "gpt-3.5-turbo"
+        messages:
+          - role: "user"
+            content: "Hello, how are you?"
+        temperature: 0.7
+        max_tokens: 100
+    expectedResponse:
+      statusCode: 200
+      bodyContains:
+        - "id"
+        - "choices"
+        - "content"
+      bodyEquals:
+        success: true
+        
+  - id: "chat-completion-invalid-model"
+    description: "使用无效模型名称"
+    request:
+      method: "POST"
+      headers:
+        Content-Type: "application/json"
+        Authorization: "Bearer sk-test-token"
+      body:
+        model: "invalid-model"
+        messages:
+          - role: "user"
+            content: "Hello, how are you?"
+        temperature: 0.7
+        max_tokens: 100
+    expectedResponse:
+      statusCode: 400
+      bodyContains:
+        - "Invalid model"
+      bodyEquals:
+        success: false
+        
+  - id: "chat-completion-missing-messages"
+    description: "缺少消息内容"
+    request:
+      method: "POST"
+      headers:
+        Content-Type: "application/json"
+        Authorization: "Bearer sk-test-token"
+      body:
+        model: "gpt-3.5-turbo"
+        temperature: 0.7
+        max_tokens: 100
+    expectedResponse:
+      statusCode: 400
+      bodyContains:
+        - "Messages are required"
+      bodyEquals:
+        success: false
+        
+  - id: "chat-completion-unauthorized"
+    description: "未授权访问"
+    request:
+      method: "POST"
+      headers:
+        Content-Type: "application/json"
+      body:
+        model: "gpt-3.5-turbo"
+        messages:
+          - role: "user"
+            content: "Hello, how are you?"
+        temperature: 0.7
+        max_tokens: 100
+    expectedResponse:
+      statusCode: 401
+      bodyContains:
+        - "Unauthorized"
+      bodyEquals:
+        success: false
+        
+  - id: "chat-completion-invalid-token"
+    description: "使用无效令牌"
+    request:
+      method: "POST"
+      headers:
+        Content-Type: "application/json"
+        Authorization: "Bearer invalid-token"
+      body:
+        model: "gpt-3.5-turbo"
+        messages:
+          - role: "user"
+            content: "Hello, how are you?"
+        temperature: 0.7
+        max_tokens: 100
+    expectedResponse:
+      statusCode: 401
+      bodyContains:
+        - "Invalid API key"
+      bodyEquals:
+        success: false 

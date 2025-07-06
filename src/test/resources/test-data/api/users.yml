@@ -1,0 +1,97 @@
+# 用户API测试数据
+description: "用户相关API测试用例"
+baseUrl: "/api/users"
+testCases:
+  - id: "get-user-by-id-success"
+    description: "根据ID获取用户信息成功"
+    endpoint: "/{userId}"
+    request:
+      method: "GET"
+      pathVariables:
+        userId: "1001"
+      headers:
+        Authorization: "Bearer ${token}"
+    expectedResponse:
+      statusCode: 200
+      bodyContains:
+        - "id"
+        - "username"
+        - "email"
+      bodyEquals:
+        id: "1001"
+        username: "testuser"
+        email: "test@example.com"
+        
+  - id: "get-user-by-id-not-found"
+    description: "根据ID获取不存在的用户信息"
+    endpoint: "/{userId}"
+    request:
+      method: "GET"
+      pathVariables:
+        userId: "9999"
+      headers:
+        Authorization: "Bearer ${token}"
+    expectedResponse:
+      statusCode: 404
+      bodyContains:
+        - "User not found"
+      bodyEquals:
+        success: false
+        message: "User not found with id: 9999"
+        
+  - id: "create-user-success"
+    description: "创建新用户成功"
+    endpoint: ""
+    request:
+      method: "POST"
+      headers:
+        Content-Type: "application/json"
+        Authorization: "Bearer ${token}"
+      body:
+        username: "newuser"
+        email: "newuser@example.com"
+        password: "password123"
+    expectedResponse:
+      statusCode: 201
+      bodyContains:
+        - "id"
+        - "username"
+        - "email"
+      bodyEquals:
+        success: true
+        message: "User created successfully"
+        
+  - id: "update-user-success"
+    description: "更新用户信息成功"
+    endpoint: "/{userId}"
+    request:
+      method: "PUT"
+      pathVariables:
+        userId: "1001"
+      headers:
+        Content-Type: "application/json"
+        Authorization: "Bearer ${token}"
+      body:
+        email: "updated@example.com"
+    expectedResponse:
+      statusCode: 200
+      bodyContains:
+        - "id"
+        - "username"
+        - "email"
+      bodyEquals:
+        id: "1001"
+        username: "testuser"
+        email: "updated@example.com"
+        
+  - id: "delete-user-success"
+    description: "删除用户成功"
+    endpoint: "/{userId}"
+    request:
+      method: "DELETE"
+      pathVariables:
+        userId: "1001"
+      headers:
+        Authorization: "Bearer ${token}"
+    expectedResponse:
+      statusCode: 204 

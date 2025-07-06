@@ -1,0 +1,116 @@
+# 用量控制器测试数据
+description: "用量控制器API测试用例"
+baseUrl: "/api/usage"
+testCases:
+  - id: "get-usage-records-success"
+    description: "获取用量记录列表成功"
+    endpoint: "/records"
+    request:
+      method: "GET"
+      headers:
+        Authorization: "Bearer ${token}"
+      parameters:
+        page: "1"
+        size: "10"
+    expectedResponse:
+      statusCode: 200
+      bodyContains:
+        - "content"
+        - "totalElements"
+        - "totalPages"
+        - "size"
+        - "number"
+      
+  - id: "get-usage-by-user-success"
+    description: "获取用户用量记录成功"
+    endpoint: "/user/{userId}"
+    request:
+      method: "GET"
+      pathVariables:
+        userId: "1001"
+      headers:
+        Authorization: "Bearer ${token}"
+      parameters:
+        startDate: "2025-01-01"
+        endDate: "2025-12-31"
+    expectedResponse:
+      statusCode: 200
+      bodyContains:
+        - "["
+        - "]"
+        - "userId"
+        - "modelName"
+        - "promptTokens"
+        - "completionTokens"
+        - "totalTokens"
+        - "cost"
+      
+  - id: "get-usage-by-model-success"
+    description: "获取模型用量统计成功"
+    endpoint: "/model/{modelName}"
+    request:
+      method: "GET"
+      pathVariables:
+        modelName: "gpt-3.5-turbo"
+      headers:
+        Authorization: "Bearer ${token}"
+      parameters:
+        startDate: "2025-01-01"
+        endDate: "2025-12-31"
+    expectedResponse:
+      statusCode: 200
+      bodyContains:
+        - "modelName"
+        - "totalPromptTokens"
+        - "totalCompletionTokens"
+        - "totalTokens"
+        - "totalCost"
+      
+  - id: "get-usage-summary-success"
+    description: "获取用量汇总成功"
+    endpoint: "/summary"
+    request:
+      method: "GET"
+      headers:
+        Authorization: "Bearer ${token}"
+      parameters:
+        period: "monthly"
+    expectedResponse:
+      statusCode: 200
+      bodyContains:
+        - "["
+        - "]"
+        - "period"
+        - "totalRequests"
+        - "totalTokens"
+        - "totalCost"
+      
+  - id: "create-batch-usage-records-success"
+    description: "批量创建用量记录成功"
+    endpoint: "/batch"
+    request:
+      method: "POST"
+      headers:
+        Content-Type: "application/json"
+        Authorization: "Bearer ${token}"
+      body:
+        records:
+          - userId: "1001"
+            modelName: "gpt-3.5-turbo"
+            promptTokens: 100
+            completionTokens: 50
+            totalTokens: 150
+            cost: 0.0015
+          - userId: "1002"
+            modelName: "gpt-4"
+            promptTokens: 200
+            completionTokens: 100
+            totalTokens: 300
+            cost: 0.006
+    expectedResponse:
+      statusCode: 201
+      bodyContains:
+        - "recordsCreated"
+        - "success"
+      bodyEquals:
+        success: true 

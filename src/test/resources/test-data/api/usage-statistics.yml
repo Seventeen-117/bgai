@@ -1,0 +1,134 @@
+# 用量统计控制器测试数据
+description: "用量统计控制器API测试用例"
+baseUrl: "/api/statistics"
+testCases:
+  - id: "get-daily-usage-success"
+    description: "获取每日用量统计成功"
+    endpoint: "/daily"
+    request:
+      method: "GET"
+      headers:
+        Authorization: "Bearer ${token}"
+      parameters:
+        startDate: "2025-01-01"
+        endDate: "2025-01-31"
+    expectedResponse:
+      statusCode: 200
+      bodyContains:
+        - "["
+        - "]"
+        - "date"
+        - "totalRequests"
+        - "totalTokens"
+        - "totalCost"
+      
+  - id: "get-monthly-usage-success"
+    description: "获取每月用量统计成功"
+    endpoint: "/monthly"
+    request:
+      method: "GET"
+      headers:
+        Authorization: "Bearer ${token}"
+      parameters:
+        year: "2025"
+    expectedResponse:
+      statusCode: 200
+      bodyContains:
+        - "["
+        - "]"
+        - "month"
+        - "totalRequests"
+        - "totalTokens"
+        - "totalCost"
+      
+  - id: "get-user-usage-ranking-success"
+    description: "获取用户用量排名成功"
+    endpoint: "/ranking/users"
+    request:
+      method: "GET"
+      headers:
+        Authorization: "Bearer ${token}"
+      parameters:
+        startDate: "2025-01-01"
+        endDate: "2025-12-31"
+        limit: "10"
+    expectedResponse:
+      statusCode: 200
+      bodyContains:
+        - "["
+        - "]"
+        - "userId"
+        - "username"
+        - "totalRequests"
+        - "totalTokens"
+        - "totalCost"
+        - "rank"
+      
+  - id: "get-model-usage-ranking-success"
+    description: "获取模型用量排名成功"
+    endpoint: "/ranking/models"
+    request:
+      method: "GET"
+      headers:
+        Authorization: "Bearer ${token}"
+      parameters:
+        startDate: "2025-01-01"
+        endDate: "2025-12-31"
+    expectedResponse:
+      statusCode: 200
+      bodyContains:
+        - "["
+        - "]"
+        - "modelName"
+        - "totalRequests"
+        - "totalTokens"
+        - "totalCost"
+        - "percentage"
+      
+  - id: "get-usage-by-date-range-success"
+    description: "获取日期范围内的用量统计成功"
+    endpoint: "/range"
+    request:
+      method: "GET"
+      headers:
+        Authorization: "Bearer ${token}"
+      parameters:
+        startDate: "2025-01-01"
+        endDate: "2025-01-31"
+        groupBy: "day"
+    expectedResponse:
+      statusCode: 200
+      bodyContains:
+        - "["
+        - "]"
+        - "period"
+        - "totalRequests"
+        - "totalTokens"
+        - "totalCost"
+      
+  - id: "calculate-usage-success"
+    description: "计算指定条件的用量成功"
+    endpoint: "/calculate"
+    request:
+      method: "POST"
+      headers:
+        Content-Type: "application/json"
+        Authorization: "Bearer ${token}"
+      body:
+        userId: "1001"
+        modelName: "gpt-3.5-turbo"
+        startDate: "2025-01-01"
+        endDate: "2025-01-31"
+        includeCache: true
+    expectedResponse:
+      statusCode: 200
+      bodyContains:
+        - "userId"
+        - "modelName"
+        - "startDate"
+        - "endDate"
+        - "totalRequests"
+        - "totalTokens"
+        - "totalCost"
+        - "cacheHits"
+        - "cacheSavings" 

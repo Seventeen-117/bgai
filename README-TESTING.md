@@ -4,6 +4,30 @@
 
 BGAI 测试框架基于 TestNG 和 Allure 构建，提供了全面的测试功能，包括单元测试、集成测试、API 测试等。该框架支持传统的 MVC 控制器测试和响应式 WebFlux 控制器测试，并生成详细的 Allure 测试报告。
 
+
+
+graph TD
+A[测试数据YAML文件] --> B[YamlDataProvider]
+B --> C[测试方法]
+D[YamlSource注解] --> B
+E[YamlTestUtils] --> B
+E --> C
+F[测试结果] --> G[Allure报告]
+C --> F
+
+    subgraph 数据驱动测试流程
+        A
+        B
+        C
+        D
+        E
+    end
+    
+    subgraph 报告生成
+        F
+        G
+    end
+
 ## 技术栈
 
 - **TestNG**: 测试执行框架
@@ -276,4 +300,76 @@ public void testGetUser_WhenUserNotFound_ThenThrowException() {
 - [TestNG 官方文档](https://testng.org/doc/)
 - [Allure 官方文档](https://docs.qameta.io/allure/)
 - [Spring Boot 测试指南](https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.testing)
-- [WebTestClient 文档](https://docs.spring.io/spring-framework/docs/current/reference/html/testing.html#webtestclient) 
+- [WebTestClient 文档](https://docs.spring.io/spring-framework/docs/current/reference/html/testing.html#webtestclient)
+
+## YAML数据驱动测试
+
+BGAI 项目支持使用 YAML 文件作为数据源进行数据驱动测试，这使得测试用例更加清晰、易于维护。
+
+### YAML 数据结构
+
+测试数据 YAML 文件通常包含以下结构：
+
+```yaml
+# 测试描述
+description: "API测试用例"
+baseUrl: "/api/users"
+# 测试用例列表
+testCases:
+  - id: "test-case-1"
+    description: "测试场景描述"
+    request:
+      method: "GET"
+      headers:
+        Authorization: "Bearer ${token}"
+      pathVariables:
+        userId: "1001"
+    expectedResponse:
+      statusCode: 200
+      bodyContains:
+        - "expectedValue1"
+        - "expectedValue2"
+```
+
+### 使用 YamlDataProvider
+
+项目提供了 `YamlDataProvider` 类，用于加载 YAML 测试数据：
+
+```java
+@Test(dataProvider = "yamlData", dataProviderClass = YamlDataProvider.class)
+public void testApiEndpoint(Map<String, Object> testData) {
+    // 使用 testData 中的数据进行测试
+}
+```
+
+默认情况下，`YamlDataProvider` 会根据测试类名和方法名查找对应的 YAML 文件：
+`src/test/resources/test-data/{TestClassName}/{testMethodName}.yml`
+
+### 使用 YamlSource 注解
+
+也可以使用 `@YamlSource` 注解指定 YAML 文件：
+
+```java
+@Test(dataProvider = "namedYamlData", dataProviderClass = YamlDataProvider.class)
+@YamlSource("api/users")
+public void testUserApi(Map<String, Object> testData) {
+    // 使用指定 YAML 文件中的数据进行测试
+}
+```
+
+### 变量替换
+
+YAML 文件中可以使用 `${variable}` 语法定义变量占位符，在测试运行时会被替换：
+
+```yaml
+headers:
+  Authorization: "Bearer ${token}"
+```
+
+可以使用 `YamlTestUtils` 类进行变量替换：
+
+```java
+Map<String, String> variables = new HashMap<>();
+variables.put("token", "actual-token-value");
+YamlTestUtils.replaceVariablesInMap(testData, variables);
+``` 

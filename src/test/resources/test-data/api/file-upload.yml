@@ -1,0 +1,133 @@
+# 文件上传控制器测试数据
+description: "文件上传控制器API测试用例"
+baseUrl: "/api/files"
+testCases:
+  - id: "upload-file-success"
+    description: "上传文件成功"
+    endpoint: "/upload"
+    request:
+      method: "POST"
+      headers:
+        Authorization: "Bearer ${token}"
+      multipart:
+        file: "test-file.txt"
+        contentType: "text/plain"
+        fileContent: "This is a test file content for upload testing."
+    expectedResponse:
+      statusCode: 200
+      bodyContains:
+        - "fileName"
+        - "fileSize"
+        - "contentType"
+      bodyEquals:
+        success: true
+        
+  - id: "upload-file-invalid-type"
+    description: "上传文件失败 - 不支持的文件类型"
+    endpoint: "/upload"
+    request:
+      method: "POST"
+      headers:
+        Authorization: "Bearer ${token}"
+      multipart:
+        file: "test-file.exe"
+        contentType: "application/octet-stream"
+        fileContent: "Binary content"
+    expectedResponse:
+      statusCode: 400
+      bodyContains:
+        - "Unsupported file type"
+      bodyEquals:
+        success: false
+        
+  - id: "upload-file-too-large"
+    description: "上传文件失败 - 文件过大"
+    endpoint: "/upload"
+    request:
+      method: "POST"
+      headers:
+        Authorization: "Bearer ${token}"
+      multipart:
+        file: "large-file.txt"
+        contentType: "text/plain"
+        fileContent: "${largeFileContent}"
+    expectedResponse:
+      statusCode: 413
+      bodyContains:
+        - "File size exceeds maximum limit"
+      bodyEquals:
+        success: false
+        
+  - id: "get-file-types-success"
+    description: "获取支持的文件类型列表成功"
+    endpoint: "/types"
+    request:
+      method: "GET"
+      headers:
+        Authorization: "Bearer ${token}"
+    expectedResponse:
+      statusCode: 200
+      bodyContains:
+        - "["
+        - "]"
+        - "id"
+        - "extension"
+        - "mimeType"
+        - "maxSize"
+      
+  - id: "add-file-type-success"
+    description: "添加新的文件类型成功"
+    endpoint: "/types"
+    request:
+      method: "POST"
+      headers:
+        Content-Type: "application/json"
+        Authorization: "Bearer ${token}"
+      body:
+        extension: "csv"
+        mimeType: "text/csv"
+        description: "CSV文件"
+        maxSize: 5242880
+    expectedResponse:
+      statusCode: 201
+      bodyContains:
+        - "id"
+        - "extension"
+        - "csv"
+        - "mimeType"
+      bodyEquals:
+        success: true
+        
+  - id: "update-file-type-success"
+    description: "更新文件类型成功"
+    endpoint: "/types/{typeId}"
+    request:
+      method: "PUT"
+      pathVariables:
+        typeId: "1"
+      headers:
+        Content-Type: "application/json"
+        Authorization: "Bearer ${token}"
+      body:
+        maxSize: 10485760
+        description: "更新的文件类型描述"
+    expectedResponse:
+      statusCode: 200
+      bodyContains:
+        - "id"
+        - "maxSize"
+        - "10485760"
+      bodyEquals:
+        success: true
+        
+  - id: "delete-file-type-success"
+    description: "删除文件类型成功"
+    endpoint: "/types/{typeId}"
+    request:
+      method: "DELETE"
+      pathVariables:
+        typeId: "1"
+      headers:
+        Authorization: "Bearer ${token}"
+    expectedResponse:
+      statusCode: 204 

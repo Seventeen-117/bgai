@@ -1,0 +1,83 @@
+# 登录功能测试数据
+description: "登录接口测试用例"
+baseUrl: "/api/auth"
+endpoint: "/login"
+testCases:
+  - id: "login-success"
+    description: "使用有效凭据登录成功"
+    request:
+      method: "POST"
+      headers:
+        Content-Type: "application/json"
+      body:
+        username: "admin"
+        password: "admin123"
+    expectedResponse:
+      statusCode: 200
+      bodyContains:
+        - "token"
+        - "userId"
+      bodyEquals:
+        success: true
+        
+  - id: "login-invalid-username"
+    description: "使用无效用户名登录失败"
+    request:
+      method: "POST"
+      headers:
+        Content-Type: "application/json"
+      body:
+        username: "nonexistent_user"
+        password: "password123"
+    expectedResponse:
+      statusCode: 401
+      bodyContains:
+        - "Invalid credentials"
+      bodyEquals:
+        success: false
+        
+  - id: "login-invalid-password"
+    description: "使用无效密码登录失败"
+    request:
+      method: "POST"
+      headers:
+        Content-Type: "application/json"
+      body:
+        username: "admin"
+        password: "wrong_password"
+    expectedResponse:
+      statusCode: 401
+      bodyContains:
+        - "Invalid credentials"
+      bodyEquals:
+        success: false
+        
+  - id: "login-missing-username"
+    description: "缺少用户名登录失败"
+    request:
+      method: "POST"
+      headers:
+        Content-Type: "application/json"
+      body:
+        password: "password123"
+    expectedResponse:
+      statusCode: 400
+      bodyContains:
+        - "Username is required"
+      bodyEquals:
+        success: false
+        
+  - id: "login-missing-password"
+    description: "缺少密码登录失败"
+    request:
+      method: "POST"
+      headers:
+        Content-Type: "application/json"
+      body:
+        username: "admin"
+    expectedResponse:
+      statusCode: 400
+      bodyContains:
+        - "Password is required"
+      bodyEquals:
+        success: false 

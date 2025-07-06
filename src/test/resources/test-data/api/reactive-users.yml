@@ -1,0 +1,118 @@
+# 反应式用户API测试数据
+description: "反应式用户API测试用例"
+baseUrl: "/api/reactive/users"
+testCases:
+  - id: "get-all-users-success"
+    description: "获取所有用户成功"
+    endpoint: ""
+    request:
+      method: "GET"
+      headers:
+        Authorization: "Bearer ${token}"
+    expectedResponse:
+      statusCode: 200
+      bodyContains:
+        - "["
+        - "]"
+        - "id"
+        - "username"
+      
+  - id: "get-user-by-id-success"
+    description: "根据ID获取用户成功"
+    endpoint: "/{userId}"
+    request:
+      method: "GET"
+      pathVariables:
+        userId: "1001"
+      headers:
+        Authorization: "Bearer ${token}"
+    expectedResponse:
+      statusCode: 200
+      bodyContains:
+        - "id"
+        - "username"
+        - "email"
+      bodyEquals:
+        id: "1001"
+        username: "testuser"
+        email: "test@example.com"
+        
+  - id: "get-user-by-id-not-found"
+    description: "获取不存在的用户"
+    endpoint: "/{userId}"
+    request:
+      method: "GET"
+      pathVariables:
+        userId: "9999"
+      headers:
+        Authorization: "Bearer ${token}"
+    expectedResponse:
+      statusCode: 404
+      bodyContains:
+        - "User not found"
+      
+  - id: "create-user-success"
+    description: "创建用户成功"
+    endpoint: ""
+    request:
+      method: "POST"
+      headers:
+        Content-Type: "application/json"
+        Authorization: "Bearer ${token}"
+      body:
+        username: "newuser"
+        email: "newuser@example.com"
+        password: "password123"
+    expectedResponse:
+      statusCode: 201
+      bodyContains:
+        - "id"
+        - "username"
+        - "email"
+      
+  - id: "create-user-duplicate"
+    description: "创建重复用户名"
+    endpoint: ""
+    request:
+      method: "POST"
+      headers:
+        Content-Type: "application/json"
+        Authorization: "Bearer ${token}"
+      body:
+        username: "testuser"
+        email: "another@example.com"
+        password: "password123"
+    expectedResponse:
+      statusCode: 409
+      bodyContains:
+        - "Username already exists"
+      
+  - id: "update-user-success"
+    description: "更新用户成功"
+    endpoint: "/{userId}"
+    request:
+      method: "PUT"
+      pathVariables:
+        userId: "1001"
+      headers:
+        Content-Type: "application/json"
+        Authorization: "Bearer ${token}"
+      body:
+        email: "updated@example.com"
+    expectedResponse:
+      statusCode: 200
+      bodyContains:
+        - "id"
+        - "updated@example.com"
+      
+  - id: "delete-user-success"
+    description: "删除用户成功"
+    endpoint: "/{userId}"
+    request:
+      method: "DELETE"
+      pathVariables:
+        userId: "1001"
+      headers:
+        Authorization: "Bearer ${token}"
+    expectedResponse:
+      statusCode: 204 

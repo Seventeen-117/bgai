@@ -1,0 +1,134 @@
+# 会话控制器测试数据
+description: "会话控制器API测试用例"
+baseUrl: "/api/sessions"
+testCases:
+  - id: "get-user-sessions-success"
+    description: "获取用户会话列表成功"
+    endpoint: "/user/{userId}"
+    request:
+      method: "GET"
+      pathVariables:
+        userId: "1001"
+      headers:
+        Authorization: "Bearer ${token}"
+    expectedResponse:
+      statusCode: 200
+      bodyContains:
+        - "["
+        - "]"
+        - "sessionId"
+        - "userId"
+        - "createdAt"
+        - "lastActiveAt"
+      
+  - id: "get-session-by-id-success"
+    description: "根据ID获取会话成功"
+    endpoint: "/{sessionId}"
+    request:
+      method: "GET"
+      pathVariables:
+        sessionId: "session-001"
+      headers:
+        Authorization: "Bearer ${token}"
+    expectedResponse:
+      statusCode: 200
+      bodyContains:
+        - "sessionId"
+        - "userId"
+        - "createdAt"
+        - "lastActiveAt"
+        - "messages"
+      
+  - id: "get-session-by-id-not-found"
+    description: "根据ID获取会话失败 - 未找到"
+    endpoint: "/{sessionId}"
+    request:
+      method: "GET"
+      pathVariables:
+        sessionId: "non-existent-session"
+      headers:
+        Authorization: "Bearer ${token}"
+    expectedResponse:
+      statusCode: 404
+      bodyContains:
+        - "Session not found"
+      bodyEquals:
+        success: false
+        
+  - id: "create-session-success"
+    description: "创建会话成功"
+    endpoint: ""
+    request:
+      method: "POST"
+      headers:
+        Content-Type: "application/json"
+        Authorization: "Bearer ${token}"
+      body:
+        userId: "1001"
+        title: "新会话"
+    expectedResponse:
+      statusCode: 201
+      bodyContains:
+        - "sessionId"
+        - "userId"
+        - "title"
+        - "createdAt"
+      bodyEquals:
+        success: true
+        
+  - id: "update-session-success"
+    description: "更新会话成功"
+    endpoint: "/{sessionId}"
+    request:
+      method: "PUT"
+      pathVariables:
+        sessionId: "session-001"
+      headers:
+        Content-Type: "application/json"
+        Authorization: "Bearer ${token}"
+      body:
+        title: "更新的会话标题"
+    expectedResponse:
+      statusCode: 200
+      bodyContains:
+        - "sessionId"
+        - "title"
+        - "更新的会话标题"
+      bodyEquals:
+        success: true
+        
+  - id: "delete-session-success"
+    description: "删除会话成功"
+    endpoint: "/{sessionId}"
+    request:
+      method: "DELETE"
+      pathVariables:
+        sessionId: "session-001"
+      headers:
+        Authorization: "Bearer ${token}"
+    expectedResponse:
+      statusCode: 204
+      
+  - id: "add-message-to-session-success"
+    description: "向会话添加消息成功"
+    endpoint: "/{sessionId}/messages"
+    request:
+      method: "POST"
+      pathVariables:
+        sessionId: "session-001"
+      headers:
+        Content-Type: "application/json"
+        Authorization: "Bearer ${token}"
+      body:
+        role: "user"
+        content: "Hello, how are you?"
+    expectedResponse:
+      statusCode: 201
+      bodyContains:
+        - "messageId"
+        - "sessionId"
+        - "role"
+        - "content"
+        - "createdAt"
+      bodyEquals:
+        success: true 
