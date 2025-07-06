@@ -43,6 +43,8 @@
 		<elasticsearch.version>8.12.2</elasticsearch.version>
 		<!-- 测试框架 -->
 		<testng.version>7.1.0</testng.version>
+		<allure.version>2.25.0</allure.version>
+		<aspectj.version>1.9.21.1</aspectj.version>
 		<!-- 基础依赖 -->
 		<pagehelper.version>5.3.2</pagehelper.version>
 		<httpclient.version>4.5.13</httpclient.version>
@@ -997,6 +999,20 @@
 			<version>${testng.version}</version>
 			<scope>test</scope>
 		</dependency>
+		
+		<!-- Allure TestNG 依赖 -->
+		<dependency>
+			<groupId>io.qameta.allure</groupId>
+			<artifactId>allure-testng</artifactId>
+			<version>${allure.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.qameta.allure</groupId>
+			<artifactId>allure-java-commons</artifactId>
+			<version>${allure.version}</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -1056,10 +1072,8 @@
 				<configuration>
 					<source>17</source>
 					<target>17</target>
-					<release>17</release>
-					<fork>true</fork>
 					<compilerArgs>
-						<arg>-J-Duser.language=en</arg>
+						<arg>-parameters</arg>
 					</compilerArgs>
 				</configuration>
 			</plugin>
@@ -1097,7 +1111,11 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.1.2</version>
 				<configuration>
-					<argLine>-Duser.language=en</argLine>
+					<argLine>
+						-javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+						-Duser.language=en
+						-Djdk.attach.allowAttachSelf=true
+					</argLine>
 					<skipTests>false</skipTests>
 					<!-- 使用TestNG进行测试 -->
 					<testFailureIgnore>true</testFailureIgnore>
@@ -1116,6 +1134,18 @@
 					<excludes>
 						<exclude>**/*IntegrationTest.java</exclude>
 					</excludes>
+					<properties>
+						<property>
+							<name>listener</name>
+							<value>io.qameta.allure.testng.AllureTestNg</value>
+						</property>
+					</properties>
+					<systemProperties>
+						<property>
+							<name>allure.results.directory</name>
+							<value>${project.build.directory}/allure-results</value>
+						</property>
+					</systemProperties>
 				</configuration>
 				<dependencies>
 					<dependency>
@@ -1128,7 +1158,24 @@
 						<artifactId>surefire-testng</artifactId>
 						<version>3.1.2</version>
 					</dependency>
+					<dependency>
+						<groupId>org.aspectj</groupId>
+						<artifactId>aspectjweaver</artifactId>
+						<version>${aspectj.version}</version>
+					</dependency>
 				</dependencies>
+			</plugin>
+			
+			<!-- Allure Maven 插件 -->
+			<plugin>
+				<groupId>io.qameta.allure</groupId>
+				<artifactId>allure-maven</artifactId>
+				<version>2.12.0</version>
+				<configuration>
+					<reportVersion>${allure.version}</reportVersion>
+					<resultsDirectory>${project.build.directory}/allure-results</resultsDirectory>
+					<reportDirectory>${project.build.directory}/allure-report</reportDirectory>
+				</configuration>
 			</plugin>
 		</plugins>
 		<resources>
@@ -1175,6 +1222,60 @@
 							<skipTests>true</skipTests>
 							<testFailureIgnore>true</testFailureIgnore>
 						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		
+		<!-- 不使用AspectJ的简单测试配置 -->
+		<profile>
+			<id>no-aspectj</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>3.1.2</version>
+						<configuration>
+							<argLine>
+								-Duser.language=en
+								-Djdk.attach.allowAttachSelf=true
+							</argLine>
+							<skipTests>false</skipTests>
+							<testFailureIgnore>true</testFailureIgnore>
+							<useModulePath>false</useModulePath>
+							<testNGArtifactName>org.testng:testng</testNGArtifactName>
+							<suiteXmlFiles>
+								<suiteXmlFile>src/test/resources/no-aspectj-testng.xml</suiteXmlFile>
+							</suiteXmlFiles>
+							<includes>
+								<include>**/SimpleIdempotenceTest.java</include>
+							</includes>
+							<properties>
+								<property>
+									<n>listener</n>
+									<value>io.qameta.allure.testng.AllureTestNg</value>
+								</property>
+							</properties>
+							<systemProperties>
+								<property>
+									<n>allure.results.directory</n>
+									<value>${project.build.directory}/allure-results</value>
+								</property>
+							</systemProperties>
+						</configuration>
+						<dependencies>
+							<dependency>
+								<groupId>org.testng</groupId>
+								<artifactId>testng</artifactId>
+								<version>${testng.version}</version>
+							</dependency>
+							<dependency>
+								<groupId>org.apache.maven.surefire</groupId>
+								<artifactId>surefire-testng</artifactId>
+								<version>3.1.2</version>
+							</dependency>
+						</dependencies>
 					</plugin>
 				</plugins>
 			</build>

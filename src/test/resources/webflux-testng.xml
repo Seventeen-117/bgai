@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="BGAI WebFlux Test Suite" verbose="2">
+    <!-- WebFlux测试组 -->
+    <test name="WebFlux Tests">
+        <groups>
+            <run>
+                <include name="webflux-tests"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.bgpay.bgai.controller.ChatGatWayInternalIdempotenceTest" />
+        </classes>
+    </test>
+</suite> 

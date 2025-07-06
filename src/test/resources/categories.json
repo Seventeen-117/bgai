@@ -1,0 +1,36 @@
+[
+  {
+    "name": "幂等性失败",
+    "matchedStatuses": ["failed"],
+    "messageRegex": ".*幂等性测试失败.*"
+  },
+  {
+    "name": "超时错误",
+    "matchedStatuses": ["broken"],
+    "traceRegex": ".*TimeoutException.*"
+  },
+  {
+    "name": "API错误",
+    "matchedStatuses": ["failed", "broken"],
+    "traceRegex": ".*500.*|.*404.*|.*403.*"
+  },
+  {
+    "name": "断言失败",
+    "matchedStatuses": ["failed"],
+    "traceRegex": ".*AssertionError.*"
+  },
+  {
+    "name": "配置问题",
+    "matchedStatuses": ["broken"],
+    "traceRegex": ".*IllegalStateException.*|.*Configuration.*"
+  },
+  {
+    "name": "已知问题",
+    "matchedStatuses": ["failed"],
+    "traceRegex": ".*JIRA-\\d+.*"
+  },
+  {
+    "name": "未分类错误",
+    "matchedStatuses": ["failed", "broken"]
+  }
+] 

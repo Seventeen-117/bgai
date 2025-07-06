@@ -36,7 +36,7 @@ import org.redisson.api.RedissonClient;
     ElasticsearchRepositoriesAutoConfiguration.class,
     RedisAutoConfiguration.class
 })
-@Import({TestNacosConfig.class})
+@Import({TestNacosConfig.class, MockRepositoryConfig.class})
 @TestPropertySource(locations = {
         "classpath:bootstrap.yml",
         "classpath:application.yml",
@@ -44,19 +44,6 @@ import org.redisson.api.RedissonClient;
 })
 public class PriceCacheTestConfig {
     private static final Logger log = LoggerFactory.getLogger(PriceCacheTestConfig.class);
-    
-    /**
-     * 提供模拟的ChatRecordRepository
-     */
-    @Bean
-    @Primary
-    public ChatRecordRepository chatRecordRepository() {
-        log.info("创建模拟ChatRecordRepository");
-        ChatRecordRepository mockRepository = Mockito.mock(ChatRecordRepository.class);
-        Mockito.when(mockRepository.save(Mockito.any(ChatRecord.class)))
-               .thenAnswer(invocation -> invocation.getArgument(0));
-        return mockRepository;
-    }
     
     /**
      * 提供模拟的RedisTemplate

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE aspectj PUBLIC "-//AspectJ//DTD//EN" "https://www.eclipse.org/aspectj/dtd/aspectj.dtd">
+<aspectj>
+    <weaver options="-XnoInline -Xreweavable -Xset:weaveJavaxPackages=false">
+        <!-- 只织入应用代码 -->
+        <include within="com.bgpay.bgai..*"/>
+        
+        <!-- 明确排除可能引起问题的类 -->
+        <exclude within="org.springframework.boot.liquibase..*"/>
+        <exclude within="liquibase..*"/>
+        <exclude within="org.springframework.boot.autoconfigure.liquibase..*"/>
+        <exclude within="org.liquibase..*"/>
+    </weaver>
+</aspectj> 

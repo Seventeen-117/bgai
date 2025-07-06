@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE aspectj PUBLIC "-//AspectJ//DTD//EN" "https://www.eclipse.org/aspectj/dtd/aspectj.dtd">
+<aspectj>
+    <!-- 配置不要织入Java核心类库 -->
+    <weaver options="-Xset:weaveJavaxPackages=false -Xset:weaveJavaPackages=false">
+        <!-- 只织入我们的业务代码 -->
+        <include within="com.bgpay.bgai..*" />
+        <!-- 明确排除容易导致问题的包 -->
+        <exclude within="org.springframework..*" />
+        <exclude within="org.apache..*" />
+        <exclude within="sun..*" />
+        <exclude within="java..*" />
+        <exclude within="javax..*" />
+        <exclude within="com.sun..*" />
+    </weaver>
+    
+    <!-- 明确配置切面 -->
+    <aspects>
+        <!-- 如果有测试专用的切面，在这里添加 -->
+    </aspects>
+</aspectj> 

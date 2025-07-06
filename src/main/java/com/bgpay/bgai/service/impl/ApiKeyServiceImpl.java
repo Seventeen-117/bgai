@@ -14,6 +14,7 @@ import com.bgpay.bgai.utils.Sha256Util;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -36,6 +37,21 @@ public class ApiKeyServiceImpl implements ApiKeyService {
             throw new IllegalArgumentException("无效或未启用的 clientId");
         }
         log.debug("找到客户端: {}", client.getClientName());
+        
+        // 将用户现有的所有API Key置为无效
+        List<ApiKey> existingKeys = apiKeyMapper.selectList(
+            new com.baomidou.mybatisplus.core.conditions.query.QueryWrapper<ApiKey>()
+                .eq("client_id", clientId)
+                .eq("active", 1)
+        );
+        
+        if (!existingKeys.isEmpty()) {
+            log.info("为客户端: {} 设置 {} 个已存在的API Key为无效状态", clientId, existingKeys.size());
+            for (ApiKey existingKey : existingKeys) {
+                existingKey.setActive(0);
+                apiKeyMapper.updateById(existingKey);
+            }
+        }
         
         // 生成明文API Key
         String plainApiKey = UUID.randomUUID().toString().replace("-", "");

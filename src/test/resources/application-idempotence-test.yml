@@ -1,0 +1,67 @@
+spring:
+  main:
+    web-application-type: reactive
+    # 允许bean定义覆盖，解决潜在的冲突
+    allow-bean-definition-overriding: true
+    # 强制使用WebFlux，避免加载WebMVC
+    allow-circular-references: true
+  webflux:
+    mvc-exclusion-prevent: false
+  mvc:
+    enabled: false
+  redis:
+    mock: true
+  # 禁用Liquibase
+  liquibase:
+    enabled: false
+  # 禁用JPA自动配置
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration
+      - org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
+      - io.seata.spring.boot.autoconfigure.SeataAutoConfiguration
+
+# 禁用MVC相关功能
+spring.mvc.servlet.load-on-startup: -1
+
+# Seata配置 - 完全禁用
+seata:
+  enabled: false
+  registry:
+    enabled: false
+  config:
+    enabled: false
+  enable-auto-data-source-proxy: false
+  application-id: bgai-test-disabled
+  tx-service-group: default_tx_group
+  service:
+    vgroup-mapping:
+      default_tx_group: default
+    grouplist:
+      default: 127.0.0.1:8091
+    disable-global-transaction: true
+  saga:
+    enabled: false
+    state-machine:
+      auto-register: false
+
+# 禁用Spring Cloud Alibaba Seata
+spring.cloud.alibaba.seata.enabled: false
+
+# 幂等性配置
+idempotence:
+  enabled: true
+  request-id-header: X-Request-ID
+  expiration-time-seconds: 2
+  paths: /api/chatGatWay-internal
+
+# 日志级别配置
+logging:
+  level:
+    com.bgpay.bgai: DEBUG
+    org.springframework.web.reactive: INFO
+    org.springframework.web.servlet: OFF
+    org.springframework.context.annotation: WARN
+    io.seata: ERROR 
