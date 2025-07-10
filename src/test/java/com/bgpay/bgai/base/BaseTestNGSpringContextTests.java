@@ -6,6 +6,7 @@ import io.qameta.allure.Step;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -20,8 +21,16 @@ import java.util.UUID;
  */
 @SpringBootTest(
     classes = BgaiApplication.class,
-    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
+    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+    properties = {
+        "spring.main.allow-bean-definition-overriding=true"
+    }
 )
+@TestPropertySource(properties = {
+    "seata.enabled=false",
+    "saga.enabled=false",
+    "seata.saga.state-machine.auto-register=false"
+})
 public abstract class BaseTestNGSpringContextTests extends AbstractTestNGSpringContextTests {
     
     protected final Logger log = LoggerFactory.getLogger(getClass());
@@ -34,6 +43,11 @@ public abstract class BaseTestNGSpringContextTests extends AbstractTestNGSpringC
     public void setUpClass() {
         log.info("初始化测试类: {}", getClass().getSimpleName());
         Allure.label("testClass", getClass().getSimpleName());
+        
+        // 禁用Seata
+        System.setProperty("seata.enabled", "false");
+        System.setProperty("saga.enabled", "false");
+        System.setProperty("seata.saga.state-machine.auto-register", "false");
     }
     
     /**
@@ -58,7 +72,6 @@ public abstract class BaseTestNGSpringContextTests extends AbstractTestNGSpringC
     /**
      * 记录测试步骤（用于Allure报告）
      */
-    @Step("{stepDescription}")
     protected void logStep(String stepDescription) {
         log.info("测试步骤: {}", stepDescription);
         Allure.step(stepDescription);

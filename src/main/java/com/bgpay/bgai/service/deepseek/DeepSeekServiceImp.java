@@ -975,4 +975,55 @@ public class DeepSeekServiceImp implements DeepSeekService {
             return Mono.error(e);
         }
     }
+
+    /**
+     * 处理Map格式的请求体，兼容OpenAI格式的API请求
+     */
+    @GlobalTransactional(name = "deepseek-process-tx", rollbackFor = Exception.class)
+    @DS("master")
+    @Override
+    public Mono<ChatResponse> processRequestReactive(Map<String, Object> requestBody,
+                                                     String apiUrl,
+                                                     String apiKey,
+                                                     String modelName,
+                                                     String userId,
+                                                     boolean multiTurn) {
+        try {
+            // 提取消息内容
+            if (!requestBody.containsKey("messages")) {
+                ChatResponse errorResponse = new ChatResponse();
+                errorResponse.setSuccess(false);
+                errorResponse.setError(new ChatResponse.Error(400, "Messages are required"));
+                return Mono.just(errorResponse);
+            }
+            
+            // 将OpenAI格式的请求转换为内部格式
+            StringBuilder contentBuilder = new StringBuilder();
+            List<Map<String, Object>> messages = (List<Map<String, Object>>) requestBody.get("messages");
+            
+            for (Map<String, Object> message : messages) {
+                String role = (String) message.get("role");
+                String content = (String) message.get("content");
+                if (role != null && content != null) {
+                    contentBuilder.append(role).append(": ").append(content).append("\n");
+                }
+            }
+            
+            // 调用原有的字符串内容处理方法
+            return processRequestReactive(
+                contentBuilder.toString(),
+                apiUrl,
+                apiKey,
+                modelName,
+                userId,
+                multiTurn
+            );
+        } catch (Exception e) {
+            log.error("处理Map请求体失败", e);
+            ChatResponse errorResponse = new ChatResponse();
+            errorResponse.setSuccess(false);
+            errorResponse.setError(new ChatResponse.Error(500, e.getMessage()));
+            return Mono.just(errorResponse);
+        }
+    }
 }

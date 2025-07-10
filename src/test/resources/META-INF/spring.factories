@@ -12,12 +12,4 @@ org.springframework.boot.diagnostics.FailureAnalyzer=\
   org.springframework.boot.diagnostics.analyzer.PortInUseFailureAnalyzer,\
   org.springframework.boot.diagnostics.analyzer.ValidationExceptionFailureAnalyzer,\
   org.springframework.boot.diagnostics.analyzer.InvalidConfigurationPropertyNameFailureAnalyzer,\
-  org.springframework.boot.diagnostics.analyzer.InvalidConfigurationPropertyValueFailureAnalyzer
-
-# 禁用 Seata 自动配置
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.bgpay.bgai.config.SeataDisableConfiguration
-
-# 自动配置过滤器，用于排除Seata
-org.springframework.boot.autoconfigure.AutoConfigurationImportFilter=\
-  com.bgpay.bgai.config.SeataAutoConfigurationExclusionFilter 
+  org.springframework.boot.diagnostics.analyzer.InvalidConfigurationPropertyValueFailureAnalyzer 

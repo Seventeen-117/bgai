@@ -1,1 +1,3 @@
-com.bgpay.bgai.config.SeataAutoConfigurationExclusionFilter 
+com.bgpay.bgai.config.SeataAutoConfigurationExclusionFilter
+com.bgpay.bgai.config.RocketMQConsumerAutoConfigurationExclusionFilter
+com.bgpay.bgai.config.RedissonAutoConfigurationExclusionFilter 

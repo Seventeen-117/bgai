@@ -36,9 +36,9 @@ public abstract class AbstractWebFluxTest extends BaseTestNGSpringContextTests {
     /**
      * 执行GET请求
      */
-    @Step("执行GET请求: {path}")
     protected WebTestClient.ResponseSpec performGet(String path) {
         log.info("执行GET请求: {}", path);
+        Allure.step("执行GET请求: " + path);
         
         WebTestClient.ResponseSpec responseSpec = webTestClient.get()
                 .uri(path)
@@ -58,9 +58,9 @@ public abstract class AbstractWebFluxTest extends BaseTestNGSpringContextTests {
     /**
      * 执行带参数的GET请求
      */
-    @Step("执行GET请求: {path} 带参数")
     protected WebTestClient.ResponseSpec performGet(String path, Object... uriVars) {
         log.info("执行GET请求: {} 带参数: {}", path, uriVars);
+        Allure.step("执行GET请求: " + path + " 带参数");
         
         WebTestClient.ResponseSpec responseSpec = webTestClient.get()
                 .uri(path, uriVars)
@@ -80,9 +80,9 @@ public abstract class AbstractWebFluxTest extends BaseTestNGSpringContextTests {
     /**
      * 执行POST请求
      */
-    @Step("执行POST请求: {path}")
     protected WebTestClient.ResponseSpec performPost(String path, Object body) {
         log.info("执行POST请求: {}", path);
+        Allure.step("执行POST请求: " + path);
         
         WebTestClient.ResponseSpec responseSpec = webTestClient.post()
                 .uri(path)
@@ -109,9 +109,9 @@ public abstract class AbstractWebFluxTest extends BaseTestNGSpringContextTests {
     /**
      * 执行PUT请求
      */
-    @Step("执行PUT请求: {path}")
     protected WebTestClient.ResponseSpec performPut(String path, Object body) {
         log.info("执行PUT请求: {}", path);
+        Allure.step("执行PUT请求: " + path);
         
         WebTestClient.ResponseSpec responseSpec = webTestClient.put()
                 .uri(path)
@@ -138,9 +138,9 @@ public abstract class AbstractWebFluxTest extends BaseTestNGSpringContextTests {
     /**
      * 执行DELETE请求
      */
-    @Step("执行DELETE请求: {path}")
     protected WebTestClient.ResponseSpec performDelete(String path) {
         log.info("执行DELETE请求: {}", path);
+        Allure.step("执行DELETE请求: " + path);
         
         WebTestClient.ResponseSpec responseSpec = webTestClient.delete()
                 .uri(path)

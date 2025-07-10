@@ -45,6 +45,7 @@
 		<testng.version>7.1.0</testng.version>
 		<allure.version>2.25.0</allure.version>
 		<aspectj.version>1.9.21.1</aspectj.version>
+		<h2.version>2.2.224</h2.version>
 		<!-- 基础依赖 -->
 		<pagehelper.version>5.3.2</pagehelper.version>
 		<httpclient.version>4.5.13</httpclient.version>
@@ -961,6 +962,14 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-logging</artifactId>
 		</dependency>
+		
+		<!-- Janino - 用于Logback条件处理 -->
+		<dependency>
+			<groupId>org.codehaus.janino</groupId>
+			<artifactId>janino</artifactId>
+			<version>3.1.10</version>
+		</dependency>
+		
 		<!-- Jakarta Annotation API -->
 		<dependency>
 			<groupId>jakarta.annotation</groupId>
@@ -1018,6 +1027,14 @@
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-yaml</artifactId>
 			<version>2.15.2</version>
+		</dependency>
+		
+		<!-- H2内存数据库，用于测试 -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>${h2.version}</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
@@ -1117,53 +1134,24 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.1.2</version>
 				<configuration>
-					<argLine>
-						-javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
-						-Duser.language=en
-						-Djdk.attach.allowAttachSelf=true
-					</argLine>
-					<skipTests>false</skipTests>
-					<!-- 使用TestNG进行测试 -->
-					<testFailureIgnore>true</testFailureIgnore>
-					<useModulePath>false</useModulePath>
-					<!-- 指定TestNG作为测试框架 -->
-					<testNGArtifactName>org.testng:testng</testNGArtifactName>
+					<!-- 使用系统默认的Java可执行文件 -->
+					<useSystemClassLoader>true</useSystemClassLoader>
+					<jvm>${java.home}/bin/java</jvm>
+					<!-- 跳过测试 -->
+					<skipTests>${skip.tests}</skipTests>
+					<!-- 配置TestNG -->
 					<suiteXmlFiles>
 						<suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
 					</suiteXmlFiles>
-					<!-- Use TestNG to run tests -->
-					<includes>
-						<include>**/*Test.java</include>
-						<include>**/*Tests.java</include>
-						<include>**/*TestCase.java</include>
-					</includes>
-					<excludes>
-						<exclude>**/*IntegrationTest.java</exclude>
-					</excludes>
-					<properties>
-						<property>
-							<name>listener</name>
-							<value>io.qameta.allure.testng.AllureTestNg</value>
-						</property>
-					</properties>
-					<systemProperties>
-						<property>
-							<name>allure.results.directory</name>
-							<value>${project.build.directory}/allure-results</value>
-						</property>
-					</systemProperties>
+					<!-- 配置Allure报告 -->
+					<argLine>
+						-javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+					</argLine>
+					<systemPropertyVariables>
+						<allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
+					</systemPropertyVariables>
 				</configuration>
 				<dependencies>
-					<dependency>
-						<groupId>org.testng</groupId>
-						<artifactId>testng</artifactId>
-						<version>${testng.version}</version>
-					</dependency>
-					<dependency>
-						<groupId>org.apache.maven.surefire</groupId>
-						<artifactId>surefire-testng</artifactId>
-						<version>3.1.2</version>
-					</dependency>
 					<dependency>
 						<groupId>org.aspectj</groupId>
 						<artifactId>aspectjweaver</artifactId>
@@ -1259,16 +1247,13 @@
 							</includes>
 							<properties>
 								<property>
-									<n>listener</n>
+									<name>listener</name>
 									<value>io.qameta.allure.testng.AllureTestNg</value>
 								</property>
 							</properties>
-							<systemProperties>
-								<property>
-									<n>allure.results.directory</n>
-									<value>${project.build.directory}/allure-results</value>
-								</property>
-							</systemProperties>
+							<systemPropertyVariables>
+								<allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
+							</systemPropertyVariables>
 						</configuration>
 						<dependencies>
 							<dependency>

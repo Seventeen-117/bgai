@@ -4,6 +4,9 @@
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
     <springProperty scope="context" name="springAppName" source="spring.application.name"/>
+    
+    <!-- 添加启动时的状态监听器，确认配置加载正常 -->
+    <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" />
 
     <!-- 控制台输出 -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
@@ -29,6 +32,11 @@
     <!-- Logstash 输出 -->
     <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
         <destination>8.133.246.113:5000</destination>
+        <connectionStrategy>
+            <roundRobin>
+                <connectionTTL>5 minutes</connectionTTL>
+            </roundRobin>
+        </connectionStrategy>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
             <protocol>beats</protocol>
             <customFields>{"app_name":"${springAppName}"}</customFields>
@@ -42,7 +50,19 @@
             <includeContext>false</includeContext>
         </encoder>
         <keepAliveDuration>5 minutes</keepAliveDuration>
-        <reconnectionDelay>10 second</reconnectionDelay>
+        <reconnectionDelay>30 second</reconnectionDelay>
+        
+        <!-- 添加条件，仅在非测试/非本地环境启用 -->
+        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+            <evaluator class="ch.qos.logback.classic.boolex.JaninoEventEvaluator">
+                <expression>
+                    String activeProfile = System.getProperty("spring.profiles.active", "");
+                    return !(activeProfile.contains("test") || activeProfile.contains("local"));
+                </expression>
+            </evaluator>
+            <OnMismatch>DENY</OnMismatch>
+            <OnMatch>NEUTRAL</OnMatch>
+        </filter>
     </appender>
 
     <!-- 异步处理 Logstash 输出 -->
@@ -75,11 +95,17 @@
     <logger name="org.mybatis.spring.mapper" level="WARN"/>
     <logger name="com.baomidou.mybatisplus" level="WARN"/>
 
+    <!-- Logstash日志级别控制 -->
+    <logger name="net.logstash.logback.appender.LogstashTcpSocketAppender" level="ERROR" />
+    <logger name="net.logstash.logback" level="ERROR" />
+
     <!-- 根日志级别 -->
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
-        <!-- 临时注释掉Logstash，直到服务可用 -->
-        <!--<appender-ref ref="ASYNC_LOGSTASH"/>-->
+        <!-- 根据当前环境条件决定是否启用Logstash -->
+        <springProfile name="!local,!test,!dev">
+            <appender-ref ref="ASYNC_LOGSTASH"/>
+        </springProfile>
     </root>
 </configuration>

@@ -7,7 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
@@ -21,7 +23,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
  * MVC控制器测试的基类
  * 提供MockMvc相关的通用测试功能
  */
+@WebMvcTest
 @AutoConfigureMockMvc
+@TestPropertySource(properties = {
+    "spring.main.allow-bean-definition-overriding=true",
+    "seata.enabled=false",
+    "saga.enabled=false"
+})
 public abstract class AbstractWebMvcTest extends BaseTestNGSpringContextTests {
 
     @Autowired
@@ -40,9 +48,10 @@ public abstract class AbstractWebMvcTest extends BaseTestNGSpringContextTests {
     /**
      * 执行GET请求
      */
-    @Step("执行GET请求: {path}")
     protected ResultActions performGet(String path) throws Exception {
         log.info("执行GET请求: {}", path);
+        Allure.step("执行GET请求: " + path);
+        
         MvcResult result = mockMvc.perform(get(path)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -55,9 +64,10 @@ public abstract class AbstractWebMvcTest extends BaseTestNGSpringContextTests {
     /**
      * 执行带参数的GET请求
      */
-    @Step("执行GET请求: {path} 带参数")
     protected ResultActions performGet(String path, Object... uriVars) throws Exception {
         log.info("执行GET请求: {} 带参数: {}", path, uriVars);
+        Allure.step("执行GET请求: " + path + " 带参数");
+        
         MvcResult result = mockMvc.perform(get(path, uriVars)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -70,9 +80,10 @@ public abstract class AbstractWebMvcTest extends BaseTestNGSpringContextTests {
     /**
      * 执行POST请求
      */
-    @Step("执行POST请求: {path}")
     protected ResultActions performPost(String path, Object body) throws Exception {
         log.info("执行POST请求: {}", path);
+        Allure.step("执行POST请求: " + path);
+        
         String content = objectMapper.writeValueAsString(body);
         
         MvcResult result = mockMvc.perform(post(path)
@@ -90,9 +101,10 @@ public abstract class AbstractWebMvcTest extends BaseTestNGSpringContextTests {
     /**
      * 执行PUT请求
      */
-    @Step("执行PUT请求: {path}")
     protected ResultActions performPut(String path, Object body) throws Exception {
         log.info("执行PUT请求: {}", path);
+        Allure.step("执行PUT请求: " + path);
+        
         String content = objectMapper.writeValueAsString(body);
         
         MvcResult result = mockMvc.perform(put(path)
@@ -110,9 +122,9 @@ public abstract class AbstractWebMvcTest extends BaseTestNGSpringContextTests {
     /**
      * 执行DELETE请求
      */
-    @Step("执行DELETE请求: {path}")
     protected ResultActions performDelete(String path) throws Exception {
         log.info("执行DELETE请求: {}", path);
+        Allure.step("执行DELETE请求: " + path);
         
         MvcResult result = mockMvc.perform(delete(path)
                 .contentType(MediaType.APPLICATION_JSON))
@@ -126,9 +138,10 @@ public abstract class AbstractWebMvcTest extends BaseTestNGSpringContextTests {
     /**
      * 执行自定义请求
      */
-    @Step("执行自定义请求")
     protected ResultActions performRequest(MockHttpServletRequestBuilder requestBuilder) throws Exception {
         log.info("执行自定义请求");
+        Allure.step("执行自定义请求");
+        
         return mockMvc.perform(requestBuilder).andDo(print());
     }
     

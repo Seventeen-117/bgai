@@ -1,0 +1,126 @@
+spring:
+  application:
+    name: bgai-test
+  main:
+    allow-bean-definition-overriding: true
+    web-application-type: servlet
+  cloud:
+    nacos:
+      config:
+        enabled: false
+      discovery:
+        enabled: false
+    loadbalancer:
+      enabled: false
+    discovery:
+      enabled: false
+    config:
+      enabled: false
+    consul:
+      enabled: false
+    gateway:
+      enabled: false
+    circuitbreaker:
+      enabled: false
+  data:
+    elasticsearch:
+      repositories:
+        enabled: false
+      enabled: false
+  elasticsearch:
+    enabled: false
+  webflux:
+    base-path: /api
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchDataAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchRepositoriesAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.elasticsearch.ReactiveElasticsearchRepositoriesAutoConfiguration
+      - org.springframework.boot.autoconfigure.elasticsearch.ElasticsearchRestClientAutoConfiguration
+  validation:
+    is-method-validation-bean-post-processor-enabled: false
+  # 测试环境数据源配置
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: 
+    driver-class-name: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  # 分开定义auto-configuration类的排除列表
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration
+      - org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientAutoConfiguration
+      - org.apache.rocketmq.spring.autoconfigure.RocketMQAutoConfiguration
+
+# 禁用WebClient冲突解决
+webclient:
+  resolver:
+    enabled: true
+    primary-bean-name: webClient
+
+# 日志配置
+logging:
+  level:
+    net.logstash.logback: OFF
+    io.seata: OFF
+    org.elasticsearch: OFF
+    org.springframework.data.elasticsearch: OFF
+    com.alibaba.nacos: OFF
+    org.apache.http: OFF
+    io.netty: OFF
+  config: classpath:logback-test.xml
+
+# 禁用Seata
+seata:
+  enabled: false
+  saga:
+    state-machine:
+      auto-register: false
+saga:
+  enabled: false
+
+# 禁用RocketMQ
+rocketmq:
+  messageConsumer:
+    enabled: false
+  producer:
+    enable: false
+    group: test-group
+  name-server: 127.0.0.1:9876
+  enable: false
+
+# 禁用缓存预热器
+cache:
+  warmer:
+    enabled: false
+    
+# Feign配置
+bgai:
+  feign:
+    enabled: false  # 禁用实际的Feign客户端创建
+    mock-enabled: true  # 启用测试用的Mock
+    demo:
+      enabled: true  # 启用FeignDemoController
+    user-service:
+      url: http://localhost:8688  # 测试环境用户服务地址
+    local-user-service:
+      url: http://localhost:8688  # 测试环境本地用户服务地址
+
+# Redisson配置
+bgpay:
+  bgai:
+    redis:
+      single:
+        address: redis://8.133.246.113:6379
+        password: 5z25u2sk
+        connectionPoolSize: 16
+        connectionMinimumIdleSize: 4
+        idleConnectionTimeout: 10000
+        connectTimeout: 10000
+        timeout: 3000 
