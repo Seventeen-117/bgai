@@ -47,4 +47,21 @@ public class NonAutoConfigExcludeFilter extends TypeExcludeFilter {
         String className = metadataReader.getClassMetadata().getClassName();
         return excludedClasses.contains(className);
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        NonAutoConfigExcludeFilter that = (NonAutoConfigExcludeFilter) obj;
+        return excludedClasses.equals(that.excludedClasses);
+    }
+    
+    @Override
+    public int hashCode() {
+        return excludedClasses.hashCode();
+    }
 } 

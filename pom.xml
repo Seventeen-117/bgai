@@ -1129,6 +1129,7 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!-- 配置Surefire插件，修复JAVA_HOME路径问题 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
@@ -1137,8 +1138,8 @@
 					<!-- 使用系统默认的Java可执行文件 -->
 					<useSystemClassLoader>true</useSystemClassLoader>
 					<jvm>${java.home}/bin/java</jvm>
-					<!-- 跳过测试 -->
-					<skipTests>${skip.tests}</skipTests>
+					<!-- 不跳过测试 -->
+					<skipTests>false</skipTests>
 					<!-- 配置TestNG -->
 					<suiteXmlFiles>
 						<suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
@@ -1156,6 +1157,16 @@
 						<groupId>org.aspectj</groupId>
 						<artifactId>aspectjweaver</artifactId>
 						<version>${aspectj.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.testng</groupId>
+						<artifactId>testng</artifactId>
+						<version>${testng.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.apache.maven.surefire</groupId>
+						<artifactId>surefire-testng</artifactId>
+						<version>3.1.2</version>
 					</dependency>
 				</dependencies>
 			</plugin>

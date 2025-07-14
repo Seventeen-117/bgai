@@ -11,6 +11,5 @@ import org.springframework.context.annotation.Configuration;
         org.redisson.spring.starter.RedissonAutoConfiguration.class
 })
 public class RedissonAutoConfigurationDisabler {
-    // This class intentionally left empty
-    // Its purpose is to disable Redisson auto-configuration
+
 } 

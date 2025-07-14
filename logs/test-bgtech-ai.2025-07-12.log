@@ -1,0 +1,1181 @@
+2025-07-12 00:17:56.851 [main] INFO  o.s.t.c.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.bgpay.bgai.controller.YamlDataDrivenApiTest]: YamlDataDrivenApiTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-07-12 00:17:57.340 [main] INFO  o.s.b.t.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.bgpay.bgai.BgaiApplication for test class com.bgpay.bgai.controller.YamlDataDrivenApiTest
+2025-07-12 00:18:00.065 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2025-07-12 00:18:00.282 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2025-07-12 00:18:00.894 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2025-07-12 00:18:00.900 [main] INFO  com.alibaba.nacos.client.utils.ParamUtil - [settings] [req-serv] nacos-server port:8848
+2025-07-12 00:18:00.900 [main] INFO  com.alibaba.nacos.client.utils.ParamUtil - [settings] [http-client] connect timeout:1000
+2025-07-12 00:18:00.902 [main] INFO  com.alibaba.nacos.client.utils.ParamUtil - PER_TASK_CONFIG_SIZE: 3000.0
+2025-07-12 00:18:01.023 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
+2025-07-12 00:18:01.023 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
+2025-07-12 00:18:01.031 [main] INFO  c.a.n.client.auth.ram.identify.CredentialWatcher - null No credential found
+2025-07-12 00:18:03.147 [main] WARN  c.a.cloud.nacos.client.NacosPropertySourceBuilder - Ignore the empty nacos configuration and get it based on dataId[common-dev.yaml] & group[DEFAULT_GROUP]
+2025-07-12 00:18:03.162 [main] WARN  c.a.cloud.nacos.client.NacosPropertySourceBuilder - Ignore the empty nacos configuration and get it based on dataId[bgai-test] & group[DEFAULT_GROUP]
+2025-07-12 00:18:03.177 [main] WARN  c.a.cloud.nacos.client.NacosPropertySourceBuilder - Ignore the empty nacos configuration and get it based on dataId[bgai-test.yaml] & group[DEFAULT_GROUP]
+2025-07-12 00:18:03.191 [main] WARN  c.a.cloud.nacos.client.NacosPropertySourceBuilder - Ignore the empty nacos configuration and get it based on dataId[bgai-test-test.yaml] & group[DEFAULT_GROUP]
+2025-07-12 00:18:03.192 [main] INFO  o.s.c.b.c.PropertySourceBootstrapConfiguration - Located property source: [BootstrapPropertySource {name='bootstrapProperties-bgai-test-test.yaml,DEFAULT_GROUP'}, BootstrapPropertySource {name='bootstrapProperties-bgai-test.yaml,DEFAULT_GROUP'}, BootstrapPropertySource {name='bootstrapProperties-bgai-test,DEFAULT_GROUP'}, BootstrapPropertySource {name='bootstrapProperties-common-dev.yaml,DEFAULT_GROUP'}]
+2025-07-12 00:18:03.258 [main] WARN  o.s.b.t.j.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer - 
+
+Found multiple occurrences of org.json.JSONObject on the class path:
+
+	jar:file:/C:/Users/Administrator/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar!/org/json/JSONObject.class
+	jar:file:/C:/Users/Administrator/.m2/repository/org/json/json/20220320/json-20220320.jar!/org/json/JSONObject.class
+
+You may wish to exclude one of them to ensure predictable runtime behavior
+
+2025-07-12 00:18:03.265 [main] INFO  com.bgpay.bgai.controller.YamlDataDrivenApiTest - The following 2 profiles are active: "dev", "test"
+2025-07-12 00:18:05.768 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'fileTypeMapper' and 'com.bgpay.bgai.mapper.FileTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-07-12 00:18:05.768 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'usageRecordMapper' and 'com.bgpay.bgai.mapper.UsageRecordMapper' mapperInterface. Bean already defined with the same name!
+2025-07-12 00:18:05.791 [main] WARN  o.s.c.annotation.ConfigurationClassPostProcessor - Cannot enhance @Configuration bean definition 'myBatisMapperScannerConfig' since its singleton instance has been created too early. The typical cause is a non-static @Bean method with a BeanDefinitionRegistryPostProcessor return type: Consider declaring such methods as 'static' and/or marking the containing configuration class as 'proxyBeanMethods=false'.
+2025-07-12 00:18:09.064 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'testBeanPostProcessor' of type [com.bgpay.bgai.config.TestBeanPostProcessor$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [bgaiServiceImplInjector] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2025-07-12 00:18:09.082 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'mockListenerContainerConfig' of type [com.bgpay.bgai.config.MockListenerContainerConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [org.apache.rocketmq.spring.annotation.RocketMQMessageListenerBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-07-12 00:18:09.182 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'listenerContainerConfiguration' of type [org.apache.rocketmq.spring.autoconfigure.ListenerContainerConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [org.apache.rocketmq.spring.annotation.RocketMQMessageListenerBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-07-12 00:18:09.425 [main] INFO  com.bgpay.bgai.config.SeataDisableConfiguration - SeataDisableConfiguration已加载，Seata在测试环境中被禁用
+2025-07-12 00:18:09.425 [main] INFO  com.bgpay.bgai.config.SeataDisableConfiguration - 设置系统属性: seata.enabled=false, saga.enabled=false
+2025-07-12 00:18:09.525 [main] INFO  c.bgpay.bgai.config.NacosRouteDefinitionRepository - 初始化Nacos路由定义存储库
+2025-07-12 00:18:09.686 [main] WARN  c.bgpay.bgai.config.NacosRouteDefinitionRepository - Nacos中未找到路由定义配置
+2025-07-12 00:18:09.712 [main] INFO  c.bgpay.bgai.service.impl.DynamicRouteServiceImpl - 初始化动态路由服务
+2025-07-12 00:18:09.891 [main] WARN  c.bgpay.bgai.service.impl.DynamicRouteServiceImpl - Nacos中没有找到路由配置，使用默认配置
+2025-07-12 00:18:09.892 [main] INFO  c.bgpay.bgai.service.impl.DynamicRouteServiceImpl - 注册Nacos配置监听器成功
+2025-07-12 00:18:09.899 [main] INFO  com.bgpay.bgai.config.NacosRouteConfigListener - 初始化Nacos路由配置监听器
+2025-07-12 00:18:10.088 [main] WARN  com.bgpay.bgai.config.NacosRouteConfigListener - Nacos中未找到路由配置数据
+2025-07-12 00:18:10.688 [main] INFO  com.bgpay.bgai.controller.FeignDemoController - FeignDemoController initialized with UserServiceClient and LocalUserServiceClient
+2025-07-12 00:18:11.213 [main] WARN  o.s.w.context.support.GenericWebApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'openApiController' defined in file [E:\project\bgai\target\classes\com\bgpay\bgai\controller\OpenApiController.class]: Unsatisfied dependency expressed through constructor parameter 2: Error creating bean with name 'transactionCoordinator': Unsatisfied dependency expressed through field 'chatCompletionsService': Error creating bean with name 'chatCompletionsServiceImpl': Unsatisfied dependency expressed through field 'baseMapper': Error creating bean with name 'chatCompletionsMapper' defined in file [E:\project\bgai\target\classes\com\bgpay\bgai\mapper\ChatCompletionsMapper.class]: Unsatisfied dependency expressed through bean property 'sqlSessionFactory': Error creating bean with name 'sqlSessionFactory' defined in class path resource [com/bgpay/bgai/datasource/MyBatisPlusConfig.class]: Unsatisfied dependency expressed through method 'sqlSessionFactory' parameter 0: Error creating bean with name 'dynamicDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Unsatisfied dependency expressed through method 'dynamicDataSource' parameter 0: Error creating bean with name 'masterDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Failed to instantiate [javax.sql.DataSource]: Factory method 'masterDataSource' threw exception with message: 数据库URL为空，请检查Nacos配置是否已正确加载
+2025-07-12 00:18:11.213 [main] INFO  c.bgpay.bgai.service.impl.DynamicRouteServiceImpl - 动态路由服务关闭，执行清理操作
+2025-07-12 00:18:11.221 [main] INFO  o.s.b.a.logging.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-07-12 00:18:11.254 [main] ERROR org.springframework.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'openApiController' defined in file [E:\project\bgai\target\classes\com\bgpay\bgai\controller\OpenApiController.class]: Unsatisfied dependency expressed through constructor parameter 2: Error creating bean with name 'transactionCoordinator': Unsatisfied dependency expressed through field 'chatCompletionsService': Error creating bean with name 'chatCompletionsServiceImpl': Unsatisfied dependency expressed through field 'baseMapper': Error creating bean with name 'chatCompletionsMapper' defined in file [E:\project\bgai\target\classes\com\bgpay\bgai\mapper\ChatCompletionsMapper.class]: Unsatisfied dependency expressed through bean property 'sqlSessionFactory': Error creating bean with name 'sqlSessionFactory' defined in class path resource [com/bgpay/bgai/datasource/MyBatisPlusConfig.class]: Unsatisfied dependency expressed through method 'sqlSessionFactory' parameter 0: Error creating bean with name 'dynamicDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Unsatisfied dependency expressed through method 'dynamicDataSource' parameter 0: Error creating bean with name 'masterDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Failed to instantiate [javax.sql.DataSource]: Factory method 'masterDataSource' threw exception with message: 数据库URL为空，请检查Nacos配置是否已正确加载
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:795)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:237)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1355)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1192)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:975)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:962)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:624)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334)
+	at org.springframework.boot.test.context.SpringBootContextLoader.lambda$loadContext$3(SpringBootContextLoader.java:137)
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:58)
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:46)
+	at org.springframework.boot.SpringApplication.withHook(SpringApplication.java:1454)
+	at org.springframework.boot.test.context.SpringBootContextLoader$ContextLoaderHook.run(SpringBootContextLoader.java:553)
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:137)
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:108)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:225)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:152)
+	at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:130)
+	at org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener.postProcessFields(MockitoTestExecutionListener.java:122)
+	at org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener.injectFields(MockitoTestExecutionListener.java:106)
+	at org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener.prepareTestInstance(MockitoTestExecutionListener.java:63)
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:260)
+	at org.springframework.test.context.testng.AbstractTestNGSpringContextTests.springTestContextPrepareTestInstance(AbstractTestNGSpringContextTests.java:119)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:134)
+	at org.testng.internal.MethodInvocationHelper.invokeMethodConsideringTimeout(MethodInvocationHelper.java:63)
+	at org.testng.internal.ConfigInvoker.invokeConfigurationMethod(ConfigInvoker.java:348)
+	at org.testng.internal.ConfigInvoker.invokeConfigurations(ConfigInvoker.java:302)
+	at org.testng.internal.TestMethodWorker.invokeBeforeClassMethods(TestMethodWorker.java:176)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:122)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at org.testng.TestRunner.privateRun(TestRunner.java:766)
+	at org.testng.TestRunner.run(TestRunner.java:587)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:384)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:378)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:337)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:286)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:53)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:96)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1187)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1109)
+	at org.testng.TestNG.runSuites(TestNG.java:1039)
+	at org.testng.TestNG.run(TestNG.java:1007)
+	at com.intellij.rt.testng.IDEARemoteTestNG.run(IDEARemoteTestNG.java:65)
+	at com.intellij.rt.testng.RemoteTestNGStarter.main(RemoteTestNGStarter.java:105)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'transactionCoordinator': Unsatisfied dependency expressed through field 'chatCompletionsService': Error creating bean with name 'chatCompletionsServiceImpl': Unsatisfied dependency expressed through field 'baseMapper': Error creating bean with name 'chatCompletionsMapper' defined in file [E:\project\bgai\target\classes\com\bgpay\bgai\mapper\ChatCompletionsMapper.class]: Unsatisfied dependency expressed through bean property 'sqlSessionFactory': Error creating bean with name 'sqlSessionFactory' defined in class path resource [com/bgpay/bgai/datasource/MyBatisPlusConfig.class]: Unsatisfied dependency expressed through method 'sqlSessionFactory' parameter 0: Error creating bean with name 'dynamicDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Unsatisfied dependency expressed through method 'dynamicDataSource' parameter 0: Error creating bean with name 'masterDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Failed to instantiate [javax.sql.DataSource]: Factory method 'masterDataSource' threw exception with message: 数据库URL为空，请检查Nacos配置是否已正确加载
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:787)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:767)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:145)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:508)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1419)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:599)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782)
+	... 53 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'chatCompletionsServiceImpl': Unsatisfied dependency expressed through field 'baseMapper': Error creating bean with name 'chatCompletionsMapper' defined in file [E:\project\bgai\target\classes\com\bgpay\bgai\mapper\ChatCompletionsMapper.class]: Unsatisfied dependency expressed through bean property 'sqlSessionFactory': Error creating bean with name 'sqlSessionFactory' defined in class path resource [com/bgpay/bgai/datasource/MyBatisPlusConfig.class]: Unsatisfied dependency expressed through method 'sqlSessionFactory' parameter 0: Error creating bean with name 'dynamicDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Unsatisfied dependency expressed through method 'dynamicDataSource' parameter 0: Error creating bean with name 'masterDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Failed to instantiate [javax.sql.DataSource]: Factory method 'masterDataSource' threw exception with message: 数据库URL为空，请检查Nacos配置是否已正确加载
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:787)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:767)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:145)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:508)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1419)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:599)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:784)
+	... 68 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'chatCompletionsMapper' defined in file [E:\project\bgai\target\classes\com\bgpay\bgai\mapper\ChatCompletionsMapper.class]: Unsatisfied dependency expressed through bean property 'sqlSessionFactory': Error creating bean with name 'sqlSessionFactory' defined in class path resource [com/bgpay/bgai/datasource/MyBatisPlusConfig.class]: Unsatisfied dependency expressed through method 'sqlSessionFactory' parameter 0: Error creating bean with name 'dynamicDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Unsatisfied dependency expressed through method 'dynamicDataSource' parameter 0: Error creating bean with name 'masterDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Failed to instantiate [javax.sql.DataSource]: Factory method 'masterDataSource' threw exception with message: 数据库URL为空，请检查Nacos配置是否已正确加载
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireByType(AbstractAutowireCapableBeanFactory.java:1516)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1410)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:599)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:784)
+	... 82 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'sqlSessionFactory' defined in class path resource [com/bgpay/bgai/datasource/MyBatisPlusConfig.class]: Unsatisfied dependency expressed through method 'sqlSessionFactory' parameter 0: Error creating bean with name 'dynamicDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Unsatisfied dependency expressed through method 'dynamicDataSource' parameter 0: Error creating bean with name 'masterDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Failed to instantiate [javax.sql.DataSource]: Factory method 'masterDataSource' threw exception with message: 数据库URL为空，请检查Nacos配置是否已正确加载
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:795)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:542)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1335)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1165)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireByType(AbstractAutowireCapableBeanFactory.java:1501)
+	... 93 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dynamicDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Unsatisfied dependency expressed through method 'dynamicDataSource' parameter 0: Error creating bean with name 'masterDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Failed to instantiate [javax.sql.DataSource]: Factory method 'masterDataSource' threw exception with message: 数据库URL为空，请检查Nacos配置是否已正确加载
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:795)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:542)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1335)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1165)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782)
+	... 106 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'masterDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Failed to instantiate [javax.sql.DataSource]: Factory method 'masterDataSource' threw exception with message: 数据库URL为空，请检查Nacos配置是否已正确加载
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:648)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:485)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1335)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1165)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782)
+	... 120 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [javax.sql.DataSource]: Factory method 'masterDataSource' threw exception with message: 数据库URL为空，请检查Nacos配置是否已正确加载
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:177)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:644)
+	... 134 common frames omitted
+Caused by: java.lang.RuntimeException: 数据库URL为空，请检查Nacos配置是否已正确加载
+	at com.bgpay.bgai.datasource.DataSourceConfig.validateDriver(DataSourceConfig.java:103)
+	at com.bgpay.bgai.datasource.DataSourceConfig.masterDataSource(DataSourceConfig.java:55)
+	at com.bgpay.bgai.datasource.DataSourceConfig$$SpringCGLIB$$0.CGLIB$masterDataSource$2(<generated>)
+	at com.bgpay.bgai.datasource.DataSourceConfig$$SpringCGLIB$$FastClass$$1.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invokeSuper(MethodProxy.java:258)
+	at org.springframework.context.annotation.ConfigurationClassEnhancer$BeanMethodInterceptor.intercept(ConfigurationClassEnhancer.java:331)
+	at com.bgpay.bgai.datasource.DataSourceConfig$$SpringCGLIB$$0.masterDataSource(<generated>)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:140)
+	... 135 common frames omitted
+2025-07-12 00:18:11.279 [main] WARN  o.springframework.test.context.TestContextManager - Caught exception while allowing TestExecutionListener [org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener] to prepare test instance [com.bgpay.bgai.controller.YamlDataDrivenApiTest@205df5dc]
+java.lang.IllegalStateException: Failed to load ApplicationContext for [WebMergedContextConfiguration@2447d039 testClass = com.bgpay.bgai.controller.YamlDataDrivenApiTest, locations = [], classes = [com.bgpay.bgai.BgaiApplication], contextInitializerClasses = [], activeProfiles = ["test"], propertySourceDescriptors = [PropertySourceDescriptor[locations=[], ignoreResourceNotFound=false, name=null, propertySourceFactory=null, encoding=null]], propertySourceProperties = ["spring.main.allow-bean-definition-overriding=true", "seata.enabled=false", "saga.enabled=false", "seata.saga.state-machine.auto-register=false", "spring.cloud.loadbalancer.enabled=false", "spring.cloud.discovery.enabled=false", "spring.cloud.config.enabled=false", "spring.cloud.consul.enabled=false", "spring.cloud.gateway.enabled=false", "spring.cloud.circuitbreaker.enabled=false", "spring.main.web-application-type=servlet", "spring.validation.is-method-validation-bean-post-processor-enabled=false", "rocketmq.messageConsumer.enabled=false", "rocketmq.producer.enable=false", "rocketmq.name-server=8.133.246.113:9876", "rocketmq.producer.group=test-group", "spring.data.elasticsearch.repositories.enabled=false", "spring.elasticsearch.enabled=false", "spring.webflux.base-path=/api", "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientAutoConfiguration", "org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTestContextBootstrapper=true"], contextCustomizers = [[ImportsContextCustomizer@7cf517f6 key = [@org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureWebMvc(), @org.springframework.test.context.BootstrapWith(value=org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTestContextBootstrapper.class), @org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest(controllers={com.bgpay.bgai.controller.AuthController.class, com.bgpay.bgai.controller.ServiceDiscoveryExampleController.class, com.bgpay.bgai.controller.FeignDemoController.class}, excludeAutoConfiguration={org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class, org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration.class, org.apache.rocketmq.spring.autoconfigure.RocketMQAutoConfiguration.class, org.apache.rocketmq.spring.autoconfigure.ListenerContainerConfiguration.class, org.apache.rocketmq.spring.autoconfigure.RocketMQTransactionConfiguration.class, org.apache.rocketmq.spring.autoconfigure.ExtConsumerResetConfiguration.class, org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchDataAutoConfiguration.class, org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchRepositoriesAutoConfiguration.class, org.springframework.boot.autoconfigure.data.elasticsearch.ReactiveElasticsearchRepositoriesAutoConfiguration.class}, excludeFilters={}, includeFilters={}, properties={}, useDefaultFilters=true, value={com.bgpay.bgai.controller.AuthController.class, com.bgpay.bgai.controller.ServiceDiscoveryExampleController.class, com.bgpay.bgai.controller.FeignDemoController.class}), @org.springframework.boot.autoconfigure.ImportAutoConfiguration(classes={}, exclude={org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class, org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration.class, org.apache.rocketmq.spring.autoconfigure.RocketMQAutoConfiguration.class, org.apache.rocketmq.spring.autoconfigure.ListenerContainerConfiguration.class, org.apache.rocketmq.spring.autoconfigure.RocketMQTransactionConfiguration.class, org.apache.rocketmq.spring.autoconfigure.ExtConsumerResetConfiguration.class, org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchDataAutoConfiguration.class, org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchRepositoriesAutoConfiguration.class, org.springframework.boot.autoconfigure.data.elasticsearch.ReactiveElasticsearchRepositoriesAutoConfiguration.class}, value={}), @io.qameta.allure.LabelAnnotation(name="feature", value="$$$$$$$$__value__$$$$$$$$"), @org.springframework.context.annotation.Import(value={org.springframework.boot.autoconfigure.ImportAutoConfigurationImportSelector.class}), @io.qameta.allure.Feature("API\u6d4b\u8bd5"), @org.springframework.context.annotation.Import({com.bgpay.bgai.config.WebClientCircularDependencyResolver.class, com.bgpay.bgai.config.WebClientConfigExcluder.class, com.bgpay.bgai.config.WebClientQualifierResolver.class, com.bgpay.bgai.config.GatewayRouteMockConfig.class, com.bgpay.bgai.config.GatewayRouteConfigMock.class, com.bgpay.bgai.config.UnifiedEnvironmentConfig.class, com.bgpay.bgai.config.MockMvcTestConfig.class, com.bgpay.bgai.config.WebMvcAutoConfigurationDisabler.class, com.bgpay.bgai.config.WebClientTestConfig.class, com.bgpay.bgai.config.WebClientBuilderUnifier.class, com.bgpay.bgai.config.WebClientTestOverrideConfig.class, com.bgpay.bgai.config.WebClientAutoConfigurationExcluder.class, com.bgpay.bgai.config.ExcludeMainWebClientConfig.class, com.bgpay.bgai.config.WebClientBeanExclusionConfig.class, com.bgpay.bgai.config.DeepSeekWebClientMockConfig.class, com.bgpay.bgai.config.WebClientConfigMock.class, com.bgpay.bgai.config.WebClientConfigOverrideConfig.class, com.bgpay.bgai.config.ReactiveWebMockConfig.class, com.bgpay.bgai.config.TestPropertySourceConfig.class, com.bgpay.bgai.config.EnhancedChatControllerMockConfig.class, com.bgpay.bgai.config.ChatWebFilterMockConfig.class, com.bgpay.bgai.config.ChatRecordRepositoryMockConfig.class, com.bgpay.bgai.config.ElasticsearchMockConfig.class, com.bgpay.bgai.config.ElasticsearchAutoConfigurationDisabler.class, com.bgpay.bgai.config.RocketMQMockConfig.class, com.bgpay.bgai.config.DataSourceAutoConfigurationDisabler.class, com.bgpay.bgai.config.FileTypeServiceMockConfig.class, com.bgpay.bgai.config.CacheWarmerMockConfig.class, com.bgpay.bgai.config.RedisAutoConfigurationDisabler.class, com.bgpay.bgai.config.RedisMockConfig.class, com.bgpay.bgai.config.FeignAutoConfigurationDisabler.class, com.bgpay.bgai.config.RedisTemplateQualifierConfig.class}), @org.springframework.boot.test.autoconfigure.filter.TypeExcludeFilters(value={org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTypeExcludeFilter.class}), @org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc(webDriverEnabled=true, print=DEFAULT, webClientEnabled=true, addFilters=true, printOnlyOnFailure=true), @org.springframework.boot.autoconfigure.ImportAutoConfiguration(classes={}, exclude={}, value={}), @org.springframework.test.context.TestPropertySource(encoding="", factory=org.springframework.core.io.support.PropertySourceFactory.class, inheritLocations=true, inheritProperties=true, locations={}, properties={"spring.main.allow-bean-definition-overriding=true", "seata.enabled=false", "saga.enabled=false", "seata.saga.state-machine.auto-register=false", "spring.cloud.loadbalancer.enabled=false", "spring.cloud.discovery.enabled=false", "spring.cloud.config.enabled=false", "spring.cloud.consul.enabled=false", "spring.cloud.gateway.enabled=false", "spring.cloud.circuitbreaker.enabled=false", "spring.main.web-application-type=servlet", "spring.validation.is-method-validation-bean-post-processor-enabled=false", "rocketmq.messageConsumer.enabled=false", "rocketmq.producer.enable=false", "rocketmq.name-server=8.133.246.113:9876", "rocketmq.producer.group=test-group", "spring.data.elasticsearch.repositories.enabled=false", "spring.elasticsearch.enabled=false", "spring.webflux.base-path=/api", "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientAutoConfiguration"}, value={}), @org.springframework.test.context.ActiveProfiles(inheritProfiles=true, profiles={"test"}, resolver=org.springframework.test.context.ActiveProfilesResolver.class, value={"test"}), @org.apiguardian.api.API(consumers={"*"}, since="5.0", status=STABLE), @org.springframework.boot.test.autoconfigure.properties.PropertyMapping(skip=NO, value="spring.test.mockmvc"), @org.springframework.boot.test.autoconfigure.OverrideAutoConfiguration(enabled=false), @org.springframework.boot.test.autoconfigure.core.AutoConfigureCache(cacheProvider=NONE)]], org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@20b9d5d5, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@44cffc25, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@70e16fd4, org.springframework.boot.test.autoconfigure.OverrideAutoConfigurationContextCustomizerFactory$DisableAutoConfigurationContextCustomizer@1afd72ef, org.springframework.boot.test.autoconfigure.actuate.observability.ObservabilityContextCustomizerFactory$DisableObservabilityContextCustomizer@1f, org.springframework.boot.test.autoconfigure.filter.TypeExcludeFiltersContextCustomizer@58a80563, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@1e96023, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizer@4993febc, org.springframework.boot.test.context.SpringBootTestAnnotation@1c9bed4f], resourceBasePath = "src/main/webapp", contextLoader = org.springframework.boot.test.context.SpringBootContextLoader, parent = null]
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:180)
+	at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:130)
+	at org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener.postProcessFields(MockitoTestExecutionListener.java:122)
+	at org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener.injectFields(MockitoTestExecutionListener.java:106)
+	at org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener.prepareTestInstance(MockitoTestExecutionListener.java:63)
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:260)
+	at org.springframework.test.context.testng.AbstractTestNGSpringContextTests.springTestContextPrepareTestInstance(AbstractTestNGSpringContextTests.java:119)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:134)
+	at org.testng.internal.MethodInvocationHelper.invokeMethodConsideringTimeout(MethodInvocationHelper.java:63)
+	at org.testng.internal.ConfigInvoker.invokeConfigurationMethod(ConfigInvoker.java:348)
+	at org.testng.internal.ConfigInvoker.invokeConfigurations(ConfigInvoker.java:302)
+	at org.testng.internal.TestMethodWorker.invokeBeforeClassMethods(TestMethodWorker.java:176)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:122)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at org.testng.TestRunner.privateRun(TestRunner.java:766)
+	at org.testng.TestRunner.run(TestRunner.java:587)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:384)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:378)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:337)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:286)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:53)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:96)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1187)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1109)
+	at org.testng.TestNG.runSuites(TestNG.java:1039)
+	at org.testng.TestNG.run(TestNG.java:1007)
+	at com.intellij.rt.testng.IDEARemoteTestNG.run(IDEARemoteTestNG.java:65)
+	at com.intellij.rt.testng.RemoteTestNGStarter.main(RemoteTestNGStarter.java:105)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'openApiController' defined in file [E:\project\bgai\target\classes\com\bgpay\bgai\controller\OpenApiController.class]: Unsatisfied dependency expressed through constructor parameter 2: Error creating bean with name 'transactionCoordinator': Unsatisfied dependency expressed through field 'chatCompletionsService': Error creating bean with name 'chatCompletionsServiceImpl': Unsatisfied dependency expressed through field 'baseMapper': Error creating bean with name 'chatCompletionsMapper' defined in file [E:\project\bgai\target\classes\com\bgpay\bgai\mapper\ChatCompletionsMapper.class]: Unsatisfied dependency expressed through bean property 'sqlSessionFactory': Error creating bean with name 'sqlSessionFactory' defined in class path resource [com/bgpay/bgai/datasource/MyBatisPlusConfig.class]: Unsatisfied dependency expressed through method 'sqlSessionFactory' parameter 0: Error creating bean with name 'dynamicDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Unsatisfied dependency expressed through method 'dynamicDataSource' parameter 0: Error creating bean with name 'masterDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Failed to instantiate [javax.sql.DataSource]: Factory method 'masterDataSource' threw exception with message: 数据库URL为空，请检查Nacos配置是否已正确加载
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:795)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:237)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1355)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1192)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:975)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:962)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:624)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334)
+	at org.springframework.boot.test.context.SpringBootContextLoader.lambda$loadContext$3(SpringBootContextLoader.java:137)
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:58)
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:46)
+	at org.springframework.boot.SpringApplication.withHook(SpringApplication.java:1454)
+	at org.springframework.boot.test.context.SpringBootContextLoader$ContextLoaderHook.run(SpringBootContextLoader.java:553)
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:137)
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:108)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:225)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:152)
+	... 29 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'transactionCoordinator': Unsatisfied dependency expressed through field 'chatCompletionsService': Error creating bean with name 'chatCompletionsServiceImpl': Unsatisfied dependency expressed through field 'baseMapper': Error creating bean with name 'chatCompletionsMapper' defined in file [E:\project\bgai\target\classes\com\bgpay\bgai\mapper\ChatCompletionsMapper.class]: Unsatisfied dependency expressed through bean property 'sqlSessionFactory': Error creating bean with name 'sqlSessionFactory' defined in class path resource [com/bgpay/bgai/datasource/MyBatisPlusConfig.class]: Unsatisfied dependency expressed through method 'sqlSessionFactory' parameter 0: Error creating bean with name 'dynamicDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Unsatisfied dependency expressed through method 'dynamicDataSource' parameter 0: Error creating bean with name 'masterDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Failed to instantiate [javax.sql.DataSource]: Factory method 'masterDataSource' threw exception with message: 数据库URL为空，请检查Nacos配置是否已正确加载
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:787)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:767)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:145)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:508)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1419)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:599)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782)
+	... 53 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'chatCompletionsServiceImpl': Unsatisfied dependency expressed through field 'baseMapper': Error creating bean with name 'chatCompletionsMapper' defined in file [E:\project\bgai\target\classes\com\bgpay\bgai\mapper\ChatCompletionsMapper.class]: Unsatisfied dependency expressed through bean property 'sqlSessionFactory': Error creating bean with name 'sqlSessionFactory' defined in class path resource [com/bgpay/bgai/datasource/MyBatisPlusConfig.class]: Unsatisfied dependency expressed through method 'sqlSessionFactory' parameter 0: Error creating bean with name 'dynamicDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Unsatisfied dependency expressed through method 'dynamicDataSource' parameter 0: Error creating bean with name 'masterDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Failed to instantiate [javax.sql.DataSource]: Factory method 'masterDataSource' threw exception with message: 数据库URL为空，请检查Nacos配置是否已正确加载
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:787)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:767)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:145)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:508)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1419)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:599)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:784)
+	... 68 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'chatCompletionsMapper' defined in file [E:\project\bgai\target\classes\com\bgpay\bgai\mapper\ChatCompletionsMapper.class]: Unsatisfied dependency expressed through bean property 'sqlSessionFactory': Error creating bean with name 'sqlSessionFactory' defined in class path resource [com/bgpay/bgai/datasource/MyBatisPlusConfig.class]: Unsatisfied dependency expressed through method 'sqlSessionFactory' parameter 0: Error creating bean with name 'dynamicDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Unsatisfied dependency expressed through method 'dynamicDataSource' parameter 0: Error creating bean with name 'masterDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Failed to instantiate [javax.sql.DataSource]: Factory method 'masterDataSource' threw exception with message: 数据库URL为空，请检查Nacos配置是否已正确加载
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireByType(AbstractAutowireCapableBeanFactory.java:1516)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1410)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:599)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:784)
+	... 82 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'sqlSessionFactory' defined in class path resource [com/bgpay/bgai/datasource/MyBatisPlusConfig.class]: Unsatisfied dependency expressed through method 'sqlSessionFactory' parameter 0: Error creating bean with name 'dynamicDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Unsatisfied dependency expressed through method 'dynamicDataSource' parameter 0: Error creating bean with name 'masterDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Failed to instantiate [javax.sql.DataSource]: Factory method 'masterDataSource' threw exception with message: 数据库URL为空，请检查Nacos配置是否已正确加载
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:795)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:542)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1335)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1165)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireByType(AbstractAutowireCapableBeanFactory.java:1501)
+	... 93 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dynamicDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Unsatisfied dependency expressed through method 'dynamicDataSource' parameter 0: Error creating bean with name 'masterDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Failed to instantiate [javax.sql.DataSource]: Factory method 'masterDataSource' threw exception with message: 数据库URL为空，请检查Nacos配置是否已正确加载
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:795)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:542)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1335)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1165)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782)
+	... 106 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'masterDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Failed to instantiate [javax.sql.DataSource]: Factory method 'masterDataSource' threw exception with message: 数据库URL为空，请检查Nacos配置是否已正确加载
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:648)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:485)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1335)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1165)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782)
+	... 120 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [javax.sql.DataSource]: Factory method 'masterDataSource' threw exception with message: 数据库URL为空，请检查Nacos配置是否已正确加载
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:177)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:644)
+	... 134 common frames omitted
+Caused by: java.lang.RuntimeException: 数据库URL为空，请检查Nacos配置是否已正确加载
+	at com.bgpay.bgai.datasource.DataSourceConfig.validateDriver(DataSourceConfig.java:103)
+	at com.bgpay.bgai.datasource.DataSourceConfig.masterDataSource(DataSourceConfig.java:55)
+	at com.bgpay.bgai.datasource.DataSourceConfig$$SpringCGLIB$$0.CGLIB$masterDataSource$2(<generated>)
+	at com.bgpay.bgai.datasource.DataSourceConfig$$SpringCGLIB$$FastClass$$1.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invokeSuper(MethodProxy.java:258)
+	at org.springframework.context.annotation.ConfigurationClassEnhancer$BeanMethodInterceptor.intercept(ConfigurationClassEnhancer.java:331)
+	at com.bgpay.bgai.datasource.DataSourceConfig$$SpringCGLIB$$0.masterDataSource(<generated>)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:140)
+	... 135 common frames omitted
+2025-07-12 00:18:11.439 [main] INFO  com.bgpay.bgai.base.YamlDataProvider - 从YAML文件加载测试数据: src/test/resources/test-data/YamlDataDrivenApiTest/testLogin.yml
+2025-07-12 00:18:11.439 [main] WARN  com.bgpay.bgai.base.YamlDataProvider - YAML文件不存在: src/test/resources/test-data/YamlDataDrivenApiTest/testLogin.yml
+2025-07-12 00:28:51.777 [main] INFO  o.s.t.c.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.bgpay.bgai.controller.ReactiveYamlDataDrivenApiTest]: ReactiveYamlDataDrivenApiTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-07-12 00:28:52.101 [main] INFO  o.s.b.t.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.bgpay.bgai.BgaiApplication for test class com.bgpay.bgai.controller.ReactiveYamlDataDrivenApiTest
+2025-07-12 00:28:52.939 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2025-07-12 00:28:53.020 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2025-07-12 00:28:53.290 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2025-07-12 00:28:53.292 [main] INFO  com.alibaba.nacos.client.utils.ParamUtil - [settings] [req-serv] nacos-server port:8848
+2025-07-12 00:28:53.292 [main] INFO  com.alibaba.nacos.client.utils.ParamUtil - [settings] [http-client] connect timeout:1000
+2025-07-12 00:28:53.293 [main] INFO  com.alibaba.nacos.client.utils.ParamUtil - PER_TASK_CONFIG_SIZE: 3000.0
+2025-07-12 00:28:53.331 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
+2025-07-12 00:28:53.332 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
+2025-07-12 00:28:53.337 [main] INFO  c.a.n.client.auth.ram.identify.CredentialWatcher - null No credential found
+2025-07-12 00:28:53.720 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2025-07-12 00:28:53.744 [main] INFO  c.a.n.client.config.impl.LocalConfigInfoProcessor - LOCAL_SNAPSHOT_PATH:C:\Users\Administrator\nacos\config
+2025-07-12 00:28:53.749 [main] INFO  com.alibaba.nacos.common.remote.client - [RpcClientFactory] create a new rpc client of b8e61e93-4d75-4b59-b124-59121fc37b17_config-0
+2025-07-12 00:28:53.772 [main] INFO  com.alibaba.nacos.common.remote.client - [b8e61e93-4d75-4b59-b124-59121fc37b17_config-0] Register server push request handler:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$$Lambda/0x0000014d815369f8
+2025-07-12 00:28:53.773 [main] INFO  com.alibaba.nacos.common.remote.client - [b8e61e93-4d75-4b59-b124-59121fc37b17_config-0] Register server push request handler:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$$Lambda/0x0000014d81536e08
+2025-07-12 00:28:53.773 [main] INFO  com.alibaba.nacos.common.remote.client - [b8e61e93-4d75-4b59-b124-59121fc37b17_config-0] Registry connection listener to current client:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$1
+2025-07-12 00:28:53.774 [main] INFO  com.alibaba.nacos.common.remote.client - [b8e61e93-4d75-4b59-b124-59121fc37b17_config-0] RpcClient init, ServerListFactory = com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$2
+2025-07-12 00:28:53.784 [main] INFO  com.alibaba.nacos.common.remote.client - [b8e61e93-4d75-4b59-b124-59121fc37b17_config-0] Try to connect to server on start up, server: {serverIp = '8.133.246.113', server main port = 8848}
+2025-07-12 00:28:53.834 [main] INFO  c.a.nacos.common.remote.client.grpc.GrpcClient - grpc client connection server:8.133.246.113 ip,serverPort:9848,grpcTslConfig:{"sslProvider":"OPENSSL","enableTls":false,"mutualAuthEnable":false,"trustAll":false}
+2025-07-12 00:28:54.615 [main] INFO  com.alibaba.nacos.common.remote.client - [b8e61e93-4d75-4b59-b124-59121fc37b17_config-0] Success to connect to server [8.133.246.113:8848] on start up, connectionId = 1752251334646_139.226.176.198_12485
+2025-07-12 00:28:54.616 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.common.remote.client - [b8e61e93-4d75-4b59-b124-59121fc37b17_config-0] Notify connected event to listeners.
+2025-07-12 00:28:54.616 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [b8e61e93-4d75-4b59-b124-59121fc37b17_config-0] Connected,notify listen context...
+2025-07-12 00:28:54.617 [main] INFO  com.alibaba.nacos.common.remote.client - [b8e61e93-4d75-4b59-b124-59121fc37b17_config-0] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$ConnectResetRequestHandler
+2025-07-12 00:28:54.617 [main] INFO  com.alibaba.nacos.common.remote.client - [b8e61e93-4d75-4b59-b124-59121fc37b17_config-0] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$$Lambda/0x0000014d81698a60
+2025-07-12 00:28:54.654 [main] INFO  com.alibaba.nacos.client.config.impl.Limiter - limitTime:5.0
+2025-07-12 00:28:54.681 [main] WARN  c.a.cloud.nacos.client.NacosPropertySourceBuilder - Ignore the empty nacos configuration and get it based on dataId[common-dev.yaml] & group[DEFAULT_GROUP]
+2025-07-12 00:28:54.696 [main] WARN  c.a.cloud.nacos.client.NacosPropertySourceBuilder - Ignore the empty nacos configuration and get it based on dataId[bgtech-ai] & group[DEFAULT_GROUP]
+2025-07-12 00:28:54.707 [main] WARN  c.a.cloud.nacos.client.NacosPropertySourceBuilder - Ignore the empty nacos configuration and get it based on dataId[bgtech-ai.yaml] & group[DEFAULT_GROUP]
+2025-07-12 00:28:54.726 [main] INFO  com.alibaba.nacos.client.config.utils.JvmUtil - isMultiInstance:false
+2025-07-12 00:28:54.741 [main] INFO  o.s.c.b.c.PropertySourceBootstrapConfiguration - Located property source: [BootstrapPropertySource {name='bootstrapProperties-bgtech-ai-dev.yaml,DEFAULT_GROUP'}, BootstrapPropertySource {name='bootstrapProperties-bgtech-ai.yaml,DEFAULT_GROUP'}, BootstrapPropertySource {name='bootstrapProperties-bgtech-ai,DEFAULT_GROUP'}, BootstrapPropertySource {name='bootstrapProperties-common-dev.yaml,DEFAULT_GROUP'}]
+2025-07-12 00:29:50.760 [main] INFO  o.s.t.c.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.bgpay.bgai.controller.ReactiveYamlDataDrivenApiTest]: ReactiveYamlDataDrivenApiTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-07-12 00:29:51.122 [main] INFO  o.s.b.t.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.bgpay.bgai.BgaiApplication for test class com.bgpay.bgai.controller.ReactiveYamlDataDrivenApiTest
+2025-07-12 00:29:52.310 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2025-07-12 00:29:52.373 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2025-07-12 00:29:52.626 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2025-07-12 00:29:52.628 [main] INFO  com.alibaba.nacos.client.utils.ParamUtil - [settings] [req-serv] nacos-server port:8848
+2025-07-12 00:29:52.628 [main] INFO  com.alibaba.nacos.client.utils.ParamUtil - [settings] [http-client] connect timeout:1000
+2025-07-12 00:29:52.629 [main] INFO  com.alibaba.nacos.client.utils.ParamUtil - PER_TASK_CONFIG_SIZE: 3000.0
+2025-07-12 00:29:52.663 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
+2025-07-12 00:29:52.663 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
+2025-07-12 00:29:52.667 [main] INFO  c.a.n.client.auth.ram.identify.CredentialWatcher - null No credential found
+2025-07-12 00:29:53.088 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2025-07-12 00:29:53.114 [main] INFO  c.a.n.client.config.impl.LocalConfigInfoProcessor - LOCAL_SNAPSHOT_PATH:C:\Users\Administrator\nacos\config
+2025-07-12 00:29:53.121 [main] INFO  com.alibaba.nacos.common.remote.client - [RpcClientFactory] create a new rpc client of 9b64b28b-1cd1-4728-8f18-8fce8c0dc3a2_config-0
+2025-07-12 00:29:53.145 [main] INFO  com.alibaba.nacos.common.remote.client - [9b64b28b-1cd1-4728-8f18-8fce8c0dc3a2_config-0] Register server push request handler:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$$Lambda/0x00000212a9539028
+2025-07-12 00:29:53.145 [main] INFO  com.alibaba.nacos.common.remote.client - [9b64b28b-1cd1-4728-8f18-8fce8c0dc3a2_config-0] Register server push request handler:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$$Lambda/0x00000212a9539438
+2025-07-12 00:29:53.145 [main] INFO  com.alibaba.nacos.common.remote.client - [9b64b28b-1cd1-4728-8f18-8fce8c0dc3a2_config-0] Registry connection listener to current client:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$1
+2025-07-12 00:29:53.146 [main] INFO  com.alibaba.nacos.common.remote.client - [9b64b28b-1cd1-4728-8f18-8fce8c0dc3a2_config-0] RpcClient init, ServerListFactory = com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$2
+2025-07-12 00:29:53.158 [main] INFO  com.alibaba.nacos.common.remote.client - [9b64b28b-1cd1-4728-8f18-8fce8c0dc3a2_config-0] Try to connect to server on start up, server: {serverIp = '8.133.246.113', server main port = 8848}
+2025-07-12 00:29:53.210 [main] INFO  c.a.nacos.common.remote.client.grpc.GrpcClient - grpc client connection server:8.133.246.113 ip,serverPort:9848,grpcTslConfig:{"sslProvider":"OPENSSL","enableTls":false,"mutualAuthEnable":false,"trustAll":false}
+2025-07-12 00:29:54.024 [main] INFO  com.alibaba.nacos.common.remote.client - [9b64b28b-1cd1-4728-8f18-8fce8c0dc3a2_config-0] Success to connect to server [8.133.246.113:8848] on start up, connectionId = 1752251394058_139.226.176.198_12708
+2025-07-12 00:29:54.024 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.common.remote.client - [9b64b28b-1cd1-4728-8f18-8fce8c0dc3a2_config-0] Notify connected event to listeners.
+2025-07-12 00:29:54.025 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [9b64b28b-1cd1-4728-8f18-8fce8c0dc3a2_config-0] Connected,notify listen context...
+2025-07-12 00:29:54.025 [main] INFO  com.alibaba.nacos.common.remote.client - [9b64b28b-1cd1-4728-8f18-8fce8c0dc3a2_config-0] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$ConnectResetRequestHandler
+2025-07-12 00:29:54.025 [main] INFO  com.alibaba.nacos.common.remote.client - [9b64b28b-1cd1-4728-8f18-8fce8c0dc3a2_config-0] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$$Lambda/0x00000212a969ada8
+2025-07-12 00:29:54.061 [main] INFO  com.alibaba.nacos.client.config.impl.Limiter - limitTime:5.0
+2025-07-12 00:29:54.174 [main] WARN  c.a.cloud.nacos.client.NacosPropertySourceBuilder - Ignore the empty nacos configuration and get it based on dataId[common-dev.yaml] & group[DEFAULT_GROUP]
+2025-07-12 00:29:54.188 [main] WARN  c.a.cloud.nacos.client.NacosPropertySourceBuilder - Ignore the empty nacos configuration and get it based on dataId[bgtech-ai] & group[DEFAULT_GROUP]
+2025-07-12 00:29:54.206 [main] WARN  c.a.cloud.nacos.client.NacosPropertySourceBuilder - Ignore the empty nacos configuration and get it based on dataId[bgtech-ai.yaml] & group[DEFAULT_GROUP]
+2025-07-12 00:29:54.238 [main] INFO  com.alibaba.nacos.client.config.utils.JvmUtil - isMultiInstance:false
+2025-07-12 00:29:54.254 [main] INFO  o.s.c.b.c.PropertySourceBootstrapConfiguration - Located property source: [BootstrapPropertySource {name='bootstrapProperties-bgtech-ai-dev.yaml,DEFAULT_GROUP'}, BootstrapPropertySource {name='bootstrapProperties-bgtech-ai.yaml,DEFAULT_GROUP'}, BootstrapPropertySource {name='bootstrapProperties-bgtech-ai,DEFAULT_GROUP'}, BootstrapPropertySource {name='bootstrapProperties-common-dev.yaml,DEFAULT_GROUP'}]
+2025-07-12 00:31:26.755 [main] INFO  o.s.t.c.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.bgpay.bgai.controller.YamlDataDrivenApiTest]: YamlDataDrivenApiTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-07-12 00:31:27.091 [main] INFO  o.s.b.t.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.bgpay.bgai.BgaiApplication for test class com.bgpay.bgai.controller.YamlDataDrivenApiTest
+2025-07-12 00:31:27.858 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2025-07-12 00:31:27.932 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2025-07-12 00:31:28.204 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2025-07-12 00:31:28.207 [main] INFO  com.alibaba.nacos.client.utils.ParamUtil - [settings] [req-serv] nacos-server port:8848
+2025-07-12 00:31:28.207 [main] INFO  com.alibaba.nacos.client.utils.ParamUtil - [settings] [http-client] connect timeout:1000
+2025-07-12 00:31:28.209 [main] INFO  com.alibaba.nacos.client.utils.ParamUtil - PER_TASK_CONFIG_SIZE: 3000.0
+2025-07-12 00:31:28.259 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
+2025-07-12 00:31:28.259 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
+2025-07-12 00:31:28.265 [main] INFO  c.a.n.client.auth.ram.identify.CredentialWatcher - null No credential found
+2025-07-12 00:31:29.632 [main] WARN  c.a.cloud.nacos.client.NacosPropertySourceBuilder - Ignore the empty nacos configuration and get it based on dataId[common-dev.yaml] & group[DEFAULT_GROUP]
+2025-07-12 00:31:29.754 [main] WARN  c.a.cloud.nacos.client.NacosPropertySourceBuilder - Ignore the empty nacos configuration and get it based on dataId[bgai-test] & group[DEFAULT_GROUP]
+2025-07-12 00:31:29.765 [main] WARN  c.a.cloud.nacos.client.NacosPropertySourceBuilder - Ignore the empty nacos configuration and get it based on dataId[bgai-test.yaml] & group[DEFAULT_GROUP]
+2025-07-12 00:31:29.775 [main] WARN  c.a.cloud.nacos.client.NacosPropertySourceBuilder - Ignore the empty nacos configuration and get it based on dataId[bgai-test-test.yaml] & group[DEFAULT_GROUP]
+2025-07-12 00:31:29.776 [main] INFO  o.s.c.b.c.PropertySourceBootstrapConfiguration - Located property source: [BootstrapPropertySource {name='bootstrapProperties-bgai-test-test.yaml,DEFAULT_GROUP'}, BootstrapPropertySource {name='bootstrapProperties-bgai-test.yaml,DEFAULT_GROUP'}, BootstrapPropertySource {name='bootstrapProperties-bgai-test,DEFAULT_GROUP'}, BootstrapPropertySource {name='bootstrapProperties-common-dev.yaml,DEFAULT_GROUP'}]
+2025-07-12 00:31:29.837 [main] WARN  o.s.b.t.j.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer - 
+
+Found multiple occurrences of org.json.JSONObject on the class path:
+
+	jar:file:/C:/Users/Administrator/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar!/org/json/JSONObject.class
+	jar:file:/C:/Users/Administrator/.m2/repository/org/json/json/20220320/json-20220320.jar!/org/json/JSONObject.class
+
+You may wish to exclude one of them to ensure predictable runtime behavior
+
+2025-07-12 00:31:29.844 [main] INFO  com.bgpay.bgai.controller.YamlDataDrivenApiTest - The following 2 profiles are active: "dev", "test"
+2025-07-12 00:31:31.790 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'fileTypeMapper' and 'com.bgpay.bgai.mapper.FileTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-07-12 00:31:31.791 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'usageRecordMapper' and 'com.bgpay.bgai.mapper.UsageRecordMapper' mapperInterface. Bean already defined with the same name!
+2025-07-12 00:31:31.811 [main] WARN  o.s.c.annotation.ConfigurationClassPostProcessor - Cannot enhance @Configuration bean definition 'myBatisMapperScannerConfig' since its singleton instance has been created too early. The typical cause is a non-static @Bean method with a BeanDefinitionRegistryPostProcessor return type: Consider declaring such methods as 'static' and/or marking the containing configuration class as 'proxyBeanMethods=false'.
+2025-07-12 00:31:34.781 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'testBeanPostProcessor' of type [com.bgpay.bgai.config.TestBeanPostProcessor$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [bgaiServiceImplInjector] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2025-07-12 00:31:34.797 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'mockListenerContainerConfig' of type [com.bgpay.bgai.config.MockListenerContainerConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [org.apache.rocketmq.spring.annotation.RocketMQMessageListenerBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-07-12 00:31:34.875 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'listenerContainerConfiguration' of type [org.apache.rocketmq.spring.autoconfigure.ListenerContainerConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [org.apache.rocketmq.spring.annotation.RocketMQMessageListenerBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-07-12 00:31:35.156 [main] INFO  com.bgpay.bgai.config.SeataDisableConfiguration - SeataDisableConfiguration已加载，Seata在测试环境中被禁用
+2025-07-12 00:31:35.157 [main] INFO  com.bgpay.bgai.config.SeataDisableConfiguration - 设置系统属性: seata.enabled=false, saga.enabled=false
+2025-07-12 00:31:35.297 [main] INFO  c.bgpay.bgai.config.NacosRouteDefinitionRepository - 初始化Nacos路由定义存储库
+2025-07-12 00:31:35.457 [main] WARN  c.bgpay.bgai.config.NacosRouteDefinitionRepository - Nacos中未找到路由定义配置
+2025-07-12 00:31:35.475 [main] INFO  c.bgpay.bgai.service.impl.DynamicRouteServiceImpl - 初始化动态路由服务
+2025-07-12 00:31:35.658 [main] WARN  c.bgpay.bgai.service.impl.DynamicRouteServiceImpl - Nacos中没有找到路由配置，使用默认配置
+2025-07-12 00:31:35.659 [main] INFO  c.bgpay.bgai.service.impl.DynamicRouteServiceImpl - 注册Nacos配置监听器成功
+2025-07-12 00:31:35.665 [main] INFO  com.bgpay.bgai.config.NacosRouteConfigListener - 初始化Nacos路由配置监听器
+2025-07-12 00:31:35.858 [main] WARN  com.bgpay.bgai.config.NacosRouteConfigListener - Nacos中未找到路由配置数据
+2025-07-12 00:31:36.544 [main] INFO  com.bgpay.bgai.controller.FeignDemoController - FeignDemoController initialized with UserServiceClient and LocalUserServiceClient
+2025-07-12 00:31:37.175 [main] WARN  o.s.w.context.support.GenericWebApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'openApiController' defined in file [E:\project\bgai\target\classes\com\bgpay\bgai\controller\OpenApiController.class]: Unsatisfied dependency expressed through constructor parameter 2: Error creating bean with name 'transactionCoordinator': Unsatisfied dependency expressed through field 'chatCompletionsService': Error creating bean with name 'chatCompletionsService' defined in class path resource [com/bgpay/bgai/config/ChatCompletionsServiceMockConfig.class]: Failed to instantiate [com.bgpay.bgai.service.ChatCompletionsService]: Factory method 'chatCompletionsService' threw exception with message: 
+'insertChatCompletions' is a *void method* and it *cannot* be stubbed with a *return value*!
+Voids are usually stubbed with Throwables:
+    doThrow(exception).when(mock).someVoidMethod();
+If you need to set the void method to do nothing you can use:
+    doNothing().when(mock).someVoidMethod();
+For more information, check out the javadocs for Mockito.doNothing().
+***
+If you're unsure why you're getting above error read on.
+Due to the nature of the syntax above problem might occur because:
+1. The method you are trying to stub is *overloaded*. Make sure you are calling the right overloaded version.
+2. Somewhere in your test you are stubbing *final methods*. Sorry, Mockito does not verify/stub final methods.
+3. A spy is stubbed using when(spy.foo()).then() syntax. It is safer to stub spies - 
+   - with doReturn|Throw() family of methods. More in javadocs for Mockito.spy() method.
+4. Mocking methods declared on non-public parent classes is not supported.
+
+2025-07-12 00:31:37.175 [main] INFO  c.bgpay.bgai.service.impl.DynamicRouteServiceImpl - 动态路由服务关闭，执行清理操作
+2025-07-12 00:31:37.180 [main] INFO  o.s.b.a.logging.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-07-12 00:31:37.205 [main] ERROR org.springframework.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'openApiController' defined in file [E:\project\bgai\target\classes\com\bgpay\bgai\controller\OpenApiController.class]: Unsatisfied dependency expressed through constructor parameter 2: Error creating bean with name 'transactionCoordinator': Unsatisfied dependency expressed through field 'chatCompletionsService': Error creating bean with name 'chatCompletionsService' defined in class path resource [com/bgpay/bgai/config/ChatCompletionsServiceMockConfig.class]: Failed to instantiate [com.bgpay.bgai.service.ChatCompletionsService]: Factory method 'chatCompletionsService' threw exception with message: 
+'insertChatCompletions' is a *void method* and it *cannot* be stubbed with a *return value*!
+Voids are usually stubbed with Throwables:
+    doThrow(exception).when(mock).someVoidMethod();
+If you need to set the void method to do nothing you can use:
+    doNothing().when(mock).someVoidMethod();
+For more information, check out the javadocs for Mockito.doNothing().
+***
+If you're unsure why you're getting above error read on.
+Due to the nature of the syntax above problem might occur because:
+1. The method you are trying to stub is *overloaded*. Make sure you are calling the right overloaded version.
+2. Somewhere in your test you are stubbing *final methods*. Sorry, Mockito does not verify/stub final methods.
+3. A spy is stubbed using when(spy.foo()).then() syntax. It is safer to stub spies - 
+   - with doReturn|Throw() family of methods. More in javadocs for Mockito.spy() method.
+4. Mocking methods declared on non-public parent classes is not supported.
+
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:795)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:237)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1355)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1192)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:975)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:962)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:624)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334)
+	at org.springframework.boot.test.context.SpringBootContextLoader.lambda$loadContext$3(SpringBootContextLoader.java:137)
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:58)
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:46)
+	at org.springframework.boot.SpringApplication.withHook(SpringApplication.java:1454)
+	at org.springframework.boot.test.context.SpringBootContextLoader$ContextLoaderHook.run(SpringBootContextLoader.java:553)
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:137)
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:108)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:225)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:152)
+	at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:130)
+	at org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener.postProcessFields(MockitoTestExecutionListener.java:122)
+	at org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener.injectFields(MockitoTestExecutionListener.java:106)
+	at org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener.prepareTestInstance(MockitoTestExecutionListener.java:63)
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:260)
+	at org.springframework.test.context.testng.AbstractTestNGSpringContextTests.springTestContextPrepareTestInstance(AbstractTestNGSpringContextTests.java:119)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:134)
+	at org.testng.internal.MethodInvocationHelper.invokeMethodConsideringTimeout(MethodInvocationHelper.java:63)
+	at org.testng.internal.ConfigInvoker.invokeConfigurationMethod(ConfigInvoker.java:348)
+	at org.testng.internal.ConfigInvoker.invokeConfigurations(ConfigInvoker.java:302)
+	at org.testng.internal.TestMethodWorker.invokeBeforeClassMethods(TestMethodWorker.java:176)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:122)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at org.testng.TestRunner.privateRun(TestRunner.java:766)
+	at org.testng.TestRunner.run(TestRunner.java:587)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:384)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:378)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:337)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:286)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:53)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:96)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1187)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1109)
+	at org.testng.TestNG.runSuites(TestNG.java:1039)
+	at org.testng.TestNG.run(TestNG.java:1007)
+	at com.intellij.rt.testng.IDEARemoteTestNG.run(IDEARemoteTestNG.java:65)
+	at com.intellij.rt.testng.RemoteTestNGStarter.main(RemoteTestNGStarter.java:105)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'transactionCoordinator': Unsatisfied dependency expressed through field 'chatCompletionsService': Error creating bean with name 'chatCompletionsService' defined in class path resource [com/bgpay/bgai/config/ChatCompletionsServiceMockConfig.class]: Failed to instantiate [com.bgpay.bgai.service.ChatCompletionsService]: Factory method 'chatCompletionsService' threw exception with message: 
+'insertChatCompletions' is a *void method* and it *cannot* be stubbed with a *return value*!
+Voids are usually stubbed with Throwables:
+    doThrow(exception).when(mock).someVoidMethod();
+If you need to set the void method to do nothing you can use:
+    doNothing().when(mock).someVoidMethod();
+For more information, check out the javadocs for Mockito.doNothing().
+***
+If you're unsure why you're getting above error read on.
+Due to the nature of the syntax above problem might occur because:
+1. The method you are trying to stub is *overloaded*. Make sure you are calling the right overloaded version.
+2. Somewhere in your test you are stubbing *final methods*. Sorry, Mockito does not verify/stub final methods.
+3. A spy is stubbed using when(spy.foo()).then() syntax. It is safer to stub spies - 
+   - with doReturn|Throw() family of methods. More in javadocs for Mockito.spy() method.
+4. Mocking methods declared on non-public parent classes is not supported.
+
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:787)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:767)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:145)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:508)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1419)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:599)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782)
+	... 53 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'chatCompletionsService' defined in class path resource [com/bgpay/bgai/config/ChatCompletionsServiceMockConfig.class]: Failed to instantiate [com.bgpay.bgai.service.ChatCompletionsService]: Factory method 'chatCompletionsService' threw exception with message: 
+'insertChatCompletions' is a *void method* and it *cannot* be stubbed with a *return value*!
+Voids are usually stubbed with Throwables:
+    doThrow(exception).when(mock).someVoidMethod();
+If you need to set the void method to do nothing you can use:
+    doNothing().when(mock).someVoidMethod();
+For more information, check out the javadocs for Mockito.doNothing().
+***
+If you're unsure why you're getting above error read on.
+Due to the nature of the syntax above problem might occur because:
+1. The method you are trying to stub is *overloaded*. Make sure you are calling the right overloaded version.
+2. Somewhere in your test you are stubbing *final methods*. Sorry, Mockito does not verify/stub final methods.
+3. A spy is stubbed using when(spy.foo()).then() syntax. It is safer to stub spies - 
+   - with doReturn|Throw() family of methods. More in javadocs for Mockito.spy() method.
+4. Mocking methods declared on non-public parent classes is not supported.
+
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:648)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:485)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1335)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1165)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:784)
+	... 68 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.bgpay.bgai.service.ChatCompletionsService]: Factory method 'chatCompletionsService' threw exception with message: 
+'insertChatCompletions' is a *void method* and it *cannot* be stubbed with a *return value*!
+Voids are usually stubbed with Throwables:
+    doThrow(exception).when(mock).someVoidMethod();
+If you need to set the void method to do nothing you can use:
+    doNothing().when(mock).someVoidMethod();
+For more information, check out the javadocs for Mockito.doNothing().
+***
+If you're unsure why you're getting above error read on.
+Due to the nature of the syntax above problem might occur because:
+1. The method you are trying to stub is *overloaded*. Make sure you are calling the right overloaded version.
+2. Somewhere in your test you are stubbing *final methods*. Sorry, Mockito does not verify/stub final methods.
+3. A spy is stubbed using when(spy.foo()).then() syntax. It is safer to stub spies - 
+   - with doReturn|Throw() family of methods. More in javadocs for Mockito.spy() method.
+4. Mocking methods declared on non-public parent classes is not supported.
+
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:177)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:644)
+	... 81 common frames omitted
+Caused by: org.mockito.exceptions.misusing.CannotStubVoidMethodWithReturnValue: 
+'insertChatCompletions' is a *void method* and it *cannot* be stubbed with a *return value*!
+Voids are usually stubbed with Throwables:
+    doThrow(exception).when(mock).someVoidMethod();
+If you need to set the void method to do nothing you can use:
+    doNothing().when(mock).someVoidMethod();
+For more information, check out the javadocs for Mockito.doNothing().
+***
+If you're unsure why you're getting above error read on.
+Due to the nature of the syntax above problem might occur because:
+1. The method you are trying to stub is *overloaded*. Make sure you are calling the right overloaded version.
+2. Somewhere in your test you are stubbing *final methods*. Sorry, Mockito does not verify/stub final methods.
+3. A spy is stubbed using when(spy.foo()).then() syntax. It is safer to stub spies - 
+   - with doReturn|Throw() family of methods. More in javadocs for Mockito.spy() method.
+4. Mocking methods declared on non-public parent classes is not supported.
+
+	at com.bgpay.bgai.config.ChatCompletionsServiceMockConfig.chatCompletionsService(ChatCompletionsServiceMockConfig.java:26)
+	at com.bgpay.bgai.config.ChatCompletionsServiceMockConfig$$SpringCGLIB$$0.CGLIB$chatCompletionsService$0(<generated>)
+	at com.bgpay.bgai.config.ChatCompletionsServiceMockConfig$$SpringCGLIB$$FastClass$$1.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invokeSuper(MethodProxy.java:258)
+	at org.springframework.context.annotation.ConfigurationClassEnhancer$BeanMethodInterceptor.intercept(ConfigurationClassEnhancer.java:331)
+	at com.bgpay.bgai.config.ChatCompletionsServiceMockConfig$$SpringCGLIB$$0.chatCompletionsService(<generated>)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:140)
+	... 82 common frames omitted
+2025-07-12 00:31:37.222 [main] WARN  o.springframework.test.context.TestContextManager - Caught exception while allowing TestExecutionListener [org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener] to prepare test instance [com.bgpay.bgai.controller.YamlDataDrivenApiTest@21eee94f]
+java.lang.IllegalStateException: Failed to load ApplicationContext for [WebMergedContextConfiguration@1d458c1e testClass = com.bgpay.bgai.controller.YamlDataDrivenApiTest, locations = [], classes = [com.bgpay.bgai.BgaiApplication], contextInitializerClasses = [], activeProfiles = ["test"], propertySourceDescriptors = [PropertySourceDescriptor[locations=[], ignoreResourceNotFound=false, name=null, propertySourceFactory=null, encoding=null]], propertySourceProperties = ["spring.main.allow-bean-definition-overriding=true", "seata.enabled=false", "saga.enabled=false", "seata.saga.state-machine.auto-register=false", "spring.cloud.loadbalancer.enabled=false", "spring.cloud.discovery.enabled=false", "spring.cloud.config.enabled=false", "spring.cloud.consul.enabled=false", "spring.cloud.gateway.enabled=false", "spring.cloud.circuitbreaker.enabled=false", "spring.main.web-application-type=servlet", "spring.validation.is-method-validation-bean-post-processor-enabled=false", "rocketmq.messageConsumer.enabled=false", "rocketmq.producer.enable=false", "rocketmq.name-server=8.133.246.113:9876", "rocketmq.producer.group=test-group", "spring.data.elasticsearch.repositories.enabled=false", "spring.elasticsearch.enabled=false", "spring.webflux.base-path=/api", "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientAutoConfiguration", "org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTestContextBootstrapper=true"], contextCustomizers = [[ImportsContextCustomizer@27e4ca66 key = [@org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest(controllers={com.bgpay.bgai.controller.AuthController.class, com.bgpay.bgai.controller.ServiceDiscoveryExampleController.class, com.bgpay.bgai.controller.FeignDemoController.class, com.bgpay.bgai.controller.OpenApiController.class}, excludeAutoConfiguration={org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class, org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration.class, org.apache.rocketmq.spring.autoconfigure.RocketMQAutoConfiguration.class, org.apache.rocketmq.spring.autoconfigure.ListenerContainerConfiguration.class, org.apache.rocketmq.spring.autoconfigure.RocketMQTransactionConfiguration.class, org.apache.rocketmq.spring.autoconfigure.ExtConsumerResetConfiguration.class, org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchDataAutoConfiguration.class, org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchRepositoriesAutoConfiguration.class, org.springframework.boot.autoconfigure.data.elasticsearch.ReactiveElasticsearchRepositoriesAutoConfiguration.class}, excludeFilters={}, includeFilters={}, properties={}, useDefaultFilters=true, value={com.bgpay.bgai.controller.AuthController.class, com.bgpay.bgai.controller.ServiceDiscoveryExampleController.class, com.bgpay.bgai.controller.FeignDemoController.class, com.bgpay.bgai.controller.OpenApiController.class}), @org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureWebMvc(), @org.springframework.boot.test.autoconfigure.properties.PropertyMapping(skip=NO, value="spring.test.mockmvc"), @org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc(webDriverEnabled=true, print=DEFAULT, webClientEnabled=true, printOnlyOnFailure=true, addFilters=true), @org.springframework.boot.test.autoconfigure.core.AutoConfigureCache(cacheProvider=NONE), @org.springframework.test.context.ActiveProfiles(inheritProfiles=true, profiles={"test"}, resolver=org.springframework.test.context.ActiveProfilesResolver.class, value={"test"}), @org.apiguardian.api.API(consumers={"*"}, since="5.0", status=STABLE), @org.springframework.context.annotation.Import({com.bgpay.bgai.config.WebClientCircularDependencyResolver.class, com.bgpay.bgai.config.WebClientConfigExcluder.class, com.bgpay.bgai.config.WebClientQualifierResolver.class, com.bgpay.bgai.config.GatewayRouteMockConfig.class, com.bgpay.bgai.config.GatewayRouteConfigMock.class, com.bgpay.bgai.config.UnifiedEnvironmentConfig.class, com.bgpay.bgai.config.MockMvcTestConfig.class, com.bgpay.bgai.config.WebMvcAutoConfigurationDisabler.class, com.bgpay.bgai.config.WebClientTestConfig.class, com.bgpay.bgai.config.WebClientBuilderUnifier.class, com.bgpay.bgai.config.WebClientTestOverrideConfig.class, com.bgpay.bgai.config.WebClientAutoConfigurationExcluder.class, com.bgpay.bgai.config.ExcludeMainWebClientConfig.class, com.bgpay.bgai.config.WebClientBeanExclusionConfig.class, com.bgpay.bgai.config.DeepSeekWebClientMockConfig.class, com.bgpay.bgai.config.WebClientConfigMock.class, com.bgpay.bgai.config.WebClientConfigOverrideConfig.class, com.bgpay.bgai.config.ReactiveWebMockConfig.class, com.bgpay.bgai.config.TestPropertySourceConfig.class, com.bgpay.bgai.config.EnhancedChatControllerMockConfig.class, com.bgpay.bgai.config.ChatWebFilterMockConfig.class, com.bgpay.bgai.config.ChatRecordRepositoryMockConfig.class, com.bgpay.bgai.config.ElasticsearchMockConfig.class, com.bgpay.bgai.config.ElasticsearchAutoConfigurationDisabler.class, com.bgpay.bgai.config.RocketMQMockConfig.class, com.bgpay.bgai.config.DataSourceAutoConfigurationDisabler.class, com.bgpay.bgai.config.FileTypeServiceMockConfig.class, com.bgpay.bgai.config.CacheWarmerMockConfig.class, com.bgpay.bgai.config.RedisAutoConfigurationDisabler.class, com.bgpay.bgai.config.RedisMockConfig.class, com.bgpay.bgai.config.FeignAutoConfigurationDisabler.class, com.bgpay.bgai.config.RedisTemplateQualifierConfig.class, com.bgpay.bgai.config.TransactionCoordinatorMockConfig.class, com.bgpay.bgai.config.ChatCompletionsServiceMockConfig.class}), @org.springframework.context.annotation.Import(value={org.springframework.boot.autoconfigure.ImportAutoConfigurationImportSelector.class}), @org.springframework.boot.autoconfigure.ImportAutoConfiguration(classes={}, exclude={org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class, org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration.class, org.apache.rocketmq.spring.autoconfigure.RocketMQAutoConfiguration.class, org.apache.rocketmq.spring.autoconfigure.ListenerContainerConfiguration.class, org.apache.rocketmq.spring.autoconfigure.RocketMQTransactionConfiguration.class, org.apache.rocketmq.spring.autoconfigure.ExtConsumerResetConfiguration.class, org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchDataAutoConfiguration.class, org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchRepositoriesAutoConfiguration.class, org.springframework.boot.autoconfigure.data.elasticsearch.ReactiveElasticsearchRepositoriesAutoConfiguration.class}, value={}), @io.qameta.allure.LabelAnnotation(name="feature", value="$$$$$$$$__value__$$$$$$$$"), @io.qameta.allure.Feature("API\u6d4b\u8bd5"), @org.springframework.test.context.TestPropertySource(encoding="", factory=org.springframework.core.io.support.PropertySourceFactory.class, inheritLocations=true, inheritProperties=true, locations={}, properties={"spring.main.allow-bean-definition-overriding=true", "seata.enabled=false", "saga.enabled=false", "seata.saga.state-machine.auto-register=false", "spring.cloud.loadbalancer.enabled=false", "spring.cloud.discovery.enabled=false", "spring.cloud.config.enabled=false", "spring.cloud.consul.enabled=false", "spring.cloud.gateway.enabled=false", "spring.cloud.circuitbreaker.enabled=false", "spring.main.web-application-type=servlet", "spring.validation.is-method-validation-bean-post-processor-enabled=false", "rocketmq.messageConsumer.enabled=false", "rocketmq.producer.enable=false", "rocketmq.name-server=8.133.246.113:9876", "rocketmq.producer.group=test-group", "spring.data.elasticsearch.repositories.enabled=false", "spring.elasticsearch.enabled=false", "spring.webflux.base-path=/api", "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientAutoConfiguration"}, value={}), @org.springframework.boot.autoconfigure.ImportAutoConfiguration(classes={}, exclude={}, value={}), @org.springframework.boot.test.autoconfigure.filter.TypeExcludeFilters(value={org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTypeExcludeFilter.class}), @org.springframework.test.context.BootstrapWith(value=org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTestContextBootstrapper.class), @org.springframework.boot.test.autoconfigure.OverrideAutoConfiguration(enabled=false)]], org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@72f9f27c, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@4b97c4ad, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@e7b938a4, org.springframework.boot.test.autoconfigure.OverrideAutoConfigurationContextCustomizerFactory$DisableAutoConfigurationContextCustomizer@363c4251, org.springframework.boot.test.autoconfigure.actuate.observability.ObservabilityContextCustomizerFactory$DisableObservabilityContextCustomizer@1f, org.springframework.boot.test.autoconfigure.filter.TypeExcludeFiltersContextCustomizer@d0523678, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@37e79cb, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizer@60e9c3a5, org.springframework.boot.test.context.SpringBootTestAnnotation@8bb2d621], resourceBasePath = "src/main/webapp", contextLoader = org.springframework.boot.test.context.SpringBootContextLoader, parent = null]
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:180)
+	at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:130)
+	at org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener.postProcessFields(MockitoTestExecutionListener.java:122)
+	at org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener.injectFields(MockitoTestExecutionListener.java:106)
+	at org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener.prepareTestInstance(MockitoTestExecutionListener.java:63)
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:260)
+	at org.springframework.test.context.testng.AbstractTestNGSpringContextTests.springTestContextPrepareTestInstance(AbstractTestNGSpringContextTests.java:119)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:134)
+	at org.testng.internal.MethodInvocationHelper.invokeMethodConsideringTimeout(MethodInvocationHelper.java:63)
+	at org.testng.internal.ConfigInvoker.invokeConfigurationMethod(ConfigInvoker.java:348)
+	at org.testng.internal.ConfigInvoker.invokeConfigurations(ConfigInvoker.java:302)
+	at org.testng.internal.TestMethodWorker.invokeBeforeClassMethods(TestMethodWorker.java:176)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:122)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at org.testng.TestRunner.privateRun(TestRunner.java:766)
+	at org.testng.TestRunner.run(TestRunner.java:587)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:384)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:378)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:337)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:286)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:53)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:96)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1187)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1109)
+	at org.testng.TestNG.runSuites(TestNG.java:1039)
+	at org.testng.TestNG.run(TestNG.java:1007)
+	at com.intellij.rt.testng.IDEARemoteTestNG.run(IDEARemoteTestNG.java:65)
+	at com.intellij.rt.testng.RemoteTestNGStarter.main(RemoteTestNGStarter.java:105)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'openApiController' defined in file [E:\project\bgai\target\classes\com\bgpay\bgai\controller\OpenApiController.class]: Unsatisfied dependency expressed through constructor parameter 2: Error creating bean with name 'transactionCoordinator': Unsatisfied dependency expressed through field 'chatCompletionsService': Error creating bean with name 'chatCompletionsService' defined in class path resource [com/bgpay/bgai/config/ChatCompletionsServiceMockConfig.class]: Failed to instantiate [com.bgpay.bgai.service.ChatCompletionsService]: Factory method 'chatCompletionsService' threw exception with message: 
+'insertChatCompletions' is a *void method* and it *cannot* be stubbed with a *return value*!
+Voids are usually stubbed with Throwables:
+    doThrow(exception).when(mock).someVoidMethod();
+If you need to set the void method to do nothing you can use:
+    doNothing().when(mock).someVoidMethod();
+For more information, check out the javadocs for Mockito.doNothing().
+***
+If you're unsure why you're getting above error read on.
+Due to the nature of the syntax above problem might occur because:
+1. The method you are trying to stub is *overloaded*. Make sure you are calling the right overloaded version.
+2. Somewhere in your test you are stubbing *final methods*. Sorry, Mockito does not verify/stub final methods.
+3. A spy is stubbed using when(spy.foo()).then() syntax. It is safer to stub spies - 
+   - with doReturn|Throw() family of methods. More in javadocs for Mockito.spy() method.
+4. Mocking methods declared on non-public parent classes is not supported.
+
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:795)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:237)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1355)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1192)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:975)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:962)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:624)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334)
+	at org.springframework.boot.test.context.SpringBootContextLoader.lambda$loadContext$3(SpringBootContextLoader.java:137)
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:58)
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:46)
+	at org.springframework.boot.SpringApplication.withHook(SpringApplication.java:1454)
+	at org.springframework.boot.test.context.SpringBootContextLoader$ContextLoaderHook.run(SpringBootContextLoader.java:553)
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:137)
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:108)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:225)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:152)
+	... 29 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'transactionCoordinator': Unsatisfied dependency expressed through field 'chatCompletionsService': Error creating bean with name 'chatCompletionsService' defined in class path resource [com/bgpay/bgai/config/ChatCompletionsServiceMockConfig.class]: Failed to instantiate [com.bgpay.bgai.service.ChatCompletionsService]: Factory method 'chatCompletionsService' threw exception with message: 
+'insertChatCompletions' is a *void method* and it *cannot* be stubbed with a *return value*!
+Voids are usually stubbed with Throwables:
+    doThrow(exception).when(mock).someVoidMethod();
+If you need to set the void method to do nothing you can use:
+    doNothing().when(mock).someVoidMethod();
+For more information, check out the javadocs for Mockito.doNothing().
+***
+If you're unsure why you're getting above error read on.
+Due to the nature of the syntax above problem might occur because:
+1. The method you are trying to stub is *overloaded*. Make sure you are calling the right overloaded version.
+2. Somewhere in your test you are stubbing *final methods*. Sorry, Mockito does not verify/stub final methods.
+3. A spy is stubbed using when(spy.foo()).then() syntax. It is safer to stub spies - 
+   - with doReturn|Throw() family of methods. More in javadocs for Mockito.spy() method.
+4. Mocking methods declared on non-public parent classes is not supported.
+
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:787)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:767)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:145)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:508)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1419)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:599)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782)
+	... 53 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'chatCompletionsService' defined in class path resource [com/bgpay/bgai/config/ChatCompletionsServiceMockConfig.class]: Failed to instantiate [com.bgpay.bgai.service.ChatCompletionsService]: Factory method 'chatCompletionsService' threw exception with message: 
+'insertChatCompletions' is a *void method* and it *cannot* be stubbed with a *return value*!
+Voids are usually stubbed with Throwables:
+    doThrow(exception).when(mock).someVoidMethod();
+If you need to set the void method to do nothing you can use:
+    doNothing().when(mock).someVoidMethod();
+For more information, check out the javadocs for Mockito.doNothing().
+***
+If you're unsure why you're getting above error read on.
+Due to the nature of the syntax above problem might occur because:
+1. The method you are trying to stub is *overloaded*. Make sure you are calling the right overloaded version.
+2. Somewhere in your test you are stubbing *final methods*. Sorry, Mockito does not verify/stub final methods.
+3. A spy is stubbed using when(spy.foo()).then() syntax. It is safer to stub spies - 
+   - with doReturn|Throw() family of methods. More in javadocs for Mockito.spy() method.
+4. Mocking methods declared on non-public parent classes is not supported.
+
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:648)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:485)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1335)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1165)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:784)
+	... 68 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.bgpay.bgai.service.ChatCompletionsService]: Factory method 'chatCompletionsService' threw exception with message: 
+'insertChatCompletions' is a *void method* and it *cannot* be stubbed with a *return value*!
+Voids are usually stubbed with Throwables:
+    doThrow(exception).when(mock).someVoidMethod();
+If you need to set the void method to do nothing you can use:
+    doNothing().when(mock).someVoidMethod();
+For more information, check out the javadocs for Mockito.doNothing().
+***
+If you're unsure why you're getting above error read on.
+Due to the nature of the syntax above problem might occur because:
+1. The method you are trying to stub is *overloaded*. Make sure you are calling the right overloaded version.
+2. Somewhere in your test you are stubbing *final methods*. Sorry, Mockito does not verify/stub final methods.
+3. A spy is stubbed using when(spy.foo()).then() syntax. It is safer to stub spies - 
+   - with doReturn|Throw() family of methods. More in javadocs for Mockito.spy() method.
+4. Mocking methods declared on non-public parent classes is not supported.
+
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:177)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:644)
+	... 81 common frames omitted
+Caused by: org.mockito.exceptions.misusing.CannotStubVoidMethodWithReturnValue: 
+'insertChatCompletions' is a *void method* and it *cannot* be stubbed with a *return value*!
+Voids are usually stubbed with Throwables:
+    doThrow(exception).when(mock).someVoidMethod();
+If you need to set the void method to do nothing you can use:
+    doNothing().when(mock).someVoidMethod();
+For more information, check out the javadocs for Mockito.doNothing().
+***
+If you're unsure why you're getting above error read on.
+Due to the nature of the syntax above problem might occur because:
+1. The method you are trying to stub is *overloaded*. Make sure you are calling the right overloaded version.
+2. Somewhere in your test you are stubbing *final methods*. Sorry, Mockito does not verify/stub final methods.
+3. A spy is stubbed using when(spy.foo()).then() syntax. It is safer to stub spies - 
+   - with doReturn|Throw() family of methods. More in javadocs for Mockito.spy() method.
+4. Mocking methods declared on non-public parent classes is not supported.
+
+	at com.bgpay.bgai.config.ChatCompletionsServiceMockConfig.chatCompletionsService(ChatCompletionsServiceMockConfig.java:26)
+	at com.bgpay.bgai.config.ChatCompletionsServiceMockConfig$$SpringCGLIB$$0.CGLIB$chatCompletionsService$0(<generated>)
+	at com.bgpay.bgai.config.ChatCompletionsServiceMockConfig$$SpringCGLIB$$FastClass$$1.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invokeSuper(MethodProxy.java:258)
+	at org.springframework.context.annotation.ConfigurationClassEnhancer$BeanMethodInterceptor.intercept(ConfigurationClassEnhancer.java:331)
+	at com.bgpay.bgai.config.ChatCompletionsServiceMockConfig$$SpringCGLIB$$0.chatCompletionsService(<generated>)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:140)
+	... 82 common frames omitted
+2025-07-12 00:31:37.383 [main] INFO  com.bgpay.bgai.base.YamlDataProvider - 从YAML文件加载测试数据: src/test/resources/test-data/YamlDataDrivenApiTest/testLogin.yml
+2025-07-12 00:31:37.384 [main] WARN  com.bgpay.bgai.base.YamlDataProvider - YAML文件不存在: src/test/resources/test-data/YamlDataDrivenApiTest/testLogin.yml
+2025-07-12 00:39:28.207 [main] INFO  o.s.t.c.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.bgpay.bgai.controller.YamlDataDrivenApiTest]: YamlDataDrivenApiTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-07-12 00:39:28.501 [main] INFO  o.s.b.t.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.bgpay.bgai.BgaiApplication for test class com.bgpay.bgai.controller.YamlDataDrivenApiTest
+2025-07-12 00:39:29.221 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2025-07-12 00:39:29.296 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2025-07-12 00:39:29.563 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2025-07-12 00:39:29.566 [main] INFO  com.alibaba.nacos.client.utils.ParamUtil - [settings] [req-serv] nacos-server port:8848
+2025-07-12 00:39:29.566 [main] INFO  com.alibaba.nacos.client.utils.ParamUtil - [settings] [http-client] connect timeout:1000
+2025-07-12 00:39:29.568 [main] INFO  com.alibaba.nacos.client.utils.ParamUtil - PER_TASK_CONFIG_SIZE: 3000.0
+2025-07-12 00:39:29.599 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
+2025-07-12 00:39:29.599 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
+2025-07-12 00:39:29.603 [main] INFO  c.a.n.client.auth.ram.identify.CredentialWatcher - null No credential found
+2025-07-12 00:39:30.840 [main] WARN  c.a.cloud.nacos.client.NacosPropertySourceBuilder - Ignore the empty nacos configuration and get it based on dataId[common-dev.yaml] & group[DEFAULT_GROUP]
+2025-07-12 00:39:30.850 [main] WARN  c.a.cloud.nacos.client.NacosPropertySourceBuilder - Ignore the empty nacos configuration and get it based on dataId[bgai-test] & group[DEFAULT_GROUP]
+2025-07-12 00:39:30.859 [main] WARN  c.a.cloud.nacos.client.NacosPropertySourceBuilder - Ignore the empty nacos configuration and get it based on dataId[bgai-test.yaml] & group[DEFAULT_GROUP]
+2025-07-12 00:39:30.867 [main] WARN  c.a.cloud.nacos.client.NacosPropertySourceBuilder - Ignore the empty nacos configuration and get it based on dataId[bgai-test-test.yaml] & group[DEFAULT_GROUP]
+2025-07-12 00:39:30.868 [main] INFO  o.s.c.b.c.PropertySourceBootstrapConfiguration - Located property source: [BootstrapPropertySource {name='bootstrapProperties-bgai-test-test.yaml,DEFAULT_GROUP'}, BootstrapPropertySource {name='bootstrapProperties-bgai-test.yaml,DEFAULT_GROUP'}, BootstrapPropertySource {name='bootstrapProperties-bgai-test,DEFAULT_GROUP'}, BootstrapPropertySource {name='bootstrapProperties-common-dev.yaml,DEFAULT_GROUP'}]
+2025-07-12 00:39:30.927 [main] WARN  o.s.b.t.j.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer - 
+
+Found multiple occurrences of org.json.JSONObject on the class path:
+
+	jar:file:/C:/Users/Administrator/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar!/org/json/JSONObject.class
+	jar:file:/C:/Users/Administrator/.m2/repository/org/json/json/20220320/json-20220320.jar!/org/json/JSONObject.class
+
+You may wish to exclude one of them to ensure predictable runtime behavior
+
+2025-07-12 00:39:30.932 [main] INFO  com.bgpay.bgai.controller.YamlDataDrivenApiTest - The following 2 profiles are active: "dev", "test"
+2025-07-12 00:39:32.780 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'fileTypeMapper' and 'com.bgpay.bgai.mapper.FileTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-07-12 00:39:32.780 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'usageRecordMapper' and 'com.bgpay.bgai.mapper.UsageRecordMapper' mapperInterface. Bean already defined with the same name!
+2025-07-12 00:39:32.800 [main] WARN  o.s.c.annotation.ConfigurationClassPostProcessor - Cannot enhance @Configuration bean definition 'myBatisMapperScannerConfig' since its singleton instance has been created too early. The typical cause is a non-static @Bean method with a BeanDefinitionRegistryPostProcessor return type: Consider declaring such methods as 'static' and/or marking the containing configuration class as 'proxyBeanMethods=false'.
+2025-07-12 00:39:35.663 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'testBeanPostProcessor' of type [com.bgpay.bgai.config.TestBeanPostProcessor$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [bgaiServiceImplInjector] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2025-07-12 00:39:35.681 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'mockListenerContainerConfig' of type [com.bgpay.bgai.config.MockListenerContainerConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [org.apache.rocketmq.spring.annotation.RocketMQMessageListenerBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-07-12 00:39:35.757 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'listenerContainerConfiguration' of type [org.apache.rocketmq.spring.autoconfigure.ListenerContainerConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [org.apache.rocketmq.spring.annotation.RocketMQMessageListenerBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-07-12 00:39:35.974 [main] INFO  com.bgpay.bgai.config.SeataDisableConfiguration - SeataDisableConfiguration已加载，Seata在测试环境中被禁用
+2025-07-12 00:39:35.974 [main] INFO  com.bgpay.bgai.config.SeataDisableConfiguration - 设置系统属性: seata.enabled=false, saga.enabled=false
+2025-07-12 00:39:36.072 [main] INFO  c.bgpay.bgai.config.NacosRouteDefinitionRepository - 初始化Nacos路由定义存储库
+2025-07-12 00:39:36.220 [main] WARN  c.bgpay.bgai.config.NacosRouteDefinitionRepository - Nacos中未找到路由定义配置
+2025-07-12 00:39:36.236 [main] INFO  c.bgpay.bgai.service.impl.DynamicRouteServiceImpl - 初始化动态路由服务
+2025-07-12 00:39:36.424 [main] WARN  c.bgpay.bgai.service.impl.DynamicRouteServiceImpl - Nacos中没有找到路由配置，使用默认配置
+2025-07-12 00:39:36.424 [main] INFO  c.bgpay.bgai.service.impl.DynamicRouteServiceImpl - 注册Nacos配置监听器成功
+2025-07-12 00:39:36.429 [main] INFO  com.bgpay.bgai.config.NacosRouteConfigListener - 初始化Nacos路由配置监听器
+2025-07-12 00:39:36.660 [main] WARN  com.bgpay.bgai.config.NacosRouteConfigListener - Nacos中未找到路由配置数据
+2025-07-12 00:39:37.205 [main] INFO  com.bgpay.bgai.controller.FeignDemoController - FeignDemoController initialized with UserServiceClient and LocalUserServiceClient
+2025-07-12 00:39:38.037 [main] WARN  o.s.w.context.support.GenericWebApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'sagaStatusController': Unsatisfied dependency expressed through field 'stateMachineEngine': Error creating bean with name 'stateMachineEngine' defined in class path resource [com/bgpay/bgai/seata/SagaStateMachineConfig.class]: Unsatisfied dependency expressed through method 'stateMachineEngine' parameter 0: Error creating bean with name 'dynamicDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Unsatisfied dependency expressed through method 'dynamicDataSource' parameter 0: Error creating bean with name 'masterDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Failed to instantiate [javax.sql.DataSource]: Factory method 'masterDataSource' threw exception with message: 数据库URL为空，请检查Nacos配置是否已正确加载
+2025-07-12 00:39:38.037 [main] INFO  c.bgpay.bgai.service.impl.DynamicRouteServiceImpl - 动态路由服务关闭，执行清理操作
+2025-07-12 00:39:38.046 [main] INFO  o.s.b.a.logging.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-07-12 00:39:38.088 [main] ERROR org.springframework.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'sagaStatusController': Unsatisfied dependency expressed through field 'stateMachineEngine': Error creating bean with name 'stateMachineEngine' defined in class path resource [com/bgpay/bgai/seata/SagaStateMachineConfig.class]: Unsatisfied dependency expressed through method 'stateMachineEngine' parameter 0: Error creating bean with name 'dynamicDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Unsatisfied dependency expressed through method 'dynamicDataSource' parameter 0: Error creating bean with name 'masterDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Failed to instantiate [javax.sql.DataSource]: Factory method 'masterDataSource' threw exception with message: 数据库URL为空，请检查Nacos配置是否已正确加载
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:787)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:767)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:145)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:508)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1419)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:599)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:975)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:962)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:624)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334)
+	at org.springframework.boot.test.context.SpringBootContextLoader.lambda$loadContext$3(SpringBootContextLoader.java:137)
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:58)
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:46)
+	at org.springframework.boot.SpringApplication.withHook(SpringApplication.java:1454)
+	at org.springframework.boot.test.context.SpringBootContextLoader$ContextLoaderHook.run(SpringBootContextLoader.java:553)
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:137)
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:108)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:225)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:152)
+	at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:130)
+	at org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener.postProcessFields(MockitoTestExecutionListener.java:122)
+	at org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener.injectFields(MockitoTestExecutionListener.java:106)
+	at org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener.prepareTestInstance(MockitoTestExecutionListener.java:63)
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:260)
+	at org.springframework.test.context.testng.AbstractTestNGSpringContextTests.springTestContextPrepareTestInstance(AbstractTestNGSpringContextTests.java:119)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:134)
+	at org.testng.internal.MethodInvocationHelper.invokeMethodConsideringTimeout(MethodInvocationHelper.java:63)
+	at org.testng.internal.ConfigInvoker.invokeConfigurationMethod(ConfigInvoker.java:348)
+	at org.testng.internal.ConfigInvoker.invokeConfigurations(ConfigInvoker.java:302)
+	at org.testng.internal.TestMethodWorker.invokeBeforeClassMethods(TestMethodWorker.java:176)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:122)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at org.testng.TestRunner.privateRun(TestRunner.java:766)
+	at org.testng.TestRunner.run(TestRunner.java:587)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:384)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:378)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:337)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:286)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:53)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:96)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1187)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1109)
+	at org.testng.TestNG.runSuites(TestNG.java:1039)
+	at org.testng.TestNG.run(TestNG.java:1007)
+	at com.intellij.rt.testng.IDEARemoteTestNG.run(IDEARemoteTestNG.java:65)
+	at com.intellij.rt.testng.RemoteTestNGStarter.main(RemoteTestNGStarter.java:105)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'stateMachineEngine' defined in class path resource [com/bgpay/bgai/seata/SagaStateMachineConfig.class]: Unsatisfied dependency expressed through method 'stateMachineEngine' parameter 0: Error creating bean with name 'dynamicDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Unsatisfied dependency expressed through method 'dynamicDataSource' parameter 0: Error creating bean with name 'masterDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Failed to instantiate [javax.sql.DataSource]: Factory method 'masterDataSource' threw exception with message: 数据库URL为空，请检查Nacos配置是否已正确加载
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:795)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:542)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1335)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1165)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:784)
+	... 54 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dynamicDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Unsatisfied dependency expressed through method 'dynamicDataSource' parameter 0: Error creating bean with name 'masterDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Failed to instantiate [javax.sql.DataSource]: Factory method 'masterDataSource' threw exception with message: 数据库URL为空，请检查Nacos配置是否已正确加载
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:795)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:542)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1335)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1165)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782)
+	... 67 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'masterDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Failed to instantiate [javax.sql.DataSource]: Factory method 'masterDataSource' threw exception with message: 数据库URL为空，请检查Nacos配置是否已正确加载
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:648)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:485)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1335)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1165)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782)
+	... 81 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [javax.sql.DataSource]: Factory method 'masterDataSource' threw exception with message: 数据库URL为空，请检查Nacos配置是否已正确加载
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:177)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:644)
+	... 95 common frames omitted
+Caused by: java.lang.RuntimeException: 数据库URL为空，请检查Nacos配置是否已正确加载
+	at com.bgpay.bgai.datasource.DataSourceConfig.validateDriver(DataSourceConfig.java:103)
+	at com.bgpay.bgai.datasource.DataSourceConfig.masterDataSource(DataSourceConfig.java:55)
+	at com.bgpay.bgai.datasource.DataSourceConfig$$SpringCGLIB$$0.CGLIB$masterDataSource$0(<generated>)
+	at com.bgpay.bgai.datasource.DataSourceConfig$$SpringCGLIB$$FastClass$$1.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invokeSuper(MethodProxy.java:258)
+	at org.springframework.context.annotation.ConfigurationClassEnhancer$BeanMethodInterceptor.intercept(ConfigurationClassEnhancer.java:331)
+	at com.bgpay.bgai.datasource.DataSourceConfig$$SpringCGLIB$$0.masterDataSource(<generated>)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:140)
+	... 96 common frames omitted
+2025-07-12 00:39:38.110 [main] WARN  o.springframework.test.context.TestContextManager - Caught exception while allowing TestExecutionListener [org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener] to prepare test instance [com.bgpay.bgai.controller.YamlDataDrivenApiTest@6bc24e72]
+java.lang.IllegalStateException: Failed to load ApplicationContext for [WebMergedContextConfiguration@530daa7e testClass = com.bgpay.bgai.controller.YamlDataDrivenApiTest, locations = [], classes = [com.bgpay.bgai.BgaiApplication], contextInitializerClasses = [], activeProfiles = ["test"], propertySourceDescriptors = [PropertySourceDescriptor[locations=[], ignoreResourceNotFound=false, name=null, propertySourceFactory=null, encoding=null]], propertySourceProperties = ["spring.main.allow-bean-definition-overriding=true", "seata.enabled=false", "saga.enabled=false", "seata.saga.state-machine.auto-register=false", "spring.cloud.loadbalancer.enabled=false", "spring.cloud.discovery.enabled=false", "spring.cloud.config.enabled=false", "spring.cloud.consul.enabled=false", "spring.cloud.gateway.enabled=false", "spring.cloud.circuitbreaker.enabled=false", "spring.main.web-application-type=servlet", "spring.validation.is-method-validation-bean-post-processor-enabled=false", "rocketmq.messageConsumer.enabled=false", "rocketmq.producer.enable=false", "rocketmq.name-server=8.133.246.113:9876", "rocketmq.producer.group=test-group", "spring.data.elasticsearch.repositories.enabled=false", "spring.elasticsearch.enabled=false", "spring.webflux.base-path=/api", "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientAutoConfiguration", "org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTestContextBootstrapper=true"], contextCustomizers = [[ImportsContextCustomizer@2af87d7a key = [@org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureWebMvc(), @org.springframework.context.annotation.Import(value={org.springframework.boot.autoconfigure.ImportAutoConfigurationImportSelector.class}), @org.springframework.test.context.TestPropertySource(encoding="", factory=org.springframework.core.io.support.PropertySourceFactory.class, inheritLocations=true, inheritProperties=true, locations={}, properties={"spring.main.allow-bean-definition-overriding=true", "seata.enabled=false", "saga.enabled=false", "seata.saga.state-machine.auto-register=false", "spring.cloud.loadbalancer.enabled=false", "spring.cloud.discovery.enabled=false", "spring.cloud.config.enabled=false", "spring.cloud.consul.enabled=false", "spring.cloud.gateway.enabled=false", "spring.cloud.circuitbreaker.enabled=false", "spring.main.web-application-type=servlet", "spring.validation.is-method-validation-bean-post-processor-enabled=false", "rocketmq.messageConsumer.enabled=false", "rocketmq.producer.enable=false", "rocketmq.name-server=8.133.246.113:9876", "rocketmq.producer.group=test-group", "spring.data.elasticsearch.repositories.enabled=false", "spring.elasticsearch.enabled=false", "spring.webflux.base-path=/api", "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientAutoConfiguration"}, value={}), @org.springframework.boot.test.autoconfigure.core.AutoConfigureCache(cacheProvider=NONE), @org.springframework.test.context.BootstrapWith(value=org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTestContextBootstrapper.class), @org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest(controllers={com.bgpay.bgai.controller.AuthController.class, com.bgpay.bgai.controller.ServiceDiscoveryExampleController.class, com.bgpay.bgai.controller.FeignDemoController.class, com.bgpay.bgai.controller.OpenApiController.class}, excludeAutoConfiguration={org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class, org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration.class, org.apache.rocketmq.spring.autoconfigure.RocketMQAutoConfiguration.class, org.apache.rocketmq.spring.autoconfigure.ListenerContainerConfiguration.class, org.apache.rocketmq.spring.autoconfigure.RocketMQTransactionConfiguration.class, org.apache.rocketmq.spring.autoconfigure.ExtConsumerResetConfiguration.class, org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchDataAutoConfiguration.class, org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchRepositoriesAutoConfiguration.class, org.springframework.boot.autoconfigure.data.elasticsearch.ReactiveElasticsearchRepositoriesAutoConfiguration.class}, excludeFilters={}, includeFilters={}, properties={}, useDefaultFilters=true, value={com.bgpay.bgai.controller.AuthController.class, com.bgpay.bgai.controller.ServiceDiscoveryExampleController.class, com.bgpay.bgai.controller.FeignDemoController.class, com.bgpay.bgai.controller.OpenApiController.class}), @org.springframework.test.context.ActiveProfiles(inheritProfiles=true, profiles={"test"}, resolver=org.springframework.test.context.ActiveProfilesResolver.class, value={"test"}), @org.springframework.boot.test.autoconfigure.filter.TypeExcludeFilters(value={org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTypeExcludeFilter.class}), @org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc(webDriverEnabled=true, print=DEFAULT, webClientEnabled=true, addFilters=true, printOnlyOnFailure=true), @io.qameta.allure.LabelAnnotation(name="feature", value="$$$$$$$$__value__$$$$$$$$"), @io.qameta.allure.Feature("API\u6d4b\u8bd5"), @org.springframework.context.annotation.Import({com.bgpay.bgai.config.WebClientCircularDependencyResolver.class, com.bgpay.bgai.config.WebClientConfigExcluder.class, com.bgpay.bgai.config.WebClientQualifierResolver.class, com.bgpay.bgai.config.GatewayRouteMockConfig.class, com.bgpay.bgai.config.GatewayRouteConfigMock.class, com.bgpay.bgai.config.UnifiedEnvironmentConfig.class, com.bgpay.bgai.config.MockMvcTestConfig.class, com.bgpay.bgai.config.WebMvcAutoConfigurationDisabler.class, com.bgpay.bgai.config.WebClientTestConfig.class, com.bgpay.bgai.config.WebClientBuilderUnifier.class, com.bgpay.bgai.config.WebClientTestOverrideConfig.class, com.bgpay.bgai.config.WebClientAutoConfigurationExcluder.class, com.bgpay.bgai.config.ExcludeMainWebClientConfig.class, com.bgpay.bgai.config.WebClientBeanExclusionConfig.class, com.bgpay.bgai.config.DeepSeekWebClientMockConfig.class, com.bgpay.bgai.config.WebClientConfigMock.class, com.bgpay.bgai.config.WebClientConfigOverrideConfig.class, com.bgpay.bgai.config.ReactiveWebMockConfig.class, com.bgpay.bgai.config.TestPropertySourceConfig.class, com.bgpay.bgai.config.EnhancedChatControllerMockConfig.class, com.bgpay.bgai.config.ChatWebFilterMockConfig.class, com.bgpay.bgai.config.ChatRecordRepositoryMockConfig.class, com.bgpay.bgai.config.ElasticsearchMockConfig.class, com.bgpay.bgai.config.ElasticsearchAutoConfigurationDisabler.class, com.bgpay.bgai.config.RocketMQMockConfig.class, com.bgpay.bgai.config.DataSourceAutoConfigurationDisabler.class, com.bgpay.bgai.config.FileTypeServiceMockConfig.class, com.bgpay.bgai.config.CacheWarmerMockConfig.class, com.bgpay.bgai.config.RedisAutoConfigurationDisabler.class, com.bgpay.bgai.config.RedisMockConfig.class, com.bgpay.bgai.config.FeignAutoConfigurationDisabler.class, com.bgpay.bgai.config.RedisTemplateQualifierConfig.class, com.bgpay.bgai.config.TransactionCoordinatorMockConfig.class, com.bgpay.bgai.config.ChatCompletionsServiceMockConfig.class}), @org.springframework.boot.autoconfigure.ImportAutoConfiguration(classes={}, exclude={}, value={}), @org.springframework.boot.test.autoconfigure.properties.PropertyMapping(skip=NO, value="spring.test.mockmvc"), @org.springframework.boot.test.autoconfigure.OverrideAutoConfiguration(enabled=false), @org.springframework.boot.autoconfigure.ImportAutoConfiguration(classes={}, exclude={org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class, org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration.class, org.apache.rocketmq.spring.autoconfigure.RocketMQAutoConfiguration.class, org.apache.rocketmq.spring.autoconfigure.ListenerContainerConfiguration.class, org.apache.rocketmq.spring.autoconfigure.RocketMQTransactionConfiguration.class, org.apache.rocketmq.spring.autoconfigure.ExtConsumerResetConfiguration.class, org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchDataAutoConfiguration.class, org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchRepositoriesAutoConfiguration.class, org.springframework.boot.autoconfigure.data.elasticsearch.ReactiveElasticsearchRepositoriesAutoConfiguration.class}, value={}), @org.apiguardian.api.API(consumers={"*"}, since="5.0", status=STABLE)]], org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@4c1bdcc2, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@7640a5b1, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@8405f854, org.springframework.boot.test.autoconfigure.OverrideAutoConfigurationContextCustomizerFactory$DisableAutoConfigurationContextCustomizer@7afc4db9, org.springframework.boot.test.autoconfigure.actuate.observability.ObservabilityContextCustomizerFactory$DisableObservabilityContextCustomizer@1f, org.springframework.boot.test.autoconfigure.filter.TypeExcludeFiltersContextCustomizer@e027ebbd, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@4a8601d5, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizer@7e5843db, org.springframework.boot.test.context.SpringBootTestAnnotation@66d77264], resourceBasePath = "src/main/webapp", contextLoader = org.springframework.boot.test.context.SpringBootContextLoader, parent = null]
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:180)
+	at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:130)
+	at org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener.postProcessFields(MockitoTestExecutionListener.java:122)
+	at org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener.injectFields(MockitoTestExecutionListener.java:106)
+	at org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener.prepareTestInstance(MockitoTestExecutionListener.java:63)
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:260)
+	at org.springframework.test.context.testng.AbstractTestNGSpringContextTests.springTestContextPrepareTestInstance(AbstractTestNGSpringContextTests.java:119)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:134)
+	at org.testng.internal.MethodInvocationHelper.invokeMethodConsideringTimeout(MethodInvocationHelper.java:63)
+	at org.testng.internal.ConfigInvoker.invokeConfigurationMethod(ConfigInvoker.java:348)
+	at org.testng.internal.ConfigInvoker.invokeConfigurations(ConfigInvoker.java:302)
+	at org.testng.internal.TestMethodWorker.invokeBeforeClassMethods(TestMethodWorker.java:176)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:122)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at org.testng.TestRunner.privateRun(TestRunner.java:766)
+	at org.testng.TestRunner.run(TestRunner.java:587)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:384)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:378)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:337)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:286)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:53)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:96)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1187)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1109)
+	at org.testng.TestNG.runSuites(TestNG.java:1039)
+	at org.testng.TestNG.run(TestNG.java:1007)
+	at com.intellij.rt.testng.IDEARemoteTestNG.run(IDEARemoteTestNG.java:65)
+	at com.intellij.rt.testng.RemoteTestNGStarter.main(RemoteTestNGStarter.java:105)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'sagaStatusController': Unsatisfied dependency expressed through field 'stateMachineEngine': Error creating bean with name 'stateMachineEngine' defined in class path resource [com/bgpay/bgai/seata/SagaStateMachineConfig.class]: Unsatisfied dependency expressed through method 'stateMachineEngine' parameter 0: Error creating bean with name 'dynamicDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Unsatisfied dependency expressed through method 'dynamicDataSource' parameter 0: Error creating bean with name 'masterDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Failed to instantiate [javax.sql.DataSource]: Factory method 'masterDataSource' threw exception with message: 数据库URL为空，请检查Nacos配置是否已正确加载
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:787)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:767)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:145)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:508)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1419)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:599)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:975)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:962)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:624)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334)
+	at org.springframework.boot.test.context.SpringBootContextLoader.lambda$loadContext$3(SpringBootContextLoader.java:137)
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:58)
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:46)
+	at org.springframework.boot.SpringApplication.withHook(SpringApplication.java:1454)
+	at org.springframework.boot.test.context.SpringBootContextLoader$ContextLoaderHook.run(SpringBootContextLoader.java:553)
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:137)
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:108)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:225)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:152)
+	... 29 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'stateMachineEngine' defined in class path resource [com/bgpay/bgai/seata/SagaStateMachineConfig.class]: Unsatisfied dependency expressed through method 'stateMachineEngine' parameter 0: Error creating bean with name 'dynamicDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Unsatisfied dependency expressed through method 'dynamicDataSource' parameter 0: Error creating bean with name 'masterDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Failed to instantiate [javax.sql.DataSource]: Factory method 'masterDataSource' threw exception with message: 数据库URL为空，请检查Nacos配置是否已正确加载
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:795)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:542)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1335)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1165)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:784)
+	... 54 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dynamicDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Unsatisfied dependency expressed through method 'dynamicDataSource' parameter 0: Error creating bean with name 'masterDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Failed to instantiate [javax.sql.DataSource]: Factory method 'masterDataSource' threw exception with message: 数据库URL为空，请检查Nacos配置是否已正确加载
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:795)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:542)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1335)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1165)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782)
+	... 67 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'masterDataSource' defined in class path resource [com/bgpay/bgai/datasource/DataSourceConfig.class]: Failed to instantiate [javax.sql.DataSource]: Factory method 'masterDataSource' threw exception with message: 数据库URL为空，请检查Nacos配置是否已正确加载
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:648)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:485)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1335)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1165)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782)
+	... 81 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [javax.sql.DataSource]: Factory method 'masterDataSource' threw exception with message: 数据库URL为空，请检查Nacos配置是否已正确加载
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:177)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:644)
+	... 95 common frames omitted
+Caused by: java.lang.RuntimeException: 数据库URL为空，请检查Nacos配置是否已正确加载
+	at com.bgpay.bgai.datasource.DataSourceConfig.validateDriver(DataSourceConfig.java:103)
+	at com.bgpay.bgai.datasource.DataSourceConfig.masterDataSource(DataSourceConfig.java:55)
+	at com.bgpay.bgai.datasource.DataSourceConfig$$SpringCGLIB$$0.CGLIB$masterDataSource$0(<generated>)
+	at com.bgpay.bgai.datasource.DataSourceConfig$$SpringCGLIB$$FastClass$$1.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invokeSuper(MethodProxy.java:258)
+	at org.springframework.context.annotation.ConfigurationClassEnhancer$BeanMethodInterceptor.intercept(ConfigurationClassEnhancer.java:331)
+	at com.bgpay.bgai.datasource.DataSourceConfig$$SpringCGLIB$$0.masterDataSource(<generated>)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:140)
+	... 96 common frames omitted
+2025-07-12 00:39:38.290 [main] INFO  com.bgpay.bgai.base.YamlDataProvider - 从YAML文件加载测试数据: src/test/resources/test-data/YamlDataDrivenApiTest/testLogin.yml
+2025-07-12 00:39:38.291 [main] WARN  com.bgpay.bgai.base.YamlDataProvider - YAML文件不存在: src/test/resources/test-data/YamlDataDrivenApiTest/testLogin.yml

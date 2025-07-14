@@ -22,7 +22,15 @@ spring:
       enabled: false
     circuitbreaker:
       enabled: false
+  # 添加Redis配置
   data:
+    redis:
+      host: 8.133.246.113
+      port: 6379
+      password: 
+      database: 0
+      timeout: 2000
+      connect-timeout: 2000
     elasticsearch:
       repositories:
         enabled: false
@@ -31,6 +39,7 @@ spring:
     enabled: false
   webflux:
     base-path: /api
+  # 统一所有自动配置排除项
   autoconfigure:
     exclude:
       - org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientAutoConfiguration
@@ -38,6 +47,11 @@ spring:
       - org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchRepositoriesAutoConfiguration
       - org.springframework.boot.autoconfigure.data.elasticsearch.ReactiveElasticsearchRepositoriesAutoConfiguration
       - org.springframework.boot.autoconfigure.elasticsearch.ElasticsearchRestClientAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration
+      - org.apache.rocketmq.spring.autoconfigure.RocketMQAutoConfiguration
+      - io.seata.spring.boot.autoconfigure.SeataAutoConfiguration
+      - io.seata.spring.boot.autoconfigure.SeataSagaAutoConfiguration
   validation:
     is-method-validation-bean-post-processor-enabled: false
   # 测试环境数据源配置
@@ -46,17 +60,37 @@ spring:
     username: sa
     password: 
     driver-class-name: org.h2.Driver
+    dynamic:
+      datasource:
+        master:
+          url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+          username: sa
+          password: 
+          driver-class-name: org.h2.Driver
+        slave:
+          url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+          username: sa
+          password: 
+          driver-class-name: org.h2.Driver
   h2:
     console:
       enabled: true
       path: /h2-console
-  # 分开定义auto-configuration类的排除列表
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
-      - org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration
-      - org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientAutoConfiguration
-      - org.apache.rocketmq.spring.autoconfigure.RocketMQAutoConfiguration
+
+# MyBatis Plus配置
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  type-aliases-package: com.bgpay.bgai.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
 
 # 禁用WebClient冲突解决
 webclient:
@@ -80,8 +114,10 @@ logging:
 seata:
   enabled: false
   saga:
+    enabled: false
     state-machine:
       auto-register: false
+      enabled: false
 saga:
   enabled: false
 
@@ -92,7 +128,7 @@ rocketmq:
   producer:
     enable: false
     group: test-group
-  name-server: 127.0.0.1:9876
+  name-server: 8.133.246.113:9876
   enable: false
 
 # 禁用缓存预热器

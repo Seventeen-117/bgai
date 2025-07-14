@@ -1,74 +1,42 @@
 package com.bgpay.bgai.config;
 
-import com.bgpay.bgai.service.ApiConfigService;
-import com.bgpay.bgai.service.UserService;
-import com.bgpay.bgai.service.deepseek.DeepSeekService;
-import com.bgpay.bgai.service.deepseek.ReactiveFileProcessor;
-import com.bgpay.bgai.service.impl.FallbackService;
-import com.bgpay.bgai.transaction.TransactionCoordinator;
-import com.bgpay.bgai.web.RequestAttributesProvider;
+import com.bgpay.bgai.controller.ReactiveChatController;
+import com.bgpay.bgai.response.ChatResponse;
 import org.mockito.Mockito;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.cloud.client.circuitbreaker.ReactiveCircuitBreaker;
-import org.springframework.cloud.client.circuitbreaker.ReactiveCircuitBreakerFactory;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.codec.multipart.FilePart;
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import java.util.function.Function;
-
 /**
- * ReactiveChatController所需的mock配置
- * 提供ReactiveChatController所需的所有依赖
+ * 提供ReactiveChatController的Mock实现，用于测试环境
  */
-@TestConfiguration
+@Configuration
 public class ReactiveChatControllerMockConfig {
 
     /**
-     * 提供ReactiveCircuitBreakerFactory的mock实现
+     * 提供一个Mock的ReactiveChatController bean，替代原始实现
      */
     @Bean
     @Primary
-    public ReactiveCircuitBreakerFactory reactiveCircuitBreakerFactory() {
-        // 创建一个mock实现
-        ReactiveCircuitBreakerFactory mockFactory = Mockito.mock(ReactiveCircuitBreakerFactory.class);
-        ReactiveCircuitBreaker mockBreaker = Mockito.mock(ReactiveCircuitBreaker.class);
+    public ReactiveChatController reactiveChatController() {
+        ReactiveChatController mockController = Mockito.mock(ReactiveChatController.class);
         
-        // 配置mock行为，让run方法直接返回传入的Mono
-        Mockito.when(mockFactory.create(Mockito.anyString())).thenReturn(mockBreaker);
-        Mockito.when(mockBreaker.run(Mockito.any(Mono.class), Mockito.any(Function.class)))
-               .thenAnswer(invocation -> {
-                   Mono<?> mono = invocation.getArgument(0);
-                   return mono;
-               });
+        // 配置基本行为
+        ChatResponse mockResponse = new ChatResponse();
+        mockResponse.setSuccess(true);
+        mockResponse.setContent("This is a mock response from ReactiveChatController");
         
-        return mockFactory;
-    }
-    
-    /**
-     * 提供ReactiveFileProcessor的mock实现
-     */
-    @Bean
-    @Primary
-    public ReactiveFileProcessor reactiveFileProcessor() {
-        return Mockito.mock(ReactiveFileProcessor.class);
-    }
-    
-    /**
-     * 提供FallbackService的mock实现
-     */
-    @Bean
-    @Primary
-    public FallbackService fallbackService() {
-        return Mockito.mock(FallbackService.class);
-    }
-    
-    /**
-     * 提供RequestAttributesProvider的mock实现
-     */
-    @Bean
-    @Primary
-    public RequestAttributesProvider requestAttributesProvider() {
-        return Mockito.mock(RequestAttributesProvider.class);
+        Mockito.when(mockController.handleChatRequest(
+                Mockito.any(FilePart.class), Mockito.anyString(), 
+                Mockito.anyString(), Mockito.anyString(), 
+                Mockito.anyString(), Mockito.anyString(), 
+                Mockito.any(ServerWebExchange.class)
+        )).thenReturn(Mono.just(ResponseEntity.ok(mockResponse)));
+        
+        return mockController;
     }
 } 

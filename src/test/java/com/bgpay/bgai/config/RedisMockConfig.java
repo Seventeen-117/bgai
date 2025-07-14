@@ -30,16 +30,16 @@ import org.springframework.retry.support.RetryTemplate;
 @Configuration
 public class RedisMockConfig {
 
-    @Value("${spring.data.redis.host:localhost}")
+    @Value("${spring.data.redis.host}")
     private String redisHost;
 
-    @Value("${spring.data.redis.port:6379}")
+    @Value("${spring.data.redis.port}")
     private int redisPort;
 
-    @Value("${spring.data.redis.password:}")
+    @Value("${spring.data.redis.password}")
     private String redisPassword;
 
-    @Value("${spring.data.redis.database:0}")
+    @Value("${spring.data.redis.database}")
     private int redisDatabase;
 
     @Bean
