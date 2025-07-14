@@ -20,6 +20,19 @@ spring:
       enabled: false
     gateway:
       enabled: false
+      discovery:
+        locator:
+          enabled: false
+      routes: []
+      httpserver:
+        wiretap: false
+      httpclient:
+        wiretap: false
+      filter:
+        secure-headers:
+          enabled: false
+        circuit-breaker:
+          enabled: false
     circuitbreaker:
       enabled: false
   # 添加Redis配置
@@ -27,7 +40,7 @@ spring:
     redis:
       host: 8.133.246.113
       port: 6379
-      password: 
+      password: 5z25u2sk
       database: 0
       timeout: 2000
       connect-timeout: 2000
@@ -52,6 +65,11 @@ spring:
       - org.apache.rocketmq.spring.autoconfigure.RocketMQAutoConfiguration
       - io.seata.spring.boot.autoconfigure.SeataAutoConfiguration
       - io.seata.spring.boot.autoconfigure.SeataSagaAutoConfiguration
+      - org.springframework.cloud.gateway.config.GatewayAutoConfiguration
+      - org.springframework.cloud.gateway.config.GatewayClassPathWarningAutoConfiguration
+      - org.springframework.cloud.gateway.config.GatewayMetricsAutoConfiguration
+      - org.springframework.cloud.gateway.config.GatewayReactiveLoadBalancerClientAutoConfiguration
+      - com.bgpay.bgai.config.GatewayRouteConfig
   validation:
     is-method-validation-bean-post-processor-enabled: false
   # 测试环境数据源配置
@@ -108,6 +126,8 @@ logging:
     com.alibaba.nacos: OFF
     org.apache.http: OFF
     io.netty: OFF
+    org.springframework.cloud.gateway: OFF
+    reactor.netty: OFF
   config: classpath:logback-test.xml
 
 # 禁用Seata
@@ -160,3 +180,15 @@ bgpay:
         idleConnectionTimeout: 10000
         connectTimeout: 10000
         timeout: 3000 
+
+# 网关配置禁用
+gateway:
+  mock:
+    legacy:
+      enabled: false  # 禁用旧的Gateway Mock配置
+  enabled: false
+  route:
+    config:
+      enabled: false
+spring.main.allow-bean-definition-overriding: true
+spring.main.allow-circular-references: true 

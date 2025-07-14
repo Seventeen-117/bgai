@@ -36,6 +36,8 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
+import com.bgpay.bgai.entity.ApiKey;
+import com.bgpay.bgai.service.ApiKeyService;
 
 /**
  * 反应式聊天控制器，处理WebFlux环境下的聊天请求
@@ -54,6 +56,7 @@ public class ReactiveChatController {
     private final TransactionCoordinator transactionCoordinator;
     private final RequestAttributesProvider attributesProvider;
     private final UserService userService;
+    private final ApiKeyService apiKeyService;
 
     @Autowired
     public ReactiveChatController(ReactiveFileProcessor fileProcessor,
@@ -63,7 +66,8 @@ public class ReactiveChatController {
                                   FallbackService fallbackService,
                                   TransactionCoordinator transactionCoordinator,
                                   RequestAttributesProvider attributesProvider,
-                                  UserService userService) {
+                                  UserService userService,
+                                  ApiKeyService apiKeyService) {
         this.fileProcessor = fileProcessor;
         this.apiConfigService = apiConfigService;
         this.deepSeekService = deepSeekService;
@@ -72,6 +76,7 @@ public class ReactiveChatController {
         this.transactionCoordinator = transactionCoordinator;
         this.attributesProvider = attributesProvider;
         this.userService = userService;
+        this.apiKeyService = apiKeyService;
     }
 
     /**
@@ -179,149 +184,177 @@ public class ReactiveChatController {
             file != null ? file.filename() : "无文件", 
             questionParam, modelNameParam);
 
-        // 从请求体中尝试获取表单数据
-        Mono<String> contentTypeMono = Mono.justOrEmpty(exchange.getRequest().getHeaders().getContentType())
-            .map(MediaType::toString)
-            .defaultIfEmpty("unknown");
-            
-        return contentTypeMono.flatMap(contentType -> {
-            log.info("请求Content-Type: {}", contentType);
-            
-            // 从参数或表单数据中提取并构建完整的请求
-            return exchange.getFormData()
-                .doOnError(e -> log.warn("获取表单数据失败: {}", e.getMessage()))
-                .onErrorResume(e -> {
-                    log.warn("将使用URL参数代替表单数据");
-                    return Mono.just(new LinkedMultiValueMap<>());
-                })
-                .defaultIfEmpty(new LinkedMultiValueMap<>())
-                .flatMap(formData -> {
-                    // 从表单数据中提取，如果参数为空
-                    String question = StringUtils.hasText(questionParam) ? questionParam : 
-                            formData.getFirst("question");
+        // 从请求头中获取API Key
+        String apiKeyHeader = exchange.getRequest().getHeaders().getFirst("X-API-Key");
+        
+        // 如果API Key不存在，返回401错误
+        if (apiKeyHeader == null || apiKeyHeader.isEmpty()) {
+            log.warn("API Key is missing for chatGatWay-internal request");
+            return Mono.just(errorResponse(401, "API Key is required"));
+        }
+        
+        // 验证API Key状态
+        return Mono.fromCallable(() -> apiKeyService.validateApiKeyStatus(apiKeyHeader))
+            .flatMap(result -> {
+                // 检查API Key是否有效
+                if (result.status != ApiKeyService.ApiKeyStatus.VALID) {
+                    log.warn("Invalid API Key provided for chatGatWay-internal: {}", result.reason);
+                    return Mono.just(errorResponse(401, result.reason != null ? result.reason : "Invalid API Key"));
+                }
+                
+                // 额外检查API Key的active状态
+                ApiKey keyInfo = apiKeyService.getApiKeyInfo(apiKeyHeader);
+                if (keyInfo == null || keyInfo.getActive() == null || keyInfo.getActive() == 0) {
+                    log.warn("Inactive API Key used for chatGatWay-internal");
+                    return Mono.just(errorResponse(401, "API Key is inactive"));
+                }
+                
+                log.info("API Key validation passed for chatGatWay-internal");
+                
+                // 从请求体中尝试获取表单数据
+                Mono<String> contentTypeMono = Mono.justOrEmpty(exchange.getRequest().getHeaders().getContentType())
+                    .map(MediaType::toString)
+                    .defaultIfEmpty("unknown");
                     
-                    String apiUrl = StringUtils.hasText(apiUrlParam) ? apiUrlParam : 
-                            formData.getFirst("apiUrl");
+                return contentTypeMono.flatMap(contentType -> {
+                    log.info("请求Content-Type: {}", contentType);
                     
-                    String apiKey = StringUtils.hasText(apiKeyParam) ? apiKeyParam : 
-                            formData.getFirst("apiKey");
-                    
-                    String modelName = StringUtils.hasText(modelNameParam) ? modelNameParam : 
-                            formData.getFirst("modelName");
-                    
-                    // 处理multiTurn参数，支持字符串和布尔值
-                    boolean multiTurn = false;
-                    if (StringUtils.hasText(multiTurnStr)) {
-                        multiTurn = "true".equalsIgnoreCase(multiTurnStr);
-                    } else if (formData.containsKey("multiTurn")) {
-                        multiTurn = "true".equalsIgnoreCase(formData.getFirst("multiTurn"));
-                    }
-
-                    // 记录所有收集到的参数
-                    log.info("收集到的完整参数: question=\"{}\", apiUrl=\"{}\", modelName=\"{}\", multiTurn={}", 
-                        question, apiUrl, modelName, multiTurn);
-
-                    // 记录最终参数值
-                    final String finalQuestion = question;
-                    final String finalApiUrl = apiUrl;
-                    final String finalApiKey = apiKey;
-                    final String finalModelName = modelName;
-                    final boolean finalMultiTurn = multiTurn;
-
-                    // 首先检查是否有X-User-Id头部
-                    String headerUserId = exchange.getRequest().getHeaders().getFirst("X-User-Id");
-                    if (StringUtils.hasText(headerUserId)) {
-                        log.info("从X-User-Id头部获取到用户ID: {}", headerUserId);
-                        
-                        // 添加验证逻辑：必须提供有效的Authorization头
-                        List<String> authHeaders = exchange.getRequest().getHeaders().get("Authorization");
-                        if (authHeaders == null || authHeaders.isEmpty()) {
-                            log.error("使用X-User-Id({})处理请求，但未提供Authorization头", headerUserId);
-                            return Mono.just(errorResponse(401, "缺少访问令牌"));
-                        }
-                        
-                        String authHeader = authHeaders.get(0);
-                        if (!authHeader.startsWith("Bearer ")) {
-                            log.error("使用X-User-Id({})处理请求，但Authorization头格式不正确", headerUserId);
-                            return Mono.just(errorResponse(401, "无效的授权头格式"));
-                        }
+                    // 从参数或表单数据中提取并构建完整的请求
+                    return exchange.getFormData()
+                        .doOnError(e -> log.warn("获取表单数据失败: {}", e.getMessage()))
+                        .onErrorResume(e -> {
+                            log.warn("将使用URL参数代替表单数据");
+                            return Mono.just(new LinkedMultiValueMap<>());
+                        })
+                        .defaultIfEmpty(new LinkedMultiValueMap<>())
+                        .flatMap(formData -> {
+                            // 从表单数据中提取，如果参数为空
+                            String question = StringUtils.hasText(questionParam) ? questionParam : 
+                                    formData.getFirst("question");
                             
-                        String token = authHeader.substring(7);
-                        UserToken userToken = userService.validateToken(token);
-                                
-                        // 如果token无效，拒绝请求
-                        if (userToken == null) {
-                            log.error("使用X-User-Id({})处理请求，但Authorization token无效", headerUserId);
-                            return Mono.just(errorResponse(401, "无效的访问令牌"));
-                        }
-                                
-                        // 如果token的userId与X-User-Id不匹配，拒绝请求
-                        if (!userToken.getUserId().equals(headerUserId)) {
-                            log.error("Authorization token的用户ID({})与X-User-Id({})不匹配", 
-                                     userToken.getUserId(), headerUserId);
-                            return Mono.just(errorResponse(403, "令牌用户ID与请求用户ID不匹配"));
-                        }
-                                
-                        log.info("已验证Authorization token与X-User-Id({})匹配", headerUserId);
-                        
-                        return processRequestWithUserId(headerUserId, finalQuestion, finalApiUrl, finalApiKey, 
-                                                        finalModelName, finalMultiTurn, file, exchange);
-                    }
+                            String apiUrl = StringUtils.hasText(apiUrlParam) ? apiUrlParam : 
+                                    formData.getFirst("apiUrl");
+                            
+                            String apiKey = StringUtils.hasText(apiKeyParam) ? apiKeyParam : 
+                                    formData.getFirst("apiKey");
+                            
+                            String modelName = StringUtils.hasText(modelNameParam) ? modelNameParam : 
+                                    formData.getFirst("modelName");
+                            
+                            // 处理multiTurn参数，支持字符串和布尔值
+                            boolean multiTurn = false;
+                            if (StringUtils.hasText(multiTurnStr)) {
+                                multiTurn = "true".equalsIgnoreCase(multiTurnStr);
+                            } else if (formData.containsKey("multiTurn")) {
+                                multiTurn = "true".equalsIgnoreCase(formData.getFirst("multiTurn"));
+                            }
 
-                    // 继续原有的处理流程
-                    return attributesProvider.getUserId(exchange)
-                            .switchIfEmpty(Mono.<String>create(sink -> {
-                                // 尝试从Authorization头获取token并验证
+                            // 记录所有收集到的参数
+                            log.info("收集到的完整参数: question=\"{}\", apiUrl=\"{}\", modelName=\"{}\", multiTurn={}", 
+                                question, apiUrl, modelName, multiTurn);
+
+                            // 记录最终参数值
+                            final String finalQuestion = question;
+                            final String finalApiUrl = apiUrl;
+                            final String finalApiKey = apiKey;
+                            final String finalModelName = modelName;
+                            final boolean finalMultiTurn = multiTurn;
+
+                            // 首先检查是否有X-User-Id头部
+                            String headerUserId = exchange.getRequest().getHeaders().getFirst("X-User-Id");
+                            if (StringUtils.hasText(headerUserId)) {
+                                log.info("从X-User-Id头部获取到用户ID: {}", headerUserId);
+                                
+                                // 添加验证逻辑：必须提供有效的Authorization头
                                 List<String> authHeaders = exchange.getRequest().getHeaders().get("Authorization");
-                                if (authHeaders != null && !authHeaders.isEmpty()) {
-                                    String authHeader = authHeaders.get(0);
-                                    if (authHeader.startsWith("Bearer ")) {
-                                        String token = authHeader.substring(7);
-                                        try {
-                                            // 直接调用userService验证token（注意这是阻塞操作）
-                                            UserToken userToken = userService.validateToken(token);
-                                            if (userToken != null) {
-                                                log.info("从Authorization头提取到用户ID: {}", userToken.getUserId());
-                                                sink.success(userToken.getUserId());
-                                                return;
+                                if (authHeaders == null || authHeaders.isEmpty()) {
+                                    log.error("使用X-User-Id({})处理请求，但未提供Authorization头", headerUserId);
+                                    return Mono.just(errorResponse(401, "缺少访问令牌"));
+                                }
+                                
+                                String authHeader = authHeaders.get(0);
+                                if (!authHeader.startsWith("Bearer ")) {
+                                    log.error("使用X-User-Id({})处理请求，但Authorization头格式不正确", headerUserId);
+                                    return Mono.just(errorResponse(401, "无效的授权头格式"));
+                                }
+                                    
+                                String token = authHeader.substring(7);
+                                UserToken userToken = userService.validateToken(token);
+                                        
+                                // 如果token无效，拒绝请求
+                                if (userToken == null) {
+                                    log.error("使用X-User-Id({})处理请求，但Authorization token无效", headerUserId);
+                                    return Mono.just(errorResponse(401, "无效的访问令牌"));
+                                }
+                                        
+                                // 如果token的userId与X-User-Id不匹配，拒绝请求
+                                if (!userToken.getUserId().equals(headerUserId)) {
+                                    log.error("Authorization token的用户ID({})与X-User-Id({})不匹配", 
+                                             userToken.getUserId(), headerUserId);
+                                    return Mono.just(errorResponse(403, "令牌用户ID与请求用户ID不匹配"));
+                                }
+                                        
+                                log.info("已验证Authorization token与X-User-Id({})匹配", headerUserId);
+                                
+                                return processRequestWithUserId(headerUserId, finalQuestion, finalApiUrl, finalApiKey, 
+                                                                finalModelName, finalMultiTurn, file, exchange);
+                            }
+
+                            // 继续原有的处理流程
+                            return attributesProvider.getUserId(exchange)
+                                    .switchIfEmpty(Mono.<String>create(sink -> {
+                                        // 尝试从Authorization头获取token并验证
+                                        List<String> authHeaders = exchange.getRequest().getHeaders().get("Authorization");
+                                        if (authHeaders != null && !authHeaders.isEmpty()) {
+                                            String authHeader = authHeaders.get(0);
+                                            if (authHeader.startsWith("Bearer ")) {
+                                                String token = authHeader.substring(7);
+                                                try {
+                                                    // 直接调用userService验证token（注意这是阻塞操作）
+                                                    UserToken userToken = userService.validateToken(token);
+                                                    if (userToken != null) {
+                                                        log.info("从Authorization头提取到用户ID: {}", userToken.getUserId());
+                                                        sink.success(userToken.getUserId());
+                                                        return;
+                                                    }
+                                                } catch (Exception e) {
+                                                    log.warn("验证token时出错: {}", e.getMessage());
+                                                }
                                             }
-                                        } catch (Exception e) {
-                                            log.warn("验证token时出错: {}", e.getMessage());
                                         }
-                                    }
-                                }
-                                
-                                log.warn("无法从请求中获取用户ID，设置为null，稍后在深度处理时会使用default值");
-                                sink.success(null); // 使用null表示未找到用户，而不是直接使用default
-                            }))
-                            .flatMap(userId -> {
-                                // 如果userId为null，则为匿名用户，记录警告并检查API参数
-                                String effectiveUserId = userId;
-                                boolean isAnonymous = (userId == null);
-                                
-                                if (isAnonymous) {
-                                    log.warn("处理匿名用户请求");
-                                    // 对于匿名用户请求，验证完整的API参数
-                                    if (!StringUtils.hasText(finalApiKey) || !StringUtils.hasText(finalApiUrl)) {
-                                        log.error("匿名用户必须提供完整的API参数");
-                                        return Mono.just(errorResponse(400, "未提供用户ID时，必须提供完整的API参数(apiUrl和apiKey)"));
-                                    }
-                                    // 为匿名用户设置默认ID
-                                    effectiveUserId = "default";
-                                }
-                                
-                                log.info("Processing request for user ID: {} (original: {})", effectiveUserId, userId);
-                                
-                                return processRequestWithUserId(effectiveUserId, finalQuestion, finalApiUrl, finalApiKey, 
-                                                            finalModelName, finalMultiTurn, file, exchange);
-                            })
-                            .onErrorResume(e -> {
-                                log.error("Authentication error: {}", e.getMessage());
-                                if (e instanceof BillingException) {
-                                    return Mono.just(errorResponse(401, e.getMessage()));
-                                }
-                                return Mono.just(errorResponse(500, "处理失败: " + e.getMessage()));
-                            });
+                                        
+                                        log.warn("无法从请求中获取用户ID，设置为null，稍后在深度处理时会使用default值");
+                                        sink.success(null); // 使用null表示未找到用户，而不是直接使用default
+                                    }))
+                                    .flatMap(userId -> {
+                                        // 如果userId为null，则为匿名用户，记录警告并检查API参数
+                                        String effectiveUserId = userId;
+                                        boolean isAnonymous = (userId == null);
+                                        
+                                        if (isAnonymous) {
+                                            log.warn("处理匿名用户请求");
+                                            // 对于匿名用户请求，验证完整的API参数
+                                            if (!StringUtils.hasText(finalApiKey) || !StringUtils.hasText(finalApiUrl)) {
+                                                log.error("匿名用户必须提供完整的API参数");
+                                                return Mono.just(errorResponse(400, "未提供用户ID时，必须提供完整的API参数(apiUrl和apiKey)"));
+                                            }
+                                            // 为匿名用户设置默认ID
+                                            effectiveUserId = "default";
+                                        }
+                                        
+                                        log.info("Processing request for user ID: {} (original: {})", effectiveUserId, userId);
+                                        
+                                        return processRequestWithUserId(effectiveUserId, finalQuestion, finalApiUrl, finalApiKey, 
+                                                                    finalModelName, finalMultiTurn, file, exchange);
+                                    })
+                                    .onErrorResume(e -> {
+                                        log.error("Authentication error: {}", e.getMessage());
+                                        if (e instanceof BillingException) {
+                                            return Mono.just(errorResponse(401, e.getMessage()));
+                                        }
+                                        return Mono.just(errorResponse(500, "处理失败: " + e.getMessage()));
+                                    });
+                        });
                 });
         });
     }

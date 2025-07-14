@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.time.LocalDateTime;
 
@@ -22,6 +23,7 @@ import java.time.LocalDateTime;
 @Data
 @TableName("usage_info")
 @Schema(name = "UsageInfo", description = "用量信息数据")
+@JsonInclude(JsonInclude.Include.NON_NULL) // 排除所有为null的字段
 public class UsageInfo {
 
     @Schema(description = "主键ID")

@@ -1,7 +1,6 @@
 package com.bgpay.bgai.controller;
 
-import com.bgpay.bgai.entity.TestCaseRequest;
-import com.bgpay.bgai.service.TestCaseExcelService;
+import com.bgpay.bgai.service.impl.TestCaseExcelService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

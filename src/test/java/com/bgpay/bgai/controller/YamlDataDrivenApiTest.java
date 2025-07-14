@@ -3,6 +3,8 @@ package com.bgpay.bgai.controller;
 import com.bgpay.bgai.base.YamlDataProvider;
 import com.bgpay.bgai.base.YamlSource;
 import com.bgpay.bgai.config.*;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import com.bgpay.bgai.service.ApiConfigService;
 import com.bgpay.bgai.service.ApiKeyService;
 import com.bgpay.bgai.service.BGAIService;
@@ -51,12 +53,28 @@ import java.util.UUID;
     ApiKeyController.class,
     DynamicRouteController.class,
     SystemConfigController.class
+}, excludeAutoConfiguration = {
+    org.springframework.cloud.gateway.config.GatewayAutoConfiguration.class,
+    org.springframework.cloud.gateway.config.GatewayClassPathWarningAutoConfiguration.class,
+    org.springframework.cloud.gateway.config.GatewayMetricsAutoConfiguration.class,
+    org.springframework.cloud.gateway.config.GatewayReactiveLoadBalancerClientAutoConfiguration.class
+}, excludeFilters = {
+    @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {
+        com.bgpay.bgai.config.GatewayRouteConfig.class,
+        org.springframework.cloud.gateway.route.RouteLocator.class,
+        org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder.class
+    })
 })
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-@TestPropertySource(locations = "classpath:application-test.yml")
+@TestPropertySource(locations = "classpath:application-test.yml", properties = {
+    "spring.cloud.gateway.enabled=false",
+    "spring.autoconfigure.exclude=org.springframework.cloud.gateway.config.GatewayAutoConfiguration"
+})
 @Feature("API测试")
 @Import({
+    GatewayRouteConfigReplacement.class,  // 提供替代的GatewayRouteConfig实现
+    TestGatewayRouteConfigDisabler.class,  // 最高优先级，完全禁用TestGatewayRouteConfig
     DeepSeekServiceMockConfig.class,  // 提供DeepSeekService和DeepSeekServiceImp的mock实现
     ApiKeyServiceMockConfig.class,  // 提供ApiKeyService的mock实现
     ApiConfigServiceMockConfig.class,  // 提供ApiConfigService的mock实现
@@ -93,8 +111,9 @@ import java.util.UUID;
     ChatCompletionsServiceMockConfig.class,  // 提供ChatCompletionsService的Mock实现
     SagaStateMachineMockConfig.class,  // 提供Saga状态机的Mock实现
     MyBatisMockConfig.class,  // 提供MyBatis相关组件的Mock实现
-    GatewayAutoConfigurationDisabler.class,  // 禁用Gateway自动配置
-    MockGatewayRouteConfig.class,  // 提供GatewayRouteConfig的替代实现
+    GatewayBeanFactoryPostProcessor.class,  // Gateway Bean工厂后处理器
+    CompleteGatewayDisablingConfig.class,  // 综合Gateway禁用配置
+    KeyResolverBeanPostProcessor.class,  // 专门处理KeyResolver相关的bean定义
     TestComponentScanFilterRegistrar.class  // 注册组件扫描过滤器
 })
 public class YamlDataDrivenApiTest extends AbstractTestNGSpringContextTests {

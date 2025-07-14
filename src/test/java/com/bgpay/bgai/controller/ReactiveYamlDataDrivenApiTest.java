@@ -3,6 +3,8 @@ package com.bgpay.bgai.controller;
 import com.bgpay.bgai.base.YamlDataProvider;
 import com.bgpay.bgai.base.YamlSource;
 import com.bgpay.bgai.config.*;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import com.bgpay.bgai.entity.ApiConfig;
 import com.bgpay.bgai.response.ChatResponse;
 import com.bgpay.bgai.service.ApiConfigService;
@@ -49,11 +51,27 @@ import java.util.UUID;
  */
 @WebFluxTest(controllers = {
     ReactiveChatController.class
+}, excludeAutoConfiguration = {
+    org.springframework.cloud.gateway.config.GatewayAutoConfiguration.class,
+    org.springframework.cloud.gateway.config.GatewayClassPathWarningAutoConfiguration.class,
+    org.springframework.cloud.gateway.config.GatewayMetricsAutoConfiguration.class,
+    org.springframework.cloud.gateway.config.GatewayReactiveLoadBalancerClientAutoConfiguration.class
+}, excludeFilters = {
+    @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {
+        com.bgpay.bgai.config.GatewayRouteConfig.class,
+        org.springframework.cloud.gateway.route.RouteLocator.class,
+        org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder.class
+    })
 })
 @AutoConfigureWebTestClient
-@TestPropertySource(locations = "classpath:application-test.yml")
+@TestPropertySource(locations = "classpath:application-test.yml", properties = {
+    "spring.cloud.gateway.enabled=false",
+    "spring.autoconfigure.exclude=org.springframework.cloud.gateway.config.GatewayAutoConfiguration"
+})
 @Import({
     // 添加新的Mock配置
+    GatewayRouteConfigReplacement.class,  // 提供替代的GatewayRouteConfig实现
+    TestGatewayRouteConfigDisabler.class,  // 最高优先级，完全禁用TestGatewayRouteConfig
     AllMappersMockConfig.class,  // 提供所有Mapper接口的mock实现
     PriceConfigServiceImplMockConfig.class,  // 提供PriceConfigServiceImpl的mock实现
     PriceVersionServiceImplMockConfig.class,  // 提供PriceVersionServiceImpl的mock实现
@@ -93,8 +111,9 @@ import java.util.UUID;
     ApiConfigServiceMockConfig.class,  // 提供ApiConfigService mock bean
     BGAIServiceMockConfig.class,  // 提供BGAIService mock bean
     UsageInfoServiceMockConfig.class,  // 提供UsageInfoService mock bean
-    GatewayAutoConfigurationDisabler.class,  // 禁用Gateway自动配置
-    MockGatewayRouteConfig.class,  // 提供GatewayRouteConfig的替代实现
+    GatewayBeanFactoryPostProcessor.class,  // Gateway Bean工厂后处理器
+    CompleteGatewayDisablingConfig.class,  // 综合Gateway禁用配置
+    KeyResolverBeanPostProcessor.class,  // 专门处理KeyResolver相关的bean定义
     TestComponentScanFilterRegistrar.class,  // 注册组件扫描过滤器
     ChatCompletionsMapperMockConfig.class,  // 提供ChatCompletionsMapper的mock实现
     ChatCompletionsServiceImplMockConfig.class,  // 提供ChatCompletionsServiceImpl的mock实现
