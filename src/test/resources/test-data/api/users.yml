@@ -10,7 +10,7 @@ testCases:
       pathVariables:
         userId: "1001"
       headers:
-        Authorization: "Bearer ${token}"
+        X-API-Key: "test-api-key-123"
     expectedResponse:
       statusCode: 200
       bodyContains:
@@ -30,7 +30,7 @@ testCases:
       pathVariables:
         userId: "9999"
       headers:
-        Authorization: "Bearer ${token}"
+        X-API-Key: "test-api-key-123"
     expectedResponse:
       statusCode: 404
       bodyContains:
@@ -46,7 +46,7 @@ testCases:
       method: "POST"
       headers:
         Content-Type: "application/json"
-        Authorization: "Bearer ${token}"
+        X-API-Key: "test-api-key-123"
       body:
         username: "newuser"
         email: "newuser@example.com"
@@ -70,7 +70,7 @@ testCases:
         userId: "1001"
       headers:
         Content-Type: "application/json"
-        Authorization: "Bearer ${token}"
+        X-API-Key: "test-api-key-123"
       body:
         email: "updated@example.com"
     expectedResponse:
@@ -92,6 +92,6 @@ testCases:
       pathVariables:
         userId: "1001"
       headers:
-        Authorization: "Bearer ${token}"
+        X-API-Key: "test-api-key-123"
     expectedResponse:
       statusCode: 204 

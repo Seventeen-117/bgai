@@ -113,9 +113,12 @@ public class MockUserServiceController {
             user.put("_mock", true);
             return ResponseEntity.ok(user);
         } else {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("success", false);
+            errorResponse.put("message", "User not found with id: " + id);
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
-                    .body(Collections.singletonMap("error", "User not found with ID: " + id));
+                    .body(errorResponse);
         }
     }
 
@@ -140,7 +143,12 @@ public class MockUserServiceController {
         
         users.put(id, userData);
         
-        return ResponseEntity.status(HttpStatus.CREATED).body(userData);
+        // 返回包含用户完整信息的响应
+        Map<String, Object> response = new HashMap<>(userData);
+        response.put("success", true);
+        response.put("message", "User created successfully");
+        
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     /**
@@ -188,8 +196,7 @@ public class MockUserServiceController {
         
         if (users.containsKey(id)) {
             users.remove(id);
-            return ResponseEntity
-                    .ok(Collections.singletonMap("message", "User deleted successfully"));
+            return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
