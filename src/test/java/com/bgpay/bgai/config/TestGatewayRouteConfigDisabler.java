@@ -31,14 +31,6 @@ public class TestGatewayRouteConfigDisabler {
             public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
                 if (beanFactory instanceof BeanDefinitionRegistry) {
                     BeanDefinitionRegistry registry = (BeanDefinitionRegistry) beanFactory;
-                    
-                    // 确保testGatewayRouteConfig bean存在，以避免NoSuchBeanDefinitionException
-                    if (!registry.containsBeanDefinition("testGatewayRouteConfig")) {
-                        registry.registerBeanDefinition("testGatewayRouteConfig", 
-                            BeanDefinitionBuilder.genericBeanDefinition(Object.class).getBeanDefinition());
-                        System.out.println("注册了替代的testGatewayRouteConfig bean定义");
-                    }
-                    
                     // 查找并移除所有与TestGatewayRouteConfig相关的bean定义
                     String[] beanNames = registry.getBeanDefinitionNames();
                     for (String beanName : beanNames) {
@@ -47,7 +39,6 @@ public class TestGatewayRouteConfigDisabler {
                                 beanName.equals("userKeyResolver") ||
                                 beanName.equals("apiKeyResolver") ||
                                 beanName.equals("customRedisRateLimiter")) {
-                                
                                 if (registry.containsBeanDefinition(beanName)) {
                                     String source = registry.getBeanDefinition(beanName).getResourceDescription();
                                     if (source != null && 
@@ -71,9 +62,10 @@ public class TestGatewayRouteConfigDisabler {
     
     /**
      * 提供一个备用的testGatewayRouteConfig bean，确保它存在
+     * 使用不同的名称避免与其他配置类冲突
      */
-    @Bean(name = "testGatewayRouteConfig")
-    public Object testGatewayRouteConfig() {
+    @Bean(name = "disablerTestGatewayRouteConfig")
+    public Object disablerTestGatewayRouteConfig() {
         return new Object();
     }
     

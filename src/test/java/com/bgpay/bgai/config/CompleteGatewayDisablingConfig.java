@@ -11,6 +11,7 @@ import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver;
 import org.springframework.cloud.gateway.filter.ratelimit.RedisRateLimiter;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
+import org.springframework.cloud.gateway.support.ConfigurationService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -105,6 +106,16 @@ public class CompleteGatewayDisablingConfig {
     }
     
     /**
+     * Mock的ConfigurationService
+     * 解决GatewayRedisAutoConfiguration依赖注入失败问题
+     */
+    @Bean
+    @Primary
+    public ConfigurationService configurationService() {
+        return Mockito.mock(ConfigurationService.class);
+    }
+    
+    /**
      * 注册Bean工厂后处理器，处理可能已经存在的bean定义
      * 注意：使用不同的bean名称避免冲突
      * 标记为静态方法，避免实例依赖问题
@@ -139,24 +150,16 @@ public class CompleteGatewayDisablingConfig {
     }
     
     /**
-     * 添加TestGatewayRouteConfigDisabler的bean工厂后处理器
-     * 这是为了解决TestGatewayRouteConfigDisabler中的静态方法被错误地认为是在CompleteGatewayDisablingConfig中的问题
+     * 添加备份的bean工厂后处理器
+     * 使用不同的名称避免与TestGatewayRouteConfigDisabler冲突
      */
-    @Bean
-    public static BeanFactoryPostProcessor testGatewayRouteConfigDisablerProcessor() {
+    @Bean(name = "completeDisablingConfigProcessor")
+    public static BeanFactoryPostProcessor completeDisablingConfigProcessor() {
         return new BeanFactoryPostProcessor() {
             @Override
             public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
                 if (beanFactory instanceof BeanDefinitionRegistry) {
                     BeanDefinitionRegistry registry = (BeanDefinitionRegistry) beanFactory;
-                    
-                    // 确保testGatewayRouteConfig bean存在，以避免NoSuchBeanDefinitionException
-                    if (!registry.containsBeanDefinition("testGatewayRouteConfig")) {
-                        registry.registerBeanDefinition("testGatewayRouteConfig", 
-                            BeanDefinitionBuilder.genericBeanDefinition(Object.class).getBeanDefinition());
-                        System.out.println("CompleteGatewayDisablingConfig: 注册了替代的testGatewayRouteConfig bean定义");
-                    }
-                    
                     // 查找并移除所有与TestGatewayRouteConfig相关的bean定义
                     String[] beanNames = registry.getBeanDefinitionNames();
                     for (String beanName : beanNames) {
@@ -165,7 +168,6 @@ public class CompleteGatewayDisablingConfig {
                                 beanName.equals("userKeyResolver") ||
                                 beanName.equals("apiKeyResolver") ||
                                 beanName.equals("customRedisRateLimiter")) {
-                                
                                 if (registry.containsBeanDefinition(beanName)) {
                                     String source = registry.getBeanDefinition(beanName).getResourceDescription();
                                     if (source != null && source.contains("TestGatewayRouteConfig")) {
@@ -185,6 +187,15 @@ public class CompleteGatewayDisablingConfig {
     }
     
     /**
+     * 兜底：防止Spring找不到 testGatewayRouteConfigDisablerProcessor
+     */
+    @Bean
+    public static BeanFactoryPostProcessor testGatewayRouteConfigDisablerProcessor() {
+        // 返回一个空实现，什么都不做
+        return beanFactory -> {};
+    }
+    
+    /**
      * 系统启动时打印日志，确认配置被加载
      */
     public CompleteGatewayDisablingConfig() {
@@ -198,5 +209,14 @@ public class CompleteGatewayDisablingConfig {
     @Bean
     public String gatewayDisableMarker() {
         return "Gateway configuration completely disabled for tests";
+    }
+    
+    /**
+     * 提供一个备用的testGatewayRouteConfig bean，使用不同的名称
+     */
+    @Bean(name = "completeDisablingTestGatewayRouteConfig")
+    @Primary
+    public Object completeDisablingTestGatewayRouteConfig() {
+        return new Object();
     }
 } 

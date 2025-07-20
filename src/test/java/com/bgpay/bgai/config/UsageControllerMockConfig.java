@@ -22,11 +22,11 @@ public class UsageControllerMockConfig {
     /**
      * 提供RocketMQTemplate的mock实现
      */
-    @Bean
-    @Primary
-    public RocketMQTemplate rocketMQTemplate() {
-        return Mockito.mock(RocketMQTemplate.class);
-    }
+    // @Bean
+    // @Primary
+    // public RocketMQTemplate rocketMQTemplate() {
+    //     return Mockito.mock(RocketMQTemplate.class);
+    // }
     
     /**
      * 提供UsageRecordMapper的mock实现

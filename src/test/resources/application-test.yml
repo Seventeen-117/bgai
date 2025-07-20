@@ -63,13 +63,13 @@ spring:
       - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
       - org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration
       - org.apache.rocketmq.spring.autoconfigure.RocketMQAutoConfiguration
+      - org.apache.rocketmq.spring.autoconfigure.RocketMQTransactionConfiguration
       - io.seata.spring.boot.autoconfigure.SeataAutoConfiguration
       - io.seata.spring.boot.autoconfigure.SeataSagaAutoConfiguration
       - org.springframework.cloud.gateway.config.GatewayAutoConfiguration
       - org.springframework.cloud.gateway.config.GatewayClassPathWarningAutoConfiguration
       - org.springframework.cloud.gateway.config.GatewayMetricsAutoConfiguration
       - org.springframework.cloud.gateway.config.GatewayReactiveLoadBalancerClientAutoConfiguration
-      - com.bgpay.bgai.config.GatewayRouteConfig
   validation:
     is-method-validation-bean-post-processor-enabled: false
   # 测试环境数据源配置
@@ -150,6 +150,8 @@ rocketmq:
     group: test-group
   name-server: 8.133.246.113:9876
   enable: false
+  topic:
+    chat-log: test-chat-log-topic
 
 # 禁用缓存预热器
 cache:

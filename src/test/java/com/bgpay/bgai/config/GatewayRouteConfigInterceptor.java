@@ -17,7 +17,7 @@ import org.springframework.core.Ordered;
  * Gateway路由配置拦截器
  * 直接注册一个完全替换原始GatewayRouteConfig的bean
  */
-@Configuration
+// @Configuration
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class GatewayRouteConfigInterceptor {
     

@@ -58,7 +58,8 @@ public class GatewayBeanFactoryPostProcessor implements BeanDefinitionRegistryPo
     
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        // 确保找不到GatewayRouteConfig类
+        // 已禁用：避免将bean的className替换为CompleteGatewayDisablingConfig，防止工厂方法指向混乱
+        /*
         try {
             for (String beanName : beanFactory.getBeanDefinitionNames()) {
                 BeanDefinition def = beanFactory.getBeanDefinition(beanName);
@@ -71,5 +72,6 @@ public class GatewayBeanFactoryPostProcessor implements BeanDefinitionRegistryPo
         } catch (Exception e) {
             System.err.println("处理BeanFactory时出错: " + e.getMessage());
         }
+        */
     }
 } 

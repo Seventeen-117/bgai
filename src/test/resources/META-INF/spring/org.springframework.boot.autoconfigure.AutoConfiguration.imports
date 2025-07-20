@@ -1,15 +1,9 @@
 com.bgpay.bgai.config.WebClientCircularDependencyResolver
-com.bgpay.bgai.config.WebClientConfigExcluder
 com.bgpay.bgai.config.WebClientQualifierResolver
 com.bgpay.bgai.config.NonAutoConfigExcludeFilterConfig
 com.bgpay.bgai.config.GatewayRouteMockConfig
 com.bgpay.bgai.config.GatewayRouteConfigMock
 com.bgpay.bgai.config.SeataDisableConfiguration 
-# 排除RocketMQ相关自动配置
--org.apache.rocketmq.spring.autoconfigure.RocketMQAutoConfiguration
--org.apache.rocketmq.spring.autoconfigure.ListenerContainerConfiguration
--org.apache.rocketmq.spring.autoconfigure.RocketMQTransactionConfiguration
--org.apache.rocketmq.spring.autoconfigure.ExtConsumerResetConfiguration
 com.bgpay.bgai.config.FeignClientMockConfig
 com.bgpay.bgai.config.FeignAutoConfigurationDisabler
 com.bgpay.bgai.config.RedissonMockConfig
@@ -25,4 +19,3 @@ com.bgpay.bgai.config.RedissonAutoConfigurationDisabler
 com.bgpay.bgai.config.MainRedissonConfigDisabler
 com.bgpay.bgai.config.UsageInfoServiceMockConfig
 com.bgpay.bgai.config.CacheManagerMockConfig
-com.bgpay.bgai.config.CacheAutoConfigurationDisabler 

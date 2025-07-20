@@ -33,10 +33,6 @@ import org.apache.rocketmq.spring.autoconfigure.RocketMQAutoConfiguration;
 @ComponentScan(basePackages = {"com.bgpay.bgai.config"})
 public class SimpleTestConfig {
     
-    // 明确禁用RocketMQ自动配置
-    @MockBean
-    private RocketMQAutoConfiguration rocketMQAutoConfiguration;
-    
     // 提供主要的Environment Bean，避免冲突
     @Bean
     @Primary

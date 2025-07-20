@@ -18,7 +18,7 @@ public class ApplicationTestConfig {
         // 禁用RocketMQ相关配置
         System.setProperty("rocketmq.messageConsumer.enabled", "false");
         System.setProperty("rocketmq.producer.enable", "false");
-        System.setProperty("rocketmq.name-server", "localhost:9876");
+        System.setProperty("rocketmq.name-server", "8.133.246.113:9876");
         System.setProperty("rocketmq.producer.group", "test-group");
         
         // 禁用Seata相关配置

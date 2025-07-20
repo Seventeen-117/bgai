@@ -11,10 +11,6 @@ import org.springframework.context.annotation.Primary;
  * 提供MyBatisPlusConfig的Mock实现，用于测试环境
  */
 @Configuration
-@EnableAutoConfiguration(exclude = {
-    com.bgpay.bgai.config.MybatisPlusConfig.class,
-    com.bgpay.bgai.datasource.MyBatisPlusConfig.class
-})
 public class MyBatisPlusConfigMock {
 
     /**

@@ -19,18 +19,7 @@ import org.springframework.context.annotation.Import;
  */
 @TestConfiguration
 @ComponentScan(
-    basePackages = "com.bgpay.bgai",
-    excludeFilters = {
-        @ComponentScan.Filter(
-            type = FilterType.REGEX,
-            pattern = {
-                ".*RocketMQ.*", 
-                "org\\.apache\\.rocketmq\\..*",
-                ".*DataSource.*", 
-                ".*Elasticsearch.*"
-            }
-        )
-    }
+    basePackages = "com.bgpay.bgai"
 )
 @Import({WebClientMockConfiguration.class})
 public class RocketMQExclusionConfig {

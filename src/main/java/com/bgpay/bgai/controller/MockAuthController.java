@@ -63,23 +63,19 @@ public class MockAuthController {
     public ResponseEntity<?> token(
             @RequestParam(value = "grant_type", required = false) String grantType,
             @RequestParam(value = "code", required = false) String code,
+            @RequestParam(value = "refresh_token", required = false) String refreshToken,
             @RequestParam(value = "client_id", required = false) String clientId,
             @RequestParam(value = "client_secret", required = false) String clientSecret,
             @RequestParam(value = "redirect_uri", required = false) String redirectUri) {
         
-        log.info("Token request: grant_type={}, code={}, client_id={}", 
-                grantType, code, clientId);
+        log.info("Token request: grant_type={}, code={}, refresh_token={}, client_id={}", 
+                grantType, code, refreshToken, clientId);
         
-        // 简化验证逻辑，只要有请求就返回有效令牌
-        // 在测试环境下，我们不做严格验证
-        
-        // 生成访问令牌和刷新令牌
+        // 无论grant_type为何，都返回有效token
         String accessToken = UUID.randomUUID().toString();
-        String refreshToken = UUID.randomUUID().toString();
+        String newRefreshToken = UUID.randomUUID().toString();
         
-        // 创建用户令牌
         UserToken userToken = UserToken.builder()
-//                .userId("mock-user-" + UUID.randomUUID().toString().substring(0, 8))
                 .userId("689258T")
                 .username("测试用户")
                 .email("test@example.com")
@@ -89,20 +85,13 @@ public class MockAuthController {
                 .valid(true)
                 .build();
         
-        // 存储令牌
         tokens.put(accessToken, userToken);
         
-        // 如果有授权码，删除它
-        if (code != null && !code.isEmpty()) {
-            authCodes.remove(code);
-        }
-        
-        // 返回令牌响应
         Map<String, Object> response = new HashMap<>();
         response.put("access_token", accessToken);
         response.put("token_type", "Bearer");
         response.put("expires_in", 3600);
-        response.put("refresh_token", refreshToken);
+        response.put("refresh_token", newRefreshToken);
         
         return ResponseEntity.ok(response);
     }

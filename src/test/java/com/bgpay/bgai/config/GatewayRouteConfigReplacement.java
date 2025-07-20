@@ -22,13 +22,4 @@ public class GatewayRouteConfigReplacement {
     public Object gatewayRouteConfig() {
         return new Object();
     }
-    
-    /**
-     * 提供一个简单的testGatewayRouteConfig bean
-     */
-    @Bean(name = "testGatewayRouteConfig")
-    @Primary
-    public Object testGatewayRouteConfig() {
-        return new Object();
-    }
 } 

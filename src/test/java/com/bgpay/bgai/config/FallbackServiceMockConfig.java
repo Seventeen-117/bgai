@@ -1,16 +1,16 @@
 package com.bgpay.bgai.config;
 
-import com.bgpay.bgai.service.UsageRecordService;
+import com.bgpay.bgai.service.impl.FallbackService;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 
 @TestConfiguration
-public class UsageRecordServiceMockConfig {
+public class FallbackServiceMockConfig {
     @Bean
     @Primary
-    public UsageRecordService usageRecordService() {
-        return Mockito.mock(UsageRecordService.class);
+    public FallbackService fallbackService() {
+        return Mockito.mock(FallbackService.class);
     }
 } 

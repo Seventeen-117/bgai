@@ -41,6 +41,8 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 
 /**
  * 使用YAML数据驱动的API测试类
@@ -48,74 +50,72 @@ import java.util.UUID;
  * 这个类使用Spring Boot的测试框架和TestNG进行测试
  * 使用YAML文件作为测试数据源
  */
-@WebMvcTest(controllers = {
-    AuthController.class,
-    ApiKeyController.class,
-    DynamicRouteController.class,
-    SystemConfigController.class
-}, excludeAutoConfiguration = {
-    org.springframework.cloud.gateway.config.GatewayAutoConfiguration.class,
-    org.springframework.cloud.gateway.config.GatewayClassPathWarningAutoConfiguration.class,
-    org.springframework.cloud.gateway.config.GatewayMetricsAutoConfiguration.class,
-    org.springframework.cloud.gateway.config.GatewayReactiveLoadBalancerClientAutoConfiguration.class
-}, excludeFilters = {
-    @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {
-        com.bgpay.bgai.config.GatewayRouteConfig.class,
-        org.springframework.cloud.gateway.route.RouteLocator.class,
-        org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder.class
-    })
-})
+@SpringBootTest(
+    classes = {
+        AuthController.class,
+        ApiKeyController.class,
+        DynamicRouteController.class,
+        SystemConfigController.class,
+        GatewayRouteConfigReplacement.class,
+        DeepSeekServiceMockConfig.class,
+        ApiKeyServiceMockConfig.class,
+        ApiConfigServiceMockConfig.class,
+        UserServiceMockConfig.class,
+        BGAIServiceMockConfig.class,
+        TransactionLogServiceMockConfig.class,
+        UsageInfoServiceMockConfig.class,
+        SystemConfigControllerMockConfig.class,
+        DynamicRouteServiceMockConfig.class,
+        AllMappersMockConfig.class,
+        ChatCompletionsServiceImplMockConfig.class,
+        ChoicesServiceImplMockConfig.class,
+        PriceConfigServiceImplMockConfig.class,
+        PriceVersionServiceImplMockConfig.class,
+        DeepSeekWebClientMockConfig.class,
+        WebClientConfigMock.class,
+        WebClientConfigOverrideConfig.class,
+        ReactiveWebMockConfig.class,
+        TestPropertySourceConfig.class,
+        EnhancedChatControllerMockConfig.class,
+        ChatWebFilterMockConfig.class,
+        ChatRecordRepositoryMockConfig.class,
+        ElasticsearchMockConfig.class,
+        ElasticsearchAutoConfigurationDisabler.class,
+        DataSourceAutoConfigurationDisabler.class,
+        FileTypeServiceMockConfig.class,
+        CacheWarmerMockConfig.class,
+        RedisAutoConfigurationDisabler.class,
+        RedisMockConfig.class,
+        FeignAutoConfigurationDisabler.class,
+        RedisTemplateQualifierConfig.class,
+        TransactionCoordinatorMockConfig.class,
+        ChatCompletionsServiceMockConfig.class,
+        SagaStateMachineMockConfig.class,
+        MyBatisMockConfig.class,
+        TestComponentScanFilterRegistrar.class,
+        UsageRecordServiceMockConfig.class,
+        PriceCacheServiceMockConfig.class,
+        FileWriterServiceMockConfig.class,
+        AsyncTaskExecutorMockConfig.class,
+        RocketMQProducerServiceMockConfig.class,
+        RocketMQTemplateMockConfig.class,
+        FallbackServiceMockConfig.class,
+        MockMvcConfig.class
+    }
+)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
+@ComponentScan(
+    excludeFilters = @ComponentScan.Filter(
+        type = FilterType.ASSIGNABLE_TYPE,
+        classes = {com.bgpay.bgai.service.deepseek.DeepSeekServiceImp.class}
+    )
+)
 @TestPropertySource(locations = "classpath:application-test.yml", properties = {
     "spring.cloud.gateway.enabled=false",
     "spring.autoconfigure.exclude=org.springframework.cloud.gateway.config.GatewayAutoConfiguration"
 })
 @Feature("API测试")
-@Import({
-    GatewayRouteConfigReplacement.class,  // 提供替代的GatewayRouteConfig实现
-    TestGatewayRouteConfigDisabler.class,  // 最高优先级，完全禁用TestGatewayRouteConfig
-    DeepSeekServiceMockConfig.class,  // 提供DeepSeekService和DeepSeekServiceImp的mock实现
-    ApiKeyServiceMockConfig.class,  // 提供ApiKeyService的mock实现
-    ApiConfigServiceMockConfig.class,  // 提供ApiConfigService的mock实现
-    UserServiceMockConfig.class,  // 提供UserService的mock实现
-    BGAIServiceMockConfig.class,  // 提供BGAIService的mock实现
-    TransactionLogServiceMockConfig.class,  // 提供TransactionLogService的mock实现
-    UsageInfoServiceMockConfig.class,  // 提供UsageInfoService的mock实现
-    SystemConfigControllerMockConfig.class,  // 提供SystemConfigController的mock实现
-    DynamicRouteServiceMockConfig.class,  // 提供DynamicRouteService的mock实现
-    AllMappersMockConfig.class,  // 提供所有Mapper接口的mock实现
-    ChatCompletionsServiceImplMockConfig.class,  // 提供ChatCompletionsServiceImpl的mock实现
-    ChoicesServiceImplMockConfig.class,  // 提供ChoicesServiceImpl的mock实现
-    PriceConfigServiceImplMockConfig.class,  // 提供PriceConfigServiceImpl的mock实现
-    PriceVersionServiceImplMockConfig.class,  // 提供PriceVersionServiceImpl的mock实现
-    DeepSeekWebClientMockConfig.class,  // 为DeepSeekServiceImp提供WebClient
-    WebClientConfigMock.class,  // 提供完整的WebClientConfig替代实现
-    WebClientConfigOverrideConfig.class,  // 提供完整覆盖实现，直接替代WebClient bean
-    ReactiveWebMockConfig.class,  // 提供反应式Web组件
-    TestPropertySourceConfig.class,  // 添加测试配置文件
-    EnhancedChatControllerMockConfig.class,
-    ChatWebFilterMockConfig.class,
-    ChatRecordRepositoryMockConfig.class,
-    ElasticsearchMockConfig.class,
-    ElasticsearchAutoConfigurationDisabler.class,
-    RocketMQMockConfig.class,
-    DataSourceAutoConfigurationDisabler.class,  // 禁用主应用的数据源配置，使用测试专用数据源
-    FileTypeServiceMockConfig.class,  // 提供FileTypeService和FileTypeMapper的Mock实现
-    CacheWarmerMockConfig.class,  // 提供CacheWarmer的Mock实现
-    RedisAutoConfigurationDisabler.class,  // 禁用主应用的Redis配置，使用测试专用Redis配置
-    RedisMockConfig.class,  // 提供RedisConfig的Mock实现，解决bean创建错误
-    FeignAutoConfigurationDisabler.class,  // 禁用OpenFeign自动配置，使用Mock实现
-    RedisTemplateQualifierConfig.class,  // 添加RedisTemplate冲突解决配置
-    TransactionCoordinatorMockConfig.class,  // 提供TransactionCoordinator的Mock实现
-    ChatCompletionsServiceMockConfig.class,  // 提供ChatCompletionsService的Mock实现
-    SagaStateMachineMockConfig.class,  // 提供Saga状态机的Mock实现
-    MyBatisMockConfig.class,  // 提供MyBatis相关组件的Mock实现
-    GatewayBeanFactoryPostProcessor.class,  // Gateway Bean工厂后处理器
-    CompleteGatewayDisablingConfig.class,  // 综合Gateway禁用配置
-    KeyResolverBeanPostProcessor.class,  // 专门处理KeyResolver相关的bean定义
-    TestComponentScanFilterRegistrar.class  // 注册组件扫描过滤器
-})
 public class YamlDataDrivenApiTest extends AbstractTestNGSpringContextTests {
     
     private static final Logger log = LoggerFactory.getLogger(YamlDataDrivenApiTest.class);
@@ -149,6 +149,15 @@ public class YamlDataDrivenApiTest extends AbstractTestNGSpringContextTests {
     
     @Autowired
     private TransactionLogService transactionLogService;
+    
+    @MockBean(name = "customRedisRateLimiter")
+    private Object customRedisRateLimiter;
+
+    @MockBean(name = "gatewayRouteConfig")
+    private Object gatewayRouteConfig;
+    
+    @MockBean(name = "nacosWarningHandler")
+    private Object nacosWarningHandler;
     
     /**
      * 在每个测试方法执行前执行

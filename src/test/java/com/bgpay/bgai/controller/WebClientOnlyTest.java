@@ -34,7 +34,7 @@ import javax.annotation.Resource;
     "spring.cloud.gateway.enabled=false",
     "spring.cloud.circuitbreaker.enabled=false",
     "spring.data.elasticsearch.enabled=false",
-    "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration,org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientAutoConfiguration,org.apache.rocketmq.spring.autoconfigure.RocketMQAutoConfiguration"
+    "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration,org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientAutoConfiguration"
 })
 @ActiveProfiles("test")
 public class WebClientOnlyTest extends AbstractTestNGSpringContextTests {

@@ -822,12 +822,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             
             return newToken;
         } catch (Exception e) {
-            log.error("刷新令牌失败: {}", e.getMessage(), e);
-            
-            // 5. 如果刷新失败，尝试直接生成新的令牌（仅在开发环境）
+            // 只声明一次activeProfiles和isDev
             String[] activeProfiles = environment.getActiveProfiles();
             boolean isDev = java.util.Arrays.asList(activeProfiles).contains("dev");
+            if (isDev) {
+                log.warn("刷新令牌失败（dev环境自动降级）: {}", e.getMessage());
+            } else {
+                log.error("刷新令牌失败: {}", e.getMessage(), e);
+            }
             
+            // 5. 如果刷新失败，尝试直接生成新的令牌（仅在开发环境）
             if (isDev) {
                 log.warn("在开发环境中，尝试直接生成新的令牌: {}", userId);
                 

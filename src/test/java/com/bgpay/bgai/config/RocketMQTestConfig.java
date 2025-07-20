@@ -13,11 +13,6 @@ import org.springframework.core.env.StandardEnvironment;
  * 禁用RocketMQ相关自动配置，同时提供必要的ConfigurableEnvironment实现
  */
 @Configuration
-@EnableAutoConfiguration(exclude = {
-    org.apache.rocketmq.spring.autoconfigure.RocketMQAutoConfiguration.class,
-    org.apache.rocketmq.spring.autoconfigure.ListenerContainerConfiguration.class, 
-    org.apache.rocketmq.spring.autoconfigure.RocketMQTransactionConfiguration.class
-})
 public class RocketMQTestConfig {
 
     /**

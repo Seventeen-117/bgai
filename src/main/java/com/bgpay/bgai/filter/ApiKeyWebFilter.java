@@ -46,9 +46,16 @@ public class ApiKeyWebFilter implements WebFilter {
     // 不需要API Key的路径
     private static final List<String> EXCLUDED_PATHS = List.of(
             "/api/auth/", 
+            "/auth/", // 放行mock SSO/token服务
             "/docs", 
             "/swagger", 
+            "/swagger-ui", // swagger UI
+            "/swagger-ui/", // swagger UI
+            "/swagger-resources", // swagger资源
+            "/swagger-resources/", // swagger资源
             "/v3/api-docs", 
+            "/v3/api-docs/", 
+            "/webjars/", // swagger静态资源
             "/health", 
             "/actuator",
             "/test-",

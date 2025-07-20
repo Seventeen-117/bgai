@@ -69,9 +69,15 @@ import java.util.UUID;
     "spring.autoconfigure.exclude=org.springframework.cloud.gateway.config.GatewayAutoConfiguration"
 })
 @Import({
-    // 添加新的Mock配置
+    // Gateway相关配置，按优先级顺序导入
+    TestGatewayRouteConfigProvider.class, // 最高优先级，提供唯一的testGatewayRouteConfig bean
     GatewayRouteConfigReplacement.class,  // 提供替代的GatewayRouteConfig实现
-    TestGatewayRouteConfigDisabler.class,  // 最高优先级，完全禁用TestGatewayRouteConfig
+    TestGatewayRouteConfigDisabler.class,  // 禁用TestGatewayRouteConfig
+    CompleteGatewayDisablingConfig.class,  // 综合Gateway禁用配置
+    GatewayBeanFactoryPostProcessor.class,  // Gateway Bean工厂后处理器
+    KeyResolverBeanPostProcessor.class,  // 专门处理KeyResolver相关的bean定义
+    
+    // 添加新的Mock配置
     AllMappersMockConfig.class,  // 提供所有Mapper接口的mock实现
     PriceConfigServiceImplMockConfig.class,  // 提供PriceConfigServiceImpl的mock实现
     PriceVersionServiceImplMockConfig.class,  // 提供PriceVersionServiceImpl的mock实现
@@ -102,7 +108,6 @@ import java.util.UUID;
     MockEnvironmentConfig.class,
     RocketMQTestConfig.class,  // 提供ConfigurableEnvironment并禁用RocketMQ相关配置
     ApplicationTestConfig.class,  // 使用系统属性禁用自动配置
-    MockListenerContainerConfig.class,  // 提供模拟的ListenerContainerConfiguration
     MockExtConsumerResetConfig.class,  // 提供模拟的ExtConsumerResetConfiguration
     TestApplicationEnvironmentConfig.class,  // 提供标准的ConfigurableEnvironment
     SpringTestConfig.class,
@@ -111,15 +116,12 @@ import java.util.UUID;
     ApiConfigServiceMockConfig.class,  // 提供ApiConfigService mock bean
     BGAIServiceMockConfig.class,  // 提供BGAIService mock bean
     UsageInfoServiceMockConfig.class,  // 提供UsageInfoService mock bean
-    GatewayBeanFactoryPostProcessor.class,  // Gateway Bean工厂后处理器
-    CompleteGatewayDisablingConfig.class,  // 综合Gateway禁用配置
-    KeyResolverBeanPostProcessor.class,  // 专门处理KeyResolver相关的bean定义
-    TestComponentScanFilterRegistrar.class,  // 注册组件扫描过滤器
     ChatCompletionsMapperMockConfig.class,  // 提供ChatCompletionsMapper的mock实现
     ChatCompletionsServiceImplMockConfig.class,  // 提供ChatCompletionsServiceImpl的mock实现
     ChoicesMapperMockConfig.class,  // 提供ChoicesMapper的mock实现
     ChoicesServiceImplMockConfig.class,  // 提供ChoicesServiceImpl的mock实现
-    MyBatisMockConfig.class  // 提供MyBatis相关组件的Mock实现
+    MyBatisMockConfig.class,  // 提供MyBatis相关组件的Mock实现
+    TestComponentScanFilterRegistrar.class  // 注册组件扫描过滤器
 })
 public class ReactiveYamlDataDrivenApiTest extends AbstractTestNGSpringContextTests {
     

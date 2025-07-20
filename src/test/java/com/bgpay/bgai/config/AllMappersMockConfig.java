@@ -88,5 +88,17 @@ public class AllMappersMockConfig {
         return Mockito.mock(UsageInfoMapper.class);
     }
     
+    @Bean
+    @Primary
+    public AllowedFileTypeMapper allowedFileTypeMapper() {
+        return Mockito.mock(AllowedFileTypeMapper.class);
+    }
+    
+    @Bean
+    @Primary
+    public UsageRecordMapper usageRecordMapper() {
+        return Mockito.mock(UsageRecordMapper.class);
+    }
+    
     // 如果还有其他Mapper接口，可以继续添加
 } 
