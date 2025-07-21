@@ -5,6 +5,15 @@ import com.bgpay.bgai.controller.ApiKeyController;
 import com.bgpay.bgai.controller.DynamicRouteController;
 import com.bgpay.bgai.controller.SystemConfigController;
 import com.bgpay.bgai.controller.MockUserServiceController;
+import com.bgpay.bgai.entity.UserToken;
+import com.bgpay.bgai.service.UserService;
+import com.bgpay.bgai.service.ApiKeyService;
+import com.bgpay.bgai.entity.ApiKey;
+import com.bgpay.bgai.entity.ApiKeyInfo;
+import com.bgpay.bgai.service.DynamicRouteService;
+import org.springframework.cloud.gateway.route.RouteDefinition;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +21,9 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,22 +44,89 @@ public class MockMvcConfig {
     public MockMvc mockMvc() {
         // 创建真实的MockUserServiceController实例
         MockUserServiceController mockUserController = new MockUserServiceController();
-        
-        // 手动设置必要的属性值，避免@Value注入问题
         ReflectionTestUtils.setField(mockUserController, "testApiKey", "test-api-key-123");
         ReflectionTestUtils.setField(mockUserController, "apiKeyHeader", "X-API-Key");
         ReflectionTestUtils.setField(mockUserController, "timeoutDuration", 15000L);
-        
-        // 添加测试所需的用户数据
         addTestUser(mockUserController, "1001", "testuser", "test@example.com");
-        
+
+        // 创建mock的UserService
+        UserService mockUserService = Mockito.mock(UserService.class);
+        UserToken mockUserToken = new UserToken();
+        mockUserToken.setUserId("1001");
+        mockUserToken.setUsername("testuser");
+        mockUserToken.setAccessToken("valid-access-token");
+        mockUserToken.setTokenExpireTime(LocalDateTime.now().plusHours(1));
+        mockUserToken.setValid(true);
+        Mockito.when(mockUserService.loginWithSSO(Mockito.anyString())).thenReturn(mockUserToken);
+        Mockito.when(mockUserService.refreshToken("valid-refresh-token")).thenReturn(mockUserToken);
+        Mockito.when(mockUserService.refreshToken("invalid-refresh-token")).thenThrow(new RuntimeException("Invalid refresh token"));
+        Mockito.when(mockUserService.validateToken("valid-token")).thenReturn(mockUserToken);
+        Mockito.when(mockUserService.validateToken("invalid-token")).thenReturn(null);
+        Mockito.doNothing().when(mockUserService).logout(Mockito.anyString());
+        Mockito.when(mockUserService.validateToken(Mockito.anyString())).thenReturn(mockUserToken);
+
+        // mock ApiKeyService
+        ApiKeyService mockApiKeyService = Mockito.mock(ApiKeyService.class);
+        ApiKeyInfo mockApiKeyInfo = ApiKeyInfo.builder()
+                .apiKey("mock-key-value")
+                .clientId("default-client")
+                .clientName("test-client")
+                .description("test-desc")
+                .active(true)
+                .build();
+        Mockito.when(mockApiKeyService.generateApiKey(Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenReturn(mockApiKeyInfo);
+        Mockito.doNothing().when(mockApiKeyService).revokeApiKey(Mockito.anyString());
+        Mockito.when(mockApiKeyService.getAllApiKeys()).thenReturn(java.util.Collections.emptyList());
+        Mockito.when(mockApiKeyService.getApiKeyInfo(Mockito.anyString())).thenReturn(new ApiKey());
+        Mockito.doNothing().when(mockApiKeyService).updateApiKeyStatus(Mockito.anyString(), Mockito.anyBoolean());
+        Mockito.when(mockApiKeyService.validateApiKeyStatus(Mockito.anyString())).thenReturn(
+                new ApiKeyService.ApiKeyValidationResult(
+                        ApiKeyService.ApiKeyStatus.VALID,
+                        LocalDateTime.now().plusDays(1),
+                        null,
+                        "default-client"
+                )
+        );
+
+        // mock DynamicRouteService
+        DynamicRouteService mockDynamicRouteService = Mockito.mock(DynamicRouteService.class);
+        RouteDefinition mockRoute = new RouteDefinition();
+        mockRoute.setId("route-001");
+        mockRoute.setUri(java.net.URI.create("http://example.com"));
+        Mockito.when(mockDynamicRouteService.getRoute("route-001")).thenReturn(Mono.just(mockRoute));
+        Mockito.when(mockDynamicRouteService.getRoute("non-existent-route")).thenReturn(Mono.empty());
+        Mockito.when(mockDynamicRouteService.getRoutes()).thenReturn(Flux.just(mockRoute));
+        Mockito.when(mockDynamicRouteService.add(Mockito.any())).thenReturn(Mono.empty());
+        Mockito.when(mockDynamicRouteService.update(Mockito.any())).thenReturn(Mono.empty());
+        Mockito.when(mockDynamicRouteService.delete(Mockito.anyString())).thenReturn(Mono.empty());
+        Mockito.when(mockDynamicRouteService.refreshRoutes()).thenReturn(Mono.empty());
+
+        // 创建真实DynamicRouteController实例
+        com.bgpay.bgai.controller.DynamicRouteController dynamicRouteController = new com.bgpay.bgai.controller.DynamicRouteController();
+        org.springframework.test.util.ReflectionTestUtils.setField(dynamicRouteController, "dynamicRouteService", mockDynamicRouteService);
+
+        // 创建真实ApiKeyController实例
+        com.bgpay.bgai.controller.ApiKeyController apiKeyController = new com.bgpay.bgai.controller.ApiKeyController(mockApiKeyService, mockUserService);
+
+        // 创建真实的AuthController实例并设置依赖
+        AuthController authController = new AuthController();
+        ReflectionTestUtils.setField(authController, "userService", mockUserService);
+        ReflectionTestUtils.setField(authController, "environment", Mockito.mock(org.springframework.core.env.Environment.class));
+        ReflectionTestUtils.setField(authController, "clientId", "test-client-id");
+        ReflectionTestUtils.setField(authController, "authorizeUrl", "https://test-sso.example.com/oauth2/authorize");
+        ReflectionTestUtils.setField(authController, "redirectUri", "http://localhost:8688/api/auth/callback");
+        ReflectionTestUtils.setField(authController, "serverPort", 8688);
+        ReflectionTestUtils.setField(authController, "serverInitialized", true);
+
         return MockMvcBuilders.standaloneSetup(
-            Mockito.mock(AuthController.class),
-            Mockito.mock(ApiKeyController.class),
-            Mockito.mock(DynamicRouteController.class),
+            authController,
+            apiKeyController,
+            dynamicRouteController,
             Mockito.mock(SystemConfigController.class),
             mockUserController
-        ).build();
+        )
+        .defaultRequest(MockMvcRequestBuilders.get("/").characterEncoding("UTF-8"))
+        .build();
     }
     
     /**

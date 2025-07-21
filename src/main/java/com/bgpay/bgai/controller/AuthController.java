@@ -193,7 +193,7 @@ public class AuthController implements ApplicationListener<WebServerInitializedE
         } catch (Exception e) {
             log.error("SSO callback error", e);
             Map<String, String> error = new HashMap<>();
-            error.put("error", "登录失败");
+            error.put("error", "Login failed");
             error.put("message", e.getMessage());
             
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
@@ -240,7 +240,7 @@ public class AuthController implements ApplicationListener<WebServerInitializedE
         } catch (Exception e) {
             log.error("Token refresh error", e);
             Map<String, String> error = new HashMap<>();
-            error.put("error", "刷新令牌失败");
+            error.put("error", "Token refresh failed");
             error.put("message", e.getMessage());
             
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
@@ -281,13 +281,13 @@ public class AuthController implements ApplicationListener<WebServerInitializedE
             userService.logout(accessToken);
             
             Map<String, String> response = new HashMap<>();
-            response.put("message", "退出成功");
+            response.put("message", "Logout successful");
             
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             log.error("Logout error", e);
             Map<String, String> error = new HashMap<>();
-            error.put("error", "退出失败");
+            error.put("error", "Logout failed");
             error.put("message", e.getMessage());
             
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
@@ -330,7 +330,7 @@ public class AuthController implements ApplicationListener<WebServerInitializedE
             
             if (userToken == null) {
                 Map<String, String> error = new HashMap<>();
-                error.put("error", "无效的令牌");
+                error.put("error", "Invalid token");
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
             }
             
@@ -346,7 +346,7 @@ public class AuthController implements ApplicationListener<WebServerInitializedE
         } catch (Exception e) {
             log.error("获取用户信息时出错", e);
             Map<String, String> error = new HashMap<>();
-            error.put("error", "获取用户信息失败");
+            error.put("error", "Failed to get user info");
             error.put("message", e.getMessage());
             
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
@@ -389,7 +389,7 @@ public class AuthController implements ApplicationListener<WebServerInitializedE
             
             if (userToken == null) {
                 Map<String, String> error = new HashMap<>();
-                error.put("error", "无效的令牌");
+                error.put("error", "Invalid token");
                 error.put("valid", "false");
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
             }
@@ -404,7 +404,7 @@ public class AuthController implements ApplicationListener<WebServerInitializedE
         } catch (Exception e) {
             log.error("验证令牌时出错", e);
             Map<String, String> error = new HashMap<>();
-            error.put("error", "验证令牌失败");
+            error.put("error", "Token validation failed");
             error.put("message", e.getMessage());
             error.put("valid", "false");
             

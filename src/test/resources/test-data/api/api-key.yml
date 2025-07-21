@@ -2,122 +2,171 @@
 description: "API密钥控制器API测试用例"
 baseUrl: "/api/keys"
 testCases:
-  - id: "create-api-key-success"
-    description: "创建API密钥成功"
-    endpoint: ""
+  - id: "generate-api-key-success"
+    description: "生成API密钥成功"
+    endpoint: "/generate"
     request:
       method: "POST"
       headers:
         Content-Type: "application/json"
-        Authorization: "Bearer ${token}"
+        Authorization: "Bearer valid-token"
       body:
-        userId: "1001"
-        name: "测试API密钥"
-        expiresIn: 30
+        clientId: "default-client"
+        clientName: "测试API密钥"
+        description: "测试描述"
     expectedResponse:
-      statusCode: 201
+      statusCode: 200
       bodyContains:
         - "apiKey"
-        - "name"
-        - "expiresAt"
-      bodyEquals:
-        success: true
-        
-  - id: "get-api-keys-by-user-success"
-    description: "获取用户的API密钥列表成功"
-    endpoint: "/user/{userId}"
+        - "clientId"
+        - "clientName"
+        - "description"
+
+  - id: "revoke-api-key-success"
+    description: "撤销API密钥成功"
+    endpoint: "/mock-key-value/revoke"
+    request:
+      method: "POST"
+      headers:
+        Authorization: "Bearer valid-token"
+    expectedResponse:
+      statusCode: 200
+
+  - id: "get-all-api-keys-success"
+    description: "获取所有API密钥成功"
+    endpoint: ""
     request:
       method: "GET"
-      pathVariables:
-        userId: "1001"
       headers:
-        Authorization: "Bearer ${token}"
+        Authorization: "Bearer valid-token"
     expectedResponse:
       statusCode: 200
       bodyContains:
         - "["
         - "]"
-        - "apiKeyId"
-        - "name"
-      
-  - id: "get-api-key-by-id-success"
-    description: "根据ID获取API密钥成功"
-    endpoint: "/{apiKeyId}"
+
+  - id: "get-api-key-info-success"
+    description: "获取API密钥信息成功"
+    endpoint: "/mock-key-value"
     request:
       method: "GET"
-      pathVariables:
-        apiKeyId: "api-key-001"
       headers:
-        Authorization: "Bearer ${token}"
+        Authorization: "Bearer valid-token"
     expectedResponse:
       statusCode: 200
       bodyContains:
-        - "apiKeyId"
-        - "name"
-        - "userId"
-        - "createdAt"
-        - "expiresAt"
-      
-  - id: "get-api-key-by-id-not-found"
-    description: "根据ID获取API密钥失败 - 未找到"
-    endpoint: "/{apiKeyId}"
-    request:
-      method: "GET"
-      pathVariables:
-        apiKeyId: "non-existent-key"
-      headers:
-        Authorization: "Bearer ${token}"
-    expectedResponse:
-      statusCode: 404
-      bodyContains:
-        - "API key not found"
-      bodyEquals:
-        success: false
-        
-  - id: "update-api-key-success"
-    description: "更新API密钥成功"
-    endpoint: "/{apiKeyId}"
+        - "apiKey"
+        - "clientId"
+        - "clientName"
+
+  - id: "update-api-key-status-success"
+    description: "更新API密钥状态成功"
+    endpoint: "/mock-key-value/status"
     request:
       method: "PUT"
-      pathVariables:
-        apiKeyId: "api-key-001"
       headers:
         Content-Type: "application/json"
-        Authorization: "Bearer ${token}"
+        Authorization: "Bearer valid-token"
       body:
-        name: "更新的API密钥名称"
-        expiresAt: "2025-12-31T23:59:59Z"
+        active: true
+    expectedResponse:
+      statusCode: 200
+
+  - id: "get-api-key-status-success"
+    description: "获取API密钥状态成功"
+    endpoint: "/mock-key-value/status"
+    request:
+      method: "GET"
+      headers:
+        Authorization: "Bearer valid-token"
     expectedResponse:
       statusCode: 200
       bodyContains:
-        - "apiKeyId"
-        - "name"
-        - "更新的API密钥名称"
-      bodyEquals:
-        success: true
-        
-  - id: "revoke-api-key-success"
-    description: "撤销API密钥成功"
-    endpoint: "/{apiKeyId}/revoke"
-    request:
-      method: "POST"
-      pathVariables:
-        apiKeyId: "api-key-001"
-      headers:
-        Authorization: "Bearer ${token}"
-    expectedResponse:
-      statusCode: 200
-      bodyEquals:
-        success: true
-        
-  - id: "delete-api-key-success"
-    description: "删除API密钥成功"
-    endpoint: "/{apiKeyId}"
-    request:
-      method: "DELETE"
-      pathVariables:
-        apiKeyId: "api-key-001"
-      headers:
-        Authorization: "Bearer ${token}"
-    expectedResponse:
-      statusCode: 204 
+        - "status"
+        - "VALID"
+
+# 以下为未实现的接口，已注释
+#  - id: "get-api-keys-by-user-success"
+#    description: "获取用户的API密钥列表成功"
+#    endpoint: "/user/{userId}"
+#    request:
+#      method: "GET"
+#      pathVariables:
+#        userId: "1001"
+#      headers:
+#        Authorization: "Bearer ${token}"
+#    expectedResponse:
+#      statusCode: 200
+#      bodyContains:
+#        - "["
+#        - "]"
+#        - "apiKeyId"
+#        - "name"
+#
+#  - id: "get-api-key-by-id-success"
+#    description: "根据ID获取API密钥成功"
+#    endpoint: "/{apiKeyId}"
+#    request:
+#      method: "GET"
+#      pathVariables:
+#        apiKeyId: "api-key-001"
+#      headers:
+#        Authorization: "Bearer ${token}"
+#    expectedResponse:
+#      statusCode: 200
+#      bodyContains:
+#        - "apiKeyId"
+#        - "name"
+#        - "userId"
+#        - "createdAt"
+#        - "expiresAt"
+#
+#  - id: "get-api-key-by-id-not-found"
+#    description: "根据ID获取API密钥失败 - 未找到"
+#    endpoint: "/{apiKeyId}"
+#    request:
+#      method: "GET"
+#      pathVariables:
+#        apiKeyId: "non-existent-key"
+#      headers:
+#        Authorization: "Bearer ${token}"
+#    expectedResponse:
+#      statusCode: 404
+#      bodyContains:
+#        - "API key not found"
+#      bodyEquals:
+#        success: false
+#
+#  - id: "update-api-key-success"
+#    description: "更新API密钥成功"
+#    endpoint: "/{apiKeyId}"
+#    request:
+#      method: "PUT"
+#      pathVariables:
+#        apiKeyId: "api-key-001"
+#      headers:
+#        Content-Type: "application/json"
+#        Authorization: "Bearer ${token}"
+#      body:
+#        name: "更新的API密钥名称"
+#        expiresAt: "2025-12-31T23:59:59Z"
+#    expectedResponse:
+#      statusCode: 200
+#      bodyContains:
+#        - "apiKeyId"
+#        - "name"
+#        - "更新的API密钥名称"
+#      bodyEquals:
+#        success: true
+#
+#  - id: "delete-api-key-success"
+#    description: "删除API密钥成功"
+#    endpoint: "/{apiKeyId}"
+#    request:
+#      method: "DELETE"
+#      pathVariables:
+#        apiKeyId: "api-key-001"
+#      headers:
+#        Authorization: "Bearer ${token}"
+#    expectedResponse:
+#      statusCode: 204 

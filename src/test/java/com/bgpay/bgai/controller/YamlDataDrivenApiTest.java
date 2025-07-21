@@ -43,6 +43,8 @@ import java.util.Map;
 import java.util.UUID;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
+import org.springframework.mock.web.MockMultipartFile;
 
 /**
  * 使用YAML数据驱动的API测试类
@@ -319,6 +321,269 @@ public class YamlDataDrivenApiTest extends AbstractTestNGSpringContextTests {
             requestBuilder = requestBuilder
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(body));
+        }
+        
+        // 执行请求
+        ResultActions resultActions = mockMvc.perform(requestBuilder);
+        
+        // 验证状态码
+        resultActions = resultActions.andExpect(MockMvcResultMatchers.status().is(statusCode));
+        
+        // 验证响应体包含指定内容
+        if (bodyContains != null) {
+            for (String content : bodyContains) {
+                resultActions = resultActions.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString(content)));
+            }
+        }
+        
+        // 验证响应体完全匹配
+        if (bodyEquals != null) {
+            resultActions = resultActions.andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(bodyEquals)));
+        }
+    }
+    
+    /**
+     * 使用YAML数据驱动测试认证API
+     * 
+     * @param testData YAML文件中的测试数据
+     */
+    @Test(dataProvider = "namedYamlData", dataProviderClass = YamlDataProvider.class)
+    @YamlSource("api/auth")
+    @Description("测试认证API的各种场景")
+    @Story("用户认证功能")
+    public void testAuthApi(Map<String, Object> testData) throws Exception {
+        executeApiTest(testData, "/api/auth");
+    }
+    
+    /**
+     * 使用YAML数据驱动测试API密钥API
+     * 
+     * @param testData YAML文件中的测试数据
+     */
+    @Test(dataProvider = "namedYamlData", dataProviderClass = YamlDataProvider.class)
+    @YamlSource("api/api-key")
+    @Description("测试API密钥API的各种场景")
+    @Story("API密钥管理功能")
+    public void testApiKeyApi(Map<String, Object> testData) throws Exception {
+        executeApiTest(testData, "/api/keys");
+    }
+    
+    /**
+     * 使用YAML数据驱动测试动态路由API
+     * 
+     * @param testData YAML文件中的测试数据
+     */
+    @Test(dataProvider = "namedYamlData", dataProviderClass = YamlDataProvider.class)
+    @YamlSource("api/dynamic-route")
+    @Description("测试动态路由API的各种场景")
+    @Story("动态路由管理功能")
+    public void testDynamicRouteApi(Map<String, Object> testData) throws Exception {
+        executeApiTest(testData, "/gateway/routes");
+    }
+    
+    /**
+     * 使用YAML数据驱动测试系统配置API
+     * 
+     * @param testData YAML文件中的测试数据
+     */
+    @Test(dataProvider = "namedYamlData", dataProviderClass = YamlDataProvider.class)
+    @YamlSource("api/system-config")
+    @Description("测试系统配置API的各种场景")
+    @Story("系统配置管理功能")
+    public void testSystemConfigApi(Map<String, Object> testData) throws Exception {
+        executeApiTest(testData, "/api/system/config");
+    }
+    
+    /**
+     * 使用YAML数据驱动测试文件上传API
+     * 
+     * @param testData YAML文件中的测试数据
+     */
+    @Test(dataProvider = "namedYamlData", dataProviderClass = YamlDataProvider.class)
+    @YamlSource("api/file-upload")
+    @Description("测试文件上传API的各种场景")
+    @Story("文件上传管理功能")
+    public void testFileUploadApi(Map<String, Object> testData) throws Exception {
+        executeApiTest(testData, "/api/files");
+    }
+    
+    /**
+     * 使用YAML数据驱动测试用量API
+     * 
+     * @param testData YAML文件中的测试数据
+     */
+    @Test(dataProvider = "namedYamlData", dataProviderClass = YamlDataProvider.class)
+    @YamlSource("api/usage")
+    @Description("测试用量API的各种场景")
+    @Story("用量管理功能")
+    public void testUsageApi(Map<String, Object> testData) throws Exception {
+        executeApiTest(testData, "/api/usage");
+    }
+    
+    /**
+     * 使用YAML数据驱动测试聊天API
+     * 
+     * @param testData YAML文件中的测试数据
+     */
+    @Test(dataProvider = "namedYamlData", dataProviderClass = YamlDataProvider.class)
+    @YamlSource("api/testChatApi")
+    @Description("测试聊天API的各种场景")
+    @Story("聊天功能")
+    public void testChatApi(Map<String, Object> testData) throws Exception {
+        executeApiTest(testData, "/api/chat");
+    }
+    
+    /**
+     * 使用YAML数据驱动测试会话API
+     * 
+     * @param testData YAML文件中的测试数据
+     */
+    @Test(dataProvider = "namedYamlData", dataProviderClass = YamlDataProvider.class)
+    @YamlSource("api/session")
+    @Description("测试会话API的各种场景")
+    @Story("会话管理功能")
+    public void testSessionApi(Map<String, Object> testData) throws Exception {
+        executeApiTest(testData, "/api/session");
+    }
+    
+    /**
+     * 使用YAML数据驱动测试反应式聊天API
+     * 
+     * @param testData YAML文件中的测试数据
+     */
+    @Test(dataProvider = "namedYamlData", dataProviderClass = YamlDataProvider.class)
+    @YamlSource("api/reactive-chat")
+    @Description("测试反应式聊天API的各种场景")
+    @Story("反应式聊天功能")
+    public void testReactiveChatApi(Map<String, Object> testData) throws Exception {
+        executeApiTest(testData, "/api/reactive-chat");
+    }
+    
+    /**
+     * 使用YAML数据驱动测试用量统计API
+     * 
+     * @param testData YAML文件中的测试数据
+     */
+    @Test(dataProvider = "namedYamlData", dataProviderClass = YamlDataProvider.class)
+    @YamlSource("api/usage-statistics")
+    @Description("测试用量统计API的各种场景")
+    @Story("用量统计功能")
+    public void testUsageStatisticsApi(Map<String, Object> testData) throws Exception {
+        executeApiTest(testData, "/api/usage-stats");
+    }
+    
+    /**
+     * 使用YAML数据驱动测试反应式用户API
+     * 
+     * @param testData YAML文件中的测试数据
+     */
+    @Test(dataProvider = "namedYamlData", dataProviderClass = YamlDataProvider.class)
+    @YamlSource("api/reactive-users")
+    @Description("测试反应式用户API的各种场景")
+    @Story("反应式用户管理功能")
+    public void testReactiveUsersApi(Map<String, Object> testData) throws Exception {
+        executeApiTest(testData, "/api/reactive-users");
+    }
+    
+    /**
+     * 通用的API测试执行方法
+     * 
+     * @param testData 测试数据
+     * @param baseUrl 基础URL
+     */
+    private void executeApiTest(Map<String, Object> testData, String baseUrl) throws Exception {
+        // 从测试数据中提取信息
+        String testId = (String) testData.get("id");
+        String description = (String) testData.get("description");
+        String endpoint = (String) testData.get("endpoint");
+        
+        // 获取请求信息
+        Map<String, Object> requestData = (Map<String, Object>) testData.get("request");
+        String method = (String) requestData.get("method");
+        Map<String, Object> headers = (Map<String, Object>) requestData.get("headers");
+        Map<String, Object> body = (Map<String, Object>) requestData.get("body");
+        Map<String, Object> pathVariables = (Map<String, Object>) requestData.get("pathVariables");
+        Map<String, Object> parameters = (Map<String, Object>) requestData.get("parameters");
+        Map<String, Object> multipart = (Map<String, Object>) requestData.get("multipart");
+        
+        // 获取预期响应信息
+        Map<String, Object> expectedResponse = (Map<String, Object>) testData.get("expectedResponse");
+        int statusCode = ((Integer) expectedResponse.get("statusCode")).intValue();
+        List<String> bodyContains = (List<String>) expectedResponse.get("bodyContains");
+        Map<String, Object> bodyEquals = (Map<String, Object>) expectedResponse.get("bodyEquals");
+        
+        // 替换路径变量
+        if (pathVariables != null) {
+            for (Map.Entry<String, Object> entry : pathVariables.entrySet()) {
+                endpoint = endpoint.replace("{" + entry.getKey() + "}", entry.getValue().toString());
+            }
+        }
+        
+        MockHttpServletRequestBuilder requestBuilder;
+        
+        switch (method) {
+            case "GET":
+                requestBuilder = MockMvcRequestBuilders.get(baseUrl + endpoint);
+                break;
+            case "POST":
+                requestBuilder = MockMvcRequestBuilders.post(baseUrl + endpoint);
+                break;
+            case "PUT":
+                requestBuilder = MockMvcRequestBuilders.put(baseUrl + endpoint);
+                break;
+            case "DELETE":
+                requestBuilder = MockMvcRequestBuilders.delete(baseUrl + endpoint);
+                break;
+            default:
+                throw new IllegalArgumentException("Unsupported HTTP method: " + method);
+        }
+        
+        // 添加请求头
+        if (headers != null) {
+            for (Map.Entry<String, Object> header : headers.entrySet()) {
+                requestBuilder = requestBuilder.header(header.getKey(), header.getValue().toString());
+            }
+        }
+        
+        // 添加查询参数
+        if (parameters != null) {
+            for (Map.Entry<String, Object> param : parameters.entrySet()) {
+                requestBuilder = requestBuilder.param(param.getKey(), param.getValue().toString());
+            }
+        }
+        
+        // 添加请求体或multipart数据
+        if (body != null) {
+            requestBuilder = requestBuilder
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(body));
+        } else if (multipart != null) {
+            requestBuilder = MockMvcRequestBuilders.multipart(baseUrl + endpoint);
+
+            // 添加文件
+            if (multipart.containsKey("file")) {
+                String fileName = (String) multipart.get("file");
+                String contentType = (String) multipart.get("contentType");
+                String fileContent = (String) multipart.get("fileContent");
+
+                if (fileContent != null) {
+                    requestBuilder = ((MockMultipartHttpServletRequestBuilder) requestBuilder).file(
+                        new MockMultipartFile(
+                            "file",
+                            fileName,
+                            contentType != null ? contentType : "text/plain",
+                            fileContent.getBytes()
+                        )
+                    );
+                }
+            }
+
+            // 添加其他参数
+            for (Map.Entry<String, Object> entry : multipart.entrySet()) {
+                if (!entry.getKey().equals("file") && !entry.getKey().equals("contentType") && !entry.getKey().equals("fileContent")) {
+                    requestBuilder = ((MockMultipartHttpServletRequestBuilder) requestBuilder).param(entry.getKey(), entry.getValue().toString());
+                }
+            }
         }
         
         // 执行请求

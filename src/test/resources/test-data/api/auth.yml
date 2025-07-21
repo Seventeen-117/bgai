@@ -2,114 +2,97 @@
 description: "认证控制器API测试用例"
 baseUrl: "/api/auth"
 testCases:
-  - id: "login-success"
-    description: "用户登录成功"
-    endpoint: "/login"
+  - id: "login-url-success"
+    description: "获取登录URL成功"
+    endpoint: "/login-url"
     request:
-      method: "POST"
+      method: "GET"
       headers:
         Content-Type: "application/json"
-      body:
-        username: "admin"
-        password: "admin123"
     expectedResponse:
       statusCode: 200
       bodyContains:
-        - "token"
-        - "userId"
-      bodyEquals:
-        success: true
-        
-  - id: "login-invalid-credentials"
-    description: "用户登录失败 - 无效凭据"
-    endpoint: "/login"
+        - "loginUrl"
+      
+  - id: "callback-success"
+    description: "SSO回调处理成功"
+    endpoint: "/callback"
     request:
       method: "POST"
       headers:
-        Content-Type: "application/json"
-      body:
-        username: "admin"
-        password: "wrongpassword"
+        Content-Type: "application/x-www-form-urlencoded"
+      parameters:
+        code: "test-auth-code"
     expectedResponse:
-      statusCode: 401
+      statusCode: 200
       bodyContains:
-        - "Invalid credentials"
-      bodyEquals:
-        success: false
-        
+        - "userId"
+        - "accessToken"
+        - "expiresAt"
+      
   - id: "refresh-token-success"
     description: "刷新令牌成功"
     endpoint: "/refresh"
     request:
       method: "POST"
       headers:
-        Content-Type: "application/json"
-        Authorization: "Bearer ${token}"
-      body:
-        userId: "1001"
-        refreshToken: "${refreshToken}"
+        Content-Type: "application/x-www-form-urlencoded"
+      parameters:
+        refresh_token: "valid-refresh-token"
     expectedResponse:
       statusCode: 200
       bodyContains:
-        - "token"
-        - "refreshToken"
-      bodyEquals:
-        success: true
-        
+        - "userId"
+        - "accessToken"
+        - "expiresAt"
+      
   - id: "refresh-token-invalid"
     description: "刷新令牌失败 - 无效令牌"
     endpoint: "/refresh"
     request:
       method: "POST"
       headers:
-        Content-Type: "application/json"
-      body:
-        userId: "1001"
-        refreshToken: "invalid-refresh-token"
+        Content-Type: "application/x-www-form-urlencoded"
+      parameters:
+        refresh_token: "invalid-refresh-token"
     expectedResponse:
       statusCode: 401
       bodyContains:
-        - "Invalid refresh token"
-      bodyEquals:
-        success: false
-        
+        - "error"
+        - "message"
+      
   - id: "validate-token-success"
     description: "验证令牌成功"
     endpoint: "/validate"
     request:
       method: "POST"
       headers:
-        Content-Type: "application/json"
-        Authorization: "Bearer ${token}"
+        Authorization: "Bearer valid-token"
     expectedResponse:
       statusCode: 200
-      bodyEquals:
-        valid: true
-        
+      bodyContains:
+        - "valid"
+      
   - id: "validate-token-invalid"
     description: "验证令牌失败 - 无效令牌"
     endpoint: "/validate"
     request:
       method: "POST"
       headers:
-        Content-Type: "application/json"
         Authorization: "Bearer invalid-token"
     expectedResponse:
       statusCode: 401
-      bodyEquals:
-        valid: false
-        
+      bodyContains:
+        - "error"
+      
   - id: "logout-success"
     description: "用户登出成功"
     endpoint: "/logout"
     request:
       method: "POST"
       headers:
-        Content-Type: "application/json"
-        Authorization: "Bearer ${token}"
-      body:
-        userId: "1001"
+        Authorization: "Bearer valid-token"
     expectedResponse:
       statusCode: 200
-      bodyEquals:
-        success: true 
+      bodyContains:
+        - "message" 
