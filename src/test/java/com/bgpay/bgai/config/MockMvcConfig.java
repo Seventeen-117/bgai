@@ -118,12 +118,36 @@ public class MockMvcConfig {
         ReflectionTestUtils.setField(authController, "serverPort", 8688);
         ReflectionTestUtils.setField(authController, "serverInitialized", true);
 
+        // mock ReactiveChatController 依赖
+        com.bgpay.bgai.service.deepseek.ReactiveFileProcessor mockFileProcessor = Mockito.mock(com.bgpay.bgai.service.deepseek.ReactiveFileProcessor.class);
+        com.bgpay.bgai.service.ApiConfigService mockApiConfigService = Mockito.mock(com.bgpay.bgai.service.ApiConfigService.class);
+        com.bgpay.bgai.service.deepseek.DeepSeekService mockDeepSeekService = Mockito.mock(com.bgpay.bgai.service.deepseek.DeepSeekService.class);
+        org.springframework.cloud.client.circuitbreaker.ReactiveCircuitBreakerFactory mockCircuitBreakerFactory = Mockito.mock(org.springframework.cloud.client.circuitbreaker.ReactiveCircuitBreakerFactory.class);
+        com.bgpay.bgai.service.impl.FallbackService mockFallbackService = Mockito.mock(com.bgpay.bgai.service.impl.FallbackService.class);
+        com.bgpay.bgai.transaction.TransactionCoordinator mockTransactionCoordinator = Mockito.mock(com.bgpay.bgai.transaction.TransactionCoordinator.class);
+        com.bgpay.bgai.web.RequestAttributesProvider mockAttributesProvider = Mockito.mock(com.bgpay.bgai.web.RequestAttributesProvider.class);
+        // mockUserService, mockApiKeyService 已有
+
+        // 创建真实 ReactiveChatController 实例
+        com.bgpay.bgai.controller.ReactiveChatController reactiveChatController = new com.bgpay.bgai.controller.ReactiveChatController(
+            mockFileProcessor,
+            mockApiConfigService,
+            mockDeepSeekService,
+            mockCircuitBreakerFactory,
+            mockFallbackService,
+            mockTransactionCoordinator,
+            mockAttributesProvider,
+            mockUserService,
+            mockApiKeyService
+        );
+
         return MockMvcBuilders.standaloneSetup(
             authController,
             apiKeyController,
             dynamicRouteController,
             Mockito.mock(SystemConfigController.class),
-            mockUserController
+            mockUserController,
+            reactiveChatController // <--- 新增
         )
         .defaultRequest(MockMvcRequestBuilders.get("/").characterEncoding("UTF-8"))
         .build();

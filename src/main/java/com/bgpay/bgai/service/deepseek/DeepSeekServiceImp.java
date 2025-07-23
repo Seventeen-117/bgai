@@ -57,8 +57,7 @@ import com.bgpay.bgai.service.impl.BGAIServiceImpl;
  * to the DeepSeek API, including content sanitization, request building, retry mechanisms,
  * and asynchronous data saving.
  */
-@Component
-@Service
+@Service("deepSeekService")
 public class DeepSeekServiceImp implements DeepSeekService {
     private static final ObjectMapper mapper = new ObjectMapper()
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);

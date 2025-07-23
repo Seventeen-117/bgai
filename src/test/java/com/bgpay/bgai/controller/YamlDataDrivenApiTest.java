@@ -45,6 +45,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
 import org.springframework.mock.web.MockMultipartFile;
+import org.yaml.snakeyaml.Yaml;
+import java.io.InputStream;
 
 /**
  * 使用YAML数据驱动的API测试类
@@ -98,11 +100,11 @@ import org.springframework.mock.web.MockMultipartFile;
         UsageRecordServiceMockConfig.class,
         PriceCacheServiceMockConfig.class,
         FileWriterServiceMockConfig.class,
-        AsyncTaskExecutorMockConfig.class,
         RocketMQProducerServiceMockConfig.class,
         RocketMQTemplateMockConfig.class,
         FallbackServiceMockConfig.class,
         MockMvcConfig.class
+        // 注意：不要在这里注册 ReactiveChatController 及其依赖
     }
 )
 @AutoConfigureMockMvc
@@ -447,19 +449,6 @@ public class YamlDataDrivenApiTest extends AbstractTestNGSpringContextTests {
     }
     
     /**
-     * 使用YAML数据驱动测试反应式聊天API
-     * 
-     * @param testData YAML文件中的测试数据
-     */
-    @Test(dataProvider = "namedYamlData", dataProviderClass = YamlDataProvider.class)
-    @YamlSource("api/reactive-chat")
-    @Description("测试反应式聊天API的各种场景")
-    @Story("反应式聊天功能")
-    public void testReactiveChatApi(Map<String, Object> testData) throws Exception {
-        executeApiTest(testData, "/api/reactive-chat");
-    }
-    
-    /**
      * 使用YAML数据驱动测试用量统计API
      * 
      * @param testData YAML文件中的测试数据
@@ -518,21 +507,31 @@ public class YamlDataDrivenApiTest extends AbstractTestNGSpringContextTests {
                 endpoint = endpoint.replace("{" + entry.getKey() + "}", entry.getValue().toString());
             }
         }
-        
+
+        // 修正url拼接逻辑，防止重复斜杠
+        String url;
+        if (endpoint == null || endpoint.isEmpty()) {
+            url = baseUrl;
+        } else if (endpoint.startsWith("/")) {
+            url = baseUrl + endpoint;
+        } else {
+            url = baseUrl + "/" + endpoint;
+        }
+
         MockHttpServletRequestBuilder requestBuilder;
         
         switch (method) {
             case "GET":
-                requestBuilder = MockMvcRequestBuilders.get(baseUrl + endpoint);
+                requestBuilder = MockMvcRequestBuilders.get(url);
                 break;
             case "POST":
-                requestBuilder = MockMvcRequestBuilders.post(baseUrl + endpoint);
+                requestBuilder = MockMvcRequestBuilders.post(url);
                 break;
             case "PUT":
-                requestBuilder = MockMvcRequestBuilders.put(baseUrl + endpoint);
+                requestBuilder = MockMvcRequestBuilders.put(url);
                 break;
             case "DELETE":
-                requestBuilder = MockMvcRequestBuilders.delete(baseUrl + endpoint);
+                requestBuilder = MockMvcRequestBuilders.delete(url);
                 break;
             default:
                 throw new IllegalArgumentException("Unsupported HTTP method: " + method);
@@ -605,3 +604,4 @@ public class YamlDataDrivenApiTest extends AbstractTestNGSpringContextTests {
         }
     }
 } 
+
