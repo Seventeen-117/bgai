@@ -39,6 +39,8 @@ import java.util.concurrent.TimeoutException;
 import com.bgpay.bgai.entity.ApiKey;
 import com.bgpay.bgai.service.ApiKeyService;
 
+import java.util.Map;
+
 /**
  * 反应式聊天控制器，处理WebFlux环境下的聊天请求
  */
@@ -357,6 +359,27 @@ public class ReactiveChatController {
                         });
                 });
         });
+    }
+
+    @PostMapping(
+        value = "/chatGatWay-internal",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public Mono<ResponseEntity<ChatResponse>> handleChatRequestJson(
+            @RequestBody(required = false) Map<String, Object> body,
+            ServerWebExchange exchange) {
+        if (body == null) {
+            return Mono.just(errorResponse(400, "请求体不能为空"));
+        }
+        String question = body != null ? (String) body.get("question") : null;
+        String apiKey = body != null && body.get("apiKey") != null ? (String) body.get("apiKey") : exchange.getRequest().getHeaders().getFirst("X-API-Key");
+        String apiUrl = body != null && body.get("apiUrl") != null ? (String) body.get("apiUrl") : "http://mock-api-url";
+        String modelName = body != null ? (String) body.get("modelName") : null;
+        Object multiTurnObj = body != null ? body.get("multiTurn") : null;
+        String multiTurnStr = multiTurnObj != null ? String.valueOf(multiTurnObj) : null;
+        // 复用原有逻辑
+        return handleChatRequest(null, question, apiUrl, apiKey, modelName, multiTurnStr, exchange);
     }
 
     /**

@@ -41,6 +41,7 @@ import org.springframework.context.annotation.Import;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.bgpay.bgai.config.RemoveApiKeyWebFilterPostProcessor;
 import com.bgpay.bgai.config.NacosConfig;
+import com.bgpay.bgai.filter.LogTraceWebFilter;
 
 @WebFluxTest(controllers = ReactiveChatController.class, useDefaultFilters = false)
 @Import({RemoveApiKeyWebFilterPostProcessor.class, RemoveRedisObjectMapperConfig.class})
@@ -83,6 +84,8 @@ public class ReactiveChatControllerYamlWebFluxTest {
     private com.bgpay.bgai.filter.ApiKeyAuthenticationFilter apiKeyAuthenticationFilter;
     @MockBean
     private com.bgpay.bgai.config.NacosConfig nacosConfig;
+    @MockBean
+    private LogTraceWebFilter logTraceWebFilter;
 
     @BeforeEach
     void setupMocks() {
@@ -110,9 +113,26 @@ public class ReactiveChatControllerYamlWebFluxTest {
         });
         // mock DeepSeekService 两个重载
         when(deepSeekService.processRequestReactive(anyString(), anyString(), anyString(), anyString(), anyString(), anyBoolean()))
-                .thenReturn(Mono.just(mockChatResponse()));
+                .thenAnswer(invocation -> {
+                    System.out.println("deepSeekService.processRequestReactive called with: " + java.util.Arrays.toString(invocation.getArguments()));
+                    return Mono.just(mockChatResponse());
+                });
         when(deepSeekService.processRequestReactive(anyMap(), anyString(), anyString(), anyString(), anyString(), anyBoolean()))
-                .thenReturn(Mono.just(mockChatResponse()));
+                .thenAnswer(invocation -> {
+                    System.out.println("deepSeekService.processRequestReactive(Map, ...) called with: " + java.util.Arrays.toString(invocation.getArguments()));
+                    return Mono.just(mockChatResponse());
+                });
+        // mock DeepSeekServiceImp 两个重载
+        when(deepSeekServiceImp.processRequestReactive(anyString(), anyString(), anyString(), anyString(), anyString(), anyBoolean()))
+                .thenAnswer(invocation -> {
+                    System.out.println("deepSeekServiceImp.processRequestReactive called with: " + java.util.Arrays.toString(invocation.getArguments()));
+                    return Mono.just(mockChatResponse());
+                });
+        when(deepSeekServiceImp.processRequestReactive(anyMap(), anyString(), anyString(), anyString(), anyString(), anyBoolean()))
+                .thenAnswer(invocation -> {
+                    System.out.println("deepSeekServiceImp.processRequestReactive(Map, ...) called with: " + java.util.Arrays.toString(invocation.getArguments()));
+                    return Mono.just(mockChatResponse());
+                });
         // mock objectMapper.writeValueAsString 调用真实序列化，避免返回null
         try {
             when(objectMapper.writeValueAsString(any())).thenAnswer(invocation -> {
@@ -122,6 +142,27 @@ public class ReactiveChatControllerYamlWebFluxTest {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        // mock LogTraceWebFilter.filter 返回 Mono.empty()，防止NPE
+        if (logTraceWebFilter != null) {
+            when(logTraceWebFilter.filter(any(), any())).thenReturn(Mono.empty());
+        }
+        // mock userService.validateToken 返回有效UserToken
+        when(userService.validateToken(anyString())).thenReturn(
+            com.bgpay.bgai.entity.UserToken.builder().userId("test-user-id").valid(true).build()
+        );
+        // mock attributesProvider.getUserId 返回 test-user-id
+        when(attributesProvider.getUserId(any())).thenReturn(reactor.core.publisher.Mono.just("test-user-id"));
+        // mock apiConfigService.findMatchingConfig 和 getLatestConfig 返回有效ApiConfig
+        when(apiConfigService.findMatchingConfig(anyString(), anyString(), anyString(), anyString()))
+            .thenReturn(new com.bgpay.bgai.entity.ApiConfig()
+                .setApiUrl("http://mock-api-url")
+                .setApiKey("valid-key")
+                .setModelName("gpt-3.5-turbo"));
+        when(apiConfigService.getLatestConfig(anyString()))
+            .thenReturn(new com.bgpay.bgai.entity.ApiConfig()
+                .setApiUrl("http://mock-api-url")
+                .setApiKey("valid-key")
+                .setModelName("gpt-3.5-turbo"));
     }
 
     private ChatResponse mockChatResponse() {
@@ -148,6 +189,10 @@ public class ReactiveChatControllerYamlWebFluxTest {
 
         String method = request.getOrDefault("method", "POST").toString();
         Map<String, String> headers = (Map<String, String>) request.get("headers");
+        if (headers == null) {
+            headers = new java.util.HashMap<>();
+        }
+        headers.put("X-API-Key", "valid-key");
         Map<String, Object> body = null;
         if (request != null && request.get("body") != null && request.get("body") instanceof Map) {
             body = (Map<String, Object>) request.get("body");
@@ -214,6 +259,8 @@ public class ReactiveChatControllerYamlWebFluxTest {
         List<String> bodyContains = (List<String>) expected.get("bodyContains");
         if (bodyContains != null && !bodyContains.isEmpty()) {
             resp.expectBody(String.class).value(s -> {
+                System.out.println("实际响应体: " + s);
+                assert s != null : "响应体为null，接口可能500或未返回内容";
                 for (String expect : bodyContains) {
                     assert s.contains(expect) : "响应体未包含: " + expect + "\n实际: " + s;
                 }
