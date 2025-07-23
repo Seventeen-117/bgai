@@ -373,6 +373,9 @@ public class ReactiveChatController {
             return Mono.just(errorResponse(400, "请求体不能为空"));
         }
         String question = body != null ? (String) body.get("question") : null;
+        if (question == null || question.trim().isEmpty()) {
+            return Mono.just(errorResponse(400, "Messages are required"));
+        }
         String apiKey = body != null && body.get("apiKey") != null ? (String) body.get("apiKey") : exchange.getRequest().getHeaders().getFirst("X-API-Key");
         String apiUrl = body != null && body.get("apiUrl") != null ? (String) body.get("apiUrl") : "http://mock-api-url";
         String modelName = body != null ? (String) body.get("modelName") : null;

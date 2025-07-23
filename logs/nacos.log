@@ -583,3 +583,798 @@ ip=192.168.86.8
 2025-07-23 22:44:21.319 [NettyClientSelector_1] INFO  RocketmqRemoting - closeChannel: close the connection to remote address[8.133.246.113:9876] result: true
 2025-07-23 22:44:21.342 [SpringContextShutdownHook] INFO  c.bgpay.bgai.service.impl.DynamicRouteServiceImpl - 动态路由服务关闭，执行清理操作
 2025-07-23 22:44:21.343 [SpringContextShutdownHook] INFO  o.s.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-07-23 22:45:26.122 [main] WARN  o.s.b.t.j.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer - 
+
+Found multiple occurrences of org.json.JSONObject on the class path:
+
+	jar:file:/C:/Users/Administrator/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar!/org/json/JSONObject.class
+	jar:file:/C:/Users/Administrator/.m2/repository/org/json/json/20220320/json-20220320.jar!/org/json/JSONObject.class
+
+You may wish to exclude one of them to ensure predictable runtime behavior
+
+2025-07-23 22:45:26.133 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2025-07-23 22:45:26.135 [main] INFO  c.b.b.c.ReactiveChatControllerYamlWebFluxTest - The following 1 profile is active: "dev"
+2025-07-23 22:45:28.839 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'allowedFileTypeMapper' and 'com.bgpay.bgai.mapper.AllowedFileTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:45:28.840 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'apiClientMapper' and 'com.bgpay.bgai.mapper.ApiClientMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:45:28.840 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'apiConfigMapper' and 'com.bgpay.bgai.mapper.ApiConfigMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:45:28.840 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'apiKeyMapper' and 'com.bgpay.bgai.mapper.ApiKeyMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:45:28.840 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'chatCompletionsMapper' and 'com.bgpay.bgai.mapper.ChatCompletionsMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:45:28.840 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'choicesMapper' and 'com.bgpay.bgai.mapper.ChoicesMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:45:28.840 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'fileTypeMapper' and 'com.bgpay.bgai.mapper.FileTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:45:28.840 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'priceConfigMapper' and 'com.bgpay.bgai.mapper.PriceConfigMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:45:28.840 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'priceVersionMapper' and 'com.bgpay.bgai.mapper.PriceVersionMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:45:28.840 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'transactionLogMapper' and 'com.bgpay.bgai.mapper.TransactionLogMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:45:28.840 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'usageInfoMapper' and 'com.bgpay.bgai.mapper.UsageInfoMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:45:28.840 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'usageRecordMapper' and 'com.bgpay.bgai.mapper.UsageRecordMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:45:28.840 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userMapper' and 'com.bgpay.bgai.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:45:28.841 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.bgpay.bgai.mapper]' package. Please check your configuration.
+2025-07-23 22:45:28.842 [main] WARN  o.s.c.annotation.ConfigurationClassPostProcessor - Cannot enhance @Configuration bean definition 'gatewayBeanFactoryPostProcessor' since its singleton instance has been created too early. The typical cause is a non-static @Bean method with a BeanDefinitionRegistryPostProcessor return type: Consider declaring such methods as 'static' and/or marking the containing configuration class as 'proxyBeanMethods=false'.
+2025-07-23 22:45:34.479 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'unifiedEnvironmentConfig' of type [com.bgpay.bgai.config.UnifiedEnvironmentConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [methodValidationPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-07-23 22:45:34.481 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'environment' of type [org.springframework.core.env.StandardEnvironment] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [methodValidationPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-07-23 22:45:35.252 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'messageConverterConfiguration' of type [org.apache.rocketmq.spring.autoconfigure.MessageConverterConfiguration$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [org.apache.rocketmq.spring.annotation.RocketMQMessageListenerBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-07-23 22:45:35.355 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'createRocketMQMessageConverter' of type [org.apache.rocketmq.spring.support.RocketMQMessageConverter] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [org.apache.rocketmq.spring.annotation.RocketMQMessageListenerBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-07-23 22:45:35.388 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'rocketmq-org.apache.rocketmq.spring.autoconfigure.RocketMQProperties' of type [org.apache.rocketmq.spring.autoconfigure.RocketMQProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [org.apache.rocketmq.spring.annotation.RocketMQMessageListenerBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-07-23 22:45:35.394 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'listenerContainerConfiguration' of type [org.apache.rocketmq.spring.autoconfigure.ListenerContainerConfiguration$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [org.apache.rocketmq.spring.annotation.RocketMQMessageListenerBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-07-23 22:45:35.406 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'testBeanPostProcessor' of type [com.bgpay.bgai.config.TestBeanPostProcessor$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [bgaiServiceImplInjector] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2025-07-23 22:45:35.772 [main] INFO  com.bgpay.bgai.config.SeataDisableConfiguration - SeataDisableConfiguration已加载，Seata在测试环境中被禁用
+2025-07-23 22:45:35.773 [main] INFO  com.bgpay.bgai.config.SeataDisableConfiguration - 设置系统属性: seata.enabled=false, saga.enabled=false
+2025-07-23 22:45:36.076 [main] INFO  com.bgpay.bgai.config.NacosRouteConfigListener - 初始化Nacos路由配置监听器
+2025-07-23 22:45:36.079 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
+2025-07-23 22:45:36.079 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
+2025-07-23 22:45:36.080 [main] INFO  com.alibaba.nacos.common.remote.client - [RpcClientFactory] create a new rpc client of 529667ad-a9b6-42a5-a4f2-d896f6f61705_config-0
+2025-07-23 22:45:36.080 [main] INFO  com.alibaba.nacos.common.remote.client - [529667ad-a9b6-42a5-a4f2-d896f6f61705_config-0] Register server push request handler:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$$Lambda/0x00000166a14fc260
+2025-07-23 22:45:36.081 [main] INFO  com.alibaba.nacos.common.remote.client - [529667ad-a9b6-42a5-a4f2-d896f6f61705_config-0] Register server push request handler:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$$Lambda/0x00000166a14fc670
+2025-07-23 22:45:36.081 [main] INFO  com.alibaba.nacos.common.remote.client - [529667ad-a9b6-42a5-a4f2-d896f6f61705_config-0] Registry connection listener to current client:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$1
+2025-07-23 22:45:36.081 [main] INFO  com.alibaba.nacos.common.remote.client - [529667ad-a9b6-42a5-a4f2-d896f6f61705_config-0] RpcClient init, ServerListFactory = com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$2
+2025-07-23 22:45:36.082 [main] INFO  com.alibaba.nacos.common.remote.client - [529667ad-a9b6-42a5-a4f2-d896f6f61705_config-0] Try to connect to server on start up, server: {serverIp = '8.133.246.113', server main port = 8848}
+2025-07-23 22:45:36.082 [main] INFO  c.a.nacos.common.remote.client.grpc.GrpcClient - grpc client connection server:8.133.246.113 ip,serverPort:9848,grpcTslConfig:{"sslProvider":"OPENSSL","enableTls":false,"mutualAuthEnable":false,"trustAll":false}
+2025-07-23 22:45:36.220 [main] INFO  com.alibaba.nacos.common.remote.client - [529667ad-a9b6-42a5-a4f2-d896f6f61705_config-0] Success to connect to server [8.133.246.113:8848] on start up, connectionId = 1753281936390_139.226.176.13_22319
+2025-07-23 22:45:36.220 [main] INFO  com.alibaba.nacos.common.remote.client - [529667ad-a9b6-42a5-a4f2-d896f6f61705_config-0] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$ConnectResetRequestHandler
+2025-07-23 22:45:36.220 [main] INFO  com.alibaba.nacos.common.remote.client - [529667ad-a9b6-42a5-a4f2-d896f6f61705_config-0] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$$Lambda/0x00000166a164ec00
+2025-07-23 22:45:36.220 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.common.remote.client - [529667ad-a9b6-42a5-a4f2-d896f6f61705_config-0] Notify connected event to listeners.
+2025-07-23 22:45:36.220 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [529667ad-a9b6-42a5-a4f2-d896f6f61705_config-0] Connected,notify listen context...
+2025-07-23 22:45:36.231 [main] WARN  com.bgpay.bgai.config.NacosRouteConfigListener - Nacos中未找到路由配置数据
+2025-07-23 22:45:36.236 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - nacos.cache.data.init.snapshot = true 
+2025-07-23 22:45:36.237 [main] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [subscribe] gateway-routes+DEFAULT_GROUP+d750d92e-152f-4055-a641-3bc9dda85a29
+2025-07-23 22:45:36.250 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [add-listener] ok, tenant=d750d92e-152f-4055-a641-3bc9dda85a29, dataId=gateway-routes, group=DEFAULT_GROUP, cnt=1
+2025-07-23 22:45:36.255 [main] INFO  c.bgpay.bgai.config.NacosRouteDefinitionRepository - 初始化Nacos路由定义存储库
+2025-07-23 22:45:36.257 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
+2025-07-23 22:45:36.258 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
+2025-07-23 22:45:36.259 [main] INFO  com.alibaba.nacos.common.remote.client - [RpcClientFactory] create a new rpc client of adc6cce3-2a52-4f8a-ac19-736b0154b73a_config-0
+2025-07-23 22:45:36.260 [main] INFO  com.alibaba.nacos.common.remote.client - [adc6cce3-2a52-4f8a-ac19-736b0154b73a_config-0] Register server push request handler:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$$Lambda/0x00000166a14fc260
+2025-07-23 22:45:36.260 [main] INFO  com.alibaba.nacos.common.remote.client - [adc6cce3-2a52-4f8a-ac19-736b0154b73a_config-0] Register server push request handler:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$$Lambda/0x00000166a14fc670
+2025-07-23 22:45:36.260 [main] INFO  com.alibaba.nacos.common.remote.client - [adc6cce3-2a52-4f8a-ac19-736b0154b73a_config-0] Registry connection listener to current client:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$1
+2025-07-23 22:45:36.260 [main] INFO  com.alibaba.nacos.common.remote.client - [adc6cce3-2a52-4f8a-ac19-736b0154b73a_config-0] RpcClient init, ServerListFactory = com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$2
+2025-07-23 22:45:36.261 [main] INFO  com.alibaba.nacos.common.remote.client - [adc6cce3-2a52-4f8a-ac19-736b0154b73a_config-0] Try to connect to server on start up, server: {serverIp = '8.133.246.113', server main port = 8848}
+2025-07-23 22:45:36.261 [main] INFO  c.a.nacos.common.remote.client.grpc.GrpcClient - grpc client connection server:8.133.246.113 ip,serverPort:9848,grpcTslConfig:{"sslProvider":"OPENSSL","enableTls":false,"mutualAuthEnable":false,"trustAll":false}
+2025-07-23 22:45:36.404 [main] INFO  com.alibaba.nacos.common.remote.client - [adc6cce3-2a52-4f8a-ac19-736b0154b73a_config-0] Success to connect to server [8.133.246.113:8848] on start up, connectionId = 1753281936573_139.226.176.13_22320
+2025-07-23 22:45:36.405 [main] INFO  com.alibaba.nacos.common.remote.client - [adc6cce3-2a52-4f8a-ac19-736b0154b73a_config-0] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$ConnectResetRequestHandler
+2025-07-23 22:45:36.405 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.common.remote.client - [adc6cce3-2a52-4f8a-ac19-736b0154b73a_config-0] Notify connected event to listeners.
+2025-07-23 22:45:36.405 [main] INFO  com.alibaba.nacos.common.remote.client - [adc6cce3-2a52-4f8a-ac19-736b0154b73a_config-0] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$$Lambda/0x00000166a164ec00
+2025-07-23 22:45:36.405 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [adc6cce3-2a52-4f8a-ac19-736b0154b73a_config-0] Connected,notify listen context...
+2025-07-23 22:45:36.435 [main] WARN  c.bgpay.bgai.config.NacosRouteDefinitionRepository - Nacos中未找到路由定义配置
+2025-07-23 22:45:36.438 [main] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [subscribe] gateway-routes+DEFAULT_GROUP+d750d92e-152f-4055-a641-3bc9dda85a29
+2025-07-23 22:45:36.438 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [add-listener] ok, tenant=d750d92e-152f-4055-a641-3bc9dda85a29, dataId=gateway-routes, group=DEFAULT_GROUP, cnt=1
+2025-07-23 22:45:37.065 [main] INFO  com.bgpay.bgai.config.RestTemplateConfig - Creating RestTemplate bean using SimpleClientHttpRequestFactory
+2025-07-23 22:45:37.255 [main] INFO  com.bgpay.bgai.seata.SeataTransactionListener - Seata事务监听器初始化
+2025-07-23 22:45:37.255 [main] INFO  com.bgpay.bgai.seata.SeataTransactionListener - 已设置seata.saga.state-machine.auto-register=false，防止状态机重复注册
+2025-07-23 22:45:37.915 [main] INFO  c.bgpay.bgai.service.impl.DynamicRouteServiceImpl - 初始化动态路由服务
+2025-07-23 22:45:37.917 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
+2025-07-23 22:45:37.917 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
+2025-07-23 22:45:37.919 [main] INFO  com.alibaba.nacos.common.remote.client - [RpcClientFactory] create a new rpc client of d5628e89-c930-47a4-9151-42925fcc5801_config-0
+2025-07-23 22:45:37.920 [main] INFO  com.alibaba.nacos.common.remote.client - [d5628e89-c930-47a4-9151-42925fcc5801_config-0] Register server push request handler:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$$Lambda/0x00000166a14fc260
+2025-07-23 22:45:37.920 [main] INFO  com.alibaba.nacos.common.remote.client - [d5628e89-c930-47a4-9151-42925fcc5801_config-0] Register server push request handler:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$$Lambda/0x00000166a14fc670
+2025-07-23 22:45:37.920 [main] INFO  com.alibaba.nacos.common.remote.client - [d5628e89-c930-47a4-9151-42925fcc5801_config-0] Registry connection listener to current client:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$1
+2025-07-23 22:45:37.920 [main] INFO  com.alibaba.nacos.common.remote.client - [d5628e89-c930-47a4-9151-42925fcc5801_config-0] RpcClient init, ServerListFactory = com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$2
+2025-07-23 22:45:37.921 [main] INFO  com.alibaba.nacos.common.remote.client - [d5628e89-c930-47a4-9151-42925fcc5801_config-0] Try to connect to server on start up, server: {serverIp = '8.133.246.113', server main port = 8848}
+2025-07-23 22:45:37.921 [main] INFO  c.a.nacos.common.remote.client.grpc.GrpcClient - grpc client connection server:8.133.246.113 ip,serverPort:9848,grpcTslConfig:{"sslProvider":"OPENSSL","enableTls":false,"mutualAuthEnable":false,"trustAll":false}
+2025-07-23 22:45:38.058 [main] INFO  com.alibaba.nacos.common.remote.client - [d5628e89-c930-47a4-9151-42925fcc5801_config-0] Success to connect to server [8.133.246.113:8848] on start up, connectionId = 1753281938229_139.226.176.13_22321
+2025-07-23 22:45:38.058 [main] INFO  com.alibaba.nacos.common.remote.client - [d5628e89-c930-47a4-9151-42925fcc5801_config-0] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$ConnectResetRequestHandler
+2025-07-23 22:45:38.058 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.common.remote.client - [d5628e89-c930-47a4-9151-42925fcc5801_config-0] Notify connected event to listeners.
+2025-07-23 22:45:38.058 [main] INFO  com.alibaba.nacos.common.remote.client - [d5628e89-c930-47a4-9151-42925fcc5801_config-0] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$$Lambda/0x00000166a164ec00
+2025-07-23 22:45:38.058 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [d5628e89-c930-47a4-9151-42925fcc5801_config-0] Connected,notify listen context...
+2025-07-23 22:45:38.069 [main] WARN  c.bgpay.bgai.service.impl.DynamicRouteServiceImpl - Nacos中没有找到路由配置，使用默认配置
+2025-07-23 22:45:38.070 [main] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [subscribe] gateway-routes+DEFAULT_GROUP+d750d92e-152f-4055-a641-3bc9dda85a29
+2025-07-23 22:45:38.070 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [add-listener] ok, tenant=d750d92e-152f-4055-a641-3bc9dda85a29, dataId=gateway-routes, group=DEFAULT_GROUP, cnt=1
+2025-07-23 22:45:38.070 [main] INFO  c.bgpay.bgai.service.impl.DynamicRouteServiceImpl - 注册Nacos配置监听器成功
+2025-07-23 22:45:39.449 [main] INFO  o.a.r.s.autoconfigure.RocketMQAutoConfiguration - a producer (billing-producer-group) init on namesrv 8.133.246.113:9876
+2025-07-23 22:45:42.309 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2025-07-23 22:45:42.858 [main] INFO  io.seata.config.ConfigurationFactory - load Configuration from :Spring Configuration
+2025-07-23 22:45:42.884 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
+2025-07-23 22:45:42.885 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
+2025-07-23 22:45:42.886 [main] INFO  com.alibaba.nacos.common.remote.client - [RpcClientFactory] create a new rpc client of cdabec5a-e30b-4a29-b857-19fbdc666683_config-0
+2025-07-23 22:45:42.886 [main] INFO  com.alibaba.nacos.common.remote.client - [cdabec5a-e30b-4a29-b857-19fbdc666683_config-0] Register server push request handler:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$$Lambda/0x00000166a14fc260
+2025-07-23 22:45:42.886 [main] INFO  com.alibaba.nacos.common.remote.client - [cdabec5a-e30b-4a29-b857-19fbdc666683_config-0] Register server push request handler:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$$Lambda/0x00000166a14fc670
+2025-07-23 22:45:42.886 [main] INFO  com.alibaba.nacos.common.remote.client - [cdabec5a-e30b-4a29-b857-19fbdc666683_config-0] Registry connection listener to current client:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$1
+2025-07-23 22:45:42.886 [main] INFO  com.alibaba.nacos.common.remote.client - [cdabec5a-e30b-4a29-b857-19fbdc666683_config-0] RpcClient init, ServerListFactory = com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$2
+2025-07-23 22:45:42.887 [main] INFO  com.alibaba.nacos.common.remote.client - [cdabec5a-e30b-4a29-b857-19fbdc666683_config-0] Try to connect to server on start up, server: {serverIp = '8.133.246.113', server main port = 8848}
+2025-07-23 22:45:42.888 [main] INFO  c.a.nacos.common.remote.client.grpc.GrpcClient - grpc client connection server:8.133.246.113 ip,serverPort:9848,grpcTslConfig:{"sslProvider":"OPENSSL","enableTls":false,"mutualAuthEnable":false,"trustAll":false}
+2025-07-23 22:45:43.044 [main] INFO  com.alibaba.nacos.common.remote.client - [cdabec5a-e30b-4a29-b857-19fbdc666683_config-0] Success to connect to server [8.133.246.113:8848] on start up, connectionId = 1753281943202_139.226.176.13_22335
+2025-07-23 22:45:43.044 [main] INFO  com.alibaba.nacos.common.remote.client - [cdabec5a-e30b-4a29-b857-19fbdc666683_config-0] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$ConnectResetRequestHandler
+2025-07-23 22:45:43.044 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.common.remote.client - [cdabec5a-e30b-4a29-b857-19fbdc666683_config-0] Notify connected event to listeners.
+2025-07-23 22:45:43.045 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [cdabec5a-e30b-4a29-b857-19fbdc666683_config-0] Connected,notify listen context...
+2025-07-23 22:45:43.045 [main] INFO  com.alibaba.nacos.common.remote.client - [cdabec5a-e30b-4a29-b857-19fbdc666683_config-0] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$$Lambda/0x00000166a164ec00
+2025-07-23 22:45:43.095 [main] INFO  io.seata.rm.datasource.AsyncWorker - Async Commit Buffer Limit: 10000
+2025-07-23 22:45:43.097 [main] INFO  io.seata.rm.datasource.xa.ResourceManagerXA - ResourceManagerXA init ...
+2025-07-23 22:45:43.351 [main] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [subscribe] transport.enableRmClientBatchSendRequest+SEATA_GROUP+d750d92e-152f-4055-a641-3bc9dda85a29
+2025-07-23 22:45:43.351 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [add-listener] ok, tenant=d750d92e-152f-4055-a641-3bc9dda85a29, dataId=transport.enableRmClientBatchSendRequest, group=SEATA_GROUP, cnt=1
+2025-07-23 22:45:43.351 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [add-listener] ok, tenant=d750d92e-152f-4055-a641-3bc9dda85a29, dataId=transport.enableRmClientBatchSendRequest, group=SEATA_GROUP, cnt=2
+2025-07-23 22:45:43.396 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-2} inited
+2025-07-23 22:45:43.509 [main] INFO  com.bgpay.bgai.service.deepseek.ConfigLoader - 配置文件 deepseek-config.properties 加载成功
+2025-07-23 22:45:45.979 [main] INFO  org.springframework.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2025-07-23 22:45:45.980 [main] INFO  o.s.test.web.servlet.TestDispatcherServlet - Initializing Servlet ''
+2025-07-23 22:45:45.984 [main] INFO  o.s.test.web.servlet.TestDispatcherServlet - Completed initialization in 3 ms
+2025-07-23 22:45:45.992 [main] INFO  com.bgpay.bgai.controller.AuthController - 初始化认证控制器: clientId=bgai-client-id, 配置的端口=8688
+2025-07-23 22:45:45.992 [main] INFO  com.bgpay.bgai.controller.AuthController - 根据实际端口生成redirectUri: http://localhost:8688/api/auth/callback
+2025-07-23 22:45:45.992 [main] INFO  com.bgpay.bgai.controller.AuthController - 认证控制器URL配置已更新: redirectUri=http://localhost:8688/api/auth/callback, 系统实际运行端口=8688
+2025-07-23 22:45:47.691 [main] INFO  org.redisson.Version - Redisson 3.24.3
+2025-07-23 22:45:48.021 [redisson-netty-2-8] INFO  o.r.connection.pool.MasterPubSubConnectionPool - 1 connections initialized for 8.133.246.113/8.133.246.113:6379
+2025-07-23 22:45:48.051 [redisson-netty-2-11] INFO  org.redisson.connection.pool.MasterConnectionPool - 4 connections initialized for 8.133.246.113/8.133.246.113:6379
+2025-07-23 22:45:48.324 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - 加载到2个Saga状态机定义文件
+2025-07-23 22:45:48.329 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - 成功加载状态机定义: /E:/project/bgai/target/classes/statelang/bgai-saga-transaction.json
+2025-07-23 22:45:48.331 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - 成功加载状态机定义: /E:/project/bgai/target/classes/statelang/chat_completion_saga.json
+2025-07-23 22:45:48.331 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - 已设置saga.state-machine.auto-register=false，防止状态机重复注册
+2025-07-23 22:45:48.668 [main] INFO  c.b.b.controller.ServiceDiscoveryExampleController - ServiceDiscoveryExampleController initialized with: serviceDiscoveryUtils=available, loadBalancedWebClient=not available, loadBalancedRestTemplate=available, restTemplate=available
+2025-07-23 22:45:49.433 [main] DEBUG com.bgpay.bgai.config.AsyncConfig$1 - Initializing ExecutorService 'blockingExecutor'
+2025-07-23 22:45:49.586 [main] INFO  com.bgpay.bgai.seata.SeataAuthConfig - Seata Saga配置加载
+2025-07-23 22:45:49.586 [main] INFO  com.bgpay.bgai.seata.SeataAuthConfig - 状态机自动注册设置: 禁用
+2025-07-23 22:45:49.586 [main] INFO  com.bgpay.bgai.seata.SeataAuthConfig - 状态机自动注册已禁用，这将防止重复注册错误
+2025-07-23 22:45:50.731 [main] INFO  o.s.scheduling.config.TaskSchedulerRouter - No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2025-07-23 22:45:50.740 [main] INFO  c.b.b.c.ReactiveChatControllerYamlWebFluxTest - Started ReactiveChatControllerYamlWebFluxTest in 27.998 seconds (process running for 57.882)
+2025-07-23 22:45:50.743 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - ==================== Saga状态机加载报告 ====================
+2025-07-23 22:45:50.743 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - Saga状态机配置加载状态: 成功
+2025-07-23 22:45:50.743 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - 已加载的状态机定义文件数量: 2
+2025-07-23 22:45:50.744 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - 已加载的状态机定义文件:
+2025-07-23 22:45:50.744 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig -  - /E:/project/bgai/target/classes/statelang/bgai-saga-transaction.json
+2025-07-23 22:45:50.744 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig -  - /E:/project/bgai/target/classes/statelang/chat_completion_saga.json
+2025-07-23 22:45:50.744 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - Saga解析器状态: Mock JSON Parser
+2025-07-23 22:45:50.745 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - Mock parsing results
+2025-07-23 22:45:50.745 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - 状态机自动注册已禁用(saga.state-machine.auto-register=false)，避免重复注册错误
+2025-07-23 22:45:50.745 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - =============================================================
+2025-07-23 22:45:50.746 [main] INFO  com.bgpay.bgai.seata.SeataTransactionListener - 应用程序已就绪，Seata事务监听器激活
+2025-07-23 22:45:50.746 [main] INFO  com.bgpay.bgai.seata.SeataTransactionListener - Seata配置信息:
+2025-07-23 22:45:50.746 [main] INFO  com.bgpay.bgai.seata.SeataTransactionListener -  - seata.saga.state-machine.auto-register: false
+2025-07-23 22:45:50.746 [main] INFO  com.bgpay.bgai.seata.SeataTransactionListener -  - seata.enabled: false
+2025-07-23 22:45:50.746 [main] INFO  com.bgpay.bgai.seata.SeataTransactionListener -  - saga.enabled: false
+2025-07-23 22:45:50.996 [main] ERROR o.s.test.web.reactive.server.ExchangeResult - Request details for assertion failure:
+
+> POST /api/chatGatWay-internal
+> WebTestClient-Request-Id: [1]
+> Content-Type: [application/json, application/json]
+> X-API-Key: [valid-key]
+> Content-Length: [79]
+
+{"question":"Hello, how are you?","modelName":"gpt-3.5-turbo","multiTurn":true}
+
+< 200 OK OK
+< 
+
+0 bytes of content (unknown content-type).
+
+2025-07-23 22:45:51.050 [main] ERROR o.s.test.web.reactive.server.ExchangeResult - Request details for assertion failure:
+
+> POST /api/chatGatWay-internal
+> WebTestClient-Request-Id: [2]
+> Content-Type: [application/json, application/json]
+> X-API-Key: [valid-key]
+> Content-Length: [169]
+
+{"question":"Hello, how are you?\nI'm doing well, thank you for asking. How can I help you today?\nTell me about yourself.","modelName":"gpt-3.5-turbo","multiTurn":true}
+
+< 200 OK OK
+< 
+
+0 bytes of content (unknown content-type).
+
+2025-07-23 22:45:51.077 [main] ERROR o.s.test.web.reactive.server.ExchangeResult - Request details for assertion failure:
+
+> POST /api/chatGatWay-internal
+> WebTestClient-Request-Id: [3]
+> Content-Type: [application/json, application/json]
+> X-API-Key: [valid-key]
+> Content-Length: [79]
+
+{"question":"Hello, how are you?","modelName":"invalid-model","multiTurn":true}
+
+< 200 OK OK
+< 
+
+0 bytes of content (unknown content-type).
+
+2025-07-23 22:45:51.103 [main] ERROR o.s.test.web.reactive.server.ExchangeResult - Request details for assertion failure:
+
+> POST /api/chatGatWay-internal
+> WebTestClient-Request-Id: [4]
+> Content-Type: [application/json, application/json]
+> X-API-Key: [valid-key]
+> Content-Length: [46]
+
+{"modelName":"gpt-3.5-turbo","multiTurn":true}
+
+< 200 OK OK
+< 
+
+0 bytes of content (unknown content-type).
+
+2025-07-23 22:45:51.129 [main] ERROR o.s.test.web.reactive.server.ExchangeResult - Request details for assertion failure:
+
+> POST /api/chatGatWay-internal
+> WebTestClient-Request-Id: [5]
+> Content-Type: [application/json, application/json]
+> X-API-Key: [valid-key]
+> Content-Length: [79]
+
+{"question":"Hello, how are you?","modelName":"gpt-3.5-turbo","multiTurn":true}
+
+< 200 OK OK
+< 
+
+0 bytes of content (unknown content-type).
+
+2025-07-23 22:45:51.151 [main] ERROR o.s.test.web.reactive.server.ExchangeResult - Request details for assertion failure:
+
+> POST /api/chatGatWay-internal
+> WebTestClient-Request-Id: [6]
+> Content-Type: [application/json, application/json]
+> X-API-Key: [valid-key]
+> Content-Length: [93]
+
+{"question":"Hello, how are you?","modelName":"gpt-3.5-turbo","multiTurn":true,"stream":true}
+
+< 200 OK OK
+< 
+
+0 bytes of content (unknown content-type).
+
+2025-07-23 22:45:51.224 [main] ERROR o.s.test.web.reactive.server.ExchangeResult - Request details for assertion failure:
+
+> POST /api/chatGatWay-internal
+> WebTestClient-Request-Id: [7]
+> Content-Type: [multipart/form-data;boundary=I3ZS3AJ-ZOLK7jOXMsmytw5Zx8KSPRz]
+> X-API-Key: [valid-key]
+
+576 bytes of content.
+
+< 200 OK OK
+< 
+
+0 bytes of content (unknown content-type).
+
+2025-07-23 22:45:51.239 [Thread-7] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Start destroying Publisher
+2025-07-23 22:45:51.240 [Thread-7] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Destruction of the end
+2025-07-23 22:45:51.239 [Thread-1] WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Start destroying common HttpClient
+2025-07-23 22:45:51.241 [Thread-1] WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Destruction of the end
+2025-07-23 22:45:51.266 [SpringApplicationShutdownHook] DEBUG com.bgpay.bgai.config.AsyncConfig$1 - Shutting down ExecutorService 'blockingExecutor'
+2025-07-23 22:45:51.334 [NettyClientSelector_1] INFO  RocketmqRemoting - closeChannel: close the connection to remote address[8.133.246.113:10911] result: true
+2025-07-23 22:45:51.334 [NettyClientSelector_1] INFO  RocketmqRemoting - closeChannel: close the connection to remote address[8.133.246.113:9876] result: true
+2025-07-23 22:45:51.337 [SpringApplicationShutdownHook] INFO  c.bgpay.bgai.service.impl.DynamicRouteServiceImpl - 动态路由服务关闭，执行清理操作
+2025-07-23 22:47:31.722 [main] WARN  o.s.b.t.j.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer - 
+
+Found multiple occurrences of org.json.JSONObject on the class path:
+
+	jar:file:/C:/Users/Administrator/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar!/org/json/JSONObject.class
+	jar:file:/C:/Users/Administrator/.m2/repository/org/json/json/20220320/json-20220320.jar!/org/json/JSONObject.class
+
+You may wish to exclude one of them to ensure predictable runtime behavior
+
+2025-07-23 22:47:31.731 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2025-07-23 22:47:31.733 [main] INFO  c.b.b.c.ReactiveChatControllerYamlWebFluxTest - The following 1 profile is active: "dev"
+2025-07-23 22:47:34.128 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'allowedFileTypeMapper' and 'com.bgpay.bgai.mapper.AllowedFileTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:47:34.128 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'apiClientMapper' and 'com.bgpay.bgai.mapper.ApiClientMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:47:34.128 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'apiConfigMapper' and 'com.bgpay.bgai.mapper.ApiConfigMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:47:34.128 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'apiKeyMapper' and 'com.bgpay.bgai.mapper.ApiKeyMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:47:34.128 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'chatCompletionsMapper' and 'com.bgpay.bgai.mapper.ChatCompletionsMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:47:34.128 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'choicesMapper' and 'com.bgpay.bgai.mapper.ChoicesMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:47:34.129 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'fileTypeMapper' and 'com.bgpay.bgai.mapper.FileTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:47:34.129 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'priceConfigMapper' and 'com.bgpay.bgai.mapper.PriceConfigMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:47:34.129 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'priceVersionMapper' and 'com.bgpay.bgai.mapper.PriceVersionMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:47:34.129 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'transactionLogMapper' and 'com.bgpay.bgai.mapper.TransactionLogMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:47:34.129 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'usageInfoMapper' and 'com.bgpay.bgai.mapper.UsageInfoMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:47:34.129 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'usageRecordMapper' and 'com.bgpay.bgai.mapper.UsageRecordMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:47:34.129 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userMapper' and 'com.bgpay.bgai.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:47:34.130 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.bgpay.bgai.mapper]' package. Please check your configuration.
+2025-07-23 22:47:34.131 [main] WARN  o.s.c.annotation.ConfigurationClassPostProcessor - Cannot enhance @Configuration bean definition 'gatewayBeanFactoryPostProcessor' since its singleton instance has been created too early. The typical cause is a non-static @Bean method with a BeanDefinitionRegistryPostProcessor return type: Consider declaring such methods as 'static' and/or marking the containing configuration class as 'proxyBeanMethods=false'.
+2025-07-23 22:47:39.477 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'unifiedEnvironmentConfig' of type [com.bgpay.bgai.config.UnifiedEnvironmentConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [methodValidationPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-07-23 22:47:39.479 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'environment' of type [org.springframework.core.env.StandardEnvironment] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [methodValidationPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-07-23 22:47:40.247 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'messageConverterConfiguration' of type [org.apache.rocketmq.spring.autoconfigure.MessageConverterConfiguration$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [org.apache.rocketmq.spring.annotation.RocketMQMessageListenerBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-07-23 22:47:40.344 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'createRocketMQMessageConverter' of type [org.apache.rocketmq.spring.support.RocketMQMessageConverter] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [org.apache.rocketmq.spring.annotation.RocketMQMessageListenerBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-07-23 22:47:40.374 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'rocketmq-org.apache.rocketmq.spring.autoconfigure.RocketMQProperties' of type [org.apache.rocketmq.spring.autoconfigure.RocketMQProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [org.apache.rocketmq.spring.annotation.RocketMQMessageListenerBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-07-23 22:47:40.379 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'listenerContainerConfiguration' of type [org.apache.rocketmq.spring.autoconfigure.ListenerContainerConfiguration$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [org.apache.rocketmq.spring.annotation.RocketMQMessageListenerBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-07-23 22:47:40.388 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'testBeanPostProcessor' of type [com.bgpay.bgai.config.TestBeanPostProcessor$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [bgaiServiceImplInjector] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2025-07-23 22:47:40.746 [main] INFO  com.bgpay.bgai.config.SeataDisableConfiguration - SeataDisableConfiguration已加载，Seata在测试环境中被禁用
+2025-07-23 22:47:40.746 [main] INFO  com.bgpay.bgai.config.SeataDisableConfiguration - 设置系统属性: seata.enabled=false, saga.enabled=false
+2025-07-23 22:47:41.072 [main] INFO  com.bgpay.bgai.config.NacosRouteConfigListener - 初始化Nacos路由配置监听器
+2025-07-23 22:47:41.075 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
+2025-07-23 22:47:41.075 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
+2025-07-23 22:47:41.076 [main] INFO  com.alibaba.nacos.common.remote.client - [RpcClientFactory] create a new rpc client of f981b371-2193-48c3-be0b-b269ae474794_config-0
+2025-07-23 22:47:41.077 [main] INFO  com.alibaba.nacos.common.remote.client - [f981b371-2193-48c3-be0b-b269ae474794_config-0] Register server push request handler:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$$Lambda/0x0000015f014fae40
+2025-07-23 22:47:41.077 [main] INFO  com.alibaba.nacos.common.remote.client - [f981b371-2193-48c3-be0b-b269ae474794_config-0] Register server push request handler:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$$Lambda/0x0000015f014fb250
+2025-07-23 22:47:41.077 [main] INFO  com.alibaba.nacos.common.remote.client - [f981b371-2193-48c3-be0b-b269ae474794_config-0] Registry connection listener to current client:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$1
+2025-07-23 22:47:41.077 [main] INFO  com.alibaba.nacos.common.remote.client - [f981b371-2193-48c3-be0b-b269ae474794_config-0] RpcClient init, ServerListFactory = com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$2
+2025-07-23 22:47:41.078 [main] INFO  com.alibaba.nacos.common.remote.client - [f981b371-2193-48c3-be0b-b269ae474794_config-0] Try to connect to server on start up, server: {serverIp = '8.133.246.113', server main port = 8848}
+2025-07-23 22:47:41.079 [main] INFO  c.a.nacos.common.remote.client.grpc.GrpcClient - grpc client connection server:8.133.246.113 ip,serverPort:9848,grpcTslConfig:{"sslProvider":"OPENSSL","enableTls":false,"mutualAuthEnable":false,"trustAll":false}
+2025-07-23 22:47:41.230 [main] INFO  com.alibaba.nacos.common.remote.client - [f981b371-2193-48c3-be0b-b269ae474794_config-0] Success to connect to server [8.133.246.113:8848] on start up, connectionId = 1753282061403_139.226.176.13_22844
+2025-07-23 22:47:41.230 [main] INFO  com.alibaba.nacos.common.remote.client - [f981b371-2193-48c3-be0b-b269ae474794_config-0] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$ConnectResetRequestHandler
+2025-07-23 22:47:41.230 [main] INFO  com.alibaba.nacos.common.remote.client - [f981b371-2193-48c3-be0b-b269ae474794_config-0] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$$Lambda/0x0000015f0165da70
+2025-07-23 22:47:41.230 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.common.remote.client - [f981b371-2193-48c3-be0b-b269ae474794_config-0] Notify connected event to listeners.
+2025-07-23 22:47:41.230 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [f981b371-2193-48c3-be0b-b269ae474794_config-0] Connected,notify listen context...
+2025-07-23 22:47:41.245 [main] WARN  com.bgpay.bgai.config.NacosRouteConfigListener - Nacos中未找到路由配置数据
+2025-07-23 22:47:41.250 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - nacos.cache.data.init.snapshot = true 
+2025-07-23 22:47:41.251 [main] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [subscribe] gateway-routes+DEFAULT_GROUP+d750d92e-152f-4055-a641-3bc9dda85a29
+2025-07-23 22:47:41.265 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [add-listener] ok, tenant=d750d92e-152f-4055-a641-3bc9dda85a29, dataId=gateway-routes, group=DEFAULT_GROUP, cnt=1
+2025-07-23 22:47:41.271 [main] INFO  c.bgpay.bgai.config.NacosRouteDefinitionRepository - 初始化Nacos路由定义存储库
+2025-07-23 22:47:41.273 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
+2025-07-23 22:47:41.274 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
+2025-07-23 22:47:41.277 [main] INFO  com.alibaba.nacos.common.remote.client - [RpcClientFactory] create a new rpc client of 73fbbfbd-e089-4b1b-a69a-a635a35fd6b8_config-0
+2025-07-23 22:47:41.278 [main] INFO  com.alibaba.nacos.common.remote.client - [73fbbfbd-e089-4b1b-a69a-a635a35fd6b8_config-0] Register server push request handler:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$$Lambda/0x0000015f014fae40
+2025-07-23 22:47:41.278 [main] INFO  com.alibaba.nacos.common.remote.client - [73fbbfbd-e089-4b1b-a69a-a635a35fd6b8_config-0] Register server push request handler:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$$Lambda/0x0000015f014fb250
+2025-07-23 22:47:41.278 [main] INFO  com.alibaba.nacos.common.remote.client - [73fbbfbd-e089-4b1b-a69a-a635a35fd6b8_config-0] Registry connection listener to current client:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$1
+2025-07-23 22:47:41.278 [main] INFO  com.alibaba.nacos.common.remote.client - [73fbbfbd-e089-4b1b-a69a-a635a35fd6b8_config-0] RpcClient init, ServerListFactory = com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$2
+2025-07-23 22:47:41.279 [main] INFO  com.alibaba.nacos.common.remote.client - [73fbbfbd-e089-4b1b-a69a-a635a35fd6b8_config-0] Try to connect to server on start up, server: {serverIp = '8.133.246.113', server main port = 8848}
+2025-07-23 22:47:41.280 [main] INFO  c.a.nacos.common.remote.client.grpc.GrpcClient - grpc client connection server:8.133.246.113 ip,serverPort:9848,grpcTslConfig:{"sslProvider":"OPENSSL","enableTls":false,"mutualAuthEnable":false,"trustAll":false}
+2025-07-23 22:47:41.446 [main] INFO  com.alibaba.nacos.common.remote.client - [73fbbfbd-e089-4b1b-a69a-a635a35fd6b8_config-0] Success to connect to server [8.133.246.113:8848] on start up, connectionId = 1753282061600_139.226.176.13_22845
+2025-07-23 22:47:41.446 [main] INFO  com.alibaba.nacos.common.remote.client - [73fbbfbd-e089-4b1b-a69a-a635a35fd6b8_config-0] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$ConnectResetRequestHandler
+2025-07-23 22:47:41.446 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.common.remote.client - [73fbbfbd-e089-4b1b-a69a-a635a35fd6b8_config-0] Notify connected event to listeners.
+2025-07-23 22:47:41.447 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [73fbbfbd-e089-4b1b-a69a-a635a35fd6b8_config-0] Connected,notify listen context...
+2025-07-23 22:47:41.447 [main] INFO  com.alibaba.nacos.common.remote.client - [73fbbfbd-e089-4b1b-a69a-a635a35fd6b8_config-0] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$$Lambda/0x0000015f0165da70
+2025-07-23 22:47:41.460 [main] WARN  c.bgpay.bgai.config.NacosRouteDefinitionRepository - Nacos中未找到路由定义配置
+2025-07-23 22:47:41.463 [main] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [subscribe] gateway-routes+DEFAULT_GROUP+d750d92e-152f-4055-a641-3bc9dda85a29
+2025-07-23 22:47:41.464 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [add-listener] ok, tenant=d750d92e-152f-4055-a641-3bc9dda85a29, dataId=gateway-routes, group=DEFAULT_GROUP, cnt=1
+2025-07-23 22:47:42.115 [main] INFO  com.bgpay.bgai.config.RestTemplateConfig - Creating RestTemplate bean using SimpleClientHttpRequestFactory
+2025-07-23 22:47:42.280 [main] INFO  com.bgpay.bgai.seata.SeataTransactionListener - Seata事务监听器初始化
+2025-07-23 22:47:42.281 [main] INFO  com.bgpay.bgai.seata.SeataTransactionListener - 已设置seata.saga.state-machine.auto-register=false，防止状态机重复注册
+2025-07-23 22:47:42.993 [main] INFO  c.bgpay.bgai.service.impl.DynamicRouteServiceImpl - 初始化动态路由服务
+2025-07-23 22:47:42.996 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
+2025-07-23 22:47:42.996 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
+2025-07-23 22:47:42.999 [main] INFO  com.alibaba.nacos.common.remote.client - [RpcClientFactory] create a new rpc client of 88f3f605-61ce-4f97-ac8a-8a54897a28b5_config-0
+2025-07-23 22:47:43.000 [main] INFO  com.alibaba.nacos.common.remote.client - [88f3f605-61ce-4f97-ac8a-8a54897a28b5_config-0] Register server push request handler:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$$Lambda/0x0000015f014fae40
+2025-07-23 22:47:43.000 [main] INFO  com.alibaba.nacos.common.remote.client - [88f3f605-61ce-4f97-ac8a-8a54897a28b5_config-0] Register server push request handler:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$$Lambda/0x0000015f014fb250
+2025-07-23 22:47:43.000 [main] INFO  com.alibaba.nacos.common.remote.client - [88f3f605-61ce-4f97-ac8a-8a54897a28b5_config-0] Registry connection listener to current client:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$1
+2025-07-23 22:47:43.000 [main] INFO  com.alibaba.nacos.common.remote.client - [88f3f605-61ce-4f97-ac8a-8a54897a28b5_config-0] RpcClient init, ServerListFactory = com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$2
+2025-07-23 22:47:43.001 [main] INFO  com.alibaba.nacos.common.remote.client - [88f3f605-61ce-4f97-ac8a-8a54897a28b5_config-0] Try to connect to server on start up, server: {serverIp = '8.133.246.113', server main port = 8848}
+2025-07-23 22:47:43.002 [main] INFO  c.a.nacos.common.remote.client.grpc.GrpcClient - grpc client connection server:8.133.246.113 ip,serverPort:9848,grpcTslConfig:{"sslProvider":"OPENSSL","enableTls":false,"mutualAuthEnable":false,"trustAll":false}
+2025-07-23 22:47:43.166 [main] INFO  com.alibaba.nacos.common.remote.client - [88f3f605-61ce-4f97-ac8a-8a54897a28b5_config-0] Success to connect to server [8.133.246.113:8848] on start up, connectionId = 1753282063320_139.226.176.13_22848
+2025-07-23 22:47:43.166 [main] INFO  com.alibaba.nacos.common.remote.client - [88f3f605-61ce-4f97-ac8a-8a54897a28b5_config-0] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$ConnectResetRequestHandler
+2025-07-23 22:47:43.166 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.common.remote.client - [88f3f605-61ce-4f97-ac8a-8a54897a28b5_config-0] Notify connected event to listeners.
+2025-07-23 22:47:43.166 [main] INFO  com.alibaba.nacos.common.remote.client - [88f3f605-61ce-4f97-ac8a-8a54897a28b5_config-0] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$$Lambda/0x0000015f0165da70
+2025-07-23 22:47:43.166 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [88f3f605-61ce-4f97-ac8a-8a54897a28b5_config-0] Connected,notify listen context...
+2025-07-23 22:47:43.185 [main] WARN  c.bgpay.bgai.service.impl.DynamicRouteServiceImpl - Nacos中没有找到路由配置，使用默认配置
+2025-07-23 22:47:43.186 [main] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [subscribe] gateway-routes+DEFAULT_GROUP+d750d92e-152f-4055-a641-3bc9dda85a29
+2025-07-23 22:47:43.186 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [add-listener] ok, tenant=d750d92e-152f-4055-a641-3bc9dda85a29, dataId=gateway-routes, group=DEFAULT_GROUP, cnt=1
+2025-07-23 22:47:43.186 [main] INFO  c.bgpay.bgai.service.impl.DynamicRouteServiceImpl - 注册Nacos配置监听器成功
+2025-07-23 22:47:44.535 [main] INFO  o.a.r.s.autoconfigure.RocketMQAutoConfiguration - a producer (billing-producer-group) init on namesrv 8.133.246.113:9876
+2025-07-23 22:47:47.575 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2025-07-23 22:47:48.195 [main] INFO  io.seata.config.ConfigurationFactory - load Configuration from :Spring Configuration
+2025-07-23 22:47:48.217 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
+2025-07-23 22:47:48.217 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
+2025-07-23 22:47:48.219 [main] INFO  com.alibaba.nacos.common.remote.client - [RpcClientFactory] create a new rpc client of 8c1deda9-51f7-40e0-9359-d67fd777f863_config-0
+2025-07-23 22:47:48.219 [main] INFO  com.alibaba.nacos.common.remote.client - [8c1deda9-51f7-40e0-9359-d67fd777f863_config-0] Register server push request handler:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$$Lambda/0x0000015f014fae40
+2025-07-23 22:47:48.219 [main] INFO  com.alibaba.nacos.common.remote.client - [8c1deda9-51f7-40e0-9359-d67fd777f863_config-0] Register server push request handler:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$$Lambda/0x0000015f014fb250
+2025-07-23 22:47:48.219 [main] INFO  com.alibaba.nacos.common.remote.client - [8c1deda9-51f7-40e0-9359-d67fd777f863_config-0] Registry connection listener to current client:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$1
+2025-07-23 22:47:48.219 [main] INFO  com.alibaba.nacos.common.remote.client - [8c1deda9-51f7-40e0-9359-d67fd777f863_config-0] RpcClient init, ServerListFactory = com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$2
+2025-07-23 22:47:48.220 [main] INFO  com.alibaba.nacos.common.remote.client - [8c1deda9-51f7-40e0-9359-d67fd777f863_config-0] Try to connect to server on start up, server: {serverIp = '8.133.246.113', server main port = 8848}
+2025-07-23 22:47:48.221 [main] INFO  c.a.nacos.common.remote.client.grpc.GrpcClient - grpc client connection server:8.133.246.113 ip,serverPort:9848,grpcTslConfig:{"sslProvider":"OPENSSL","enableTls":false,"mutualAuthEnable":false,"trustAll":false}
+2025-07-23 22:47:48.359 [main] INFO  com.alibaba.nacos.common.remote.client - [8c1deda9-51f7-40e0-9359-d67fd777f863_config-0] Success to connect to server [8.133.246.113:8848] on start up, connectionId = 1753282068530_139.226.176.13_22883
+2025-07-23 22:47:48.359 [main] INFO  com.alibaba.nacos.common.remote.client - [8c1deda9-51f7-40e0-9359-d67fd777f863_config-0] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$ConnectResetRequestHandler
+2025-07-23 22:47:48.359 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.common.remote.client - [8c1deda9-51f7-40e0-9359-d67fd777f863_config-0] Notify connected event to listeners.
+2025-07-23 22:47:48.359 [main] INFO  com.alibaba.nacos.common.remote.client - [8c1deda9-51f7-40e0-9359-d67fd777f863_config-0] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$$Lambda/0x0000015f0165da70
+2025-07-23 22:47:48.359 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [8c1deda9-51f7-40e0-9359-d67fd777f863_config-0] Connected,notify listen context...
+2025-07-23 22:47:48.508 [main] INFO  io.seata.rm.datasource.AsyncWorker - Async Commit Buffer Limit: 10000
+2025-07-23 22:47:48.509 [main] INFO  io.seata.rm.datasource.xa.ResourceManagerXA - ResourceManagerXA init ...
+2025-07-23 22:47:48.698 [main] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [subscribe] transport.enableRmClientBatchSendRequest+SEATA_GROUP+d750d92e-152f-4055-a641-3bc9dda85a29
+2025-07-23 22:47:48.698 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [add-listener] ok, tenant=d750d92e-152f-4055-a641-3bc9dda85a29, dataId=transport.enableRmClientBatchSendRequest, group=SEATA_GROUP, cnt=1
+2025-07-23 22:47:48.699 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [add-listener] ok, tenant=d750d92e-152f-4055-a641-3bc9dda85a29, dataId=transport.enableRmClientBatchSendRequest, group=SEATA_GROUP, cnt=2
+2025-07-23 22:47:48.738 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-2} inited
+2025-07-23 22:47:48.850 [main] INFO  com.bgpay.bgai.service.deepseek.ConfigLoader - 配置文件 deepseek-config.properties 加载成功
+2025-07-23 22:47:51.547 [main] INFO  org.springframework.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2025-07-23 22:47:51.548 [main] INFO  o.s.test.web.servlet.TestDispatcherServlet - Initializing Servlet ''
+2025-07-23 22:47:51.553 [main] INFO  o.s.test.web.servlet.TestDispatcherServlet - Completed initialization in 4 ms
+2025-07-23 22:47:51.562 [main] INFO  com.bgpay.bgai.controller.AuthController - 初始化认证控制器: clientId=bgai-client-id, 配置的端口=8688
+2025-07-23 22:47:51.563 [main] INFO  com.bgpay.bgai.controller.AuthController - 根据实际端口生成redirectUri: http://localhost:8688/api/auth/callback
+2025-07-23 22:47:51.563 [main] INFO  com.bgpay.bgai.controller.AuthController - 认证控制器URL配置已更新: redirectUri=http://localhost:8688/api/auth/callback, 系统实际运行端口=8688
+2025-07-23 22:47:53.290 [main] INFO  org.redisson.Version - Redisson 3.24.3
+2025-07-23 22:47:53.601 [redisson-netty-2-6] INFO  o.r.connection.pool.MasterPubSubConnectionPool - 1 connections initialized for 8.133.246.113/8.133.246.113:6379
+2025-07-23 22:47:53.657 [redisson-netty-2-11] INFO  org.redisson.connection.pool.MasterConnectionPool - 4 connections initialized for 8.133.246.113/8.133.246.113:6379
+2025-07-23 22:47:53.982 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - 加载到2个Saga状态机定义文件
+2025-07-23 22:47:53.987 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - 成功加载状态机定义: /E:/project/bgai/target/classes/statelang/bgai-saga-transaction.json
+2025-07-23 22:47:53.988 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - 成功加载状态机定义: /E:/project/bgai/target/classes/statelang/chat_completion_saga.json
+2025-07-23 22:47:53.988 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - 已设置saga.state-machine.auto-register=false，防止状态机重复注册
+2025-07-23 22:47:54.344 [main] INFO  c.b.b.controller.ServiceDiscoveryExampleController - ServiceDiscoveryExampleController initialized with: serviceDiscoveryUtils=available, loadBalancedWebClient=not available, loadBalancedRestTemplate=available, restTemplate=available
+2025-07-23 22:47:55.198 [main] DEBUG com.bgpay.bgai.config.AsyncConfig$1 - Initializing ExecutorService 'blockingExecutor'
+2025-07-23 22:47:55.334 [main] INFO  com.bgpay.bgai.seata.SeataAuthConfig - Seata Saga配置加载
+2025-07-23 22:47:55.334 [main] INFO  com.bgpay.bgai.seata.SeataAuthConfig - 状态机自动注册设置: 禁用
+2025-07-23 22:47:55.334 [main] INFO  com.bgpay.bgai.seata.SeataAuthConfig - 状态机自动注册已禁用，这将防止重复注册错误
+2025-07-23 22:47:56.527 [main] INFO  o.s.scheduling.config.TaskSchedulerRouter - No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2025-07-23 22:47:56.534 [main] INFO  c.b.b.c.ReactiveChatControllerYamlWebFluxTest - Started ReactiveChatControllerYamlWebFluxTest in 27.914 seconds (process running for 55.303)
+2025-07-23 22:47:56.537 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - ==================== Saga状态机加载报告 ====================
+2025-07-23 22:47:56.537 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - Saga状态机配置加载状态: 成功
+2025-07-23 22:47:56.537 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - 已加载的状态机定义文件数量: 2
+2025-07-23 22:47:56.537 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - 已加载的状态机定义文件:
+2025-07-23 22:47:56.537 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig -  - /E:/project/bgai/target/classes/statelang/bgai-saga-transaction.json
+2025-07-23 22:47:56.537 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig -  - /E:/project/bgai/target/classes/statelang/chat_completion_saga.json
+2025-07-23 22:47:56.538 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - Saga解析器状态: Mock JSON Parser
+2025-07-23 22:47:56.538 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - Mock parsing results
+2025-07-23 22:47:56.538 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - 状态机自动注册已禁用(saga.state-machine.auto-register=false)，避免重复注册错误
+2025-07-23 22:47:56.538 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - =============================================================
+2025-07-23 22:47:56.539 [main] INFO  com.bgpay.bgai.seata.SeataTransactionListener - 应用程序已就绪，Seata事务监听器激活
+2025-07-23 22:47:56.539 [main] INFO  com.bgpay.bgai.seata.SeataTransactionListener - Seata配置信息:
+2025-07-23 22:47:56.539 [main] INFO  com.bgpay.bgai.seata.SeataTransactionListener -  - seata.saga.state-machine.auto-register: false
+2025-07-23 22:47:56.539 [main] INFO  com.bgpay.bgai.seata.SeataTransactionListener -  - seata.enabled: false
+2025-07-23 22:47:56.539 [main] INFO  com.bgpay.bgai.seata.SeataTransactionListener -  - saga.enabled: false
+2025-07-23 22:47:56.782 [main] ERROR o.s.test.web.reactive.server.ExchangeResult - Request details for assertion failure:
+
+> POST /api/chatGatWay-internal
+> WebTestClient-Request-Id: [1]
+> Content-Type: [application/json, application/json]
+> X-API-Key: [valid-key]
+> Content-Length: [79]
+
+{"question":"Hello, how are you?","modelName":"gpt-3.5-turbo","multiTurn":true}
+
+< 200 OK OK
+< 
+
+0 bytes of content (unknown content-type).
+
+2025-07-23 22:47:56.828 [main] ERROR o.s.test.web.reactive.server.ExchangeResult - Request details for assertion failure:
+
+> POST /api/chatGatWay-internal
+> WebTestClient-Request-Id: [2]
+> Content-Type: [application/json, application/json]
+> X-API-Key: [valid-key]
+> Content-Length: [169]
+
+{"question":"Hello, how are you?\nI'm doing well, thank you for asking. How can I help you today?\nTell me about yourself.","modelName":"gpt-3.5-turbo","multiTurn":true}
+
+< 200 OK OK
+< 
+
+0 bytes of content (unknown content-type).
+
+2025-07-23 22:47:56.852 [main] ERROR o.s.test.web.reactive.server.ExchangeResult - Request details for assertion failure:
+
+> POST /api/chatGatWay-internal
+> WebTestClient-Request-Id: [3]
+> Content-Type: [application/json, application/json]
+> X-API-Key: [valid-key]
+> Content-Length: [79]
+
+{"question":"Hello, how are you?","modelName":"invalid-model","multiTurn":true}
+
+< 200 OK OK
+< 
+
+0 bytes of content (unknown content-type).
+
+2025-07-23 22:47:56.871 [main] ERROR o.s.test.web.reactive.server.ExchangeResult - Request details for assertion failure:
+
+> POST /api/chatGatWay-internal
+> WebTestClient-Request-Id: [4]
+> Content-Type: [application/json, application/json]
+> X-API-Key: [valid-key]
+> Content-Length: [46]
+
+{"modelName":"gpt-3.5-turbo","multiTurn":true}
+
+< 200 OK OK
+< 
+
+0 bytes of content (unknown content-type).
+
+2025-07-23 22:47:56.889 [main] ERROR o.s.test.web.reactive.server.ExchangeResult - Request details for assertion failure:
+
+> POST /api/chatGatWay-internal
+> WebTestClient-Request-Id: [5]
+> Content-Type: [application/json, application/json]
+> X-API-Key: [valid-key]
+> Content-Length: [79]
+
+{"question":"Hello, how are you?","modelName":"gpt-3.5-turbo","multiTurn":true}
+
+< 200 OK OK
+< 
+
+0 bytes of content (unknown content-type).
+
+2025-07-23 22:47:56.913 [main] ERROR o.s.test.web.reactive.server.ExchangeResult - Request details for assertion failure:
+
+> POST /api/chatGatWay-internal
+> WebTestClient-Request-Id: [6]
+> Content-Type: [application/json, application/json]
+> X-API-Key: [valid-key]
+> Content-Length: [93]
+
+{"question":"Hello, how are you?","modelName":"gpt-3.5-turbo","multiTurn":true,"stream":true}
+
+< 200 OK OK
+< 
+
+0 bytes of content (unknown content-type).
+
+2025-07-23 22:47:57.008 [main] ERROR o.s.test.web.reactive.server.ExchangeResult - Request details for assertion failure:
+
+> POST /api/chatGatWay-internal
+> WebTestClient-Request-Id: [7]
+> Content-Type: [multipart/form-data;boundary=CkIf6jtmt0wLVfOZFB3_10vo2WhkBEpMa]
+> X-API-Key: [valid-key]
+
+584 bytes of content.
+
+< 200 OK OK
+< 
+
+0 bytes of content (unknown content-type).
+
+2025-07-23 22:47:57.021 [Thread-1] WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Start destroying common HttpClient
+2025-07-23 22:47:57.021 [Thread-7] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Start destroying Publisher
+2025-07-23 22:47:57.021 [Thread-7] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Destruction of the end
+2025-07-23 22:47:57.023 [Thread-1] WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Destruction of the end
+2025-07-23 22:47:57.044 [SpringApplicationShutdownHook] DEBUG com.bgpay.bgai.config.AsyncConfig$1 - Shutting down ExecutorService 'blockingExecutor'
+2025-07-23 22:47:57.108 [NettyClientSelector_1] INFO  RocketmqRemoting - closeChannel: close the connection to remote address[8.133.246.113:10911] result: true
+2025-07-23 22:47:57.109 [NettyClientSelector_1] INFO  RocketmqRemoting - closeChannel: close the connection to remote address[8.133.246.113:9876] result: true
+2025-07-23 22:47:57.110 [SpringApplicationShutdownHook] INFO  c.bgpay.bgai.service.impl.DynamicRouteServiceImpl - 动态路由服务关闭，执行清理操作
+2025-07-23 22:49:58.013 [main] WARN  o.s.b.t.j.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer - 
+
+Found multiple occurrences of org.json.JSONObject on the class path:
+
+	jar:file:/C:/Users/Administrator/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar!/org/json/JSONObject.class
+	jar:file:/C:/Users/Administrator/.m2/repository/org/json/json/20220320/json-20220320.jar!/org/json/JSONObject.class
+
+You may wish to exclude one of them to ensure predictable runtime behavior
+
+2025-07-23 22:49:58.022 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2025-07-23 22:49:58.025 [main] INFO  c.b.b.c.ReactiveChatControllerYamlWebFluxTest - The following 1 profile is active: "dev"
+2025-07-23 22:50:01.108 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'allowedFileTypeMapper' and 'com.bgpay.bgai.mapper.AllowedFileTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:50:01.109 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'apiClientMapper' and 'com.bgpay.bgai.mapper.ApiClientMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:50:01.109 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'apiConfigMapper' and 'com.bgpay.bgai.mapper.ApiConfigMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:50:01.109 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'apiKeyMapper' and 'com.bgpay.bgai.mapper.ApiKeyMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:50:01.109 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'chatCompletionsMapper' and 'com.bgpay.bgai.mapper.ChatCompletionsMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:50:01.109 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'choicesMapper' and 'com.bgpay.bgai.mapper.ChoicesMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:50:01.109 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'fileTypeMapper' and 'com.bgpay.bgai.mapper.FileTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:50:01.109 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'priceConfigMapper' and 'com.bgpay.bgai.mapper.PriceConfigMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:50:01.110 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'priceVersionMapper' and 'com.bgpay.bgai.mapper.PriceVersionMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:50:01.110 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'transactionLogMapper' and 'com.bgpay.bgai.mapper.TransactionLogMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:50:01.110 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'usageInfoMapper' and 'com.bgpay.bgai.mapper.UsageInfoMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:50:01.110 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'usageRecordMapper' and 'com.bgpay.bgai.mapper.UsageRecordMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:50:01.110 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userMapper' and 'com.bgpay.bgai.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2025-07-23 22:50:01.110 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.bgpay.bgai.mapper]' package. Please check your configuration.
+2025-07-23 22:50:01.112 [main] WARN  o.s.c.annotation.ConfigurationClassPostProcessor - Cannot enhance @Configuration bean definition 'gatewayBeanFactoryPostProcessor' since its singleton instance has been created too early. The typical cause is a non-static @Bean method with a BeanDefinitionRegistryPostProcessor return type: Consider declaring such methods as 'static' and/or marking the containing configuration class as 'proxyBeanMethods=false'.
+2025-07-23 22:50:06.546 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'unifiedEnvironmentConfig' of type [com.bgpay.bgai.config.UnifiedEnvironmentConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [methodValidationPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-07-23 22:50:06.547 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'environment' of type [org.springframework.core.env.StandardEnvironment] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [methodValidationPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-07-23 22:50:07.261 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'messageConverterConfiguration' of type [org.apache.rocketmq.spring.autoconfigure.MessageConverterConfiguration$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [org.apache.rocketmq.spring.annotation.RocketMQMessageListenerBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-07-23 22:50:07.361 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'createRocketMQMessageConverter' of type [org.apache.rocketmq.spring.support.RocketMQMessageConverter] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [org.apache.rocketmq.spring.annotation.RocketMQMessageListenerBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-07-23 22:50:07.397 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'rocketmq-org.apache.rocketmq.spring.autoconfigure.RocketMQProperties' of type [org.apache.rocketmq.spring.autoconfigure.RocketMQProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [org.apache.rocketmq.spring.annotation.RocketMQMessageListenerBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-07-23 22:50:07.402 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'listenerContainerConfiguration' of type [org.apache.rocketmq.spring.autoconfigure.ListenerContainerConfiguration$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [org.apache.rocketmq.spring.annotation.RocketMQMessageListenerBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-07-23 22:50:07.413 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'testBeanPostProcessor' of type [com.bgpay.bgai.config.TestBeanPostProcessor$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [bgaiServiceImplInjector] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2025-07-23 22:50:07.831 [main] INFO  com.bgpay.bgai.config.SeataDisableConfiguration - SeataDisableConfiguration已加载，Seata在测试环境中被禁用
+2025-07-23 22:50:07.831 [main] INFO  com.bgpay.bgai.config.SeataDisableConfiguration - 设置系统属性: seata.enabled=false, saga.enabled=false
+2025-07-23 22:50:08.163 [main] INFO  com.bgpay.bgai.config.NacosRouteConfigListener - 初始化Nacos路由配置监听器
+2025-07-23 22:50:08.166 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
+2025-07-23 22:50:08.167 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
+2025-07-23 22:50:08.168 [main] INFO  com.alibaba.nacos.common.remote.client - [RpcClientFactory] create a new rpc client of b94c00f1-7645-4e2c-b3e3-10a9fde83d06_config-0
+2025-07-23 22:50:08.168 [main] INFO  com.alibaba.nacos.common.remote.client - [b94c00f1-7645-4e2c-b3e3-10a9fde83d06_config-0] Register server push request handler:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$$Lambda/0x000001b6c94fa0e0
+2025-07-23 22:50:08.168 [main] INFO  com.alibaba.nacos.common.remote.client - [b94c00f1-7645-4e2c-b3e3-10a9fde83d06_config-0] Register server push request handler:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$$Lambda/0x000001b6c94fa4f0
+2025-07-23 22:50:08.168 [main] INFO  com.alibaba.nacos.common.remote.client - [b94c00f1-7645-4e2c-b3e3-10a9fde83d06_config-0] Registry connection listener to current client:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$1
+2025-07-23 22:50:08.168 [main] INFO  com.alibaba.nacos.common.remote.client - [b94c00f1-7645-4e2c-b3e3-10a9fde83d06_config-0] RpcClient init, ServerListFactory = com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$2
+2025-07-23 22:50:08.169 [main] INFO  com.alibaba.nacos.common.remote.client - [b94c00f1-7645-4e2c-b3e3-10a9fde83d06_config-0] Try to connect to server on start up, server: {serverIp = '8.133.246.113', server main port = 8848}
+2025-07-23 22:50:08.169 [main] INFO  c.a.nacos.common.remote.client.grpc.GrpcClient - grpc client connection server:8.133.246.113 ip,serverPort:9848,grpcTslConfig:{"sslProvider":"OPENSSL","enableTls":false,"mutualAuthEnable":false,"trustAll":false}
+2025-07-23 22:50:08.308 [main] INFO  com.alibaba.nacos.common.remote.client - [b94c00f1-7645-4e2c-b3e3-10a9fde83d06_config-0] Success to connect to server [8.133.246.113:8848] on start up, connectionId = 1753282208480_139.226.176.13_23337
+2025-07-23 22:50:08.308 [main] INFO  com.alibaba.nacos.common.remote.client - [b94c00f1-7645-4e2c-b3e3-10a9fde83d06_config-0] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$ConnectResetRequestHandler
+2025-07-23 22:50:08.308 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.common.remote.client - [b94c00f1-7645-4e2c-b3e3-10a9fde83d06_config-0] Notify connected event to listeners.
+2025-07-23 22:50:08.308 [main] INFO  com.alibaba.nacos.common.remote.client - [b94c00f1-7645-4e2c-b3e3-10a9fde83d06_config-0] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$$Lambda/0x000001b6c965e220
+2025-07-23 22:50:08.308 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [b94c00f1-7645-4e2c-b3e3-10a9fde83d06_config-0] Connected,notify listen context...
+2025-07-23 22:50:08.321 [main] WARN  com.bgpay.bgai.config.NacosRouteConfigListener - Nacos中未找到路由配置数据
+2025-07-23 22:50:08.326 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - nacos.cache.data.init.snapshot = true 
+2025-07-23 22:50:08.327 [main] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [subscribe] gateway-routes+DEFAULT_GROUP+d750d92e-152f-4055-a641-3bc9dda85a29
+2025-07-23 22:50:08.340 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [add-listener] ok, tenant=d750d92e-152f-4055-a641-3bc9dda85a29, dataId=gateway-routes, group=DEFAULT_GROUP, cnt=1
+2025-07-23 22:50:08.346 [main] INFO  c.bgpay.bgai.config.NacosRouteDefinitionRepository - 初始化Nacos路由定义存储库
+2025-07-23 22:50:08.349 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
+2025-07-23 22:50:08.349 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
+2025-07-23 22:50:08.350 [main] INFO  com.alibaba.nacos.common.remote.client - [RpcClientFactory] create a new rpc client of 76e0a499-8526-45f8-87cb-236bf7ba314c_config-0
+2025-07-23 22:50:08.351 [main] INFO  com.alibaba.nacos.common.remote.client - [76e0a499-8526-45f8-87cb-236bf7ba314c_config-0] Register server push request handler:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$$Lambda/0x000001b6c94fa0e0
+2025-07-23 22:50:08.351 [main] INFO  com.alibaba.nacos.common.remote.client - [76e0a499-8526-45f8-87cb-236bf7ba314c_config-0] Register server push request handler:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$$Lambda/0x000001b6c94fa4f0
+2025-07-23 22:50:08.351 [main] INFO  com.alibaba.nacos.common.remote.client - [76e0a499-8526-45f8-87cb-236bf7ba314c_config-0] Registry connection listener to current client:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$1
+2025-07-23 22:50:08.351 [main] INFO  com.alibaba.nacos.common.remote.client - [76e0a499-8526-45f8-87cb-236bf7ba314c_config-0] RpcClient init, ServerListFactory = com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$2
+2025-07-23 22:50:08.352 [main] INFO  com.alibaba.nacos.common.remote.client - [76e0a499-8526-45f8-87cb-236bf7ba314c_config-0] Try to connect to server on start up, server: {serverIp = '8.133.246.113', server main port = 8848}
+2025-07-23 22:50:08.352 [main] INFO  c.a.nacos.common.remote.client.grpc.GrpcClient - grpc client connection server:8.133.246.113 ip,serverPort:9848,grpcTslConfig:{"sslProvider":"OPENSSL","enableTls":false,"mutualAuthEnable":false,"trustAll":false}
+2025-07-23 22:50:08.492 [main] INFO  com.alibaba.nacos.common.remote.client - [76e0a499-8526-45f8-87cb-236bf7ba314c_config-0] Success to connect to server [8.133.246.113:8848] on start up, connectionId = 1753282208662_139.226.176.13_23338
+2025-07-23 22:50:08.492 [main] INFO  com.alibaba.nacos.common.remote.client - [76e0a499-8526-45f8-87cb-236bf7ba314c_config-0] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$ConnectResetRequestHandler
+2025-07-23 22:50:08.492 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.common.remote.client - [76e0a499-8526-45f8-87cb-236bf7ba314c_config-0] Notify connected event to listeners.
+2025-07-23 22:50:08.492 [main] INFO  com.alibaba.nacos.common.remote.client - [76e0a499-8526-45f8-87cb-236bf7ba314c_config-0] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$$Lambda/0x000001b6c965e220
+2025-07-23 22:50:08.492 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [76e0a499-8526-45f8-87cb-236bf7ba314c_config-0] Connected,notify listen context...
+2025-07-23 22:50:08.524 [main] WARN  c.bgpay.bgai.config.NacosRouteDefinitionRepository - Nacos中未找到路由定义配置
+2025-07-23 22:50:08.526 [main] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [subscribe] gateway-routes+DEFAULT_GROUP+d750d92e-152f-4055-a641-3bc9dda85a29
+2025-07-23 22:50:08.527 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [add-listener] ok, tenant=d750d92e-152f-4055-a641-3bc9dda85a29, dataId=gateway-routes, group=DEFAULT_GROUP, cnt=1
+2025-07-23 22:50:09.132 [main] INFO  com.bgpay.bgai.config.RestTemplateConfig - Creating RestTemplate bean using SimpleClientHttpRequestFactory
+2025-07-23 22:50:09.305 [main] INFO  com.bgpay.bgai.seata.SeataTransactionListener - Seata事务监听器初始化
+2025-07-23 22:50:09.305 [main] INFO  com.bgpay.bgai.seata.SeataTransactionListener - 已设置seata.saga.state-machine.auto-register=false，防止状态机重复注册
+2025-07-23 22:50:10.281 [main] INFO  c.bgpay.bgai.service.impl.DynamicRouteServiceImpl - 初始化动态路由服务
+2025-07-23 22:50:10.284 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
+2025-07-23 22:50:10.284 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
+2025-07-23 22:50:10.287 [main] INFO  com.alibaba.nacos.common.remote.client - [RpcClientFactory] create a new rpc client of 8911b764-a69d-4447-91c9-138cc197d188_config-0
+2025-07-23 22:50:10.287 [main] INFO  com.alibaba.nacos.common.remote.client - [8911b764-a69d-4447-91c9-138cc197d188_config-0] Register server push request handler:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$$Lambda/0x000001b6c94fa0e0
+2025-07-23 22:50:10.287 [main] INFO  com.alibaba.nacos.common.remote.client - [8911b764-a69d-4447-91c9-138cc197d188_config-0] Register server push request handler:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$$Lambda/0x000001b6c94fa4f0
+2025-07-23 22:50:10.287 [main] INFO  com.alibaba.nacos.common.remote.client - [8911b764-a69d-4447-91c9-138cc197d188_config-0] Registry connection listener to current client:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$1
+2025-07-23 22:50:10.287 [main] INFO  com.alibaba.nacos.common.remote.client - [8911b764-a69d-4447-91c9-138cc197d188_config-0] RpcClient init, ServerListFactory = com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$2
+2025-07-23 22:50:10.289 [main] INFO  com.alibaba.nacos.common.remote.client - [8911b764-a69d-4447-91c9-138cc197d188_config-0] Try to connect to server on start up, server: {serverIp = '8.133.246.113', server main port = 8848}
+2025-07-23 22:50:10.290 [main] INFO  c.a.nacos.common.remote.client.grpc.GrpcClient - grpc client connection server:8.133.246.113 ip,serverPort:9848,grpcTslConfig:{"sslProvider":"OPENSSL","enableTls":false,"mutualAuthEnable":false,"trustAll":false}
+2025-07-23 22:50:10.445 [main] INFO  com.alibaba.nacos.common.remote.client - [8911b764-a69d-4447-91c9-138cc197d188_config-0] Success to connect to server [8.133.246.113:8848] on start up, connectionId = 1753282210603_139.226.176.13_23348
+2025-07-23 22:50:10.445 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.common.remote.client - [8911b764-a69d-4447-91c9-138cc197d188_config-0] Notify connected event to listeners.
+2025-07-23 22:50:10.445 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [8911b764-a69d-4447-91c9-138cc197d188_config-0] Connected,notify listen context...
+2025-07-23 22:50:10.445 [main] INFO  com.alibaba.nacos.common.remote.client - [8911b764-a69d-4447-91c9-138cc197d188_config-0] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$ConnectResetRequestHandler
+2025-07-23 22:50:10.446 [main] INFO  com.alibaba.nacos.common.remote.client - [8911b764-a69d-4447-91c9-138cc197d188_config-0] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$$Lambda/0x000001b6c965e220
+2025-07-23 22:50:10.461 [main] WARN  c.bgpay.bgai.service.impl.DynamicRouteServiceImpl - Nacos中没有找到路由配置，使用默认配置
+2025-07-23 22:50:10.461 [main] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [subscribe] gateway-routes+DEFAULT_GROUP+d750d92e-152f-4055-a641-3bc9dda85a29
+2025-07-23 22:50:10.462 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [add-listener] ok, tenant=d750d92e-152f-4055-a641-3bc9dda85a29, dataId=gateway-routes, group=DEFAULT_GROUP, cnt=1
+2025-07-23 22:50:10.462 [main] INFO  c.bgpay.bgai.service.impl.DynamicRouteServiceImpl - 注册Nacos配置监听器成功
+2025-07-23 22:50:11.809 [main] INFO  o.a.r.s.autoconfigure.RocketMQAutoConfiguration - a producer (billing-producer-group) init on namesrv 8.133.246.113:9876
+2025-07-23 22:50:14.905 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2025-07-23 22:50:15.541 [main] INFO  io.seata.config.ConfigurationFactory - load Configuration from :Spring Configuration
+2025-07-23 22:50:15.568 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
+2025-07-23 22:50:15.568 [main] INFO  c.a.n.p.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
+2025-07-23 22:50:15.570 [main] INFO  com.alibaba.nacos.common.remote.client - [RpcClientFactory] create a new rpc client of 8983d6fb-1037-4f8e-8aee-9f62ec00117a_config-0
+2025-07-23 22:50:15.570 [main] INFO  com.alibaba.nacos.common.remote.client - [8983d6fb-1037-4f8e-8aee-9f62ec00117a_config-0] Register server push request handler:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$$Lambda/0x000001b6c94fa0e0
+2025-07-23 22:50:15.570 [main] INFO  com.alibaba.nacos.common.remote.client - [8983d6fb-1037-4f8e-8aee-9f62ec00117a_config-0] Register server push request handler:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$$Lambda/0x000001b6c94fa4f0
+2025-07-23 22:50:15.570 [main] INFO  com.alibaba.nacos.common.remote.client - [8983d6fb-1037-4f8e-8aee-9f62ec00117a_config-0] Registry connection listener to current client:com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$1
+2025-07-23 22:50:15.570 [main] INFO  com.alibaba.nacos.common.remote.client - [8983d6fb-1037-4f8e-8aee-9f62ec00117a_config-0] RpcClient init, ServerListFactory = com.alibaba.nacos.client.config.impl.ClientWorker$ConfigRpcTransportClient$2
+2025-07-23 22:50:15.571 [main] INFO  com.alibaba.nacos.common.remote.client - [8983d6fb-1037-4f8e-8aee-9f62ec00117a_config-0] Try to connect to server on start up, server: {serverIp = '8.133.246.113', server main port = 8848}
+2025-07-23 22:50:15.572 [main] INFO  c.a.nacos.common.remote.client.grpc.GrpcClient - grpc client connection server:8.133.246.113 ip,serverPort:9848,grpcTslConfig:{"sslProvider":"OPENSSL","enableTls":false,"mutualAuthEnable":false,"trustAll":false}
+2025-07-23 22:50:15.716 [main] INFO  com.alibaba.nacos.common.remote.client - [8983d6fb-1037-4f8e-8aee-9f62ec00117a_config-0] Success to connect to server [8.133.246.113:8848] on start up, connectionId = 1753282215883_139.226.176.13_23359
+2025-07-23 22:50:15.716 [main] INFO  com.alibaba.nacos.common.remote.client - [8983d6fb-1037-4f8e-8aee-9f62ec00117a_config-0] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$ConnectResetRequestHandler
+2025-07-23 22:50:15.716 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.common.remote.client - [8983d6fb-1037-4f8e-8aee-9f62ec00117a_config-0] Notify connected event to listeners.
+2025-07-23 22:50:15.716 [main] INFO  com.alibaba.nacos.common.remote.client - [8983d6fb-1037-4f8e-8aee-9f62ec00117a_config-0] Register server push request handler:com.alibaba.nacos.common.remote.client.RpcClient$$Lambda/0x000001b6c965e220
+2025-07-23 22:50:15.716 [com.alibaba.nacos.client.remote.worker] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [8983d6fb-1037-4f8e-8aee-9f62ec00117a_config-0] Connected,notify listen context...
+2025-07-23 22:50:15.866 [main] INFO  io.seata.rm.datasource.AsyncWorker - Async Commit Buffer Limit: 10000
+2025-07-23 22:50:15.867 [main] INFO  io.seata.rm.datasource.xa.ResourceManagerXA - ResourceManagerXA init ...
+2025-07-23 22:50:16.096 [main] INFO  com.alibaba.nacos.client.config.impl.ClientWorker - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [subscribe] transport.enableRmClientBatchSendRequest+SEATA_GROUP+d750d92e-152f-4055-a641-3bc9dda85a29
+2025-07-23 22:50:16.096 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [add-listener] ok, tenant=d750d92e-152f-4055-a641-3bc9dda85a29, dataId=transport.enableRmClientBatchSendRequest, group=SEATA_GROUP, cnt=1
+2025-07-23 22:50:16.096 [main] INFO  com.alibaba.nacos.client.config.impl.CacheData - [fixed-d750d92e-152f-4055-a641-3bc9dda85a29-8.133.246.113_8848] [add-listener] ok, tenant=d750d92e-152f-4055-a641-3bc9dda85a29, dataId=transport.enableRmClientBatchSendRequest, group=SEATA_GROUP, cnt=2
+2025-07-23 22:50:16.152 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-2} inited
+2025-07-23 22:50:16.270 [main] INFO  com.bgpay.bgai.service.deepseek.ConfigLoader - 配置文件 deepseek-config.properties 加载成功
+2025-07-23 22:50:18.933 [main] INFO  org.springframework.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2025-07-23 22:50:18.933 [main] INFO  o.s.test.web.servlet.TestDispatcherServlet - Initializing Servlet ''
+2025-07-23 22:50:18.939 [main] INFO  o.s.test.web.servlet.TestDispatcherServlet - Completed initialization in 5 ms
+2025-07-23 22:50:18.947 [main] INFO  com.bgpay.bgai.controller.AuthController - 初始化认证控制器: clientId=bgai-client-id, 配置的端口=8688
+2025-07-23 22:50:18.948 [main] INFO  com.bgpay.bgai.controller.AuthController - 根据实际端口生成redirectUri: http://localhost:8688/api/auth/callback
+2025-07-23 22:50:18.948 [main] INFO  com.bgpay.bgai.controller.AuthController - 认证控制器URL配置已更新: redirectUri=http://localhost:8688/api/auth/callback, 系统实际运行端口=8688
+2025-07-23 22:50:20.642 [main] INFO  org.redisson.Version - Redisson 3.24.3
+2025-07-23 22:50:21.004 [redisson-netty-2-6] INFO  o.r.connection.pool.MasterPubSubConnectionPool - 1 connections initialized for 8.133.246.113/8.133.246.113:6379
+2025-07-23 22:50:21.049 [redisson-netty-2-11] INFO  org.redisson.connection.pool.MasterConnectionPool - 4 connections initialized for 8.133.246.113/8.133.246.113:6379
+2025-07-23 22:50:21.333 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - 加载到2个Saga状态机定义文件
+2025-07-23 22:50:21.336 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - 成功加载状态机定义: /E:/project/bgai/target/classes/statelang/bgai-saga-transaction.json
+2025-07-23 22:50:21.337 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - 成功加载状态机定义: /E:/project/bgai/target/classes/statelang/chat_completion_saga.json
+2025-07-23 22:50:21.338 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - 已设置saga.state-machine.auto-register=false，防止状态机重复注册
+2025-07-23 22:50:21.668 [main] INFO  c.b.b.controller.ServiceDiscoveryExampleController - ServiceDiscoveryExampleController initialized with: serviceDiscoveryUtils=available, loadBalancedWebClient=not available, loadBalancedRestTemplate=available, restTemplate=available
+2025-07-23 22:50:22.395 [main] DEBUG com.bgpay.bgai.config.AsyncConfig$1 - Initializing ExecutorService 'blockingExecutor'
+2025-07-23 22:50:22.527 [main] INFO  com.bgpay.bgai.seata.SeataAuthConfig - Seata Saga配置加载
+2025-07-23 22:50:22.527 [main] INFO  com.bgpay.bgai.seata.SeataAuthConfig - 状态机自动注册设置: 禁用
+2025-07-23 22:50:22.527 [main] INFO  com.bgpay.bgai.seata.SeataAuthConfig - 状态机自动注册已禁用，这将防止重复注册错误
+2025-07-23 22:50:23.627 [main] INFO  o.s.scheduling.config.TaskSchedulerRouter - No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2025-07-23 22:50:23.636 [main] INFO  c.b.b.c.ReactiveChatControllerYamlWebFluxTest - Started ReactiveChatControllerYamlWebFluxTest in 29.054 seconds (process running for 58.278)
+2025-07-23 22:50:23.639 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - ==================== Saga状态机加载报告 ====================
+2025-07-23 22:50:23.639 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - Saga状态机配置加载状态: 成功
+2025-07-23 22:50:23.639 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - 已加载的状态机定义文件数量: 2
+2025-07-23 22:50:23.639 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - 已加载的状态机定义文件:
+2025-07-23 22:50:23.640 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig -  - /E:/project/bgai/target/classes/statelang/bgai-saga-transaction.json
+2025-07-23 22:50:23.640 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig -  - /E:/project/bgai/target/classes/statelang/chat_completion_saga.json
+2025-07-23 22:50:23.640 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - Saga解析器状态: Mock JSON Parser
+2025-07-23 22:50:23.640 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - Mock parsing results
+2025-07-23 22:50:23.640 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - 状态机自动注册已禁用(saga.state-machine.auto-register=false)，避免重复注册错误
+2025-07-23 22:50:23.640 [main] INFO  com.bgpay.bgai.seata.SagaStateMachineConfig - =============================================================
+2025-07-23 22:50:23.641 [main] INFO  com.bgpay.bgai.seata.SeataTransactionListener - 应用程序已就绪，Seata事务监听器激活
+2025-07-23 22:50:23.641 [main] INFO  com.bgpay.bgai.seata.SeataTransactionListener - Seata配置信息:
+2025-07-23 22:50:23.641 [main] INFO  com.bgpay.bgai.seata.SeataTransactionListener -  - seata.saga.state-machine.auto-register: false
+2025-07-23 22:50:23.641 [main] INFO  com.bgpay.bgai.seata.SeataTransactionListener -  - seata.enabled: false
+2025-07-23 22:50:23.641 [main] INFO  com.bgpay.bgai.seata.SeataTransactionListener -  - saga.enabled: false
+2025-07-23 22:50:23.918 [main] ERROR o.s.test.web.reactive.server.ExchangeResult - Request details for assertion failure:
+
+> POST /api/chatGatWay-internal
+> WebTestClient-Request-Id: [1]
+> Content-Type: [application/json, application/json]
+> X-API-Key: [valid-key]
+> Content-Length: [79]
+
+{"question":"Hello, how are you?","modelName":"gpt-3.5-turbo","multiTurn":true}
+
+< 200 OK OK
+< 
+
+0 bytes of content (unknown content-type).
+
+2025-07-23 22:50:24.001 [main] ERROR o.s.test.web.reactive.server.ExchangeResult - Request details for assertion failure:
+
+> POST /api/chatGatWay-internal
+> WebTestClient-Request-Id: [2]
+> Content-Type: [application/json, application/json]
+> X-API-Key: [valid-key]
+> Content-Length: [169]
+
+{"question":"Hello, how are you?\nI'm doing well, thank you for asking. How can I help you today?\nTell me about yourself.","modelName":"gpt-3.5-turbo","multiTurn":true}
+
+< 200 OK OK
+< 
+
+0 bytes of content (unknown content-type).
+
+2025-07-23 22:50:24.041 [main] ERROR o.s.test.web.reactive.server.ExchangeResult - Request details for assertion failure:
+
+> POST /api/chatGatWay-internal
+> WebTestClient-Request-Id: [3]
+> Content-Type: [application/json, application/json]
+> X-API-Key: [valid-key]
+> Content-Length: [79]
+
+{"question":"Hello, how are you?","modelName":"invalid-model","multiTurn":true}
+
+< 200 OK OK
+< 
+
+0 bytes of content (unknown content-type).
+
+2025-07-23 22:50:24.069 [main] ERROR o.s.test.web.reactive.server.ExchangeResult - Request details for assertion failure:
+
+> POST /api/chatGatWay-internal
+> WebTestClient-Request-Id: [4]
+> Content-Type: [application/json, application/json]
+> X-API-Key: [valid-key]
+> Content-Length: [46]
+
+{"modelName":"gpt-3.5-turbo","multiTurn":true}
+
+< 200 OK OK
+< 
+
+0 bytes of content (unknown content-type).
+
+2025-07-23 22:50:24.091 [main] ERROR o.s.test.web.reactive.server.ExchangeResult - Request details for assertion failure:
+
+> POST /api/chatGatWay-internal
+> WebTestClient-Request-Id: [5]
+> Content-Type: [application/json, application/json]
+> X-API-Key: [valid-key]
+> Content-Length: [79]
+
+{"question":"Hello, how are you?","modelName":"gpt-3.5-turbo","multiTurn":true}
+
+< 200 OK OK
+< 
+
+0 bytes of content (unknown content-type).
+
+2025-07-23 22:50:24.112 [main] ERROR o.s.test.web.reactive.server.ExchangeResult - Request details for assertion failure:
+
+> POST /api/chatGatWay-internal
+> WebTestClient-Request-Id: [6]
+> Content-Type: [application/json, application/json]
+> X-API-Key: [valid-key]
+> Content-Length: [93]
+
+{"question":"Hello, how are you?","modelName":"gpt-3.5-turbo","multiTurn":true,"stream":true}
+
+< 200 OK OK
+< 
+
+0 bytes of content (unknown content-type).
+
+2025-07-23 22:50:24.179 [main] ERROR o.s.test.web.reactive.server.ExchangeResult - Request details for assertion failure:
+
+> POST /api/chatGatWay-internal
+> WebTestClient-Request-Id: [7]
+> Content-Type: [multipart/form-data;boundary=zxknjs6VFTlwXOCiAOE6m7z0y9hLXLYpoiCa]
+> X-API-Key: [valid-key]
+
+596 bytes of content.
+
+< 200 OK OK
+< 
+
+0 bytes of content (unknown content-type).
+
+2025-07-23 22:50:24.197 [Thread-1] WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Start destroying common HttpClient
+2025-07-23 22:50:24.197 [Thread-7] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Start destroying Publisher
+2025-07-23 22:50:24.198 [Thread-7] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Destruction of the end
+2025-07-23 22:50:24.199 [Thread-1] WARN  c.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Destruction of the end
+2025-07-23 22:50:24.218 [SpringApplicationShutdownHook] DEBUG com.bgpay.bgai.config.AsyncConfig$1 - Shutting down ExecutorService 'blockingExecutor'
+2025-07-23 22:50:24.298 [NettyClientSelector_1] INFO  RocketmqRemoting - closeChannel: close the connection to remote address[8.133.246.113:10911] result: true
+2025-07-23 22:50:24.299 [NettyClientSelector_1] INFO  RocketmqRemoting - closeChannel: close the connection to remote address[8.133.246.113:9876] result: true
+2025-07-23 22:50:24.300 [SpringApplicationShutdownHook] INFO  c.bgpay.bgai.service.impl.DynamicRouteServiceImpl - 动态路由服务关闭，执行清理操作
