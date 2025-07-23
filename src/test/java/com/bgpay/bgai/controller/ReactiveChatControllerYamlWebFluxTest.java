@@ -1,5 +1,6 @@
 package com.bgpay.bgai.controller;
 
+import com.bgpay.bgai.config.RemoveRedisObjectMapperConfig;
 import com.bgpay.bgai.response.ChatResponse;
 import com.bgpay.bgai.service.ApiConfigService;
 import com.bgpay.bgai.service.UserService;
@@ -19,8 +20,6 @@ import org.springframework.cloud.client.circuitbreaker.ReactiveCircuitBreakerFac
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import org.springframework.util.MultiValueMap;
-import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.http.client.MultipartBodyBuilder;
 import org.yaml.snakeyaml.Yaml;
@@ -37,20 +36,14 @@ import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
 
-@WebFluxTest(
-    controllers = ReactiveChatController.class,
-    excludeFilters = {
-        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {com.bgpay.bgai.filter.ApiKeyWebFilter.class}),
-        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {com.bgpay.bgai.service.deepseek.DeepSeekServiceImp.class}),
-        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {com.bgpay.bgai.service.deepseek.FileProcessor.class}),
-        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {com.bgpay.bgai.service.deepseek.ConversationHistoryService.class}),
-        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {com.bgpay.bgai.service.deepseek.FileTypeService.class}),
-        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {com.bgpay.bgai.service.deepseek.FileWriterService.class})
-    }
-)
+import org.springframework.context.annotation.Import;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.bgpay.bgai.config.RemoveApiKeyWebFilterPostProcessor;
+import com.bgpay.bgai.config.NacosConfig;
+
+@WebFluxTest(controllers = ReactiveChatController.class, useDefaultFilters = false)
+@Import({RemoveApiKeyWebFilterPostProcessor.class, RemoveRedisObjectMapperConfig.class})
 public class ReactiveChatControllerYamlWebFluxTest {
 
     @Autowired
@@ -62,6 +55,8 @@ public class ReactiveChatControllerYamlWebFluxTest {
     private ApiConfigService apiConfigService;
     @MockBean
     private DeepSeekService deepSeekService;
+    @MockBean(name = "deepSeekServiceImp")
+    private DeepSeekService deepSeekServiceImp;
     @MockBean
     private ReactiveCircuitBreakerFactory circuitBreakerFactory;
     @MockBean
@@ -74,6 +69,20 @@ public class ReactiveChatControllerYamlWebFluxTest {
     private UserService userService;
     @MockBean
     private ApiKeyService apiKeyService;
+    @MockBean(name = "objectMapper")
+    private ObjectMapper objectMapper;
+    @MockBean
+    private com.bgpay.bgai.service.impl.PriceCacheServiceImpl priceCacheServiceImpl;
+    @MockBean(name = "cacheManager")
+    private org.springframework.cache.CacheManager cacheManager;
+    @MockBean
+    private com.bgpay.bgai.config.GatewayRouteConfig gatewayRouteConfig;
+    @MockBean(name = "customRedisRateLimiter")
+    private Object customRedisRateLimiter;
+    @MockBean
+    private com.bgpay.bgai.filter.ApiKeyAuthenticationFilter apiKeyAuthenticationFilter;
+    @MockBean
+    private com.bgpay.bgai.config.NacosConfig nacosConfig;
 
     @BeforeEach
     void setupMocks() {
@@ -104,6 +113,15 @@ public class ReactiveChatControllerYamlWebFluxTest {
                 .thenReturn(Mono.just(mockChatResponse()));
         when(deepSeekService.processRequestReactive(anyMap(), anyString(), anyString(), anyString(), anyString(), anyBoolean()))
                 .thenReturn(Mono.just(mockChatResponse()));
+        // mock objectMapper.writeValueAsString 调用真实序列化，避免返回null
+        try {
+            when(objectMapper.writeValueAsString(any())).thenAnswer(invocation -> {
+                Object arg = invocation.getArgument(0);
+                return new com.fasterxml.jackson.databind.ObjectMapper().writeValueAsString(arg);
+            });
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private ChatResponse mockChatResponse() {
@@ -130,7 +148,11 @@ public class ReactiveChatControllerYamlWebFluxTest {
 
         String method = request.getOrDefault("method", "POST").toString();
         Map<String, String> headers = (Map<String, String>) request.get("headers");
-        Map<String, Object> body = (Map<String, Object>) request.get("body");
+        Map<String, Object> body = null;
+        if (request != null && request.get("body") != null && request.get("body") instanceof Map) {
+            body = (Map<String, Object>) request.get("body");
+        }
+        System.out.println("testCase id: " + testCase.get("id") + ", body: " + body);
         Map<String, Object> multipart = (Map<String, Object>) request.get("multipart");
 
         WebTestClient.RequestHeadersSpec<?> reqSpec;
@@ -162,10 +184,16 @@ public class ReactiveChatControllerYamlWebFluxTest {
                 }
             }
         } else if (body != null && !body.isEmpty()) {
+            String jsonBody;
+            try {
+                jsonBody = objectMapper.writeValueAsString(body);
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to serialize body to JSON", e);
+            }
             reqSpec = webTestClient.method(org.springframework.http.HttpMethod.valueOf(method))
                     .uri("/api" + endpoint)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .bodyValue(body);
+                    .bodyValue(jsonBody);
             if (headers != null) {
                 for (Map.Entry<String, String> entry : headers.entrySet()) {
                     reqSpec = reqSpec.header(entry.getKey(), entry.getValue());

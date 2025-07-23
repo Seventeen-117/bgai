@@ -56,9 +56,9 @@ import java.io.InputStream;
  */
 @SpringBootTest(
     classes = {
-        AuthController.class,
-        ApiKeyController.class,
-        DynamicRouteController.class,
+    AuthController.class,
+    ApiKeyController.class,
+    DynamicRouteController.class,
         SystemConfigController.class,
         GatewayRouteConfigReplacement.class,
         DeepSeekServiceMockConfig.class,
