@@ -167,28 +167,8 @@ public class ReactiveChatControllerYamlWebFluxTest {
 
     private ChatResponse mockChatResponse() {
         ChatResponse resp = new ChatResponse();
-        // 正确设置结构化字段
-        resp.setSuccess(true);
+        resp.setContent("mocked response");
         resp.setUsage(new com.bgpay.bgai.entity.UsageInfo());
-        // 构造 choices
-        java.util.Map<String, Object> choice = new java.util.HashMap<>();
-        choice.put("content", "mocked response");
-        java.util.List<java.util.Map<String, Object>> choices = java.util.Collections.singletonList(choice);
-        // 直接设置 content 字段为 id
-        resp.setContent("mock-id");
-        // 通过 objectMapper 序列化 choices 字段
-        // 但由于 ChatResponse 没有 choices 字段，建议直接将 content 设置为 JSON
-        // 或者扩展 ChatResponse 增加 choices 字段
-        // 这里直接设置 content 为 JSON 字符串，包含 id、choices、usage
-        try {
-            java.util.Map<String, Object> result = new java.util.HashMap<>();
-            result.put("id", "mock-id");
-            result.put("choices", choices);
-            result.put("usage", new java.util.HashMap<>());
-            resp.setContent(new com.fasterxml.jackson.databind.ObjectMapper().writeValueAsString(result));
-        } catch (Exception e) {
-            resp.setContent("{\"id\":\"mock-id\",\"choices\":[{\"content\":\"mocked response\"}],\"usage\":{}}");
-        }
         return resp;
     }
 

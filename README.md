@@ -829,3 +829,98 @@ import jakarta.annotation.PostConstruct;
   - Spring Cloud: 2023.0.1
   - Spring Cloud Alibaba: 2022.0.0.0
   - Nacos API/Client: 2.2.0
+
+---
+
+## 动态路由测试指南
+
+（以下内容来自 README-dynamic-route-test.md）
+
+本文档介绍如何测试Spring Cloud Gateway的动态路由功能。
+
+### 前提条件
+
+1. 确保应用已经启动，并且Gateway功能已启用
+2. 确认`application-dev.yml`中的配置：`bgai.gateway.enabled=true`
+3. 确保Nacos服务已启动并可访问
+
+### 测试方法
+
+#### 方法一：使用批处理脚本
+
+在Windows环境下，可以直接运行`test-dynamic-route.bat`：
+
+```bash
+test-dynamic-route.bat
+```
+
+在Linux/Mac环境下，可以运行`test-dynamic-route.sh`：
+
+```bash
+chmod +x test-dynamic-route.sh
+./test-dynamic-route.sh
+```
+
+#### 方法二：使用Postman
+
+1. 导入`test-dynamic-route-postman.json`到Postman
+2. 按照集合中的请求顺序依次测试各个API
+
+#### 方法三：手动测试
+
+可以使用curl命令手动测试各个API：
+
+- 获取所有路由
+- 添加单个路由
+- 获取特定路由
+- 批量添加路由
+- 更新路由
+- 刷新路由
+- 删除路由
+- 批量删除路由
+
+（具体 curl 示例见原 dynamic-route 测试文档）
+
+### 路由定义格式
+
+路由定义的JSON格式如下：
+
+```json
+{
+  "id": "路由ID",
+  "predicates": [ ... ],
+  "filters": [ ... ],
+  "uri": "目标URI",
+  "order": 0
+}
+```
+
+#### 常用谓词（Predicates）
+- Path、Method、Host、Header、Query、Cookie、After/Before/Between
+
+#### 常用过滤器（Filters）
+- StripPrefix、AddRequestHeader、AddResponseHeader、RewritePath、PrefixPath、RequestRateLimiter
+
+### 注意事项
+
+1. 路由ID必须唯一，如果添加重复ID的路由，会覆盖原有路由
+2. 路由定义会持久化到Nacos配置中心，应用重启后仍然有效
+3. 如果路由配置有误，可能会导致路由不生效
+4. 使用`/gateway/routes/refresh`可以强制刷新路由配置
+
+### 故障排除
+
+1. 如果路由不生效，检查路由定义是否正确
+2. 检查Nacos连接是否正常
+3. 查看应用日志中是否有路由相关的错误信息
+4. 确认Gateway功能是否正确启用
+
+---
+
+## 测试框架与用例编写指南
+
+（以下内容来自 README-TESTING.md）
+
+BGAI 测试框架基于 TestNG 和 Allure 构建，提供了全面的测试功能，包括单元测试、集成测试、API 测试等。该框架支持传统的 MVC 控制器测试和响应式 WebFlux 控制器测试，并生成详细的 Allure 测试报告。
+
+（详细内容见原 README-TESTING.md，包括技术栈、目录结构、基础测试类、测试分组、运行测试、Allure 报告、最佳实践、常见问题、YAML 数据驱动测试等）

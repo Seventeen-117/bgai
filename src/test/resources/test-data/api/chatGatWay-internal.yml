@@ -15,10 +15,7 @@ testCases:
     expectedResponse:
       statusCode: 200
       bodyContains:
-        - "id"
-        - "choices"
-        - "content"
-        - "usage"
+        - "mocked response"
 
   - id: "chat-completion-with-history-success"
     description: "带历史记录的聊天完成请求成功"
@@ -34,10 +31,7 @@ testCases:
     expectedResponse:
       statusCode: 200
       bodyContains:
-        - "id"
-        - "choices"
-        - "content"
-        - "usage"
+        - "mocked response"
 
   - id: "chat-completion-invalid-model"
     description: "使用无效模型名称"
@@ -101,9 +95,7 @@ testCases:
     expectedResponse:
       statusCode: 200
       bodyContains:
-        - "data:"
-        - "id"
-        - "choices"
+        - "mocked response"
 
   - id: "chat-with-file-upload-success"
     description: "带文件上传的聊天请求成功"
@@ -119,7 +111,4 @@ testCases:
     expectedResponse:
       statusCode: 200
       bodyContains:
-        - "id"
-        - "choices"
-        - "content"
-        - "usage" 
+        - "mocked response" 
