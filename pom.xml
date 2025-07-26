@@ -112,6 +112,10 @@
 		<javax.ws.rs-api.version>2.1.1</javax.ws.rs-api.version>
 		<imageio-pcx.version>3.6.4</imageio-pcx.version>
 		<hessian.version>4.0.66</hessian.version>
+		<janino.version>3.1.10</janino.version>
+		<reflections.version>0.10.2</reflections.version>
+		<javax.annotation-api.version>1.3.2</javax.annotation-api.version>
+		<jackson-dataformat-yaml.version>2.15.2</jackson-dataformat-yaml.version>
 		<spring-boot-starter-cache.version>3.0.12</spring-boot-starter-cache.version>
 		<junit-jupiter-params.version>5.9.3</junit-jupiter-params.version>
 		<mybatis-spring-boot-starter-test.version>3.0.4</mybatis-spring-boot-starter-test.version>
@@ -975,7 +979,7 @@
 		<dependency>
 			<groupId>org.codehaus.janino</groupId>
 			<artifactId>janino</artifactId>
-			<version>3.1.10</version>
+			<version>${janino.version}</version>
 		</dependency>
 		
 		<!-- Jakarta Annotation API -->
@@ -988,13 +992,13 @@
 		<dependency>
 			<groupId>javax.annotation</groupId>
 			<artifactId>javax.annotation-api</artifactId>
-			<version>1.3.2</version>
+			<version>${javax.annotation-api.version}</version>
 		</dependency>
 		<!-- Reflections -->
 		<dependency>
 			<groupId>org.reflections</groupId>
 			<artifactId>reflections</artifactId>
-			<version>0.10.2</version>
+			<version>${reflections.version}</version>
 		</dependency>
 		<!-- 重试机制与AOP依赖 -->
 		<dependency>
@@ -1034,7 +1038,7 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-yaml</artifactId>
-			<version>2.15.2</version>
+			<version>${jackson-dataformat-yaml.version}</version>
 		</dependency>
 		
 		<!-- H2内存数据库，用于测试 -->

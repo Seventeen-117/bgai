@@ -269,14 +269,4 @@ public class ReactiveChatControllerYamlWebFluxTest {
         }
     }
 
-    /**
-     * 通用 YAML 数据驱动测试方法模板，自动遍历 chatGatWay-internal.yml 的所有 testCases 并执行
-     */
-    @ParameterizedTest(name = "{index} - {0}[{1}]")
-    @MethodSource("yamlCases")
-    @DisplayName("YAML驱动的ReactiveChatController接口测试")
-    void testReactiveChatApiYamlCases(Map<String, Object> testCase) {
-        // 复用已有 testChatGatWayInternal 逻辑
-        testChatGatWayInternal(testCase);
-    }
 } 
