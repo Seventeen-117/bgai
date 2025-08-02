@@ -1150,8 +1150,9 @@
 					<!-- 使用系统默认的Java可执行文件 -->
 					<useSystemClassLoader>true</useSystemClassLoader>
 					<jvm>${java.home}/bin/java</jvm>
-					<!-- 不跳过测试 -->
-					<skipTests>false</skipTests>
+					<!-- 跳过测试 -->
+					<skip>${skip.tests}</skip>
+					<skipTests>${skip.tests}</skipTests>
 					<!-- 配置TestNG -->
 					<suiteXmlFiles>
 						<suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
@@ -1219,8 +1220,7 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 		</profile>
-		
-		<!-- 临时解决方案：跳过测试 -->
+		<!-- 跳过测试配置 -->
 		<profile>
 			<id>skip-tests</id>
 			<properties>
@@ -1242,6 +1242,16 @@
 					</plugin>
 				</plugins>
 			</build>
+		</profile>
+		
+		<!-- 启用测试配置 -->
+		<profile>
+			<id>enable-tests</id>
+			<properties>
+				<maven.test.skip>false</maven.test.skip>
+				<skipTests>false</skipTests>
+				<skip.tests>false</skip.tests>
+			</properties>
 		</profile>
 		
 		<!-- 不使用AspectJ的简单测试配置 -->
