@@ -31,3 +31,13 @@ bgai:
     timestamp-expire-seconds: 300  # 时间戳有效期（秒）
     nonce-cache-expire-seconds: 1800  # nonce缓存过期时间（秒）
     app-secret-cache-expire-seconds: 3600  # 应用密钥缓存过期时间（秒）
+    # 异步验证配置
+    async:
+      enabled: false  # 是否启用异步验证
+      mode: HYBRID  # 异步验证模式：ASYNC(完全异步)、HYBRID(混合验证)、QUICK(快速验证)
+      timeout: 5000  # 异步验证超时时间（毫秒）
+    # 批量验证配置
+    batch:
+      enabled: false  # 是否启用批量验证
+      max-batch-size: 100  # 最大批量大小
+      timeout: 10000  # 批量验证超时时间（毫秒）
