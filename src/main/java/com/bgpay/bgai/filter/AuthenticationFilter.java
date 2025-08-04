@@ -47,6 +47,8 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             "/api/feign/",
             "/api/mock",
             "/api/users",
+            "/api/signature/", // 签名验证测试接口
+            "/api/app-secret/", // 应用密钥管理接口
             "/favicon.ico");
 
     public AuthenticationFilter(ObjectMapper objectMapper) {

@@ -23,3 +23,11 @@ management:
     web:
       exposure:
         include: health,info
+
+# 签名验证配置
+bgai:
+  signature:
+    enabled: true  # 是否启用签名验证
+    timestamp-expire-seconds: 300  # 时间戳有效期（秒）
+    nonce-cache-expire-seconds: 1800  # nonce缓存过期时间（秒）
+    app-secret-cache-expire-seconds: 3600  # 应用密钥缓存过期时间（秒）

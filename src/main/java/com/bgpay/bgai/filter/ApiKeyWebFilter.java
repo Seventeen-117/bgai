@@ -63,6 +63,8 @@ public class ApiKeyWebFilter implements WebFilter {
             "/api/feign/local",
             "/api/mock",
             "/api/keys/generate", // 添加API密钥生成接口到排除列表
+            "/api/signature/", // 签名验证测试接口
+            "/api/app-secret/", // 应用密钥管理接口
             "/favicon.ico");
 
     // 需要严格验证API Key状态的路径
